@@ -12,34 +12,18 @@
     "importHelpers": true,
     "target": "ES2020",
     "module": "ESNext",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "strictNullChecks": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ufoui/context/*": [
-        "libs/ufo-ui/src/context/*"
-      ],
-      "@ufoui/core": [
-        "libs/ufo-ui/src/index.ts"
-      ],
-      "@ufoui/hooks": [
-        "libs/ufo-ui/src/hooks/index.ts"
-      ],
-      "@ufoui/types": [
-        "libs/ufo-ui/src/types/index.ts"
-      ],
-      "@ufoui/utils": [
-        "libs/ufo-ui/src/utils/utils.ts"
-      ],
+      "@ufoui/context/*": ["packages/ufoui/src/context/*"],
+      "@ufoui/core": ["packages/ufoui/src/index.ts"],
+      "@ufoui/hooks": ["packages/ufoui/src/hooks/index.ts"],
+      "@ufoui/types": ["packages/ufoui/src/types/index.ts"],
+      "@ufoui/utils": ["packages/ufoui/src/utils/utils.ts"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }
