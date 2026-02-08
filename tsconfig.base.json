@@ -21,9 +21,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ufoui/*": [
-        "libs/ufo-ui/src/components/*"
-      ],
       "@ufoui/context/*": [
         "libs/ufo-ui/src/context/*"
       ],

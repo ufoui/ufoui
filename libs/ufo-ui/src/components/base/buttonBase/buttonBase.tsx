@@ -23,10 +23,11 @@ import {
     mergeRefs,
     uniqueID,
 } from '@ufoui/utils';
-import { Spinner } from '@ufoui/spinner/spinner';
+
 
 import { BorderColor, ControlStyle, getBorderColor, SemanticColor, SurfaceColor } from '../../../utils/color';
 import { InlineTooltipManager } from '../../../internal/inlineTooltip/inlineTooltipManager';
+import { Spinner } from '../../spinner/spinner';
 
 /**
  * Props for the ButtonBase component.

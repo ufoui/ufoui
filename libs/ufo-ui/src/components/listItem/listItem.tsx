@@ -21,13 +21,14 @@ import {
     getShapeClass,
     mergeRefs,
 } from '@ufoui/utils';
-import { Badge } from '@ufoui/badge/badge';
-import { MenuVariant } from '@ufoui/menu/menu';
-import { isMenu } from '@ufoui/menu/menu.guards';
-import { IS_MENU_ITEM } from '@ufoui/menuItem/menuItem.guards';
+
 
 import { IS_LIST_ITEM } from './listItem.guards';
 import { ControlStyle, SurfaceColor } from '../../utils/color';
+import { IS_MENU_ITEM } from '../menuItem/menuItem.guards';
+import { MenuVariant } from '@ufoui/core';
+import { isMenu } from '../menu/menu.guards';
+import { Badge } from '@ufoui/core';
 
 /**
  * Visual variant of a ListItem.

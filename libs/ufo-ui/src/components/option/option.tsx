@@ -1,7 +1,7 @@
 import { forwardRef, ForwardRefExoticComponent, RefAttributes } from 'react';
 
 import { MenuItem, MenuItemInternalProps, MenuItemProps } from '@ufoui/core';
-import { IS_OPTION } from '@ufoui/option/option.guards';
+import { IS_OPTION } from './option.guards';
 
 export interface OptionProps extends Omit<MenuItemProps, 'type' | 'checked'> {
     selected?: boolean;

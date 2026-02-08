@@ -12,7 +12,8 @@ import {
     getElevationClass,
     getShapeClass,
 } from '@ufoui/core';
-import { IS_DIVIDER } from '@ufoui/divider/divider.guards';
+import { IS_DIVIDER } from '@ufoui/core';
+
 
 /**
  * Props for the {@link Divider} component.

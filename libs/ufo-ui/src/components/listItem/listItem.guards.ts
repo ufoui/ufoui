@@ -1,6 +1,7 @@
 import React, { isValidElement, ReactElement } from 'react';
+import { ListItemInternalProps, ListItemProps } from '@ufoui/core';
 
-import { ListItemInternalProps, ListItemProps } from '@ufoui/listItem/listItem';
+
 
 export const IS_LIST_ITEM = Symbol.for('uui.listItem');
 

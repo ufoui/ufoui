@@ -32,11 +32,11 @@ import {
     uniqueID,
 } from '@ufoui/utils';
 import { MotionAnimation, motionClassMap, MotionStyle } from '@ufoui/types';
-import { MenuItemInternalProps, MenuItemProps } from '@ufoui/menuItem/menuItem';
-import { DividerProps } from '@ufoui/divider/divider';
-import { isMenuItem } from '@ufoui/menuItem/menuItem.guards';
-import { isDivider } from '@ufoui/divider/divider.guards';
-import { IS_MENU, isMenu } from '@ufoui/menu/menu.guards';
+import { MenuItemInternalProps, MenuItemProps } from '@ufoui/core';
+import { DividerProps } from '@ufoui/core';
+import { isMenuItem } from '@ufoui/core';
+import { isDivider } from '@ufoui/core';
+import { IS_MENU, isMenu } from '@ufoui/core';
 
 import { BorderColor, ControlStyle, getBorderColor, inverseColorMap, SurfaceColor } from '../../utils/color';
 import { calculateFloatingPosition, ElementFloatingMode } from '../../utils/calculateFloatingPosition';

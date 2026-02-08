@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { CheckboxBase, CheckboxBaseProps } from '@ufoui/base/checkboxBase/checkboxBase';
+import { CheckboxBase, CheckboxBaseProps } from '@ufoui/core';
 
 import { BorderColor } from '../../utils/color';
 
