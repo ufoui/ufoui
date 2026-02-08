@@ -1,0 +1,72 @@
+.uui-menu,
+.uui-menu-scroll {
+  width: max-content;
+  max-width: min(calc(100vw - 24px), 280px);
+  min-width: 120px;
+  outline: none;
+}
+
+.uui-menu {
+  overflow: hidden;
+  position: relative;
+}
+
+.uui-menu-modern {
+  --uui-corner-full: 24px;
+  --uui-corner-rounded: 16px;
+  --uui-corner-smooth: 8px;
+}
+
+.uui-menu-classic {
+  --uui-corner-full: 16px;
+  --uui-corner-rounded: 8px;
+  --uui-corner-smooth: 4px;
+}
+
+.uui-menu.uui-menu-horizontal {
+  max-width: min(calc(100vw - 64px), 1024px);
+}
+
+.uui-menu.uui-menu-horizontal .uui-menu-item {
+  max-width: 280px;
+  min-width: 48px;
+}
+
+.uui-menu-scroll {
+  max-height: min(calc(100vh - 64px), 520px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.uui-menu-horizontal .uui-menu-scroll {
+  max-width: min(calc(100vw - 24px), 1024px);
+  display: flex;
+}
+
+.uui-menu-modern .uui-menu-scroll {
+  padding: 0 4px;
+  margin: 4px 0;
+}
+
+.uui-menu-modern.uui-menu-horizontal .uui-menu-scroll {
+  padding: 0 2px;
+}
+
+.uui-menu-classic .uui-menu-scroll {
+  padding: 0 0;
+  margin: 8px 0;
+}
+
+.uui-menu-horizontal .uui-menu-scroll {
+  display: flex;
+  max-width: min(calc(100vw - 64px), 2048px);
+  overflow-y: hidden;
+  overflow-x: hidden;
+  margin: 0 0;
+}
+
+/*.uui-menu:focus:before {*/
+/*  @apply content-[''] absolute border-amber-800 border-2 top-0 bottom-0 left-0 right-0;*/
+/*  border-radius: inherit;*/
+/*}*/

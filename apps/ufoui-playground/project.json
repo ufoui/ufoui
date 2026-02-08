@@ -1,0 +1,22 @@
+{
+  "name": "ufoui-playground",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ufoui-playground/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "docs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx typedoc --options libs/ufo-ui/typedoc.json"
+      }
+    },
+    "e2e-ui": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx playwright test --ui",
+        "cwd": "apps/ufoui-playground"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "@ufoui/core",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/ufoui/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "docs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx typedoc --options packages/ufoui/typedoc.json"
+      }
+    },
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/ufoui",
+        "configFile": "packages/ufoui/vite.config.ts"
+      }
+    },
+    "analyze": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nx run @ufoui/core:build --mode=analyze && start dist\\libs\\ufo-ui\\bundle-report.html"
+      }
+    }
+  }
+}

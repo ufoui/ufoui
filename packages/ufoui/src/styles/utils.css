@@ -1,0 +1,15 @@
+.uui-full {
+  @apply w-full;
+}
+
+.uui-grow {
+  @apply flex-grow;
+}
+
+.uui-overflow-hidden {
+  overflow: hidden;
+}
+
+.uui-required {
+  margin-left: 0.25em;
+}

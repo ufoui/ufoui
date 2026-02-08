@@ -1,0 +1,56 @@
+.uui-absolute {
+  position: absolute;
+}
+
+.uui-relative {
+  position: relative;
+}
+
+.uui-fixed {
+  position: fixed;
+}
+
+.uui-top-left {
+  justify-content: start;
+  align-items: start;
+}
+
+.uui-top-center {
+  justify-content: center;
+  align-items: start;
+}
+
+.uui-top-right {
+  justify-content: end;
+  align-items: start;
+}
+
+.uui-center-left {
+  justify-content: start;
+  align-items: center;
+}
+
+.uui-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.uui-center-right {
+  justify-content: end;
+  align-items: center;
+}
+
+.uui-bottom-left {
+  justify-content: start;
+  align-items: end;
+}
+
+.uui-bottom-center {
+  justify-content: center;
+  align-items: end;
+}
+
+.uui-bottom-right {
+  justify-content: end;
+  align-items: end;
+}
