@@ -36,7 +36,7 @@ import { MenuItemInternalProps, MenuItemProps } from '@ufoui/core';
 import { DividerProps } from '@ufoui/core';
 import { isMenuItem } from '@ufoui/core';
 import { isDivider } from '@ufoui/core';
-import { IS_MENU, isMenu } from '@ufoui/core';
+import { IS_MENU, isMenu } from './menu.guards';
 
 import { BorderColor, ControlStyle, getBorderColor, inverseColorMap, SurfaceColor } from '../../utils/color';
 import { calculateFloatingPosition, ElementFloatingMode } from '../../utils/calculateFloatingPosition';

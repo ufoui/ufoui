@@ -12,7 +12,7 @@ import {
     getElevationClass,
     getShapeClass,
 } from '@ufoui/core';
-import { IS_DIVIDER } from '@ufoui/core';
+import { IS_DIVIDER } from './divider.guards';
 
 
 /**

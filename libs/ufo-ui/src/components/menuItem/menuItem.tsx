@@ -21,7 +21,8 @@ import {
   getShapeClass,
   mergeRefs,
 } from '@ufoui/utils';
-import { Badge, IS_MENU_ITEM, isMenu, MenuVariant } from '@ufoui/core';
+import { Badge, isMenu, MenuVariant } from '@ufoui/core';
+import { IS_MENU_ITEM } from './menuItem.guards';
 
 import { ControlStyle, SurfaceColor } from '../../utils/color';
 
