@@ -1,21 +1,48 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "composite": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": true,
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": false,
+    "resolveJsonModule": true,
     "importHelpers": true,
-    "isolatedModules": true,
-    "lib": ["es2022"],
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "noEmitOnError": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "skipLibCheck": true,
-    "strict": true,
-    "target": "es2022",
-    "customConditions": ["@org/source"]
-  }
+    "strictNullChecks": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ufoui/*": [
+        "libs/ufo-ui/src/components/*"
+      ],
+      "@ufoui/context/*": [
+        "libs/ufo-ui/src/context/*"
+      ],
+      "@ufoui/core": [
+        "libs/ufo-ui/src/index.ts"
+      ],
+      "@ufoui/hooks": [
+        "libs/ufo-ui/src/hooks/index.ts"
+      ],
+      "@ufoui/types": [
+        "libs/ufo-ui/src/types/index.ts"
+      ],
+      "@ufoui/utils": [
+        "libs/ufo-ui/src/utils/utils.ts"
+      ],
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

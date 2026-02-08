@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap');
+@import url('./globals.css');
+/*@import url('fonts.css');*/
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply h-screen;
+  color: var(--uui-color-on-surface);
+  background-color: var(--uui-color-surface);
+}
+
+aside {
+  @apply min-w-[280px];
+}

@@ -1,0 +1,137 @@
+
+.uui-menu-item {
+  user-select: none;
+  position: relative;
+  outline: none;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+}
+
+.uui-menu-item .uui-leading {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uui-menu-item-modern{
+  --uui-icon-size: 20px;
+  --uui-col-space: 12px;
+  --uui-corner-rounded: 12px;
+  --uui-corner-smooth: 6px;
+  height: 48px;
+}
+
+.uui-menu-item-classic{
+  --uui-icon-size: 24px;
+  --uui-col-space: 8px;
+  --uui-corner-round: 12px;
+  --uui-corner-rounded: 6px;
+  --uui-corner-smooth: 0px;
+  height: 56px;
+}
+
+.uui-menu-item-modern.uui-compact{
+  height: 44px;
+}
+
+.uui-menu-item-modern.uui-dense{
+  height: 40px;
+}
+
+.uui-menu-item-classic.uui-compact {
+  height: 48px;
+}
+
+.uui-menu-item-classic.uui-dense {
+  height: 40px;
+}
+
+.uui-menu-item-content{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  column-gap: var(--uui-col-space);
+  position: relative;
+  padding-inline: 12px;
+  cursor: pointer;
+}
+
+.uui-menu-item-modern .uui-menu-item-content {
+  height: 44px;
+}
+
+.uui-menu-item-modern.uui-compact .uui-menu-item-content,
+.uui-menu-item-modern.uui-dense .uui-menu-item-content{
+  height: 100%;
+}
+
+.uui-menu-item-classic .uui-menu-item-content {
+  height: 100%;
+}
+
+
+.uui-menu-item-content .uui-menu-item-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+}
+
+.uui-menu-item-label, .uui-menu-item-description {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.uui-menu-item .uui-menu-item-content .uui-state {
+  pointer-events: none;
+  opacity: 0;
+  position: absolute;
+  left:0;
+  top:0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 180ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.uui-menu-item:hover .uui-menu-item-content .uui-state {
+  opacity: var(--uui-hover-opacity);
+}
+
+.uui-menu-item .uui-menu-item-content.uui-focus-overlay.uui-active .uui-state{
+  /*opacity: var(--uui-hover-opacity);*/
+}
+
+.uui-menu-item .uui-menu-item-content.uui-focus-overlay.uui-focus-visible.uui-active .uui-state {
+  opacity: var(--uui-focus-opacity);
+}
+
+.uui-menu-item[aria-expanded="true"] .uui-menu-item-content .uui-state {
+  opacity: var(--uui-focus-opacity);
+}
+
+.uui-menu-item.uui-disabled .uui-menu-item-content {
+  opacity: var(--uui-disabled-opacity);
+  background: inherit;
+}
+
+.uui-menu-item.uui-disabled {
+  pointer-events: none;
+}
+
+.uui-menu-item {
+  touch-action: manipulation;
+}
+
+.uui-menu-item-children {
+  overflow:hidden;
+  height: 100%;
+  width: 100%;
+}

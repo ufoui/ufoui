@@ -1,0 +1,158 @@
+
+.a {
+    /*M3/sys/light/primary*/
+    color: #6750A4;
+    /*M3/sys/light/on-primary*/
+    color: #FFFFFF;
+
+    /*M3/sys/light/primary-container*/
+    color: #EADDFF;
+    /*M3/sys/light/on-primary-container*/
+    color: #21005D;
+
+    /*M3/sys/light/primary-fixed*/
+    color: #EADDFF;
+    /*M3/sys/light/on-primary-fixed*/
+    color: #21005D;
+
+    /*M3/sys/light/on-primary-fixed-variant*/
+    color: #4F378B;
+    /*M3/sys/light/primary-fixed-dim*/
+    color: #D0BCFF;
+
+
+    /*M3/sys/light/secondary*/
+    color: #625B71;
+    /*M3/sys/light/on-secondary*/
+    color: #FFFFFF;
+
+    /*M3/sys/light/secondary-container*/
+    color: #1D192B;
+    /*M3/sys/light/on-secondary-container*/
+    color: #E8DEF8;
+
+    /*M3/sys/light/secondary-fixed*/
+    color: #E8DEF8;
+    /*M3/sys/dark/on-secondary-fixed*/
+    color: #1D192B;
+
+    /*M3/sys/light/on-secondary-fixed-variant*/
+    color: #CCC2DC;
+    /*M3/sys/light/secondary-fixed-dim*/
+    color: #4A4458;
+
+
+    /*M3/sys/light/tertiary*/
+    color: #7D5260;
+    /*M3/sys/light/on-tertiary*/
+    color: #FFFFFF;
+
+    /*M3/sys/light/tertiary-container*/
+    color: #FFD8E4;
+    /*M3/sys/light/on-tertiary-container*/
+    color: #31111D;
+
+    /*M3/sys/light/tertiary-fixed*/
+    color: #FFD8E4;
+    /*M3/sys/light/on-tertiary-fixed*/
+    color: #31111D;
+
+    /*M3/sys/light/on-tertiary-fixed-variant*/
+    color: #633B48;
+    /*M3/sys/light/tertiary-fixed-dim*/
+    color: #EFB8C8;
+
+
+    /*M3/sys/light/error*/
+    color: #B3261E;
+    /*M3/sys/light/on-error*/
+    color: #FFFFFF;
+
+    /*M3/sys/light/error-container*/
+    color: #F9DEDC;
+    /*M3/sys/light/on-error-container*/
+    color: #410E0B;
+
+
+    /*M3/sys/light/surface*/
+    color: #FEF7FF;
+    /*M3/sys/light/on-surface*/
+    color: #1D1B20;
+
+    /*M3/sys/light/surface-bright*/
+    color: #FEF7FF;
+    /*M3/sys/light/on-surface*/
+    color: #1D1B20;
+
+    /*M3/sys/light/surface-dim*/
+    color: #DED8E1;
+    /*M3/sys/light/on-surface*/
+    color: #1D1B20;
+
+    /*M3/sys/light/surface-container-lowest*/
+    color: #FFFFFF;
+    /*M3/sys/light/on-surface*/
+    color: #1D1B20;
+
+    /*M3/sys/light/surface-container-low*/
+    color: #F7F2FA;
+    /*M3/sys/light/on-surface*/
+    color: #1D1B20;
+
+    /*M3/sys/light/surface-container*/
+    color: #F3EDF7;
+    /*M3/sys/light/on-surface*/
+    color: #1D1B20;
+
+    /*M3/sys/light/surface-container-high*/
+    color: #ECE6F0;
+    /*M3/sys/light/on-surface*/
+    color: #1D1B20;
+
+    /*M3/sys/light/surface-container-highest*/
+    color: #E6E0E9;
+    /*M3/sys/light/on-surface*/
+    color: #1D1B20;
+
+
+    /*M3/sys/light/surface*/
+    color: #FEF7FF;
+    /*M3/sys/light/on-surface*/
+    color: #1D1B20;
+
+    /*M3/sys/light/surface*/
+    color: #FEF7FF;
+    /*M3/sys/light/on-surface-variant*/
+    color: #49454F;
+
+    /*M3/sys/light/outline*/
+    color: #79747E;
+    /*M3/sys/light/surface*/
+    color: #FEF7FF;
+
+    /*M3/sys/light/outline-variant*/
+    color: #CAC4D0;
+    /*M3/sys/light/inverse-surface*/
+    color: #322F35;
+
+    /*M3/sys/light/inverse-surface*/
+    color: #322F35;
+    /*M3/sys/light/inverse-on-surface*/
+    color: #F5EFF7;
+
+    /*M3/sys/light/inverse-primary*/
+    color: #D0BCFF;
+    /*M3/sys/light/on-primary-container*/
+    color: #21005D;
+
+    /*M3/sys/light/scrim*/
+    color: #000000;
+    /*M3/sys/light/surface*/
+    color: #FEF7FF;
+
+    /*M3/sys/light/shadow*/
+    color: #000000;
+    /*M3/sys/light/surface*/
+    color: #FEF7FF;
+
+}

@@ -1,0 +1,18 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "entryPointStrategy": "resolve",
+  "categorizeByGroup": false,
+  "sort": ["source-order"],
+  "out": "docs",
+  "tsconfig": "tsconfig.lib.json",
+  "includeVersion": true,
+  "excludeInternal": true,
+  "excludeExternals": true,
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": false,
+    "includeFolders": true,
+    "compactFolders": false,
+    "excludeReferences": true
+  }
+}

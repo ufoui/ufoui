@@ -1,0 +1,47 @@
+.uui-flex {
+   display: flex;
+}
+
+.uui-flex-inline {
+  display: inline-flex;
+}
+
+.uui-flex-row {
+  flex-direction: row;
+}
+
+.uui-flex-col {
+  flex-direction: column;
+}
+
+.uui-grid {
+  display: grid;
+}
+
+.uui-grid-inline {
+  display: inline-grid;
+}
+
+.uui-grid-flow-row {
+  grid-auto-flow: row;
+}
+
+.uui-grid-flow-col {
+  grid-auto-flow: column;
+}
+
+.uui-block {
+  display: block;
+}
+
+.uui-block-inline {
+  display: inline-block;
+}
+
+.uui-inline {
+  display: inline;
+}
+
+.uui-hidden {
+  display: none;
+}

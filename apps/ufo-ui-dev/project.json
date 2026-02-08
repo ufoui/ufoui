@@ -1,0 +1,24 @@
+{
+  "name": "ufo-ui-dev",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ufo-ui-dev/src",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project ufo-ui-dev --web",
+  "targets": {
+    "docs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx typedoc --options libs/ufo-ui/typedoc.json"
+      }
+
+    },
+    "e2e-ui": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx playwright test --ui",
+        "cwd": "apps/ufo-ui-dev"
+      }
+    }
+  }
+}

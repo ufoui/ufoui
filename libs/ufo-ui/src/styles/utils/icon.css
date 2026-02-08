@@ -1,0 +1,20 @@
+:root {
+  --uui-icon-size: 1.5rem;
+}
+
+
+.uui-icon {
+  display: flex;
+  /*width: var(--uui-icon-size);*/
+  /*height: var(--uui-icon-size);*/
+}
+
+.uui-icon svg,.uui-icon img {
+  width: var(--uui-icon-size);
+  height: var(--uui-icon-size);
+}
+
+
+
+
+

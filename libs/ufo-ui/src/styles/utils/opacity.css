@@ -1,0 +1,11 @@
+:root {
+  --uui-hover-opacity: 0.08;
+  --uui-focus-opacity: 0.1;
+  --uui-pressed-opacity: 0.12;
+  --uui-dragged-opacity: 0.16;
+  --uui-selected-opacity: 0.24;
+  --uui-disabled-opacity: 0.38;
+  --uui-subtle-opacity: 0.3;
+  --uui-medium-opacity: 0.6;
+  --uui-opacity-transition: opacity 150ms cubic-bezier(0.2, 0, 0, 1);
+}

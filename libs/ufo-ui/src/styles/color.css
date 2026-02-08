@@ -1,0 +1,993 @@
+.uui-bg-primary {
+  background-color: var(--uui-color-primary);
+}
+
+.uui-text-primary {
+  color: var(--uui-color-primary);
+}
+
+.uui-border-primary {
+  outline-color: var(--uui-color-primary);
+}
+
+.uui-bg-secondary {
+  background-color: var(--uui-color-secondary);
+}
+
+.uui-text-secondary {
+  color: var(--uui-color-secondary);
+}
+
+.uui-border-secondary {
+  outline-color: var(--uui-color-secondary);
+}
+
+.uui-bg-tertiary {
+  background-color: var(--uui-color-tertiary);
+}
+
+.uui-text-tertiary {
+  color: var(--uui-color-tertiary);
+}
+
+.uui-border-tertiary {
+  outline-color: var(--uui-color-tertiary);
+}
+
+.uui-bg-error {
+  background-color: var(--uui-color-error);
+}
+
+.uui-text-error {
+  color: var(--uui-color-error);
+}
+
+.uui-border-error {
+  outline-color: var(--uui-color-error);
+}
+
+.uui-bg-on-primary {
+  background-color: var(--uui-color-on-primary);
+}
+
+.uui-text-on-primary {
+  color: var(--uui-color-on-primary);
+}
+
+.uui-border-on-primary {
+  outline-color: var(--uui-color-on-primary);
+}
+
+.uui-bg-primary-container {
+  background-color: var(--uui-color-primary-container);
+}
+
+.uui-text-primary-container {
+  color: var(--uui-color-primary-container);
+}
+
+.uui-border-primary-container {
+  outline-color: var(--uui-color-primary-container);
+}
+
+.uui-bg-on-primary-container {
+  background-color: var(--uui-color-on-primary-container);
+}
+
+.uui-text-on-primary-container {
+  color: var(--uui-color-on-primary-container);
+}
+
+.uui-border-on-primary-container {
+  outline-color: var(--uui-color-on-primary-container);
+}
+
+.uui-bg-on-secondary {
+  background-color: var(--uui-color-on-secondary);
+}
+
+.uui-text-on-secondary {
+  color: var(--uui-color-on-secondary);
+}
+
+.uui-border-on-secondary {
+  outline-color: var(--uui-color-on-secondary);
+}
+
+.uui-bg-secondary-container {
+  background-color: var(--uui-color-secondary-container);
+}
+
+.uui-text-secondary-container {
+  color: var(--uui-color-secondary-container);
+}
+
+.uui-border-secondary-container {
+  outline-color: var(--uui-color-secondary-container);
+}
+
+.uui-bg-on-secondary-container {
+  background-color: var(--uui-color-on-secondary-container);
+}
+
+.uui-text-on-secondary-container {
+  color: var(--uui-color-on-secondary-container);
+}
+
+.uui-border-on-secondary-container {
+  outline-color: var(--uui-color-on-secondary-container);
+}
+
+.uui-bg-on-tertiary {
+  background-color: var(--uui-color-on-tertiary);
+}
+
+.uui-text-on-tertiary {
+  color: var(--uui-color-on-tertiary);
+}
+
+.uui-border-on-tertiary {
+  outline-color: var(--uui-color-on-tertiary);
+}
+
+.uui-bg-tertiary-container {
+  background-color: var(--uui-color-tertiary-container);
+}
+
+.uui-text-tertiary-container {
+  color: var(--uui-color-tertiary-container);
+}
+
+.uui-border-tertiary-container {
+  outline-color: var(--uui-color-tertiary-container);
+}
+
+.uui-bg-on-tertiary-container {
+  background-color: var(--uui-color-on-tertiary-container);
+}
+
+.uui-text-on-tertiary-container {
+  color: var(--uui-color-on-tertiary-container);
+}
+
+.uui-border-on-tertiary-container {
+  outline-color: var(--uui-color-on-tertiary-container);
+}
+
+.uui-bg-on-error {
+  background-color: var(--uui-color-on-error);
+}
+
+.uui-text-on-error {
+  color: var(--uui-color-on-error);
+}
+
+.uui-border-on-error {
+  outline-color: var(--uui-color-on-error);
+}
+
+.uui-bg-error-container {
+  background-color: var(--uui-color-error-container);
+}
+
+.uui-text-error-container {
+  color: var(--uui-color-error-container);
+}
+
+.uui-border-error-container {
+  outline-color: var(--uui-color-error-container);
+}
+
+.uui-bg-on-error-container {
+  background-color: var(--uui-color-on-error-container);
+}
+
+.uui-text-on-error-container {
+  color: var(--uui-color-on-error-container);
+}
+
+.uui-border-on-error-container {
+  outline-color: var(--uui-color-on-error-container);
+}
+
+.uui-bg-outline {
+  background-color: var(--uui-color-outline);
+}
+
+.uui-text-outline {
+  color: var(--uui-color-outline);
+}
+
+.uui-border-outline {
+  outline-color: var(--uui-color-outline);
+}
+
+.uui-bg-outline-variant {
+  background-color: var(--uui-color-outline-variant);
+}
+
+.uui-text-outline-variant {
+  color: var(--uui-color-outline-variant);
+}
+
+.uui-border-outline-variant {
+  outline-color: var(--uui-color-outline-variant);
+}
+
+.uui-bg-surface {
+  background-color: var(--uui-color-surface);
+}
+
+.uui-text-surface {
+  color: var(--uui-color-surface);
+}
+
+.uui-border-surface {
+  outline-color: var(--uui-color-surface);
+}
+
+.uui-bg-on-surface {
+  background-color: var(--uui-color-on-surface);
+}
+
+.uui-text-on-surface {
+  color: var(--uui-color-on-surface);
+}
+
+.uui-border-on-surface {
+  outline-color: var(--uui-color-on-surface);
+}
+
+.uui-bg-surface-variant {
+  background-color: var(--uui-color-surface-variant);
+}
+
+.uui-text-surface-variant {
+  color: var(--uui-color-surface-variant);
+}
+
+.uui-border-surface-variant {
+  outline-color: var(--uui-color-surface-variant);
+}
+
+.uui-bg-on-surface-variant {
+  background-color: var(--uui-color-on-surface-variant);
+}
+
+.uui-text-on-surface-variant {
+  color: var(--uui-color-on-surface-variant);
+}
+
+.uui-border-on-surface-variant {
+  outline-color: var(--uui-color-on-surface-variant);
+}
+
+.uui-bg-background {
+  background-color: var(--uui-color-background);
+}
+
+.uui-text-background {
+  color: var(--uui-color-background);
+}
+
+.uui-border-background {
+  outline-color: var(--uui-color-background);
+}
+
+.uui-bg-on-background {
+  background-color: var(--uui-color-on-background);
+}
+
+.uui-text-on-background {
+  color: var(--uui-color-on-background);
+}
+
+.uui-border-on-background {
+  outline-color: var(--uui-color-on-background);
+}
+
+.uui-bg-inverse-surface {
+  background-color: var(--uui-color-inverse-surface);
+}
+
+.uui-text-inverse-surface {
+  color: var(--uui-color-inverse-surface);
+}
+
+.uui-border-inverse-surface {
+  outline-color: var(--uui-color-inverse-surface);
+}
+
+.uui-bg-inverse-on-surface {
+  background-color: var(--uui-color-inverse-on-surface);
+}
+
+.uui-text-inverse-on-surface {
+  color: var(--uui-color-inverse-on-surface);
+}
+
+.uui-border-inverse-on-surface {
+  outline-color: var(--uui-color-inverse-on-surface);
+}
+
+.uui-bg-inverse-primary {
+  background-color: var(--uui-color-inverse-primary);
+}
+
+.uui-text-inverse-primary {
+  color: var(--uui-color-inverse-primary);
+}
+
+.uui-border-inverse-primary {
+  outline-color: var(--uui-color-inverse-primary);
+}
+
+.uui-bg-shadow {
+  background-color: var(--uui-color-shadow);
+}
+
+.uui-text-shadow {
+  color: var(--uui-color-shadow);
+}
+
+.uui-border-shadow {
+  outline-color: var(--uui-color-shadow);
+}
+
+.uui-bg-scrim {
+  background-color: var(--uui-color-scrim);
+}
+
+.uui-text-scrim {
+  color: var(--uui-color-scrim);
+}
+
+.uui-border-scrim {
+  outline-color: var(--uui-color-scrim);
+}
+
+.uui-bg-info {
+  background-color: var(--uui-color-info);
+}
+
+.uui-text-info {
+  color: var(--uui-color-info);
+}
+
+.uui-border-info {
+  outline-color: var(--uui-color-info);
+}
+
+.uui-bg-on-info {
+  background-color: var(--uui-color-on-info);
+}
+
+.uui-text-on-info {
+  color: var(--uui-color-on-info);
+}
+
+.uui-border-on-info {
+  outline-color: var(--uui-color-on-info);
+}
+
+.uui-bg-info-container {
+  background-color: var(--uui-color-info-container);
+}
+
+.uui-text-info-container {
+  color: var(--uui-color-info-container);
+}
+
+.uui-border-info-container {
+  outline-color: var(--uui-color-info-container);
+}
+
+.uui-bg-on-info-container {
+  background-color: var(--uui-color-on-info-container);
+}
+
+.uui-text-on-info-container {
+  color: var(--uui-color-on-info-container);
+}
+
+.uui-border-on-info-container {
+  outline-color: var(--uui-color-on-info-container);
+}
+
+.uui-bg-warning {
+  background-color: var(--uui-color-warning);
+}
+
+.uui-text-warning {
+  color: var(--uui-color-warning);
+}
+
+.uui-border-warning {
+  outline-color: var(--uui-color-warning);
+}
+
+.uui-bg-on-warning {
+  background-color: var(--uui-color-on-warning);
+}
+
+.uui-text-on-warning {
+  color: var(--uui-color-on-warning);
+}
+
+.uui-border-on-warning {
+  outline-color: var(--uui-color-on-warning);
+}
+
+.uui-bg-warning-container {
+  background-color: var(--uui-color-warning-container);
+}
+
+.uui-text-warning-container {
+  color: var(--uui-color-warning-container);
+}
+
+.uui-border-warning-container {
+  outline-color: var(--uui-color-warning-container);
+}
+
+.uui-bg-on-warning-container {
+  background-color: var(--uui-color-on-warning-container);
+}
+
+.uui-text-on-warning-container {
+  color: var(--uui-color-on-warning-container);
+}
+
+.uui-border-on-warning-container {
+  outline-color: var(--uui-color-on-warning-container);
+}
+
+.uui-bg-success {
+  background-color: var(--uui-color-success);
+}
+
+.uui-text-success {
+  color: var(--uui-color-success);
+}
+
+.uui-border-success {
+  outline-color: var(--uui-color-success);
+}
+
+.uui-bg-on-success {
+  background-color: var(--uui-color-on-success);
+}
+
+.uui-text-on-success {
+  color: var(--uui-color-on-success);
+}
+
+.uui-border-on-success {
+  outline-color: var(--uui-color-on-success);
+}
+
+.uui-bg-success-container {
+  background-color: var(--uui-color-success-container);
+}
+
+.uui-text-success-container {
+  color: var(--uui-color-success-container);
+}
+
+.uui-border-success-container {
+  outline-color: var(--uui-color-success-container);
+}
+
+.uui-bg-on-success-container {
+  background-color: var(--uui-color-on-success-container);
+}
+
+.uui-text-on-success-container {
+  color: var(--uui-color-on-success-container);
+}
+
+.uui-border-on-success-container {
+  outline-color: var(--uui-color-on-success-container);
+}
+
+.uui-bg-primary-fixed {
+  background-color: var(--uui-color-primary-fixed);
+}
+
+.uui-text-primary-fixed {
+  color: var(--uui-color-primary-fixed);
+}
+
+.uui-border-primary-fixed {
+  outline-color: var(--uui-color-primary-fixed);
+}
+
+.uui-bg-primary-fixed-dim {
+  background-color: var(--uui-color-primary-fixed-dim);
+}
+
+.uui-text-primary-fixed-dim {
+  color: var(--uui-color-primary-fixed-dim);
+}
+
+.uui-border-primary-fixed-dim {
+  outline-color: var(--uui-color-primary-fixed-dim);
+}
+
+.uui-bg-on-primary-fixed {
+  background-color: var(--uui-color-on-primary-fixed);
+}
+
+.uui-text-on-primary-fixed {
+  color: var(--uui-color-on-primary-fixed);
+}
+
+.uui-border-on-primary-fixed {
+  outline-color: var(--uui-color-on-primary-fixed);
+}
+
+.uui-bg-on-primary-fixed-variant {
+  background-color: var(--uui-color-on-primary-fixed-variant);
+}
+
+.uui-text-on-primary-fixed-variant {
+  color: var(--uui-color-on-primary-fixed-variant);
+}
+
+.uui-border-on-primary-fixed-variant {
+  outline-color: var(--uui-color-on-primary-fixed-variant);
+}
+
+.uui-bg-secondary-fixed {
+  background-color: var(--uui-color-secondary-fixed);
+}
+
+.uui-text-secondary-fixed {
+  color: var(--uui-color-secondary-fixed);
+}
+
+.uui-border-secondary-fixed {
+  outline-color: var(--uui-color-secondary-fixed);
+}
+
+.uui-bg-secondary-fixed-dim {
+  background-color: var(--uui-color-secondary-fixed-dim);
+}
+
+.uui-text-secondary-fixed-dim {
+  color: var(--uui-color-secondary-fixed-dim);
+}
+
+.uui-border-secondary-fixed-dim {
+  outline-color: var(--uui-color-secondary-fixed-dim);
+}
+
+.uui-bg-on-secondary-fixed {
+  background-color: var(--uui-color-on-secondary-fixed);
+}
+
+.uui-text-on-secondary-fixed {
+  color: var(--uui-color-on-secondary-fixed);
+}
+
+.uui-border-on-secondary-fixed {
+  outline-color: var(--uui-color-on-secondary-fixed);
+}
+
+.uui-bg-on-secondary-fixed-variant {
+  background-color: var(--uui-color-on-secondary-fixed-variant);
+}
+
+.uui-text-on-secondary-fixed-variant {
+  color: var(--uui-color-on-secondary-fixed-variant);
+}
+
+.uui-border-on-secondary-fixed-variant {
+  outline-color: var(--uui-color-on-secondary-fixed-variant);
+}
+
+.uui-bg-tertiary-fixed {
+  background-color: var(--uui-color-tertiary-fixed);
+}
+
+.uui-text-tertiary-fixed {
+  color: var(--uui-color-tertiary-fixed);
+}
+
+.uui-border-tertiary-fixed {
+  outline-color: var(--uui-color-tertiary-fixed);
+}
+
+.uui-bg-tertiary-fixed-dim {
+  background-color: var(--uui-color-tertiary-fixed-dim);
+}
+
+.uui-text-tertiary-fixed-dim {
+  color: var(--uui-color-tertiary-fixed-dim);
+}
+
+.uui-border-tertiary-fixed-dim {
+  outline-color: var(--uui-color-tertiary-fixed-dim);
+}
+
+.uui-bg-on-tertiary-fixed {
+  background-color: var(--uui-color-on-tertiary-fixed);
+}
+
+.uui-text-on-tertiary-fixed {
+  color: var(--uui-color-on-tertiary-fixed);
+}
+
+.uui-border-on-tertiary-fixed {
+  outline-color: var(--uui-color-on-tertiary-fixed);
+}
+
+.uui-bg-on-tertiary-fixed-variant {
+  background-color: var(--uui-color-on-tertiary-fixed-variant);
+}
+
+.uui-text-on-tertiary-fixed-variant {
+  color: var(--uui-color-on-tertiary-fixed-variant);
+}
+
+.uui-border-on-tertiary-fixed-variant {
+  outline-color: var(--uui-color-on-tertiary-fixed-variant);
+}
+
+.uui-bg-error-fixed {
+  background-color: var(--uui-color-error-fixed);
+}
+
+.uui-text-error-fixed {
+  color: var(--uui-color-error-fixed);
+}
+
+.uui-border-error-fixed {
+  outline-color: var(--uui-color-error-fixed);
+}
+
+.uui-bg-error-fixed-dim {
+  background-color: var(--uui-color-error-fixed-dim);
+}
+
+.uui-text-error-fixed-dim {
+  color: var(--uui-color-error-fixed-dim);
+}
+
+.uui-border-error-fixed-dim {
+  outline-color: var(--uui-color-error-fixed-dim);
+}
+
+.uui-bg-on-error-fixed {
+  background-color: var(--uui-color-on-error-fixed);
+}
+
+.uui-text-on-error-fixed {
+  color: var(--uui-color-on-error-fixed);
+}
+
+.uui-border-on-error-fixed {
+  outline-color: var(--uui-color-on-error-fixed);
+}
+
+.uui-bg-on-error-fixed-variant {
+  background-color: var(--uui-color-on-error-fixed-variant);
+}
+
+.uui-text-on-error-fixed-variant {
+  color: var(--uui-color-on-error-fixed-variant);
+}
+
+.uui-border-on-error-fixed-variant {
+  outline-color: var(--uui-color-on-error-fixed-variant);
+}
+
+.uui-bg-info-fixed {
+  background-color: var(--uui-color-info-fixed);
+}
+
+.uui-text-info-fixed {
+  color: var(--uui-color-info-fixed);
+}
+
+.uui-border-info-fixed {
+  outline-color: var(--uui-color-info-fixed);
+}
+
+.uui-bg-info-fixed-dim {
+  background-color: var(--uui-color-info-fixed-dim);
+}
+
+.uui-text-info-fixed-dim {
+  color: var(--uui-color-info-fixed-dim);
+}
+
+.uui-border-info-fixed-dim {
+  outline-color: var(--uui-color-info-fixed-dim);
+}
+
+.uui-bg-on-info-fixed {
+  background-color: var(--uui-color-on-info-fixed);
+}
+
+.uui-text-on-info-fixed {
+  color: var(--uui-color-on-info-fixed);
+}
+
+.uui-border-on-info-fixed {
+  outline-color: var(--uui-color-on-info-fixed);
+}
+
+.uui-bg-on-info-fixed-variant {
+  background-color: var(--uui-color-on-info-fixed-variant);
+}
+
+.uui-text-on-info-fixed-variant {
+  color: var(--uui-color-on-info-fixed-variant);
+}
+
+.uui-border-on-info-fixed-variant {
+  outline-color: var(--uui-color-on-info-fixed-variant);
+}
+
+.uui-bg-warning-fixed {
+  background-color: var(--uui-color-warning-fixed);
+}
+
+.uui-text-warning-fixed {
+  color: var(--uui-color-warning-fixed);
+}
+
+.uui-border-warning-fixed {
+  outline-color: var(--uui-color-warning-fixed);
+}
+
+.uui-bg-warning-fixed-dim {
+  background-color: var(--uui-color-warning-fixed-dim);
+}
+
+.uui-text-warning-fixed-dim {
+  color: var(--uui-color-warning-fixed-dim);
+}
+
+.uui-border-warning-fixed-dim {
+  outline-color: var(--uui-color-warning-fixed-dim);
+}
+
+.uui-bg-on-warning-fixed {
+  background-color: var(--uui-color-on-warning-fixed);
+}
+
+.uui-text-on-warning-fixed {
+  color: var(--uui-color-on-warning-fixed);
+}
+
+.uui-border-on-warning-fixed {
+  outline-color: var(--uui-color-on-warning-fixed);
+}
+
+.uui-bg-on-warning-fixed-variant {
+  background-color: var(--uui-color-on-warning-fixed-variant);
+}
+
+.uui-text-on-warning-fixed-variant {
+  color: var(--uui-color-on-warning-fixed-variant);
+}
+
+.uui-border-on-warning-fixed-variant {
+  outline-color: var(--uui-color-on-warning-fixed-variant);
+}
+
+.uui-bg-success-fixed {
+  background-color: var(--uui-color-success-fixed);
+}
+
+.uui-text-success-fixed {
+  color: var(--uui-color-success-fixed);
+}
+
+.uui-border-success-fixed {
+  outline-color: var(--uui-color-success-fixed);
+}
+
+.uui-bg-success-fixed-dim {
+  background-color: var(--uui-color-success-fixed-dim);
+}
+
+.uui-text-success-fixed-dim {
+  color: var(--uui-color-success-fixed-dim);
+}
+
+.uui-border-success-fixed-dim {
+  outline-color: var(--uui-color-success-fixed-dim);
+}
+
+.uui-bg-on-success-fixed {
+  background-color: var(--uui-color-on-success-fixed);
+}
+
+.uui-text-on-success-fixed {
+  color: var(--uui-color-on-success-fixed);
+}
+
+.uui-border-on-success-fixed {
+  outline-color: var(--uui-color-on-success-fixed);
+}
+
+.uui-bg-on-success-fixed-variant {
+  background-color: var(--uui-color-on-success-fixed-variant);
+}
+
+.uui-text-on-success-fixed-variant {
+  color: var(--uui-color-on-success-fixed-variant);
+}
+
+.uui-border-on-success-fixed-variant {
+  outline-color: var(--uui-color-on-success-fixed-variant);
+}
+
+.uui-bg-surface-dim {
+  background-color: var(--uui-color-surface-dim);
+}
+
+.uui-text-surface-dim {
+  color: var(--uui-color-surface-dim);
+}
+
+.uui-border-surface-dim {
+  outline-color: var(--uui-color-surface-dim);
+}
+
+.uui-bg-surface-bright {
+  background-color: var(--uui-color-surface-bright);
+}
+
+.uui-text-surface-bright {
+  color: var(--uui-color-surface-bright);
+}
+
+.uui-border-surface-bright {
+  outline-color: var(--uui-color-surface-bright);
+}
+
+.uui-bg-surface-container-lowest {
+  background-color: var(--uui-color-surface-container-lowest);
+}
+
+.uui-text-surface-container-lowest {
+  color: var(--uui-color-surface-container-lowest);
+}
+
+.uui-border-surface-container-lowest {
+  outline-color: var(--uui-color-surface-container-lowest);
+}
+
+.uui-bg-surface-container-low {
+  background-color: var(--uui-color-surface-container-low);
+}
+
+.uui-text-surface-container-low {
+  color: var(--uui-color-surface-container-low);
+}
+
+.uui-border-surface-container-low {
+  outline-color: var(--uui-color-surface-container-low);
+}
+
+.uui-bg-surface-container {
+  background-color: var(--uui-color-surface-container);
+}
+
+.uui-text-surface-container {
+  color: var(--uui-color-surface-container);
+}
+
+.uui-border-surface-container {
+  outline-color: var(--uui-color-surface-container);
+}
+
+.uui-bg-surface-container-high {
+  background-color: var(--uui-color-surface-container-high);
+}
+
+.uui-text-surface-container-high {
+  color: var(--uui-color-surface-container-high);
+}
+
+.uui-border-surface-container-high {
+  outline-color: var(--uui-color-surface-container-high);
+}
+
+.uui-bg-surface-container-highest {
+  background-color: var(--uui-color-surface-container-highest);
+}
+
+.uui-text-surface-container-highest {
+  color: var(--uui-color-surface-container-highest);
+}
+
+.uui-border-surface-container-highest {
+  outline-color: var(--uui-color-surface-container-highest);
+}
+
+.uui-bg-surface-tint {
+  background-color: var(--uui-color-surface-tint);
+}
+
+.uui-text-surface-tint {
+  color: var(--uui-color-surface-tint);
+}
+
+.uui-border-surface-tint {
+  outline-color: var(--uui-color-surface-tint);
+}
+
+.uui-bg-white {
+  background-color: var(--uui-color-white);
+}
+
+.uui-text-white {
+  color: var(--uui-color-white);
+}
+
+.uui-border-white {
+  outline-color: var(--uui-color-white);
+}
+
+.uui-bg-black {
+  background-color: var(--uui-color-black);
+}
+
+.uui-text-black {
+  color: var(--uui-color-black);
+}
+
+.uui-border-black {
+  outline-color: var(--uui-color-black);
+}
+
+.uui-bg-on-white {
+  background-color: var(--uui-color-on-white);
+}
+
+.uui-text-on-white {
+  color: var(--uui-color-on-white);
+}
+
+.uui-border-on-white {
+  outline-color: var(--uui-color-on-white);
+}
+
+.uui-bg-on-black {
+  background-color: var(--uui-color-on-black);
+}
+
+.uui-text-on-black {
+  color: var(--uui-color-on-black);
+}
+
+.uui-border-on-black {
+  outline-color: var(--uui-color-on-black);
+}
+
+:root {
+  --uui-control-color: var(--uui-color-on-surface);
+  --uui-control-bg-color: transparent;
+  --uui-control-border-color: var(--uui-color-outline-variant);
+}
+
+.uui-bg-color {
+  background-color: var(--uui-control-bg-color);
+}
+
+.uui-color {
+  color: var(--uui-control-color);
+}
+
+.uui-border-color {
+  border-color: var(--uui-control-border-color);
+}
+
+.uui-outline-color {
+  outline-color: var(--uui-control-border-color);
+}

@@ -1,0 +1,25 @@
+export const paths = {
+    start: '/',
+    button: '/components/button',
+    checkbox: '/components/checkbox',
+    switch: '/components/switch',
+    radio: '/components/radio',
+    badge: '/components/badge',
+    tooltip: '/components/tooltip',
+    input: '/components/input',
+    menu: '/components/menu',
+    fab: '/components/fab',
+    iconButton: '/components/iconbutton',
+    chip: '/components/chip',
+    flex: '/components/flex',
+    testButton: '/test/button',
+    color: '/colors',
+    dialog: '/components/dialog',
+    box: '/components/box',
+    spinner: '/components/spinner',
+    animation: '/components/animation',
+    list: '/components/list',
+    catchAll: '*',
+};
+
+export const HOME_PATH = paths.start;

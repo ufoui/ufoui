@@ -1,0 +1,73 @@
+:root{
+  --uui-focus-ring-duration: 150ms;
+  --uui-focus-ring-ease: cubic-bezier(0.2, 0, 0, 1);
+  --uui-focus-color: var(--uui-color-secondary);
+}
+
+.uui-focus-ring::before{
+  --uui-focus-ring: var(--uui-focus-color);
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  /*transform: scale(1);*/
+  box-shadow: 0 0 0 2px var(--uui-focus-ring);
+}
+
+.uui-focus-ring:focus-visible::before,
+.uui-focus-ring.uui-focus-visible::before{
+  animation: focus-ring-appear var(--uui-focus-ring-duration) var(--uui-focus-ring-ease) forwards;
+}
+
+
+
+@keyframes focus-ring-appear {
+  0% {
+    opacity: 0.4;
+    box-shadow: 0 0 0 2px var(--uui-focus-ring);
+  }
+  60% {
+    opacity: 0.2;
+    box-shadow: 0 0 0 8px var(--uui-focus-ring);
+  }
+  100% {
+    opacity: 0.8;
+    box-shadow: 0 0 0 3px var(--uui-focus-ring);
+  }
+}
+
+.uui-focus-ring-in {
+  position: relative;
+  --uui-focus-ring: var(--uui-focus-color);
+  /*transform: translateZ(0); !* SAFARI FIX *!*/
+  /*will-change: transform, opacity;*/
+  /*contain: paint;*/
+}
+
+.uui-focus-ring-in::before {
+  content:'';
+  position:absolute;
+  top:2px;
+  bottom:2px;
+  left:2px;
+  right:2px;
+  border-radius:inherit;
+  pointer-events:none;
+  opacity:0;
+  transform:scale(0.95, 0.75);
+  box-shadow:0 0 0 2px var(--uui-focus-ring);
+}
+
+.uui-focus-ring-in:focus-visible::before,
+.uui-focus-ring-in.uui-focus-visible::before {
+  animation: uui-focus-ring-inner var(--uui-focus-ring-duration) var(--uui-focus-ring-ease) forwards;
+}
+
+@keyframes uui-focus-ring-inner {
+  0%   { opacity:0.2; transform:scale(1,1); box-shadow:0 0 0 4px var(--uui-focus-ring); }
+  30%  { opacity:0.4; transform:scale(0.97,0.85); box-shadow:0 0 0 8px var(--uui-focus-ring); }
+  100% { opacity:0.8; transform:scale(1,1); box-shadow:0 0 0 2px var(--uui-focus-ring); }
+}

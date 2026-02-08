@@ -1,0 +1,39 @@
+.uui-icon-button .uui-extra-large {
+  height: 8.5rem;
+  width: 8.5rem;
+  --uui-icon-size: 2.5rem;
+  --uui-corner-rounded: 28px;
+  --uui-corner-smooth: 16px;
+}
+
+.uui-icon-button .uui-large {
+  height: 6rem;
+  width: 6rem;
+  --uui-icon-size: 2rem;
+  --uui-corner-rounded: 28px;
+  --uui-corner-smooth: 16px;
+}
+
+.uui-icon-button .uui-medium {
+  height: 3.5rem;
+  width: 3.5rem;
+  --uui-icon-size: 1.5rem;
+  --uui-corner-rounded: 16px;
+  --uui-corner-smooth: 12px;
+}
+
+.uui-icon-button .uui-small {
+  height: 2.5rem;
+  width: 2.5rem;
+  --uui-icon-size: 1.5rem;
+  --uui-corner-rounded: 12px;
+  --uui-corner-smooth: 8px;
+}
+
+.uui-icon-button .uui-extra-small {
+  height: 2rem;
+  width: 2rem;
+  --uui-icon-size: 1.25rem;
+  --uui-corner-rounded: 12px;
+  --uui-corner-smooth: 8px;
+}

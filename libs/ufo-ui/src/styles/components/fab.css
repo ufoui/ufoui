@@ -1,0 +1,56 @@
+.uui-fab .uui-extra-large {
+  height: 8.5rem;
+  width: 8.5rem;
+  --uui-icon-size: 2.5rem;
+  --uui-col-space: 1rem;
+  --uui-corner-rounded: 28px;
+  --uui-corner-smooth: 16px;
+  --uui-content-padding: 2.5rem;
+}
+
+.uui-fab .uui-large {
+  height: 6rem;
+  width: 6rem;
+  --uui-icon-size: 2.25rem;
+  --uui-col-space: 1rem;
+  --uui-corner-rounded: 28px;
+  --uui-corner-smooth: 16px;
+  --uui-content-padding: 1.75rem;
+}
+
+.uui-fab .uui-medium {
+  height: 5rem;
+  width: 5rem;
+  --uui-icon-size: 1.75rem;
+  --uui-col-space: 0.75rem;
+  --uui-corner-rounded: 20px;
+  --uui-corner-smooth: 16px;
+  --uui-content-padding: 1.625rem;
+}
+
+.uui-fab .uui-small {
+  height: 3.5rem;
+  width: 3.5rem;
+  --uui-icon-size: 1.5rem;
+  --uui-col-space: 0.5rem;
+  --uui-corner-rounded: 16px;
+  --uui-corner-smooth: 12px;
+  --uui-content-padding: 1rem;
+}
+
+.uui-fab .uui-extra-small {
+  height: 2.5rem;
+  width: 2.5rem;
+  --uui-icon-size: 1.25rem;
+  --uui-col-space: 0.5rem;
+  --uui-corner-rounded: 12px;
+  --uui-corner-smooth: 8px;
+  --uui-content-padding: 1rem;
+}
+
+.uui-fab.uui-fab-extended button{
+  width: auto;
+  padding-left: var(--uui-content-padding);
+  padding-right: var(--uui-content-padding);
+}
+

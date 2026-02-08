@@ -1,0 +1,25 @@
+/* Padding X */
+.uui-px-1   { padding-left: 0.25rem;  padding-right: 0.25rem; }   /* 4px */
+.uui-px-2   { padding-left: 0.5rem;   padding-right: 0.5rem; }    /* 8px */
+.uui-px-2-5 { padding-left: 0.625rem; padding-right: 0.625rem; }  /* 10px */
+.uui-px-3   { padding-left: 0.75rem;  padding-right: 0.75rem; }   /* 12px */
+.uui-px-3-5 { padding-left: 0.875rem;  padding-right: 0.875rem; }   /* 14px */
+.uui-px-4   { padding-left: 1rem;     padding-right: 1rem; }      /* 16px */
+.uui-px-5   { padding-left: 1.25rem;  padding-right: 1.25rem; }   /* 20px */
+.uui-px-6   { padding-left: 1.5rem;   padding-right: 1.5rem; }    /* 24px */
+.uui-px-7   { padding-left: 1.75rem;  padding-right: 1.75rem; }   /* 28px */
+.uui-px-8   { padding-left: 2rem;     padding-right: 2rem; }      /* 32px */
+
+/* Padding Y */
+.uui-py-1   { padding-top: 0.25rem;   padding-bottom: 0.25rem; }  /* 4px */
+.uui-py-2   { padding-top: 0.5rem;    padding-bottom: 0.5rem; }   /* 8px */
+.uui-py-2-5 { padding-top: 0.625rem;  padding-bottom: 0.625rem; } /* 10px */
+.uui-py-3   { padding-top: 0.75rem;   padding-bottom: 0.75rem; }  /* 12px */
+.uui-py-3-5 { padding-top: 0.875rem;   padding-bottom: 0.875rem; }  /* 14px */
+.uui-py-4   { padding-top: 1rem;      padding-bottom: 1rem; }     /* 16px */
+.uui-py-5   { padding-top: 1.25rem;   padding-bottom: 1.25rem; }  /* 20px */
+.uui-py-6   { padding-top: 1.5rem;    padding-bottom: 1.5rem; }   /* 24px */
+.uui-py-7   { padding-top: 1.75rem;   padding-bottom: 1.75rem; }  /* 28px */
+.uui-py-8   { padding-top: 2rem;      padding-bottom: 2rem; }     /* 32px */
+
+

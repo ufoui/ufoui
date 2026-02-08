@@ -1,0 +1,17 @@
+.uuu-fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.uui-fieldset-legend {
+  /*margin-bottom: 8px;*/
+}
+
+.uuu-fieldset .uui-support-text {
+  margin-top: 4px;
+}
+
+.uui-fieldset:disabled {
+  pointer-events: none;
+}
