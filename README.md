@@ -1,6 +1,6 @@
-# UFOUI
+# UFO UI
 
-UFOUI is a React UI component library implementing Material Design 3.
+UFO UI is a React UI component library implementing Material Design 3.
 It focuses on simplicity, low dependency count, and small bundle size.
 
 The library is designed to be used as a single import, without additional required packages beyond React.
@@ -14,6 +14,12 @@ The library is designed to be used as a single import, without additional requir
 ## Status
 This project is currently in early development (v0.x).
 The API may change.
+
+## Live preview
+
+UFO UI Playground (preview):  
+https://ufoui.kgnet.eu
+
 
 ## Installation
 ```bash

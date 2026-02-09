@@ -10,6 +10,7 @@ import {
   getAnimationList,
   getMotionStyleClass,
   Grid,
+  useAnimate,
 } from '@ufoui/core';
 
 const OPEN_DURATION = 5000;
