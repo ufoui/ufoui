@@ -24,6 +24,7 @@ import {
   Fieldset,
   Flex,
   Grid,
+  H1,
   SemanticColor,
   SurfaceColor,
 } from '@ufoui/core';
@@ -111,12 +112,13 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
 
   return (
     <>
-      <h1>{title}</h1>
+      <H1>{title}</H1>
       <Flex grow>
         <Grid
           border={1}
           className="grid-cols-[max-content_1fr] items-center p-2"
           gapX={20}
+          gapY={16}
           grow
         >
           {buttonStyles.map((s) => (

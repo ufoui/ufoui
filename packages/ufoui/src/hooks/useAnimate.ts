@@ -15,8 +15,8 @@ export interface UseAnimateOptions {
   /** Enables one-shot animation behavior. */
   oneShot?: boolean;
 
-  /** One-time start command executed on mount. */
-  action?: 'idle' | 'open' | 'close';
+  /** Initial phase on mount. */
+  initial?: 'idle' | 'open' | 'closed';
 }
 
 /**
@@ -67,7 +67,7 @@ type Phase = 'idle' | 'opening' | 'open' | 'closing' | 'closed';
  * @category Hooks
  */
 export function useAnimate(options: UseAnimateOptions = {}): UseAnimateResult {
-  const { action = 'idle' } = options;
+  const { initial = 'idle' } = options;
   const [phase, setPhase] = useState<Phase>('idle');
   const [resetting, setResetting] = useState(false);
   const { t1 = 0, t2, oneShot = false } = options;
@@ -107,19 +107,36 @@ export function useAnimate(options: UseAnimateOptions = {}): UseAnimateResult {
       }
 
       if (t1) {
-        const shouldClose =
-          // eslint-disable-next-line sonarjs/no-nested-conditional,no-nested-ternary
-          next === 'closed'
-            ? true
-            : next === 'open'
-              ? false
-              : phase === 'open' || phase === 'opening';
+        // const shouldClose =
+        //   // eslint-disable-next-line no-nested-ternary
+        //   next === 'closed'
+        //     ? true
+        //     : // eslint-disable-next-line sonarjs/no-nested-conditional
+        //       next === 'open'
+        //       ? false
+        //       : phase === 'open' || phase === 'opening';
+        //
+        // const currentPhase: Phase = shouldClose ? 'closing' : 'opening';
+        // const nextPhase: Phase = shouldClose ? 'closed' : 'open';
+        //
+        // setPhase(currentPhase);
+        setPhase((prev) => {
+          const shouldClose =
+            // eslint-disable-next-line no-nested-ternary
+            next === 'closed'
+              ? true
+              : // eslint-disable-next-line sonarjs/no-nested-conditional
+                next === 'open'
+                ? false
+                : prev === 'open' || prev === 'opening';
 
-        const currentPhase: Phase = shouldClose ? 'closing' : 'opening';
-        const nextPhase: Phase = shouldClose ? 'closed' : 'open';
+          const current = shouldClose ? 'closing' : 'opening';
+          const target = shouldClose ? 'closed' : 'open';
 
-        setPhase(currentPhase);
-        delay(nextPhase, nextPhase === 'open' ? t1 : closeTime);
+          delay(target, target === 'open' ? t1 : closeTime);
+          return current;
+        });
+        // delay(nextPhase, nextPhase === 'open' ? t1 : closeTime);
         return;
       }
 
@@ -140,7 +157,7 @@ export function useAnimate(options: UseAnimateOptions = {}): UseAnimateResult {
         }
       });
     },
-    [oneShot, phase, t1, closeTime],
+    [oneShot, t1, closeTime],
   );
 
   useEffect(() => {
@@ -150,8 +167,8 @@ export function useAnimate(options: UseAnimateOptions = {}): UseAnimateResult {
   }, [resetting]);
 
   useEffect(() => {
-    if (action !== 'idle') {
-      animate(action === 'open' ? 'open' : 'closed');
+    if (initial !== 'idle') {
+      animate(initial === 'open' ? 'open' : 'closed');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

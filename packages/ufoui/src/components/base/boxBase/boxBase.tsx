@@ -3,12 +3,13 @@ import React, { forwardRef, HTMLAttributes, ReactNode } from 'react';
 import {
   ElementBorder,
   ElementElevation,
+  ElementFont,
   ElementShape,
   getBorderClass,
   getElevationClass,
+  getFontClass,
   getShapeClass,
-} from '@ufoui/utils';
-
+} from '../../../utils/utils';
 import {
   BorderColor,
   ControlStyle,
@@ -89,6 +90,9 @@ export interface BoxBaseProps
   /** Auto-placement flow direction for grid layouts. */
   flow?: BoxDirection;
 
+  /** Font token controlling typography (size, weight, line-height). */
+  font?: ElementFont;
+
   /** Forces full width (100%). */
   fullWidth?: boolean;
 
@@ -133,6 +137,27 @@ export interface BoxBaseProps
 
   /** Vertical padding (`padding-top` + `padding-bottom`). */
   py?: number | string;
+
+  /** Margin (all sides). */
+  m?: number | string;
+
+  /** Margin bottom. */
+  mb?: number | string;
+
+  /** Margin left. */
+  ml?: number | string;
+
+  /** Margin right. */
+  mr?: number | string;
+
+  /** Margin top. */
+  mt?: number | string;
+
+  /** Horizontal margin (`margin-left` + `margin-right`). */
+  mx?: number | string;
+
+  /** Vertical margin (`margin-top` + `margin-bottom`). */
+  my?: number | string;
 
   /** Layout direction shortcut. Same as `direction="row"`. */
   row?: boolean;
@@ -191,8 +216,16 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
     children,
     className,
     style,
+    font,
     fullWidth,
     grow,
+    m,
+    mx,
+    my,
+    mt,
+    mb,
+    ml,
+    mr,
     p,
     px,
     py,
@@ -240,6 +273,30 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
 
   if (grow) {
     layoutClasses.push('uui-grow');
+  }
+
+  if (m !== undefined) {
+    controlStyle.set('margin', m);
+  }
+  if (mx !== undefined) {
+    controlStyle.set('marginLeft', mx);
+    controlStyle.set('marginRight', mx);
+  }
+  if (my !== undefined) {
+    controlStyle.set('marginTop', my);
+    controlStyle.set('marginBottom', my);
+  }
+  if (mt !== undefined) {
+    controlStyle.set('marginTop', mt);
+  }
+  if (mb !== undefined) {
+    controlStyle.set('marginBottom', mb);
+  }
+  if (ml !== undefined) {
+    controlStyle.set('marginLeft', ml);
+  }
+  if (mr !== undefined) {
+    controlStyle.set('marginRight', mr);
   }
 
   if (p !== undefined) {
@@ -324,6 +381,7 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
 
   const classes = [
     'uui-box',
+    ...(font ? [getFontClass(font)] : []),
     elementClass,
     ...layoutClasses,
     ...(shape ? [getShapeClass(shape)] : []),

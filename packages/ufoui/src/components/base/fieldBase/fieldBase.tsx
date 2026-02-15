@@ -18,8 +18,7 @@ import {
   getShapeClass,
   mergeRefs,
   uniqueID,
-} from '@ufoui/utils';
-
+} from '../../../utils/utils';
 import {
   BorderColor,
   ControlStyle,

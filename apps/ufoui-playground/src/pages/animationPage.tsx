@@ -10,6 +10,7 @@ import {
   getAnimationList,
   getMotionStyleClass,
   Grid,
+  H1,
   useAnimate,
 } from '@ufoui/core';
 
@@ -19,7 +20,7 @@ const AnimationPage = () => {
   const animations = useMemo(() => getAnimationList(), []);
   const { idle, animate, animating, animationVars, closing } = useAnimate({
     t1: OPEN_DURATION,
-    action: 'open',
+    initial: 'open',
   });
 
   const style = ControlStyle(animationVars);
@@ -35,7 +36,7 @@ const AnimationPage = () => {
 
   return (
     <Article>
-      <h1>Animations</h1>
+      <H1>Animations</H1>
       <Content>
         <Flex gap={20} wrap>
           {animations.map((key) => {

@@ -20,8 +20,8 @@
     "src/**/*.stories.jsx",
     "src/**/*.stories.tsx",
     "src/**/*.stories.mdx",
-    ".storybook/*.js",
-    ".storybook/*.ts"
+    "../../tmp/.storybook/*.js",
+    "../../tmp/.storybook/*.ts"
   ],
   "files": [
     "../../node_modules/@nx/react/typings/styled-jsx.d.ts",

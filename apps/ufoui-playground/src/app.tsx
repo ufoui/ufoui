@@ -28,6 +28,7 @@ import AnimationPage from './pages/animationPage';
 import ListPage from './pages/listPage';
 import { SwitchPage } from './pages/switchPage';
 import { StartPage } from './pages/startPage';
+import { CollapsePage } from './pages/collapsePage';
 // import { FlexPage } from './pages/flexPage';
 // seedColor="#204080"
 const App = () => {
@@ -37,7 +38,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route element={<Layout />}>
-            <Route index element={<StartPage />} />
+            <Route element={<StartPage />} index />
             <Route element={<CheckboxPage />} path={paths.checkbox} />
             <Route element={<SwitchPage />} path={paths.switch} />
             <Route element={<RadioPage />} path={paths.radio} />
@@ -56,6 +57,7 @@ const App = () => {
             <Route element={<AnimationPage />} path={paths.animation} />
             <Route element={<ListPage />} path={paths.list} />
             <Route element={<ColorPage />} path={paths.color} />
+            <Route element={<CollapsePage />} path={paths.collapse} />
             <Route
               element={<Navigate replace to="." />}
               path={paths.catchAll}

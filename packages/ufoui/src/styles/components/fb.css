@@ -109,6 +109,12 @@
   width: 100%;
 }
 
+.uui-field-input:-webkit-autofill {
+  box-shadow: 0 0 0 1000px var(--uui-color-surface) inset !important;
+  -webkit-text-fill-color: var(--uui-color-on-surface) !important;
+}
+
+
 /*.uui-fb-input-content {*/
 /*  position: absolute;*/
 /*  left: auto;*/
@@ -164,3 +170,4 @@
 /*  -webkit-text-fill-color: currentColor;*/
 /*  -webkit-box-shadow: 0 0 0 1000px transparent inset;*/
 /*}*/
+

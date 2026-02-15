@@ -31,6 +31,22 @@ export type ElementShape = 'square' | 'smooth' | 'rounded' | 'round';
 export type ElementBorder = 0 | 1 | 2 | 3 | 4;
 export type ElementOutline = 0 | 1 | 2 | 3 | 4;
 /**
+ * Layout orientation used by axis-based components.
+ *
+ * @remarks
+ * Determines whether a component operates along the vertical
+ * (top-to-bottom) or horizontal (left-to-right) axis.
+ *
+ * Commonly used by components that can render in two directions,
+ * such as Collapse, Tabs, Divider, and Accordion.
+ *
+ * - **vertical** – primary axis is height (Y-axis)
+ * - **horizontal** – primary axis is width (X-axis)
+ *
+ * @category Utils
+ */
+export type ElementOrientation = 'vertical' | 'horizontal';
+/**
  * Elevation (shadow depth) levels used across UUI surfaces.
  *
  * @remarks

@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogTitle,
   DialogType,
+  H1,
   Section,
 } from '@ufoui/core';
 import { MotionAnimation, MotionStyle } from '@ufoui/types';
@@ -61,7 +62,7 @@ export default function DialogPage() {
 
   return (
     <div style={{ padding: 40 }}>
-      <h1 className="mb-4 text-xl font-bold">Dialog Test Page</h1>
+      <H1 className="mb-4 text-xl font-bold">Dialog Test Page</H1>
       <Section className="items-center gap-5" direction="row">
         {/* TYPE SELECTOR */}
         <div className="">

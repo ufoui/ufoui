@@ -25,6 +25,16 @@ Radio
 Badge
 Switch
 CheckboxBase
+TextBase
+H1
+H2
+H3
+H4
+H5
+H6
+P
+Span
+Label
 
 @experimental
 TextField
@@ -77,6 +87,7 @@ AccordionDetails
 Skeleton
 Toast
 ChipSet
+RichEdit
 
 @deprecated
 Scrim

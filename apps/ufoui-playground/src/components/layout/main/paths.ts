@@ -14,6 +14,7 @@ export const paths = {
   flex: '/components/flex',
   testButton: '/test/button',
   color: '/colors',
+  collapse: '/components/collapse',
   dialog: '/components/dialog',
   box: '/components/box',
   spinner: '/components/spinner',

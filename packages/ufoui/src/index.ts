@@ -56,3 +56,5 @@ export * from './components/divider/divider.guards';
 export * from './components/menu/menu.guards';
 export * from './context/radioGroupContext';
 export * from './context/fieldsetContext';
+export * from './components/typography';
+export * from './components/collapse/collapse';

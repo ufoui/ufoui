@@ -1,0 +1,9 @@
+.uui-collapse {
+    transition: height var(--uui-duration) ease;
+    display: flow-root;
+}
+
+.uui-collapse-wrapper {
+    background-color: #625b71;
+    display: flow-root;
+}

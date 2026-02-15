@@ -65,5 +65,5 @@ You can customize the theme by providing a seed color:
 Apache License 2.0
 
 ## Trademark
-“UFOUI” and the UFOUI logo are trademarks of the UFOUI project.
+“UFOUI” (UFO UI) and the UFOUI logo are trademarks of the UFOUI project.
 Use of the name or logo requires permission.

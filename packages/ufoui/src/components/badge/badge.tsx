@@ -13,8 +13,7 @@ import {
   getFontClass,
   getShapeClass,
   getSizeClass,
-} from '@ufoui/utils';
-
+} from '../../utils/utils';
 import {
   BorderColor,
   ControlStyle,

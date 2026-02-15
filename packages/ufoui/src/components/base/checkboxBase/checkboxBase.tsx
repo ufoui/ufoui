@@ -32,8 +32,6 @@ import {
   mergeRefs,
   uniqueID,
 } from '@ufoui/utils';
-import { RadioGroupContext } from '@ufoui/context/radioGroupContext';
-import { FieldsetContext } from '@ufoui/context/fieldsetContext';
 import {
   getAnimationClass,
   getMotionStyleClass,
@@ -41,6 +39,8 @@ import {
   MotionStyle,
 } from '@ufoui/types';
 
+import { RadioGroupContext } from '../../../context/radioGroupContext';
+import { FieldsetContext } from '../../../context/fieldsetContext';
 import {
   BorderColor,
   ControlStyle,
@@ -217,7 +217,6 @@ export interface CheckboxBaseProps
  * @category Base components
  */
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>(
   (props: CheckboxBaseProps, ref) => {
     const {
@@ -306,7 +305,7 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>(
     } else {
       isChecked = internalChecked;
     }
-    // eslint-disable-next-line sonarjs/no-nested-conditional,no-nested-ternary
+    // eslint-disable-next-line no-nested-ternary
     const logicalState = indeterminate
       ? 'indeterminate'
       : isChecked
@@ -315,7 +314,7 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>(
     const [visualState, setVisualState] = useState(logicalState);
 
     const finalAriaLabel = ariaLabel ?? (!label ? title : undefined);
-    // eslint-disable-next-line sonarjs/no-nested-conditional,no-nested-ternary
+    // eslint-disable-next-line no-nested-ternary
     const finalColor = error
       ? 'error'
       : !isChecked && !indeterminate && uncheckedColor
@@ -488,7 +487,7 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>(
       content = <div className={contentClasses}>{children}</div>;
     } else {
       const displayedIcon =
-        // eslint-disable-next-line sonarjs/no-nested-conditional,no-nested-ternary
+        // eslint-disable-next-line no-nested-ternary
         visualState === 'indeterminate'
           ? indeterminateIcon
           : visualState === 'checked'
