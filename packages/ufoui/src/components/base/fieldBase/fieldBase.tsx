@@ -142,6 +142,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>(
       (classic && 'classic') ??
       'filled';
 
+    // todo check useFocusVisible
     const { isFocused } = useFocusState(inputRef);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

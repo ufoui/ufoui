@@ -6,6 +6,7 @@ import {
   BorderColor,
   Button,
   Collapse,
+  Div,
   ElementBorder,
   ElementElevation,
   ElementShape,
@@ -53,7 +54,15 @@ export const CollapsePage = () => {
           }}
         />
 
-        <Collapse {...shared} color="primary" elevation={2} mt={8} open={open1}>
+        <Collapse
+          {...shared}
+          animation="slideDown"
+          color="primary"
+          elevation={3}
+          mt={8}
+          open={open1}
+          orientation="vertical"
+        >
           <Span color="error">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
             risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing
@@ -62,7 +71,7 @@ export const CollapsePage = () => {
           </Span>
         </Collapse>
 
-        <h2 className="mt-6">Different Animation</h2>
+        <h2 className="mt-6">SlideUp Animation</h2>
 
         <Button
           label={open2 ? 'Close' : 'Open'}
@@ -71,22 +80,25 @@ export const CollapsePage = () => {
           }}
           tonal
         />
-
-        <Collapse
-          {...shared}
-          animation="scale"
-          color="error"
-          motionStyle="expressive"
-          mt={8}
-          open={open2}
-        >
-          <Span color="info">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
-            risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing
-            nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas
-            ligula massa, varius a, semper congue, euismod non, mi.
-          </Span>
-        </Collapse>
+        <Div className="w-[1250px]">
+          <Collapse
+            {...shared}
+            animation="slideUp"
+            color="error"
+            elevation={3}
+            motionStyle="expressive"
+            mt={8}
+            open={open2}
+            orientation="vertical"
+          >
+            <Span color="info">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
+              risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing
+              nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas
+              ligula massa, varius a, semper congue, euismod non, mi.
+            </Span>
+          </Collapse>
+        </Div>
       </Section>
 
       <Aside>

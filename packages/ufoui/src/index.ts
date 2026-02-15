@@ -58,3 +58,5 @@ export * from './context/radioGroupContext';
 export * from './context/fieldsetContext';
 export * from './components/typography';
 export * from './components/collapse/collapse';
+export * from './components/accordion';
+export * from './components/tabs';

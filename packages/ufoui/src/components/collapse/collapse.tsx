@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode, useEffect, useRef } from 'react';
+import { forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
 
 import {
   getAnimationClass,
@@ -6,11 +6,15 @@ import {
   MotionAnimation,
   MotionStyle,
 } from '@ufoui/types';
-import { ElementOrientation } from '@ufoui/utils';
 
+import { ElementOrientation } from '../../utils/utils';
 import { BoxBase, BoxBaseProps } from '../base/boxBase/boxBase';
 import { useAnimate } from '../../hooks/useAnimate';
 import { ControlStyle } from '../../utils/color';
+import {
+  ObservedElementSize,
+  useResizeObserver,
+} from '../../hooks/useResizeObserver';
 
 /**
  * Props for the Collapse component.
@@ -57,7 +61,7 @@ export const Collapse = forwardRef<HTMLDivElement, CollapseProps>(
     const {
       open,
       animation = 'slideDown',
-      duration = 250,
+      duration = 220,
       motionStyle = 'regular',
       className,
       children,
@@ -65,19 +69,31 @@ export const Collapse = forwardRef<HTMLDivElement, CollapseProps>(
       orientation = 'vertical',
       ...other
     } = props;
-
+    const isFirstRender = useRef(true);
     const contentRef = useRef<HTMLDivElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
-    const contentSize = useRef(0);
+    const [size, setSize] = useState<number | undefined>(undefined);
+    const propertyName = orientation === 'vertical' ? 'height' : 'width';
 
     const { animationVars, animate, animating } = useAnimate({
       t1: duration,
-      initial: open ? 'open' : 'closed',
     });
 
+    const handleResize = ({ height, width }: ObservedElementSize) => {
+      console.log('calc HxW', height, width);
+      setSize(orientation === 'vertical' ? height : width);
+      isFirstRender.current = false;
+    };
+
+    console.log('open:', open, 'anim:', animating, size);
+    useResizeObserver(contentRef, handleResize, !animating);
+
     useEffect(() => {
+      if (isFirstRender.current) {
+        return;
+      }
       animate(open ? 'open' : 'closed');
-    }, [animate, open]);
+    }, [open]);
 
     useEffect(() => {
       const el = contentRef.current;
@@ -85,62 +101,57 @@ export const Collapse = forwardRef<HTMLDivElement, CollapseProps>(
         return;
       }
       const vertical = orientation === 'vertical';
-      contentSize.current = vertical ? el.scrollHeight : el.scrollWidth;
+      setSize(vertical ? el.scrollHeight : el.scrollWidth);
     }, [orientation]);
 
-    // useEffect(() => {
-    //   const el = contentRef.current;
-    //   if (!el) {
-    //     return;
-    //   }
-    //
-    //   const resizeObserver = new ResizeObserver((entries) => {
-    //     for (const entry of entries) {
-    //       const isVertical = orientation === 'vertical';
-    //       const newSize = isVertical
-    //         ? entry.target.scrollHeight
-    //         : entry.target.scrollWidth;
-    //       setSize(newSize);
-    //     }
-    //   });
-    //
-    //   resizeObserver.observe(el);
-    //   return () => {
-    //     resizeObserver.disconnect();
-    //   };
-    // }, [orientation]);
-
-    const animationClass = getAnimationClass(animation);
-    const motionStyleClass = getMotionStyleClass(motionStyle);
-
-    const classes = [
+    const wrapperClasses = [
       'uui-collapse',
-      animating && animationClass,
-      motionStyleClass,
       className,
+      orientation === 'vertical' ? 'uui-vertical' : 'uui-horizontal',
     ]
       .filter(Boolean)
       .join(' ');
 
     const wrapperStyle = ControlStyle();
     wrapperStyle.merge(animationVars);
-    wrapperStyle.set('overflow', 'hidden');
-    wrapperStyle.set(
-      'transitionProperty',
-      orientation === 'vertical' ? 'height' : 'width',
-    );
-
-    const controlStyle = ControlStyle(style);
     if (open) {
-      wrapperStyle.set('height', `${contentSize.current}px`);
+      if (size !== undefined) {
+        wrapperStyle.set(propertyName, `${size}px`);
+      }
+      if (orientation === 'horizontal') {
+        wrapperStyle.set('display', 'inline-flex');
+        wrapperStyle.set('width', '100%');
+      }
     } else {
-      wrapperStyle.set('height', '0px');
+      wrapperStyle.set(propertyName, '0px');
     }
 
+    const contentClasses = [
+      animating && getAnimationClass(animation),
+      getMotionStyleClass(motionStyle),
+    ]
+      .filter(Boolean)
+      .join(' ');
+
+    const controlStyle = ControlStyle(style);
+    controlStyle.merge(animationVars);
+
     return (
-      <div className={classes} ref={wrapperRef} style={wrapperStyle.get()}>
+      <div
+        aria-hidden={!open}
+        className={wrapperClasses}
+        // @ts-expect-error
+        inert={!open ? '' : undefined}
+        ref={wrapperRef}
+        style={wrapperStyle.get()}
+      >
         <div className="uui-collapse-wrapper" ref={contentRef}>
-          <BoxBase {...other} ref={ref} style={controlStyle.get()}>
+          <BoxBase
+            {...other}
+            className={contentClasses}
+            ref={ref}
+            style={controlStyle.get()}
+          >
             {children}
           </BoxBase>
         </div>

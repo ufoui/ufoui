@@ -15,6 +15,8 @@ export const paths = {
   testButton: '/test/button',
   color: '/colors',
   collapse: '/components/collapse',
+  accordion: '/components/accordion',
+  tabs: '/components/tabs',
   dialog: '/components/dialog',
   box: '/components/box',
   spinner: '/components/spinner',

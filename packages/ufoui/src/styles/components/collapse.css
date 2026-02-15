@@ -1,9 +1,17 @@
 .uui-collapse {
-    transition: height var(--uui-duration) ease;
-    display: flow-root;
+    --uui-ease: ease-in-out;
+    transition: width var(--uui-duration) var(--uui-ease), height var(--uui-duration) var(--uui-ease);
+    overflow: hidden;
 }
 
+/*.uui-collapse.uui-horizontal {*/
+/*    transition: width var(--uui-duration) var(--uui-ease);*/
+/*}*/
+
+/*.uui-collapse.uui-vertical {*/
+/*    transition: height var(--uui-duration) var(--uui-ease);*/
+/*}*/
+
 .uui-collapse-wrapper {
-    background-color: #625b71;
     display: flow-root;
 }

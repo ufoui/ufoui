@@ -29,6 +29,8 @@ import ListPage from './pages/listPage';
 import { SwitchPage } from './pages/switchPage';
 import { StartPage } from './pages/startPage';
 import { CollapsePage } from './pages/collapsePage';
+import { AccordionPage } from './pages/accordionPage';
+import { TabsPage } from './pages/tabsPage';
 // import { FlexPage } from './pages/flexPage';
 // seedColor="#204080"
 const App = () => {
@@ -58,6 +60,8 @@ const App = () => {
             <Route element={<ListPage />} path={paths.list} />
             <Route element={<ColorPage />} path={paths.color} />
             <Route element={<CollapsePage />} path={paths.collapse} />
+            <Route element={<AccordionPage />} path={paths.accordion} />
+            <Route element={<TabsPage />} path={paths.tabs} />
             <Route
               element={<Navigate replace to="." />}
               path={paths.catchAll}
