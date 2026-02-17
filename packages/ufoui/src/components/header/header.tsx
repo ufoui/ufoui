@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { BoxBase, BoxBaseProps } from '@ufoui/core';
+import { BoxBase, BoxBaseProps } from '../base/boxBase/boxBase';
 
 /**
  * Props for {@link Header}.

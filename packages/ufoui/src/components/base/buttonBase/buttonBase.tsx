@@ -1,6 +1,8 @@
 import React, { forwardRef, ReactNode, useRef, useState } from 'react';
 
 import {
+  BorderColor,
+  ControlStyle,
   createRipple,
   ElementAlign,
   ElementDensity,
@@ -15,22 +17,17 @@ import {
   ElementSize,
   ElementTouchEffect,
   getBorderClass,
+  getBorderColor,
   getDensityClass,
   getElevationClass,
   getFontClass,
   getShapeClass,
   getSizeClass,
   mergeRefs,
-  uniqueID,
-} from '@ufoui/utils';
-
-import {
-  BorderColor,
-  ControlStyle,
-  getBorderColor,
   SemanticColor,
   SurfaceColor,
-} from '../../../utils/color';
+  uniqueID,
+} from '../../../utils';
 import { InlineTooltipManager } from '../../../internal/inlineTooltip/inlineTooltipManager';
 import { Spinner } from '../../spinner/spinner';
 
@@ -209,7 +206,7 @@ export interface ButtonBaseProps
  *
  * @category Base components
  */
-// eslint-disable-next-line sonarjs/cognitive-complexity
+
 export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>(
   (props: ButtonBaseProps, ref) => {
     const {

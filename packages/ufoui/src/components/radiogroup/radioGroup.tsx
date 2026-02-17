@@ -6,8 +6,8 @@ import React, {
   useState,
 } from 'react';
 
-import { Fieldset, FieldsetProps } from '@ufoui/core';
-import { RadioGroupContext } from '@ufoui/core';
+import { Fieldset, FieldsetProps } from '../fieldset/fieldset';
+import { RadioGroupContext } from '../../context';
 
 /**
  * Props for the RadioGroup component.

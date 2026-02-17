@@ -1,6 +1,6 @@
 import React, { isValidElement, ReactElement } from 'react';
 
-import { type MenuInternalProps, type MenuProps } from '@ufoui/core';
+import { type MenuInternalProps, type MenuProps } from './menu';
 
 export const IS_MENU = Symbol.for('uui.menu');
 

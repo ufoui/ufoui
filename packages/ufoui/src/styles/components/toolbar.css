@@ -1,0 +1,34 @@
+.uui-toolbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 64px;
+    gap: var(--uui-spacing, 4px);
+    padding-inline: 16px;
+}
+
+.uui-toolbar-docked {
+    width: 100%;
+}
+
+.uui-toolbar-floating {
+    width: fit-content;
+    padding-inline: 8px;
+}
+
+.uui-toolbar.uui-vertical {
+    padding-inline: 0;
+    padding-block: 16px;
+    min-width: 64px;
+    text-align: center;
+}
+
+.uui-toolbar-docked.uui-vertical{
+  width: min-content;
+}
+
+.uui-toolbar-floating.uui-toolbar.uui-vertical {
+    padding-block: 8px;
+    min-height: 0;
+}
+

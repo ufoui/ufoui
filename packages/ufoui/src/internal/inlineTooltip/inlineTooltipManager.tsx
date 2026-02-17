@@ -7,9 +7,11 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 
-import { ElementAlign, getSurfaceColorClasses } from '@ufoui/core';
-
-import { calculateFloatingPosition } from '../../utils/calculateFloatingPosition';
+import {
+  calculateFloatingPosition,
+  ElementAlign,
+  getSurfaceColorClasses,
+} from '../../utils';
 
 interface InlineTooltipManagerProps extends HTMLProps<HTMLSpanElement> {
   triggerRef: React.RefObject<HTMLElement>;

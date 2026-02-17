@@ -1,20 +1,18 @@
 import { forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
 
+import { ControlStyle, ElementOrientation } from '../../utils';
+import { BoxBase, BoxBaseProps } from '../base/boxBase/boxBase';
+import {
+  ObservedElementSize,
+  useAnimate,
+  useResizeObserver,
+} from '../../hooks';
 import {
   getAnimationClass,
   getMotionStyleClass,
   MotionAnimation,
   MotionStyle,
-} from '@ufoui/types';
-
-import { ElementOrientation } from '../../utils/utils';
-import { BoxBase, BoxBaseProps } from '../base/boxBase/boxBase';
-import { useAnimate } from '../../hooks/useAnimate';
-import { ControlStyle } from '../../utils/color';
-import {
-  ObservedElementSize,
-  useResizeObserver,
-} from '../../hooks/useResizeObserver';
+} from '../../types';
 
 /**
  * Props for the Collapse component.

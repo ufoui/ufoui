@@ -1,6 +1,6 @@
 import React, { isValidElement } from 'react';
 
-import { type DividerProps } from '@ufoui/core';
+import { type DividerProps } from './divider';
 
 export const IS_DIVIDER = Symbol.for('uui.divider');
 

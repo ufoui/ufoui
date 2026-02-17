@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 
 import {
+  ControlStyle,
   createRipple,
   ElementDensity,
   ElementFocusEffect,
@@ -20,11 +21,12 @@ import {
   getFontClass,
   getShapeClass,
   mergeRefs,
-} from '@ufoui/utils';
-import { Badge, isMenu, MenuVariant } from '@ufoui/core';
+  SurfaceColor,
+} from '../../utils';
 import { IS_MENU_ITEM } from './menuItem.guards';
-
-import { ControlStyle, SurfaceColor } from '../../utils/color';
+import { isMenu } from '../menu/menu.guards';
+import { Badge } from '../badge/badge';
+import { MenuVariant } from '../menu/menu';
 
 /**
  * Visual variant of a MenuItem.

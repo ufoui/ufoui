@@ -1,7 +1,7 @@
 import React, { isValidElement, ReactElement } from 'react';
 
 import { OptionProps } from './option';
-import { MenuItemInternalProps } from '@ufoui/core';
+import { MenuItemInternalProps } from '../menuItem/menuItem';
 
 export const IS_OPTION = Symbol.for('uui.option');
 

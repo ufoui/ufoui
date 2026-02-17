@@ -1,15 +1,9 @@
 import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Theme } from '@ufoui/types';
 import '../../styles/index.css';
-import {
-  defaultTheme,
-  ThemeContext,
-  ThemeContextValue,
-} from '@ufoui/context/themeContext';
-
-import { generateSchemes } from '../../utils/generateSchemes';
-import { ThemeColor } from '../../utils/color';
+import { defaultTheme, ThemeContext, ThemeContextValue } from '../../context';
+import { generateSchemes, ThemeColor } from '../../utils';
+import { Theme } from '../../types';
 
 export interface ThemeProviderProps {
   /** React children to render within the theme context. */

@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 
-import { ThemeContext } from '@ufoui/context/themeContext';
-import type { ThemeContextValue } from '@ufoui/context/themeContext';
+import { ThemeContext, ThemeContextValue } from '../context/themeContext';
 
 /**
  * Hook to access the current theme context.

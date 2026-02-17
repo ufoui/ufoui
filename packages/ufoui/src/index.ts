@@ -60,3 +60,4 @@ export * from './components/typography';
 export * from './components/collapse/collapse';
 export * from './components/accordion';
 export * from './components/tabs';
+export * from './components/toolbar/toolbar';

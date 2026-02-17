@@ -17,6 +17,7 @@ export const paths = {
   collapse: '/components/collapse',
   accordion: '/components/accordion',
   tabs: '/components/tabs',
+  toolbar: '/components/toolbar',
   dialog: '/components/dialog',
   box: '/components/box',
   spinner: '/components/spinner',

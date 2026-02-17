@@ -1,8 +1,6 @@
 import { ReactNode } from 'react';
 
-import { ElementFont, getFontClass } from '@ufoui/utils';
-
-import { SurfaceColor } from '../../utils/color';
+import { ElementFont, getFontClass, SurfaceColor } from '../../utils';
 
 export interface DialogTitleProps {
   icon?: ReactNode;

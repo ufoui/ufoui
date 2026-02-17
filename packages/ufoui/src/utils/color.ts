@@ -1,12 +1,12 @@
 import React from 'react';
 
+import { toKebabCase } from './utils';
 import {
   ThemeExtendedColorKeys,
   ThemeSchemeKeys,
   ThemeSemanticColorKeys,
   ThemeSurfaceColorKeys,
-} from '@ufoui/types';
-import { toKebabCase } from '@ufoui/utils';
+} from '../types';
 
 /**
  * Represents a high-level semantic color token (e.g. `primary`, `error`, `success`).
@@ -575,7 +575,7 @@ export function ControlStyle(initial?: React.CSSProperties) {
         on(color?: SurfaceColor) {
           if (color) {
             const mapped = inverseColorMap[color];
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+
             if (mapped !== undefined) {
               apply(toVar(mapped));
             }

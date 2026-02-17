@@ -2,25 +2,22 @@ import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import {
+  BorderColor,
   ElementElevation,
   ElementOutline,
   ElementShape,
   ElementSize,
   getBorderClass,
+  getBorderColor,
+  getBorderColorClass,
   getElevationClass,
   getShapeClass,
   getSizeClass,
-} from '@ufoui/utils';
-import { MotionAnimation, motionClassMap, MotionStyle } from '@ufoui/types';
-
-import {
-  BorderColor,
-  getBorderColor,
-  getBorderColorClass,
   getSurfaceColorClasses,
   SurfaceColor,
-} from '../../../utils/color';
-import { useEscapeHandler } from '../../../hooks/useEscapeHandler';
+} from '../../../utils';
+import { MotionAnimation, motionClassMap, MotionStyle } from '../../../types';
+import { useEscapeHandler } from '../../../hooks';
 
 export type DialogType =
   | 'basic'

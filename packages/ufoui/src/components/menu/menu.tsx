@@ -14,43 +14,37 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 
+import { MotionAnimation, motionClassMap, MotionStyle } from '../../types';
 import {
+  BorderColor,
+  calculateFloatingPosition,
+  ControlStyle,
   ElementAlign,
   ElementBorder,
   ElementDensity,
   ElementElevation,
+  ElementFloatingMode,
   ElementFocusEffect,
   ElementFont,
   ElementSelectedEffect,
   ElementShape,
   ElementTouchEffect,
   getBorderClass,
+  getBorderColor,
   getDensityClass,
   getElevationClass,
   getShapeClass,
-  mergeRefs,
-  uniqueID,
-} from '@ufoui/utils';
-import { MotionAnimation, motionClassMap, MotionStyle } from '@ufoui/types';
-import { MenuItemInternalProps, MenuItemProps } from '@ufoui/core';
-import { DividerProps } from '@ufoui/core';
-import { isMenuItem } from '@ufoui/core';
-import { isDivider } from '@ufoui/core';
-import { IS_MENU, isMenu } from './menu.guards';
-
-import {
-  BorderColor,
-  ControlStyle,
-  getBorderColor,
   inverseColorMap,
+  mergeRefs,
   SurfaceColor,
-} from '../../utils/color';
-import {
-  calculateFloatingPosition,
-  ElementFloatingMode,
-} from '../../utils/calculateFloatingPosition';
-import { useClickOutside } from '../../hooks/useClickOutside';
-import { useFocusVisible } from '../../hooks/useFocusVisible';
+  uniqueID,
+} from '../../utils';
+import { IS_MENU, isMenu } from './menu.guards';
+import { useClickOutside, useFocusVisible } from '../../hooks';
+import { MenuItemInternalProps, MenuItemProps } from '../menuItem/menuItem';
+import { DividerProps } from '../divider/divider';
+import { isMenuItem } from '../menuItem/menuItem.guards';
+import { isDivider } from '../divider/divider.guards';
 
 /**
  * Visual style preset for the Menu component.
@@ -858,14 +852,16 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
           ...overriddenProps,
         });
       } else if (isDivider(child)) {
-        const dividerColor = (
+        const dividerColor =
           inverseColorMap[containerColor] === 'onSurface'
             ? 'outlineVariant'
-            : inverseColorMap[containerColor]
-        ) as BorderColor;
+            : (inverseColorMap[containerColor] as BorderColor);
         const overriddenProps: DividerProps = {
           borderColor:
-            child.props.borderColor ?? child.props.color ?? dividerColor,
+            child.props.borderColor ??
+            child.props.color ??
+            dividerColor ??
+            'outlineVariant',
           vertical: horizontal,
           insetSize: child.props.insetSize ?? 8,
           spacing: child.props.spacing ?? (variant === 'modern' ? 5 : 8),

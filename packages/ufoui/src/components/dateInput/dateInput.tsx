@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { FieldBase, FieldBaseProps } from '@ufoui/core';
+import { FieldBase, FieldBaseProps } from '../base/fieldBase/fieldBase';
 
 export const DateInput = forwardRef<HTMLInputElement, FieldBaseProps>(
   (props: FieldBaseProps, ref) => {

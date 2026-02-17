@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { FieldBaseProps } from '@ufoui/core';
+import { FieldBaseProps } from '../base/fieldBase/fieldBase';
 
 /**
  * Props for {@link Select}.

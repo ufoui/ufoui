@@ -1,8 +1,10 @@
 import { forwardRef } from 'react';
 
-import { CheckboxBase, CheckboxBaseProps } from '@ufoui/core';
-
-import { BorderColor } from '../../utils/color';
+import { BorderColor } from '../../utils';
+import {
+  CheckboxBase,
+  CheckboxBaseProps,
+} from '../base/checkboxBase/checkboxBase';
 
 const defCheckedIcon = (
   <svg fill="none" viewBox="3 3 18 18" xmlns="http://www.w3.org/2000/svg">

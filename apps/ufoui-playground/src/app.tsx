@@ -31,6 +31,7 @@ import { StartPage } from './pages/startPage';
 import { CollapsePage } from './pages/collapsePage';
 import { AccordionPage } from './pages/accordionPage';
 import { TabsPage } from './pages/tabsPage';
+import { ToolbarPage } from './pages/toolbarPage';
 // import { FlexPage } from './pages/flexPage';
 // seedColor="#204080"
 const App = () => {
@@ -62,6 +63,7 @@ const App = () => {
             <Route element={<CollapsePage />} path={paths.collapse} />
             <Route element={<AccordionPage />} path={paths.accordion} />
             <Route element={<TabsPage />} path={paths.tabs} />
+            <Route element={<ToolbarPage />} path={paths.toolbar} />
             <Route
               element={<Navigate replace to="." />}
               path={paths.catchAll}

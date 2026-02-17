@@ -1,6 +1,6 @@
 import { RefObject } from 'react';
 
-import { ElementAlign } from '@ufoui/core';
+import { ElementAlign } from './utils';
 
 /**
  * Floating behavior presets used by `calculateFloatingPosition()`.

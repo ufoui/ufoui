@@ -8,11 +8,7 @@ import {
   TonalPalette,
 } from '@material/material-color-utilities';
 
-import {
-  PartialThemeSchemes,
-  ThemeSchemeKeys,
-  ThemeSchemes,
-} from '@ufoui/types';
+import { PartialThemeSchemes, ThemeSchemeKeys, ThemeSchemes } from '../types';
 
 export type ExtraColorOverrides = Partial<
   Record<'info' | 'warning' | 'success', string>

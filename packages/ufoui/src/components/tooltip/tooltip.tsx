@@ -1,8 +1,7 @@
 import { forwardRef, HTMLProps, ReactNode, useRef } from 'react';
 
-import { ElementAlign } from '@ufoui/utils';
-
 import { InlineTooltipManager } from '../../internal/inlineTooltip/inlineTooltipManager';
+import { ElementAlign } from '../../utils';
 
 export interface TooltipProps extends HTMLProps<HTMLDivElement> {
   title: string;

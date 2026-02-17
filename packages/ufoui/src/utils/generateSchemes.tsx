@@ -1,10 +1,10 @@
-import { PartialThemeSchemes, ThemeSchemes } from '@ufoui/types';
-import { toKebabCase } from '@ufoui/core';
-
 import {
   ExtraColorOverrides,
   generateMaterialColors,
 } from './generateMaterialColors';
+import { PartialThemeSchemes, ThemeSchemes } from '../types';
+import { toKebabCase } from './utils';
+
 /**
  * Generates and injects CSS custom properties for Material Design 3 theme colors.
  *
@@ -58,13 +58,13 @@ export function generateSchemes(
 
   // Light mode
   const lightVars = [
-    ...(Object.entries(generatedSchemes.light) as [string, string][]).map(
+    ...Object.entries(generatedSchemes.light).map(
       ([k, v]) => `--uui-color-${toKebabCase(k)}: ${v};`,
     ),
   ].join('');
 
   // Dark mode
-  const darkVars = (Object.entries(generatedSchemes.dark) as [string, string][])
+  const darkVars = Object.entries(generatedSchemes.dark)
     .map(([k, v]) => `--uui-color-${toKebabCase(k)}: ${v};`)
     .join('');
 

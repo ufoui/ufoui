@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
 import { Checkbox } from '@ufoui/core';
 
 const meta: Meta<typeof Checkbox> = {

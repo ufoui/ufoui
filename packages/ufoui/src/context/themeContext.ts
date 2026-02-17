@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
-import { Theme } from '@ufoui/types';
-import { ThemeColor } from '@ufoui/core';
+import { Theme } from '../types';
+import { ThemeColor } from '../utils';
 
 /**
  * Provides shape for the theme context shared across the application.

@@ -8,6 +8,8 @@ import React, {
 } from 'react';
 
 import {
+  BorderColor,
+  ControlStyle,
   createRipple,
   ElementAlign,
   ElementBorder,
@@ -29,28 +31,21 @@ import {
   getFontClass,
   getShapeClass,
   getSizeClass,
+  getSurfaceColorVar,
   mergeRefs,
+  SemanticColor,
+  SurfaceColor,
   uniqueID,
-} from '@ufoui/utils';
+} from '../../../utils';
 import {
   getAnimationClass,
   getMotionStyleClass,
   MotionAnimation,
   MotionStyle,
-} from '@ufoui/types';
-
-import { RadioGroupContext } from '../../../context/radioGroupContext';
-import { FieldsetContext } from '../../../context/fieldsetContext';
-import {
-  BorderColor,
-  ControlStyle,
-  getSurfaceColorVar,
-  SemanticColor,
-  SurfaceColor,
-} from '../../../utils/color';
-import { useFocusVisible } from '../../../hooks/useFocusVisible';
+} from '../../../types';
+import { FieldsetContext, RadioGroupContext } from '../../../context';
+import { useAnimate, useFocusVisible } from '../../../hooks';
 import { InlineTooltipManager } from '../../../internal/inlineTooltip/inlineTooltipManager';
-import { useAnimate } from '../../../hooks/useAnimate';
 
 /**
  * Props for the CheckboxBase component.

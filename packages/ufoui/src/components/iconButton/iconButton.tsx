@@ -1,6 +1,6 @@
 import { forwardRef, ReactNode } from 'react';
 
-import { ButtonBase, ButtonBaseProps } from '@ufoui/core';
+import { ButtonBase, ButtonBaseProps } from '../base/buttonBase/buttonBase';
 
 /**
  * Props for {@link IconButton}.

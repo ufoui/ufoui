@@ -1,14 +1,13 @@
 import React, { forwardRef } from 'react';
 
 import {
-  BoxBase,
-  BoxBaseProps,
   ControlStyle,
   ElementFont,
   getFontClass,
   SurfaceColor,
-} from '@ufoui/core';
-import { FieldsetContext } from '@ufoui/context/fieldsetContext';
+} from '../../utils';
+import { FieldsetContext } from '../../context';
+import { BoxBase, BoxBaseProps } from '../base/boxBase/boxBase';
 
 /**
  * Props for {@link Fieldset}.

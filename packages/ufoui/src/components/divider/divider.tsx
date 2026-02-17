@@ -11,7 +11,7 @@ import {
   getBorderColor,
   getElevationClass,
   getShapeClass,
-} from '@ufoui/core';
+} from '../../utils';
 import { IS_DIVIDER } from './divider.guards';
 
 /**

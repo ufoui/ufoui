@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { FaArrowRight } from 'react-icons/fa';
 
-import { Button } from './button';
 import type { ButtonProps } from './button';
+import { Button } from './button';
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',

@@ -1,14 +1,14 @@
 import { ReactNode } from 'react';
 
-import { ElementOutline, getBorderClass } from '@ufoui/utils';
-
 import {
   BorderColor,
+  ElementOutline,
+  getBorderClass,
   getBorderColor,
   getBorderColorClass,
   getSurfaceColorClasses,
   SurfaceColor,
-} from '../../utils/color';
+} from '../../utils';
 
 export interface DialogActionsProps {
   children?: ReactNode;

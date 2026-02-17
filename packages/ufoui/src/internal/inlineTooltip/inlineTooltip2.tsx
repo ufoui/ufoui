@@ -1,6 +1,6 @@
 import React, { HTMLProps, useRef } from 'react';
 
-import { getFixedColorClasses } from '@ufoui/core';
+import { getFixedColorClasses } from '../../utils';
 
 interface InlineTooltipProps2 extends HTMLProps<HTMLSpanElement> {
   id: string;

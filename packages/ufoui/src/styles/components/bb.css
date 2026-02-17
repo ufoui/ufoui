@@ -7,11 +7,13 @@
   min-height: 48px;
 }
 
+.uui-compact > .uui-bb,
 .uui-bb.uui-wrapper.uui-compact {
   min-width: 40px;
   min-height: 40px;
 }
 
+.uui-dense > .uui-bb,
 .uui-bb.uui-wrapper.uui-dense {
   min-width: 32px;
   min-height: 32px;

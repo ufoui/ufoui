@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { ButtonBase, ButtonBaseProps } from '@ufoui/core';
+import { ButtonBase, ButtonBaseProps } from '../base/buttonBase/buttonBase';
 
 export interface ToggleButtonProps
   extends Omit<ButtonBaseProps, 'filled' | 'controlClass' | 'iconClass'> {

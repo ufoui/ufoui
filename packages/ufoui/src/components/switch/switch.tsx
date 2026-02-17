@@ -7,6 +7,8 @@ import React, {
 } from 'react';
 
 import {
+  BorderColor,
+  ControlStyle,
   createRipple,
   ElementAlign,
   ElementDensity,
@@ -27,19 +29,14 @@ import {
   getFontClass,
   getShapeClass,
   getSizeClass,
-  mergeRefs,
-  uniqueID,
-} from '@ufoui/utils';
-import { FieldsetContext } from '@ufoui/context/fieldsetContext';
-
-import {
-  BorderColor,
-  ControlStyle,
   getSurfaceColorVar,
+  mergeRefs,
   SemanticColor,
   SurfaceColor,
-} from '../../utils/color';
-import { useFocusVisible } from '../../hooks/useFocusVisible';
+  uniqueID,
+} from '../../utils';
+import { FieldsetContext } from '../../context';
+import { useFocusVisible } from '../../hooks';
 import { InlineTooltipManager } from '../../internal/inlineTooltip/inlineTooltipManager';
 
 /**
@@ -182,7 +179,7 @@ export interface SwitchProps
  *
  * @category Switch
  */
-// eslint-disable-next-line sonarjs/cognitive-complexity
+
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
   (props: SwitchProps, ref) => {
     const {

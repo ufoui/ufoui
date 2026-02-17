@@ -1,23 +1,20 @@
 import { forwardRef, HTMLProps } from 'react';
 
 import {
+  BorderColor,
   ElementBorder,
   ElementElevation,
   ElementShape,
   ElementSize,
   getBorderClass,
-  getElevationClass,
-  getShapeClass,
-  getSizeClass,
-} from '@ufoui/utils';
-
-import {
-  BorderColor,
   getBorderColor,
   getBorderColorClass,
+  getElevationClass,
   getSemanticColorClasses,
+  getShapeClass,
+  getSizeClass,
   SemanticColor,
-} from '../../utils/color';
+} from '../../utils';
 
 /**
  * Props for the {@link Badge} component.

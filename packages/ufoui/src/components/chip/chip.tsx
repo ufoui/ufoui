@@ -1,11 +1,7 @@
 import { forwardRef } from 'react';
 
-import {
-  ButtonBase,
-  ButtonBaseProps,
-  ElementFont,
-  ElementSize,
-} from '@ufoui/core';
+import { ElementFont, ElementSize } from '../../utils';
+import { ButtonBase, ButtonBaseProps } from '../base/buttonBase/buttonBase';
 
 export type ChipType = 'assist' | 'filter' | 'input' | 'suggestion';
 
