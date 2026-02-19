@@ -1,21 +1,19 @@
 import React, { forwardRef, HTMLAttributes, ReactNode } from 'react';
 
 import {
+  BorderColor,
+  ControlStyle,
   ElementBorder,
   ElementElevation,
   ElementFont,
   ElementShape,
   getBorderClass,
+  getBorderColor,
   getElevationClass,
   getFontClass,
   getShapeClass,
-} from '../../../utils/utils';
-import {
-  BorderColor,
-  ControlStyle,
-  getBorderColor,
   SurfaceColor,
-} from '../../../utils/color';
+} from '../../../utils';
 
 /**
  * Layout mode for {@link BoxBase}.
@@ -173,6 +171,24 @@ export interface BoxBaseProps
 
   /** Enables wrapping (`flex-wrap: wrap`). */
   wrap?: boolean;
+
+  /** CSS position (mapped to `uui-*` class). */
+  position?: 'static' | 'relative' | 'absolute' | 'fixed' | 'sticky';
+
+  /** Top offset. */
+  top?: number | string;
+
+  /** Right offset. */
+  right?: number | string;
+
+  /** Bottom offset. */
+  bottom?: number | string;
+
+  /** Left offset. */
+  left?: number | string;
+
+  /** Stacking order (z-index). */
+  zIndex?: number;
 }
 
 /**
@@ -246,6 +262,12 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
     component,
     row,
     col,
+    position,
+    top,
+    right,
+    bottom,
+    left,
+    zIndex,
     ...other
   } = props;
 
@@ -347,8 +369,24 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
     controlStyle.set('alignContent', alignContent);
   }
 
-  if (wrap) {
+  if (wrap && type === 'flex') {
     controlStyle.set('flexWrap', 'wrap');
+  }
+
+  if (top !== undefined) {
+    controlStyle.set('top', top);
+  }
+  if (right !== undefined) {
+    controlStyle.set('right', right);
+  }
+  if (bottom !== undefined) {
+    controlStyle.set('bottom', bottom);
+  }
+  if (left !== undefined) {
+    controlStyle.set('left', left);
+  }
+  if (zIndex !== undefined) {
+    controlStyle.set('zIndex', zIndex);
   }
 
   if (type === 'grid') {
@@ -387,6 +425,7 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
     ...(shape ? [getShapeClass(shape)] : []),
     ...(elevation !== undefined ? [getElevationClass(elevation)] : []),
     ...(border !== undefined ? [getBorderClass(border)] : []),
+    ...(position !== undefined ? [`uui-${position}`] : []),
     directionClass,
     flowClass,
     className,

@@ -42,7 +42,7 @@ export interface ToolbarProps
   fullWidth?: boolean;
 
   /** Positions floating toolbar. */
-  position?: 'top' | 'bottom' | 'left' | 'right' | 'center';
+  placement?: 'top' | 'bottom' | 'left' | 'right' | 'center';
 
   /** Makes floating toolbar fixed. */
   fixed?: boolean;
@@ -84,7 +84,7 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
       shape,
       density,
       fullWidth,
-      position = 'bottom',
+      placement = 'bottom',
       fixed,
       divider,
       children,
@@ -125,7 +125,7 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
         className={classes}
         color={finalColor}
         component="div"
-        data-position={position}
+        data-position={placement}
         direction={orientation === 'horizontal' ? 'row' : 'col'}
         disabled={disabled}
       >

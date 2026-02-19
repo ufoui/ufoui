@@ -1,7 +1,9 @@
-import { ReactNode, useMemo, useState } from 'react';
+import React, { ReactElement, ReactNode, useMemo, useState } from 'react';
 
 import { SelectionContext } from '../../context/selectionContext';
-import { BoxBase, BoxBaseProps } from '../base/boxBase/boxBase';
+import { BoxBaseProps } from '../base/boxBase/boxBase';
+import { AccordionItemProps } from './accordionItem';
+import { isAccordionItem } from './accordionItem.guards';
 
 /**
  * Props for {@link Accordion}.
@@ -32,6 +34,8 @@ export const Accordion = ({
   ...rest
 }: AccordionProps) => {
   const [values, setValues] = useState<string[]>([]);
+  const accordionItems: ReactElement<AccordionItemProps>[] =
+    React.Children.toArray(children).filter(isAccordionItem);
 
   function toggle(value: string) {
     setValues((prev) => {
@@ -66,9 +70,9 @@ export const Accordion = ({
 
   return (
     <SelectionContext.Provider value={contextValue}>
-      <BoxBase {...rest} direction="col">
-        {children}
-      </BoxBase>
+      <div className="uui-accordion uui-flex uui-flex-col">
+        {accordionItems}
+      </div>
     </SelectionContext.Provider>
   );
 };

@@ -54,7 +54,9 @@ UrlInput
 Dialog
 Avatar
 Tabs
+Tab
 Accordion
+AccordionItem
 Collapse
 AccordionSummary
 AccordionDetails

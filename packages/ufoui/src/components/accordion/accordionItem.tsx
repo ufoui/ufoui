@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
 
 import { Collapse } from '../collapse/collapse';
-import { useSelection } from '../../hooks/useSelection';
+import { useSelection } from '../../hooks';
+import { IS_ACCORDION_ITEM } from './accordionItem.guards';
 
 /**
  * Props for {@link AccordionItem}.
@@ -40,14 +41,16 @@ export const AccordionItem = ({
   const id = `accordion-${value}`;
 
   return (
-    <div>
+    <div className="uui-accordion-item" data-open={isOpen}>
       <button
         aria-controls={`${id}-content`}
         aria-expanded={isOpen}
+        className="uui-accordion-trigger"
         id={`${id}-trigger`}
         onClick={() => {
           toggle(value);
         }}
+        type="button"
       >
         {title}
       </button>
@@ -64,3 +67,13 @@ export const AccordionItem = ({
     </div>
   );
 };
+
+/**
+ * Marks this component as an AccordionItem for runtime type guards.
+ *
+ * Used internally to identify Accordion elements via a shared Symbol.
+ * Not part of the public API.
+ *
+ * @internal
+ */
+AccordionItem[IS_ACCORDION_ITEM] = true;

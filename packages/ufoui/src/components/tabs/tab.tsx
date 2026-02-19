@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import { useSelection } from '../../hooks/useSelection';
+import { IS_TAB } from './tab.guards';
 
 /**
  * Props for {@link Tab}.
@@ -28,35 +29,29 @@ export interface TabProps {
  * @category Tabs
  */
 export const Tab = ({ value, label, children }: TabProps) => {
-  const { values, set } = useSelection();
+  const { values } = useSelection();
   const isSelected = values.includes(value);
-
-  const id = `tab-${value}`;
-
   return (
-    <>
-      <button
-        aria-controls={`${id}-panel`}
-        aria-selected={isSelected}
-        id={`${id}-trigger`}
-        onClick={() => {
-          set(value);
-        }}
-        role="tab"
-        tabIndex={isSelected ? 0 : -1}
-      >
-        {label}
-      </button>
-
-      {isSelected && (
-        <div
-          aria-labelledby={`${id}-trigger`}
-          id={`${id}-panel`}
-          role="tabpanel"
-        >
-          {children}
-        </div>
-      )}
-    </>
+    <div
+      aria-labelledby={`uui-tab-${value}-trigger`}
+      className="uui-tabs-panel"
+      hidden={!isSelected}
+      id={`uui-tab-${value}-panel`}
+      role="tabpanel"
+    >
+      {children}
+    </div>
   );
 };
+
+/**
+ * Marks this component as a Tab for runtime type guards.
+ *
+ * Used internally to identify Tab elements via a shared Symbol.
+ * Not part of the public API.
+ *
+ * @internal
+ */
+Tab[IS_TAB] = true;
+
+Tab.displayName = 'Tab';

@@ -51,6 +51,7 @@ export const TabsPage = () => {
             <Div>Sed non risus. Suspendisse lectus tortor.</Div>
           </Tab>
           <Tab label="Third Tab" value="c">
+            <div>Not supposed to be here.</div>
             <Div>Cras elementum ultrices diam. Maecenas ligula massa.</Div>
           </Tab>
         </Tabs>

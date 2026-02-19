@@ -10,6 +10,14 @@
   position: fixed;
 }
 
+.uui-sticky {
+  position: sticky;
+}
+
+.uui-static {
+  position: static;
+}
+
 .uui-top-left {
   justify-content: start;
   align-items: start;

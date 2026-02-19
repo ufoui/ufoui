@@ -59,6 +59,7 @@ export const AccordionPage = () => {
         <h2 className="mt-6">Multiple Accordion</h2>
 
         <Accordion type="multiple" {...shared}>
+          <div>Not supposed to be here.</div>
           <AccordionItem title="Panel One" value="1">
             <Div>Multiple mode allows more than one panel open.</Div>
           </AccordionItem>

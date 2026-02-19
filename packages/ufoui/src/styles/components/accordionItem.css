@@ -1,0 +1,50 @@
+.uui-accordion-item {
+    border-radius: var(--uui-corner-rounded);
+    background-color: var(--uui-color-surface-container);
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.uui-accordion-item[data-open='true'] {
+    background-color: var(--uui-color-surface-container-high);
+}
+
+.uui-accordion-trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 48px;
+    padding-inline: 1.5rem;
+    font: inherit;
+    text-align: left;
+}
+
+.uui-accordion-trigger::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--uui-color-on-surface);
+    opacity: 0;
+    transition: var(--uui-opacity-transition);
+    pointer-events: none;
+}
+
+.uui-accordion-trigger:hover::after {
+    opacity: var(--uui-hover-opacity);
+}
+
+.uui-accordion-trigger:focus-visible::after {
+    opacity: var(--uui-focus-opacity);
+}
+
+.uui-accordion-trigger:active::after {
+    opacity: var(--uui-pressed-opacity);
+}
+
+.uui-accordion-item div[role='region'] {
+    padding-inline: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+}
