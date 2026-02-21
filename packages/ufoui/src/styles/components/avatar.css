@@ -1,0 +1,26 @@
+.uui-avatar.uui-extra-small {
+    --uui-control-size: 20px;
+}
+
+.uui-avatar.uui-small {
+    --uui-control-size: 24px;
+}
+
+.uui-avatar.uui-medium {
+    --uui-control-size: 32px;
+}
+
+.uui-avatar.uui-large {
+    --uui-control-size: 40px;
+}
+
+.uui-avatar.uui-extra-large {
+    --uui-control-size: 56px;
+}
+
+.uui-avatar {
+    width: var(--uui-control-size);
+    height: var(--uui-control-size);
+    display: grid;
+    place-items: center;
+}

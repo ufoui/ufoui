@@ -30,9 +30,6 @@ export const AccordionPage = () => {
       elevation: elevation ?? undefined,
       border: border ?? undefined,
       borderColor: borderColor ?? undefined,
-      px: 16,
-      py: 16,
-      gap: 8,
     }),
     [color, shape, elevation, border, borderColor],
   );

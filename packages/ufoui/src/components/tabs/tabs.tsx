@@ -1,32 +1,15 @@
 import { Children, ReactElement, ReactNode, useMemo, useState } from 'react';
 
 import { SelectionContext } from '../../context';
-import { BoxBase, BoxBaseProps } from '../base/boxBase/boxBase';
+import { BoxBase, BoxBaseProps } from '../base/boxBase';
 import { isTab } from './tab.guards';
 import { TabProps } from './tab';
 
-/**
- * Props for {@link Tabs}.
- *
- * @category Tabs
- */
 export interface TabsProps extends BoxBaseProps {
-  /** Initially selected tab value. */
   defaultValue: string;
-
-  /** Tab items. */
   children: ReactNode;
 }
 
-/**
- * Container component that manages single tab selection state.
- *
- * Provides selection behavior to child Tab components.
- *
- * @function
- *
- * @category Tabs
- */
 export const Tabs = ({ defaultValue, children, ...rest }: TabsProps) => {
   const [values, setValues] = useState<string[]>([defaultValue]);
   const tabItems: ReactElement<TabProps>[] =

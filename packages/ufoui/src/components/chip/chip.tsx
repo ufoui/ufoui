@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 
 import { ElementFont, ElementSize } from '../../utils';
-import { ButtonBase, ButtonBaseProps } from '../base/buttonBase/buttonBase';
+import { ButtonBase, ButtonBaseProps } from '../base/buttonBase';
 
 export type ChipType = 'assist' | 'filter' | 'input' | 'suggestion';
 

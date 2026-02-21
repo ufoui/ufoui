@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { MdInfo } from 'react-icons/md';
+import { MotionAnimation, MotionStyle } from '@ufoui/types';
 
 import {
   Button,
-  Dialog,
   DialogActions,
+  DialogBase,
   DialogContent,
   DialogTitle,
   DialogType,
   H1,
   Section,
 } from '@ufoui/core';
-import { MotionAnimation, MotionStyle } from '@ufoui/types';
 
 const animations: MotionAnimation[] = [
   'fade',
@@ -139,7 +139,7 @@ export default function DialogPage() {
       </div>
 
       {/* DIALOG */}
-      <Dialog
+      <DialogBase
         animation={animation}
         border={1}
         borderColor="outline"
@@ -172,7 +172,7 @@ export default function DialogPage() {
             Close
           </Button>
         </DialogActions>
-      </Dialog>
+      </DialogBase>
     </div>
   );
 }

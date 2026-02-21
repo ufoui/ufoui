@@ -1,9 +1,6 @@
 import { forwardRef } from 'react';
 
-import {
-  CheckboxBase,
-  CheckboxBaseProps,
-} from '../base/checkboxBase/checkboxBase';
+import { CheckboxBase, CheckboxBaseProps } from '../base/checkboxBase';
 import { BorderColor } from '../../utils';
 
 const checkedIcon = (

@@ -7,7 +7,7 @@ import {
   SurfaceColor,
 } from '../../utils';
 import { FieldsetContext } from '../../context';
-import { BoxBase, BoxBaseProps } from '../base/boxBase/boxBase';
+import { BoxBase, BoxBaseProps } from '../base/boxBase';
 
 /**
  * Props for {@link Fieldset}.

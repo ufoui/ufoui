@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { TextBase, TextBaseProps } from '../base/textBase/textBase';
+import { TextBase, TextBaseProps } from '../base/textBase';
 
 /**
  * Props for H6.

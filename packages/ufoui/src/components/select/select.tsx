@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { FieldBaseProps } from '../base/fieldBase/fieldBase';
+import { FieldBaseProps } from '../base/fieldBase';
 
 /**
  * Props for {@link Select}.

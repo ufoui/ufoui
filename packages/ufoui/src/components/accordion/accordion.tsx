@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode, useMemo, useState } from 'react';
 
 import { SelectionContext } from '../../context/selectionContext';
-import { BoxBaseProps } from '../base/boxBase/boxBase';
+import { BoxBaseProps } from '../base/boxBase';
 import { AccordionItemProps } from './accordionItem';
 import { isAccordionItem } from './accordionItem.guards';
 

@@ -10,7 +10,7 @@ import {
   getShapeClass,
   SurfaceColor,
 } from '../../utils';
-import { BoxBase, BoxBaseProps } from '../base/boxBase/boxBase';
+import { BoxBase, BoxBaseProps } from '../base/boxBase';
 
 /**
  * Props for {@link Toolbar}.

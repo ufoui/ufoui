@@ -1,7 +1,7 @@
 import { forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
 
 import { ControlStyle, ElementOrientation } from '../../utils';
-import { BoxBase, BoxBaseProps } from '../base/boxBase/boxBase';
+import { BoxBase, BoxBaseProps } from '../base/boxBase';
 import {
   ObservedElementSize,
   useAnimate,

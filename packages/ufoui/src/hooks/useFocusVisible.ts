@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react';
 
-import { ensureInputMethod, getInputMethod } from '../utils/inputhMethod';
+import { ensureInputMethod, getInputMethod } from '../utils';
 
 /**
  * Determines whether focus indicators (focus rings) should be visible.

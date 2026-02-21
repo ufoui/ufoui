@@ -25,7 +25,7 @@ import DialogPage from './pages/dialogPage';
 import { BoxPage } from './pages/boxPage';
 import SpinnerPage from './pages/spinnerPage';
 import AnimationPage from './pages/animationPage';
-import ListPage from './pages/listPage';
+import { ListPage } from './pages/listPage';
 import { SwitchPage } from './pages/switchPage';
 import { StartPage } from './pages/startPage';
 import { CollapsePage } from './pages/collapsePage';
