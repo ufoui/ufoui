@@ -1,0 +1,91 @@
+/* =========================================================
+   UFO UI – Progress
+   ========================================================= */
+
+.uui-progress {
+    position: relative;
+    display: inline-flex;
+}
+
+/* =========================================================
+   LINEAR
+   ========================================================= */
+
+.uui-progress-linear {
+    width: 100%;
+}
+
+.uui-progress-linear .uui-progress-track {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: inherit;
+    height: var(--uui-progress-thickness, 4px);
+}
+
+.uui-progress-linear .uui-progress-indicator {
+    height: 100%;
+    transition: width 200ms ease;
+}
+
+/* Indeterminate linear */
+.uui-progress-linear.uui-progress-indeterminate
+.uui-progress-indicator {
+    position: absolute;
+    width: 40%;
+    animation: uui-progress-linear-indeterminate 1.6s infinite ease-in-out;
+}
+
+@keyframes uui-progress-linear-indeterminate {
+    0% { left: -40%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+/* =========================================================
+   CIRCULAR
+   ========================================================= */
+
+.uui-progress-circular {
+    align-items: center;
+    justify-content: center;
+}
+
+.uui-progress-circular .uui-progress-svg {
+    width: 100%;
+    height: 100%;
+    transform-origin: center;
+}
+
+.uui-progress-circular .uui-progress-track,
+.uui-progress-circular .uui-progress-indicator {
+    stroke-width: var(--uui-progress-thickness, 4);
+}
+
+.uui-progress-circular .uui-progress-indicator {
+    transition: stroke-dashoffset 200ms ease;
+}
+
+/* Indeterminate circular */
+
+.uui-progress-circular.uui-progress-indeterminate
+.uui-progress-svg {
+    animation: uui-progress-circular-rotate 1.8s linear infinite;
+}
+
+.uui-progress-circular.uui-progress-indeterminate
+.uui-progress-indicator {
+    stroke-dasharray: 80;
+    stroke-dashoffset: 60;
+    animation: uui-progress-circular-dash 1.5s ease-in-out infinite;
+}
+
+@keyframes uui-progress-circular-rotate {
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes uui-progress-circular-dash {
+    0% { stroke-dashoffset: 80; }
+    50% { stroke-dashoffset: 20; }
+    100% { stroke-dashoffset: 80; }
+}

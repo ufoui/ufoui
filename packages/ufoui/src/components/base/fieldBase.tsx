@@ -17,15 +17,11 @@ import {
   getFontClass,
   getShapeClass,
   mergeRefs,
-  uniqueID,
 } from '../../utils/utils';
-import {
-  BorderColor,
-  ControlStyle,
-  SemanticColor,
-  SurfaceColor,
-} from '../../utils/color';
+import { BorderColor, SemanticColor, SurfaceColor } from '../../utils/color';
 import { useFocusState } from '../../hooks/useFocusState';
+import { uniqueID } from '../../utils/uniqueID';
+import { ControlStyle } from '../../utils/controlStyle';
 
 type FieldVariant = 'filled' | 'outlined' | 'classic';
 

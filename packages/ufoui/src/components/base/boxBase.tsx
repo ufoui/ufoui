@@ -45,7 +45,7 @@ export type BoxDirection = 'row' | 'col';
  * @category Box
  */
 export interface BoxBaseProps
-  extends Omit<HTMLAttributes<HTMLElement>, 'color'> {
+  extends Omit<HTMLAttributes<HTMLElement>, 'color' | 'content'> {
   /** Maps to `align-content` (grid/flex-wrap content alignment). */
   alignContent?: React.CSSProperties['alignContent'];
 

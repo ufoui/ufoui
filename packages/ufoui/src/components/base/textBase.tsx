@@ -10,12 +10,8 @@ import {
   getFontClass,
   getShapeClass,
 } from '../../utils/utils';
-import {
-  BorderColor,
-  ControlStyle,
-  getBorderColor,
-  SurfaceColor,
-} from '../../utils/color';
+import { BorderColor, getBorderColor, SurfaceColor } from '../../utils/color';
+import { ControlStyle } from '../../utils/controlStyle';
 
 /**
  * Props for {@link TextBase}.

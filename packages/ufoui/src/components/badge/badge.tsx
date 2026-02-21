@@ -14,12 +14,8 @@ import {
   getShapeClass,
   getSizeClass,
 } from '../../utils/utils';
-import {
-  BorderColor,
-  ControlStyle,
-  getBorderColor,
-  SemanticColor,
-} from '../../utils/color';
+import { BorderColor, getBorderColor, SemanticColor } from '../../utils/color';
+import { ControlStyle } from '../../utils/controlStyle';
 
 /**
  * Props for the Badge component.

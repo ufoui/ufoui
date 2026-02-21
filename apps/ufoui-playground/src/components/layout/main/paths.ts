@@ -6,7 +6,7 @@ export const paths = {
   radio: '/components/radio',
   badge: '/components/badge',
   tooltip: '/components/tooltip',
-  input: '/components/input',
+  textField: '/components/textfield',
   menu: '/components/menu',
   fab: '/components/fab',
   iconButton: '/components/iconbutton',
@@ -23,6 +23,12 @@ export const paths = {
   spinner: '/components/spinner',
   animation: '/components/animation',
   list: '/components/list',
+  progress: '/components/progress',
+  drawer: '/components/drawer',
+  bottomSheet: '/components/bottomsheet',
+  fields: '/components/fields',
+  calendar: '/components/calendar',
+  toast: '/components/toast',
   catchAll: '*',
 };
 

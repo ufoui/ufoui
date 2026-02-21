@@ -32,6 +32,8 @@ import { CollapsePage } from './pages/collapsePage';
 import { AccordionPage } from './pages/accordionPage';
 import { TabsPage } from './pages/tabsPage';
 import { ToolbarPage } from './pages/toolbarPage';
+import { ProgressPage } from './pages/progressPage';
+import { ToastPage } from './pages/toastPage';
 // import { FlexPage } from './pages/flexPage';
 // seedColor="#204080"
 const App = () => {
@@ -47,7 +49,7 @@ const App = () => {
             <Route element={<RadioPage />} path={paths.radio} />
             <Route element={<ReactHookFormYupPage />} path={paths.start} />
             <Route element={<ButtonPage />} path={paths.button} />
-            <Route element={<FieldPage />} path={paths.input} />
+            <Route element={<FieldPage />} path={paths.textField} />
             <Route element={<FabPage />} path={paths.fab} />
             <Route element={<IconButtonPage />} path={paths.iconButton} />
             <Route element={<ChipPage />} path={paths.chip} />
@@ -63,7 +65,9 @@ const App = () => {
             <Route element={<CollapsePage />} path={paths.collapse} />
             <Route element={<AccordionPage />} path={paths.accordion} />
             <Route element={<TabsPage />} path={paths.tabs} />
+            <Route element={<ToastPage />} path={paths.toast} />
             <Route element={<ToolbarPage />} path={paths.toolbar} />
+            <Route element={<ProgressPage />} path={paths.progress} />
             <Route
               element={<Navigate replace to="." />}
               path={paths.catchAll}

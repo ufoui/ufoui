@@ -1,4 +1,4 @@
-import React, { isValidElement, ReactNode } from 'react';
+import React from 'react';
 
 export type ElementSize =
   | 'extraSmall'
@@ -156,17 +156,6 @@ export const getShapeClass = (shape: ElementShape) => {
       return 'uui-round';
     default:
       return '';
-  }
-};
-
-export const getBodySizeClass = (size: ElementSize) => {
-  switch (size) {
-    case 'large':
-      return 'uui-font-body-large';
-    case 'medium':
-      return 'uui-font-body-medium';
-    default:
-      return 'uui-font-body-small';
   }
 };
 
@@ -372,161 +361,6 @@ export const createRipple = (
   });
 };
 
-// export const createRipple = (el: HTMLElement, event: React.MouseEvent<HTMLElement>, host?: HTMLElement) => {
-//     const target = host ?? el;
-//
-//     const oldContainer = target.querySelector('.ripple-container');
-//     if (oldContainer) {
-//         oldContainer.remove();
-//     }
-//
-//     const rect = el.getBoundingClientRect();
-//     const { width } = rect;
-//     const { height } = rect;
-//
-//     const rawX = event.clientX - rect.left;
-//     const rawY = event.clientY - rect.top;
-//
-//     const inside = rawX >= 0 && rawX <= width && rawY >= 0 && rawY <= height;
-//
-//     const x = inside ? rawX : width / 2;
-//     const y = inside ? rawY : height / 2;
-//
-//     const diameter = Math.sqrt(width * width + height * height);
-//     const radius = diameter / 2;
-//
-//     const container = document.createElement('div');
-//     container.classList.add('ripple-container');
-//     container.style.position = 'absolute';
-//     container.style.inset = '0';
-//     container.style.pointerEvents = 'none';
-//     container.style.overflow = 'hidden';
-//
-//     requestAnimationFrame(() => {
-//         container.style.borderRadius = getComputedStyle(target).borderRadius;
-//     });
-//
-//     const circle = document.createElement('span');
-//     circle.classList.add('ripple');
-//     circle.style.position = 'absolute';
-//     circle.style.width = `${diameter}px`;
-//     circle.style.height = `${diameter}px`;
-//     circle.style.left = `${x - radius}px`;
-//     circle.style.top = `${y - radius}px`;
-//
-//     container.appendChild(circle);
-//     target.appendChild(container);
-//
-//     circle.addEventListener('animationend', () => {
-//         container.remove();
-//     });
-// };
-
-// export const createRipple = (el: HTMLElement, event: React.MouseEvent<HTMLElement>) => {
-//     const oldContainer = el.querySelector('.ripple-container');
-//     if (oldContainer) {
-//         oldContainer.remove();
-//     }
-//
-//     const container = document.createElement('div');
-//     container.classList.add('ripple-container');
-//     container.style.position = 'absolute';
-//     container.style.overflow = 'hidden';
-//     container.style.pointerEvents = 'none';
-//     container.style.top = '0';
-//     container.style.left = '0';
-//     container.style.width = `${String(el.clientWidth)}px`;
-//     container.style.height = `${String(el.clientHeight)}px`;
-//
-//     requestAnimationFrame(() => {
-//         container.style.borderRadius = getComputedStyle(el).borderRadius;
-//     });
-//
-//     const rect = el.getBoundingClientRect();
-//     const x = event.clientX - rect.left;
-//     const y = event.clientY - rect.top;
-//
-//     const circle = document.createElement('span');
-//     const diameter = Math.max(el.clientWidth, el.clientHeight);
-//     const radius = diameter / 2;
-//
-//     circle.style.width = `${String(diameter)}px`;
-//     circle.style.height = `${String(diameter)}px`;
-//     circle.style.position = 'absolute';
-//     circle.style.left = `${String(x - radius)}px`;
-//     circle.style.top = `${String(y - radius)}px`;
-//     circle.classList.add('ripple');
-//
-//     container.appendChild(circle);
-//
-//     // el.style.position ||= 'relative';
-//     el.appendChild(container);
-// };
-
-// export const createRipple = (el: HTMLElement, event: React.MouseEvent<HTMLElement>) => {
-//     const oldContainer = el.querySelector('.ripple-container');
-//     if (oldContainer) {
-//         oldContainer.remove();
-//     }
-//
-//     const container = document.createElement('div');
-//     container.classList.add('ripple-container');
-//     container.style.position = 'absolute';
-//     container.style.overflow = 'hidden';
-//     container.style.pointerEvents = 'none';
-//     container.style.top = '0';
-//     container.style.left = '0';
-//     container.style.width = `${el.clientWidth}px`;
-//     container.style.height = `${el.clientHeight}px`;
-//
-//     requestAnimationFrame(() => {
-//         container.style.borderRadius = getComputedStyle(el).borderRadius;
-//     });
-//
-//     const rect = el.getBoundingClientRect();
-//
-//     const rawX = event.clientX - rect.left;
-//     const rawY = event.clientY - rect.top;
-//
-//     const inside = rawX >= 0 && rawX <= rect.width && rawY >= 0 && rawY <= rect.height;
-//
-//     const x = inside ? rawX : rect.width / 2;
-//     const y = inside ? rawY : rect.height / 2;
-//
-//     const circle = document.createElement('span');
-//     const diameter = Math.max(el.clientWidth, el.clientHeight);
-//     const radius = diameter / 2;
-//
-//     circle.style.width = `${diameter}px`;
-//     circle.style.height = `${diameter}px`;
-//     circle.style.position = 'absolute';
-//     circle.style.left = `${x - radius}px`;
-//     circle.style.top = `${y - radius}px`;
-//     circle.classList.add('ripple');
-//
-//     container.appendChild(circle);
-//     el.appendChild(container);
-// };
-
-/**
- * Generates a fast, pseudo-random unique ID.
- *
- * @param prefix - String prepended to the generated ID.
- * @returns A unique ID in the form `${prefix}_xxxx`.
- *
- * @remarks
- * - Uses `Math.random()` → extremely fast, ideal for UI/runtime IDs.
- * - Not cryptographically secure.
- * - Suitable for components, form fields, ripple effects, etc.
- *
- * @category Utils
- */
-export const uniqueID = (prefix: string) =>
-  // eslint-disable-next-line sonarjs/pseudo-random
-  `${prefix}_${Math.floor((1 + Math.random()) * 0x10000)
-    .toString(16)
-    .substring(1)}`;
-
 /**
  * Converts a camelCase, PascalCase, or acronym-based string into kebab-case.
  *
@@ -544,48 +378,6 @@ export function toKebabCase(str: string): string {
     .replace(/([a-z0-9])([A-Z])/g, '$1-$2') // camelCase, PascalCase
     .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2') // HTMLParser → HTML-Parser
     .toLowerCase();
-}
-
-/**
- * Returns the `displayName` of a React element if available.
- *
- * @param el - A React node to inspect.
- * @returns The component's display name, or `undefined` if not found.
- *
- * @remarks
- * - Works with function components, `memo()`, and `forwardRef()`.
- * - Safe for any `ReactNode` (`string`, `null`, DOM elements, fragments, etc.).
- *
- * @category Utils
- */
-export function getElementDisplayName(el: ReactNode): string | undefined {
-  if (!isValidElement(el)) {
-    return undefined;
-  }
-
-  const t = el.type;
-
-  if (typeof t === 'function' && 'displayName' in t) {
-    return (t as { displayName?: string }).displayName;
-  }
-
-  const obj = t as { type?: unknown; render?: unknown } | null;
-
-  if (obj && typeof obj === 'object' && 'type' in obj) {
-    const inner = obj.type;
-    if (typeof inner === 'function' && 'displayName' in inner) {
-      return (inner as { displayName?: string }).displayName;
-    }
-  }
-
-  if (obj && typeof obj === 'object' && 'render' in obj) {
-    const inner = obj.render;
-    if (typeof inner === 'function' && 'displayName' in inner) {
-      return (inner as { displayName?: string }).displayName;
-    }
-  }
-
-  return undefined;
 }
 
 /**

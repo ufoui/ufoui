@@ -31,6 +31,8 @@ export * from './components/collapse/collapse';
 export * from './components/accordion';
 export * from './components/tabs';
 export * from './components/toolbar/toolbar';
+export * from './components/progress/progress';
+export * from './components/toast';
 export * from './utils';
 export * from './types';
 export * from './hooks';
