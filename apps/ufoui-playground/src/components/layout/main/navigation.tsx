@@ -19,6 +19,7 @@ export const Navigation = () => {
       <Button label="Calendar" link={<Link to={paths.calendar} />} />
       <Button label="Toast" link={<Link to={paths.toast} />} />
       <Button label="Fields" link={<Link to={paths.fields} />} />
+      <Button label="Avatar" link={<Link to={paths.avatar} />} />
       <Button label="TextField" link={<Link to={paths.textField} />} />
       <Button label="Button" link={<Link to={paths.button} />} />
       <Button label="Icon Button" link={<Link to={paths.iconButton} />} />

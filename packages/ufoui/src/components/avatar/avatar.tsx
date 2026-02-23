@@ -1,102 +1,129 @@
-import { forwardRef, HTMLProps } from 'react';
+import { forwardRef, ReactNode, useMemo, useState } from 'react';
 
-import {
-  BorderColor,
-  ElementBorder,
-  ElementElevation,
-  ElementShape,
-  ElementSize,
-  getBorderClass,
-  getBorderColor,
-  getBorderColorClass,
-  getElevationClass,
-  getSemanticColorClasses,
-  getShapeClass,
-  getSizeClass,
-  SemanticColor,
-} from '../../utils';
+import { BoxBaseProps } from '../base';
+import { ElementSize, getSizeClass } from '../../utils';
+import { ThemeExtendedColorKeys } from '../../types';
+import { Grid } from '../layout';
 
 /**
- * Props for the {@link Badge} component.
+ * Properties for Avatar component.
  *
- * @remarks
- * Badge displays a status or value in a small decorative label.
- * Supports customization of color, border, elevation, shape, size, and position.
- *
- * @category Component properties
+ * @category Avatar
  */
 export interface AvatarProps
-  extends Omit<HTMLProps<HTMLDivElement>, 'ref' | 'size'> {
-  /** The value displayed inside the badge (e.g. a number or label). */
-  label: string;
-
-  /** Semantic color of the badge background (e.g. `'error'`, `'info'`). */
-  color?: SemanticColor;
-
-  /** Border width, e.g. `1` or `2`. Ignored if `outlined` is not set.
-   * @default 1
-   * */
-  border?: ElementBorder;
-
-  /** Color of the border when `outlined` is true. */
-  borderColor?: BorderColor;
-
-  /** Elevation depth if `raised` is true. */
-  elevation?: ElementElevation;
-
-  /** Size of the badge (`small`, `medium`, `large`). */
+  extends Omit<BoxBaseProps, 'component' | 'elementClass'> {
+  /** Size token controlling width and height. */
   size?: ElementSize;
 
-  /** Shape of the badge, e.g. `'round'`, `'square'`. */
-  shape?: ElementShape;
+  /** Image source URL. */
+  src?: string;
 
-  /** If true, adds elevation shadow. */
-  raised?: boolean;
+  /** Alternative text for image element. */
+  alt?: string;
 
-  /** If true, renders the badge as outlined. */
-  outlined?: boolean;
+  /** Full name used for initials and auto color derivation. */
+  name?: string;
+
+  /** Custom fallback content rendered when no image and no name are provided. */
+  children?: ReactNode;
 }
 
+const AvatarColors = ThemeExtendedColorKeys.filter(
+  (c) => c !== 'white' && c !== 'black',
+);
+
+function stringHash(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash);
+}
+
+function getInitials(name?: string): string {
+  const parts = name?.trim().split(/\s+/).filter(Boolean);
+  if (!parts?.length) {
+    return '';
+  }
+  const first = parts[0][0];
+  const last = parts.length > 1 ? parts[parts.length - 1][0] : '';
+  return (first + last).toUpperCase();
+}
+
+/**
+ * Avatar identity component displaying image, initials, or custom content.
+ *
+ * Automatically derives a background color from name when no image
+ * and no explicit color are provided.
+ *
+ * @function
+ * @param props Component properties.
+ *
+ * @category Avatar
+ */
 export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
   (
     {
       children,
-      className = '',
-      border = 1,
-      borderColor,
-      color = 'primary',
+      className,
       shape = 'round',
       size = 'medium',
-      elevation = 1,
-      outlined,
-      raised,
-      ...props
-    }: AvatarProps,
+      src,
+      alt,
+      name,
+      color,
+      ...rest
+    },
     ref,
   ) => {
-    const { bgColor, textOnColor } = getSemanticColorClasses(color);
-    const classes = [
-      'uui-avatar',
-      'uui-wrapper',
-      className,
-      getSizeClass(size),
-      bgColor,
-      textOnColor,
-      getShapeClass(shape),
-      ...(outlined
-        ? [
-            getBorderColorClass(getBorderColor(borderColor)),
-            getBorderClass(border),
-          ]
-        : []),
-      ...(raised ? [getElevationClass(elevation)] : []),
-    ]
+    const [imgError, setImgError] = useState(false);
+
+    const classes = ['uui-avatar', getSizeClass(size), className]
       .filter(Boolean)
       .join(' ');
+
+    const showImage = Boolean(src && !imgError);
+    const initials = getInitials(name);
+
+    const derivedColor = useMemo(() => {
+      if (!name || showImage || color) {
+        return undefined;
+      }
+      const index = stringHash(name) % AvatarColors.length;
+      return AvatarColors[index];
+    }, [name, showImage, color]);
+
+    let content: ReactNode;
+
+    if (showImage) {
+      content = (
+        <img
+          alt={alt ?? name ?? ''}
+          draggable={false}
+          onError={() => {
+            setImgError(true);
+          }}
+          src={src}
+        />
+      );
+    } else if (name) {
+      content = <span aria-hidden>{initials}</span>;
+    } else {
+      content = children;
+    }
+
     return (
-      <div className={classes} ref={ref} {...props}>
-        {children}
-      </div>
+      <Grid
+        aria-label={!showImage ? name : undefined}
+        className={classes}
+        color={color ?? derivedColor}
+        font="labelLarge"
+        ref={ref}
+        shape={shape}
+        {...rest}
+      >
+        {content}
+      </Grid>
     );
   },
 );

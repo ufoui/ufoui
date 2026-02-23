@@ -4,7 +4,6 @@ import { useState } from 'react';
 import {
   Button,
   ButtonProps,
-  ElementBorderWidth,
   ElementElevation,
   ElementShape,
   ElementSize,
@@ -103,7 +102,6 @@ export const FlexPage = () => {
             icon={<MdAdd />}
             label="Label"
             outlined
-            raised
             {...shared}
             size="small"
           />
@@ -113,7 +111,6 @@ export const FlexPage = () => {
             icon={<MdAdd />}
             label="Label"
             outlined
-            raised
             {...shared}
             size="medium"
           />
@@ -123,7 +120,6 @@ export const FlexPage = () => {
             icon={<MdAdd />}
             label="Label"
             outlined
-            raised
             {...shared}
             size="large"
           />

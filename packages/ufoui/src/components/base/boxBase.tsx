@@ -58,6 +58,9 @@ export interface BoxBaseProps
   /** Border color token. */
   borderColor?: BorderColor;
 
+  /** Bottom offset. */
+  bottom?: number | string;
+
   /** React children inside the box. */
   children?: ReactNode;
 
@@ -91,6 +94,9 @@ export interface BoxBaseProps
   /** Font token controlling typography (size, weight, line-height). */
   font?: ElementFont;
 
+  /** Forces full height (100%). */
+  fullHeight?: boolean;
+
   /** Forces full width (100%). */
   fullWidth?: boolean;
 
@@ -112,29 +118,8 @@ export interface BoxBaseProps
   /** Maps to `justify-content` (main-axis alignment). */
   justifyContent?: React.CSSProperties['justifyContent'];
 
-  /** Padding (all sides). */
-  p?: number | string;
-
-  /** Padding bottom. */
-  pb?: number | string;
-
-  /** Padding left. */
-  pl?: number | string;
-
-  /** Maps to `place-items` (grid shortcut for align+justify items). */
-  placeItems?: React.CSSProperties['placeItems'];
-
-  /** Padding right. */
-  pr?: number | string;
-
-  /** Padding top. */
-  pt?: number | string;
-
-  /** Horizontal padding (`padding-left` + `padding-right`). */
-  px?: number | string;
-
-  /** Vertical padding (`padding-top` + `padding-bottom`). */
-  py?: number | string;
+  /** Left offset. */
+  left?: number | string;
 
   /** Margin (all sides). */
   m?: number | string;
@@ -157,6 +142,36 @@ export interface BoxBaseProps
   /** Vertical margin (`margin-top` + `margin-bottom`). */
   my?: number | string;
 
+  /** Padding (all sides). */
+  p?: number | string;
+
+  /** Padding bottom. */
+  pb?: number | string;
+
+  /** Padding left. */
+  pl?: number | string;
+
+  /** Maps to `place-items` (grid shortcut for align+justify items). */
+  placeItems?: React.CSSProperties['placeItems'];
+
+  /** CSS position (mapped to `uui-*` class). */
+  position?: 'static' | 'relative' | 'absolute' | 'fixed' | 'sticky';
+
+  /** Padding right. */
+  pr?: number | string;
+
+  /** Padding top. */
+  pt?: number | string;
+
+  /** Horizontal padding (`padding-left` + `padding-right`). */
+  px?: number | string;
+
+  /** Vertical padding (`padding-top` + `padding-bottom`). */
+  py?: number | string;
+
+  /** Right offset. */
+  right?: number | string;
+
   /** Layout direction shortcut. Same as `direction="row"`. */
   row?: boolean;
 
@@ -166,26 +181,14 @@ export interface BoxBaseProps
   /** Shape/border-radius token (round, rounded, smooth, square). */
   shape?: ElementShape;
 
+  /** Top offset. */
+  top?: number | string;
+
   /** Layout mode (`flex`, `grid`, `block`). Default: `flex`. */
   type?: BoxType;
 
   /** Enables wrapping (`flex-wrap: wrap`). */
   wrap?: boolean;
-
-  /** CSS position (mapped to `uui-*` class). */
-  position?: 'static' | 'relative' | 'absolute' | 'fixed' | 'sticky';
-
-  /** Top offset. */
-  top?: number | string;
-
-  /** Right offset. */
-  right?: number | string;
-
-  /** Bottom offset. */
-  bottom?: number | string;
-
-  /** Left offset. */
-  left?: number | string;
 
   /** Stacking order (z-index). */
   zIndex?: number;
@@ -234,6 +237,7 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
     style,
     font,
     fullWidth,
+    fullHeight,
     grow,
     m,
     mx,
@@ -290,7 +294,11 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
   }
 
   if (fullWidth) {
-    layoutClasses.push('uui-full');
+    controlStyle.set('width', '100%');
+  }
+
+  if (fullHeight) {
+    controlStyle.set('height', '100%');
   }
 
   if (grow) {

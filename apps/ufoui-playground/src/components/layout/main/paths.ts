@@ -29,6 +29,7 @@ export const paths = {
   fields: '/components/fields',
   calendar: '/components/calendar',
   toast: '/components/toast',
+  avatar: '/components/avatar',
   catchAll: '*',
 };
 

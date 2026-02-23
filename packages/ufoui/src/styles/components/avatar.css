@@ -1,26 +1,39 @@
-.uui-avatar.uui-extra-small {
-    --uui-control-size: 20px;
-}
-
-.uui-avatar.uui-small {
-    --uui-control-size: 24px;
-}
-
-.uui-avatar.uui-medium {
-    --uui-control-size: 32px;
-}
-
-.uui-avatar.uui-large {
-    --uui-control-size: 40px;
-}
-
-.uui-avatar.uui-extra-large {
-    --uui-control-size: 56px;
-}
-
 .uui-avatar {
+    --uui-corner-smooth: 4px;
+    --uui-corner-rounded: 8px;
+    font-size: calc(var(--uui-control-size) * 0.44);
     width: var(--uui-control-size);
     height: var(--uui-control-size);
     display: grid;
     place-items: center;
+    overflow: hidden;
+}
+
+.uui-avatar.uui-extra-small {
+    --uui-control-size: 24px;
+    --uui-corner-smooth: 2px;
+    --uui-corner-rounded: 4px;
+}
+
+.uui-avatar.uui-small {
+    --uui-control-size: 32px;
+}
+
+.uui-avatar.uui-medium {
+    --uui-control-size: 40px;
+}
+
+.uui-avatar.uui-large {
+    --uui-control-size: 56px;
+}
+
+.uui-avatar.uui-extra-large {
+    --uui-control-size: 72px;
+}
+
+
+.uui-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }

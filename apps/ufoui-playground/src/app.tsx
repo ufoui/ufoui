@@ -34,6 +34,7 @@ import { TabsPage } from './pages/tabsPage';
 import { ToolbarPage } from './pages/toolbarPage';
 import { ProgressPage } from './pages/progressPage';
 import { ToastPage } from './pages/toastPage';
+import { AvatarPage } from './pages/avatarPage';
 // import { FlexPage } from './pages/flexPage';
 // seedColor="#204080"
 const App = () => {
@@ -67,6 +68,7 @@ const App = () => {
             <Route element={<TabsPage />} path={paths.tabs} />
             <Route element={<ToastPage />} path={paths.toast} />
             <Route element={<ToolbarPage />} path={paths.toolbar} />
+            <Route element={<AvatarPage />} path={paths.avatar} />
             <Route element={<ProgressPage />} path={paths.progress} />
             <Route
               element={<Navigate replace to="." />}
