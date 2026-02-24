@@ -2,15 +2,7 @@ import { forwardRef } from 'react';
 
 import { CheckboxBase, CheckboxBaseProps } from '../base/checkboxBase';
 import { BorderColor } from '../../utils';
-
-const checkedIcon = (
-  <svg fill="none" viewBox="2 2 20 20" xmlns="http://www.w3.org/2000/svg">
-    <path
-      d="M12 17C13.3833 17 14.5625 16.5125 15.5375 15.5375C16.5125 14.5625 17 13.3833 17 12C17 10.6167 16.5125 9.4375 15.5375 8.4625C14.5625 7.4875 13.3833 7 12 7C10.6167 7 9.4375 7.4875 8.4625 8.4625C7.4875 9.4375 7 10.6167 7 12C7 13.3833 7.4875 14.5625 8.4625 15.5375C9.4375 16.5125 10.6167 17 12 17Z"
-      fill="currentColor"
-    />
-  </svg>
-);
+import { RadioIcon } from '../../assets';
 
 /**
  * Props for the Radio component.
@@ -80,7 +72,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
         color={finalColor}
         elementClass="uui-radio"
         filled={filled}
-        icon={icon ?? checkedIcon}
+        icon={icon ?? RadioIcon}
         indeterminateIcon={undefined}
         ref={ref}
         shape={shape}

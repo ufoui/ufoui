@@ -4,6 +4,7 @@ import { BoxBaseProps } from '../base';
 import { ElementSize, getSizeClass } from '../../utils';
 import { ThemeExtendedColorKeys } from '../../types';
 import { Grid } from '../layout';
+import { IS_AVATAR } from './avatar.guards';
 
 /**
  * Properties for Avatar component.
@@ -128,4 +129,13 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
   },
 );
 
+/**
+ * Marks this component as an Avatar for runtime type guards.
+ *
+ * Used internally to identify Avatar elements via a shared Symbol.
+ * Not part of the public API.
+ *
+ * @internal
+ */
+(Avatar as unknown as Record<symbol, true>)[IS_AVATAR] = true;
 Avatar.displayName = 'Avatar';

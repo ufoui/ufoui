@@ -426,6 +426,7 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
   }
 
   const classes = [
+    className,
     'uui-box',
     ...(font ? [getFontClass(font)] : []),
     elementClass,
@@ -436,7 +437,6 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
     ...(position !== undefined ? [`uui-${position}`] : []),
     directionClass,
     flowClass,
-    className,
   ]
     .filter(Boolean)
     .join(' ');

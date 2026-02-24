@@ -1,22 +1,8 @@
 import { forwardRef } from 'react';
 
 import { BorderColor } from '../../utils';
-import { CheckboxBase, CheckboxBaseProps } from '../base/checkboxBase';
-
-const defCheckedIcon = (
-  <svg fill="none" viewBox="3 3 18 18" xmlns="http://www.w3.org/2000/svg">
-    <path
-      d="M10 16.4L6 12.4L7.4 11L10 13.6L16.6 7L18 8.4L10 16.4Z"
-      fill="currentColor"
-    />
-  </svg>
-);
-
-const defIndeterminateIcon = (
-  <svg fill="none" viewBox="3 3 18 18" xmlns="http://www.w3.org/2000/svg">
-    <path d="M6 13V11H18V13H6Z" fill="currentColor" />
-  </svg>
-);
+import { CheckboxBase, CheckboxBaseProps } from '../base';
+import { CheckmarkIcon, IndeterminateIcon } from '../../assets';
 
 /**
  * Props for the Checkbox component.
@@ -92,9 +78,9 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         color={finalColor}
         elementClass="uui-checkbox"
         filled={filled}
-        icon={icon ?? defCheckedIcon}
+        icon={icon ?? CheckmarkIcon}
         indeterminate={indeterminate}
-        indeterminateIcon={indeterminateIcon ?? defIndeterminateIcon}
+        indeterminateIcon={indeterminateIcon ?? IndeterminateIcon}
         ref={ref}
         shape={shape}
         size={size}
