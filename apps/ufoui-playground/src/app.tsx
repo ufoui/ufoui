@@ -35,6 +35,7 @@ import { ToolbarPage } from './pages/toolbarPage';
 import { ProgressPage } from './pages/progressPage';
 import { ToastPage } from './pages/toastPage';
 import { AvatarPage } from './pages/avatarPage';
+import { RatingPage } from './pages/rating';
 // import { FlexPage } from './pages/flexPage';
 // seedColor="#204080"
 const App = () => {
@@ -70,6 +71,7 @@ const App = () => {
             <Route element={<ToolbarPage />} path={paths.toolbar} />
             <Route element={<AvatarPage />} path={paths.avatar} />
             <Route element={<ProgressPage />} path={paths.progress} />
+            <Route element={<RatingPage />} path={paths.rating} />
             <Route
               element={<Navigate replace to="." />}
               path={paths.catchAll}

@@ -30,6 +30,7 @@ export const paths = {
   calendar: '/components/calendar',
   toast: '/components/toast',
   avatar: '/components/avatar',
+  rating: '/components/rating',
   catchAll: '*',
 };
 

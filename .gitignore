@@ -46,3 +46,7 @@ Thumbs.db
 /packages/ufoui/docs/
 /packages/ufoui/md/
 /arch/
+
+# Next.js
+.next
+out

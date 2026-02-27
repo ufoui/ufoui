@@ -9,6 +9,7 @@ export const Navigation = () => {
     <Nav border={1} className="m-5 gap-2 p-5" direction="col" elevation={1}>
       <Button label="Home" link={<Link to={paths.start} />} />
       <Button label="Accordion" link={<Link to={paths.accordion} />} />
+      <Button label="Rating" link={<Link to={paths.rating} />} />
       <Button label="Tabs" link={<Link to={paths.tabs} />} />
       <Button label="Toolbar" link={<Link to={paths.toolbar} />} />
       <Button label="Collapse" link={<Link to={paths.collapse} />} />
