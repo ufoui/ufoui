@@ -58,3 +58,12 @@ export const MenuCheckIcon = (
     />
   </svg>
 );
+
+export const ExpandIcon = (
+  <svg fill="none" viewBox="0 0 24 24">
+    <path
+      d="M12 15.0833L7 10.0833L8.16667 8.91663L12 12.7499L15.8333 8.91663L17 10.0833L12 15.0833Z"
+      fill="currentColor"
+    />
+  </svg>
+);

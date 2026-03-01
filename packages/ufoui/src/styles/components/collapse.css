@@ -1,17 +1,11 @@
 .uui-collapse {
     --uui-ease: ease-in-out;
-    transition: width var(--uui-duration) var(--uui-ease), height var(--uui-duration) var(--uui-ease);
+    --uui-corner-full: var(--uui-corner-extra-large);
+    transition: height var(--uui-duration) var(--uui-ease);
     overflow: hidden;
 }
 
-/*.uui-collapse.uui-horizontal {*/
-/*    transition: width var(--uui-duration) var(--uui-ease);*/
-/*}*/
-
-/*.uui-collapse.uui-vertical {*/
-/*    transition: height var(--uui-duration) var(--uui-ease);*/
-/*}*/
-
 .uui-collapse-wrapper {
     display: flow-root;
+    border-radius: inherit;
 }

@@ -1,29 +1,27 @@
 import { useContext } from 'react';
 
-import {
-  SelectionContext,
-  SelectionContextValue,
-} from '../context/selectionContext';
+import { SelectionContext, SelectionContextValue } from '../context';
 
 /**
- * Hook to access the current selection context.
+ * Provides typed access to SelectionContext including selection state,
+ * optional configuration, and roving focus controller.
  *
- * Must be used within a component that provides SelectionContext.
- * If used outside, it will throw an error.
+ * @typeParam T Optional configuration object type provided by the parent.
  *
- * @throws Error if the context is unavailable.
- * @returns The current SelectionContextValue.
+ * @returns The current selection context value.
+ *
+ * @example
+ * const { values, toggle, config, roving } =
+ *   useSelection<MyConfig>();
  *
  * @category Hooks
  */
-export function useSelection(): SelectionContextValue {
-  const context = useContext(SelectionContext);
+export function useSelection<T = unknown>() {
+    const ctx = useContext(SelectionContext);
 
-  if (!context) {
-    throw new Error(
-      'useSelection must be used within a SelectionContext provider',
-    );
-  }
+    if (!ctx) {
+        throw new Error('useSelection must be used within SelectionContext provider');
+    }
 
-  return context;
+    return ctx as SelectionContextValue<T>;
 }

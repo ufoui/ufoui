@@ -1,0 +1,13 @@
+.uui-slot {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--uui-slot-gap, 8px);
+}
+
+.uui-slot > * {
+    height: var(--uui-slot-size);
+    width: var(--uui-slot-size);
+    min-width: var(--uui-slot-size);
+    flex-shrink: 0;
+}
+

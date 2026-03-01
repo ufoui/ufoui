@@ -1,37 +1,41 @@
 import { createContext } from 'react';
 
+import { useRovingFocus } from '../hooks/useRovingFocus';
+
 /**
  * Context value shared by components that rely on selection behavior.
  *
- * Provides state and control logic for managing single or multiple
- * selected values.
+ * @typeParam T - Optional configuration object provided by the parent component.
  *
  * @category Contexts
  */
-export interface SelectionContextValue {
-  /** Currently selected values. */
-  values: string[];
+export interface SelectionContextValue<T = unknown> {
+  /** Clears all selected values. */
+  clear: () => void;
+
+  /** Optional configuration object passed from the parent component. */
+  config?: T;
 
   /** Selection mode: single or multiple. */
   mode: 'single' | 'multiple';
 
+  /** Optional roving focus controller for keyboard navigation between items. */
+  roving?: ReturnType<typeof useRovingFocus>;
+
+  /** Sets a value directly. */
+  set: (value: string) => void;
+
   /** Toggles selection state for a given value. */
   toggle: (value: string) => void;
 
-  /** Sets a value directly (primarily for single mode). */
-  set: (value: string) => void;
-
-  /** Clears all selected values. */
-  clear: () => void;
+  /** Currently selected values. */
+  values: string[];
 }
 
 /**
- * SelectionContext provides access to shared selection state.
+ * React context that exposes shared selection state and optional configuration.
  *
- * Used by components such as Accordion, Tabs, RadioGroup,
- * and similar patterns that require controlled selection logic.
- *
- * Returns `null` if used outside a provider.
+ * Returns `null` when accessed outside of a provider.
  *
  * @category Contexts
  */

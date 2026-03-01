@@ -17,11 +17,13 @@
 @import url('./fieldset.css');
 @import url('./collapse.css');
 @import url('./toolbar.css');
+@import url('./accordion.css');
 @import url('./accordionItem.css');
 @import url('./tabs.css');
 @import url('./progress.css');
 @import url('./toast.css');
 @import url('./avatar.css');
+@import url('./slot.css');
 /*@import url('./calendar.css');*/
 
 

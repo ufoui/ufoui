@@ -1,0 +1,23 @@
+.uui-accordion {
+    --uui-accordion-gap: 0px;
+    --uui-corner-full: var(--uui-corner-large);
+    --uui-slot-size: 24px;
+    --uui-slot-gap: 4px;
+    --uui-col-gap: 8px;
+    gap: var(--uui-accordion-gap);
+    min-width: 200px;
+    max-height: max-content;
+    overflow: hidden;
+}
+
+.uui-accordion.uui-accordion-text {
+
+}
+
+.uui-accordion.uui-accordion-segmented {
+    --uui-accordion-gap: 8px;
+}
+
+.uui-accordion.uui-accordion-grouped {
+
+}

@@ -5,7 +5,7 @@ import { AccordionItemProps } from './accordionItem';
 export const IS_ACCORDION_ITEM = Symbol.for('uui.accordionItem');
 
 type AccordionItemMarker = {
-  [IS_ACCORDION_ITEM]?: true;
+    [IS_ACCORDION_ITEM]?: true;
 };
 
 /**
@@ -19,12 +19,6 @@ type AccordionItemMarker = {
  *
  * @internal
  */
-export function isAccordionItem(
-  el: React.ReactNode,
-): el is ReactElement<AccordionItemProps> {
-  return (
-    isValidElement(el) &&
-    typeof el.type !== 'string' &&
-    !!(el.type as AccordionItemMarker)[IS_ACCORDION_ITEM]
-  );
+export function isAccordionItem(el: React.ReactNode): el is ReactElement<AccordionItemProps> {
+    return isValidElement(el) && typeof el.type !== 'string' && !!(el.type as AccordionItemMarker)[IS_ACCORDION_ITEM];
 }

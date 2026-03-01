@@ -65,8 +65,3 @@
   overflow-x: hidden;
   margin: 0 0;
 }
-
-/*.uui-menu:focus:before {*/
-/*  @apply content-[''] absolute border-amber-800 border-2 top-0 bottom-0 left-0 right-0;*/
-/*  border-radius: inherit;*/
-/*}*/

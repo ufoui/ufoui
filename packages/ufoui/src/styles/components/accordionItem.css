@@ -1,50 +1,105 @@
 .uui-accordion-item {
-    border-radius: var(--uui-corner-rounded);
-    background-color: var(--uui-color-surface-container);
     overflow: hidden;
-    margin-bottom: 0.5rem;
+    flex-direction: column;
 }
 
-.uui-accordion-item[data-open='true'] {
-    background-color: var(--uui-color-surface-container-high);
+.uui-accordion-header {
+    position: relative;
+    display: flex;
+    min-height: 48px;
+    padding-inline: 12px;
+    /*cursor: pointer;*/
+    column-gap: var(--uui-col-gap);
+    border-bottom: 1px solid var(--uui-color-outline-variant);
+}
+
+
+.uui-accordion-item div[role='region'] {
+    padding-inline: 12px;
+    padding-block: 12px;
+}
+
+.uui-accordion-item .uui-flush div[role='region'] {
+    padding-inline: 0;
+    padding-block: 0;
+}
+
+.uui-compact .uui-accordion-header {
+    min-height: 40px;
+}
+
+.uui-dense .uui-accordion-header {
+    min-height: 32px;
 }
 
 .uui-accordion-trigger {
-    position: relative;
+    --uui-focus-ring-inset: 4px;
+    flex-grow: 1;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     width: 100%;
-    min-height: 48px;
-    padding-inline: 1.5rem;
-    font: inherit;
-    text-align: left;
+    align-items: center;
+    padding-block:8px;
+    background: transparent;
+    z-index: 1
 }
 
 .uui-accordion-trigger::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--uui-color-on-surface);
+    z-index: -1;
+}
+
+.uui-accordion-item-grouped .uui-accordion-header, .uui-accordion-item-segmented .uui-accordion-header {
+    background-color: var(--uui-color-surface-container);
+}
+
+.uui-accordion-item-grouped .uui-accordion-header.uui-divided {
+    border: 4px solid var(--uui-color-surface-container);
+}
+
+.uui-accordion-icon {
+    transition: transform var(--uui-duration) var(--uui-ease);
+}
+
+.uui-accordion-item[data-open='true'] .uui-accordion-icon{
+    transform: rotate(180deg);
+}
+
+/*STATE*/
+.uui-accordion-trigger .uui-state{
+    position: absolute;
     opacity: 0;
     transition: var(--uui-opacity-transition);
     pointer-events: none;
+    inset: 0;
+    z-index: 2;
+    background-color: var(--uui-color-on-surface);
 }
 
-.uui-accordion-trigger:hover::after {
-    opacity: var(--uui-hover-opacity);
-}
-
-.uui-accordion-trigger:focus-visible::after {
+.uui-accordion-trigger.uui-focus-overlay:focus-visible .uui-state {
     opacity: var(--uui-focus-opacity);
 }
 
-.uui-accordion-trigger:active::after {
+.uui-accordion-trigger:hover .uui-state {
+    opacity: var(--uui-hover-opacity);
+}
+
+.uui-accordion-trigger.uui-pressed-overlay:active .uui-state {
     opacity: var(--uui-pressed-opacity);
 }
 
-.uui-accordion-item div[role='region'] {
-    padding-inline: 1.5rem;
-    padding-top: 0.5rem;
-    padding-bottom: 1rem;
+.uui-accordion-trigger.uui-selected.uui-selected-overlay .uui-state {
+    opacity: var(--uui-selected-opacity);
 }
+
+.uui-accordion-trigger:disabled {
+    /*background-color: var(--uui-color-surface) !important;*/
+    opacity: var(--uui-disabled-opacity);
+}
+
+.uui-accordion-trigger:disabled .uui-state {
+    /*opacity: var(--uui-disabled-opacity);*/
+    /*background-color: var(--uui-color-on-surface) !important;*/
+}
+

@@ -10,26 +10,26 @@ let lastInput: 'keyboard' | 'pointer' = 'pointer';
  * @internal
  */
 export function ensureInputMethod() {
-  if (initialized || typeof window === 'undefined') {
-    return;
-  }
-  initialized = true;
+    if (initialized || typeof window === 'undefined') {
+        return;
+    }
+    initialized = true;
 
-  window.addEventListener(
-    'keydown',
-    () => {
-      lastInput = 'keyboard';
-    },
-    true,
-  );
+    window.addEventListener(
+        'keydown',
+        () => {
+            lastInput = 'keyboard';
+        },
+        true
+    );
 
-  window.addEventListener(
-    'pointerdown',
-    () => {
-      lastInput = 'pointer';
-    },
-    true,
-  );
+    window.addEventListener(
+        'pointerdown',
+        () => {
+            lastInput = 'pointer';
+        },
+        true
+    );
 }
 
 /**
@@ -40,5 +40,5 @@ export function ensureInputMethod() {
  * @internal
  */
 export function getInputMethod() {
-  return lastInput;
+    return lastInput;
 }
