@@ -387,7 +387,6 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
         );
 
         const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-            console.log('click', label);
             if (__interactionsDisabled || disabled) {
                 e?.preventDefault();
                 return;
