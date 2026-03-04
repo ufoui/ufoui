@@ -22,13 +22,13 @@ export function useFocusVisible(onFocus?: FocusEventHandler<HTMLElement>, onBlur
     const focusVisible = getInputMethod() === 'keyboard';
 
     const handleFocus: FocusEventHandler<HTMLElement> = e => {
-        console.log('onFocus');
+        console.log('onFocus', e.currentTarget.className.slice(0, 10), e.relatedTarget?.className.slice(0, 10));
         setIsFocused(true);
         onFocus?.(e);
     };
 
     const handleBlur: FocusEventHandler<HTMLElement> = e => {
-        console.log('onBlur');
+        console.log('onBlur', e.currentTarget.className.slice(0, 10), e.relatedTarget?.className.slice(0, 10));
         setIsFocused(false);
         onBlur?.(e);
     };
@@ -42,36 +42,3 @@ export function useFocusVisible(onFocus?: FocusEventHandler<HTMLElement>, onBlur
         },
     };
 }
-// import { useSyncExternalStore } from 'react';
-//
-// import { ensureInputMethod, getInputMethod } from '../utils';
-//
-// /**
-//  * Determines whether focus indicators (focus rings) should be visible.
-//  *
-//  * Returns `true` when the user is navigating with the keyboard and `false`
-//  * for pointer-based interactions (mouse, touch, pen).
-//  *
-//  * Internally tracks global interaction modality and mirrors the behavior
-//  * of the `:focus-visible` specification.
-//  *
-//  * @returns `true` if focus should be visibly rendered
-//  *
-//  * @example
-//  * const focusVisible = useFocusVisible();
-//  *
-//  * @example
-//  * <button className={focusVisible ? 'uui-focus-visible' : undefined} />
-//  *
-//  * @category Hooks
-//  */
-//
-// export function useFocusVisible(): boolean {
-//     ensureInputMethod();
-//
-//     return useSyncExternalStore(
-//         () => () => undefined,
-//         () => getInputMethod() === 'keyboard',
-//         () => false
-//     );
-// }

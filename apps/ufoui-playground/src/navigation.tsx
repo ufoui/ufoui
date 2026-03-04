@@ -10,7 +10,13 @@ export const Navigation = () => {
     const location = useLocation();
     return (
         <Nav className="w-[180px] pb-[100px] pt-5" color="surfaceContainer" direction="col" fullHeight position="fixed">
-            <Menu className="h-full w-full [&>div.uui-menu-scroll]:max-h-full" docked elevation={0} open shape="square">
+            <Menu
+                className="h-full w-full [&>div.uui-menu-scroll]:max-h-full"
+                docked
+                elevation={0}
+                open
+                shape="square"
+                variant="modern">
                 {appRoutes
                     .filter(route => route.showInNav)
                     .map(route => {

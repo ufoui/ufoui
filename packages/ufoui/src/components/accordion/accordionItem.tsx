@@ -100,7 +100,7 @@ export const AccordionItem = ({
     const headerRef = useRef<HTMLDivElement>(null);
     const { values, toggle, roving, config } = useSelection<AccordionConfig>();
     const isOpen = values.includes(value);
-    const { focusVisible } = useFocusVisible(onFocus, onBlur);
+    const { focusVisible, focusHandlers } = useFocusVisible(onFocus, onBlur);
     const id = `accordion-${value}`;
     const finalShowIcon = showIcon ?? config?.showIcon ?? true;
     const finalVariant = variant ?? config?.variant ?? 'grouped';
@@ -114,7 +114,7 @@ export const AccordionItem = ({
     const triggerClasses = [
         'uui-accordion-trigger',
         getFontClass(font ?? config?.font ?? 'labelLarge'),
-        ...(focusEffects.includes('ring') ? ['uui-focus-ring-in'] : []),
+        ...(focusEffects.includes('ring') && focusVisible ? ['uui-focus-ring-in'] : []),
         ...(focusEffects.includes('overlay') ? ['uui-focus-overlay'] : []),
         ...(hoverEffects.includes('overlay') ? ['uui-hover-overlay'] : []),
         ...(pressedEffects.includes('overlay') ? ['uui-pressed-overlay'] : []),
@@ -158,6 +158,7 @@ export const AccordionItem = ({
             <div className="uui-accordion-header" ref={headerRef} style={controlStyle.get()}>
                 {leadingContent}
                 <button
+                    {...focusHandlers}
                     aria-controls={`${id}-content`}
                     aria-expanded={isOpen}
                     className={triggerClasses}
@@ -182,6 +183,7 @@ export const AccordionItem = ({
                     {children}
                 </div>
             </Collapse>
+            <div className="uui-accordion-divider"></div>
         </BoxBase>
     );
 };

@@ -622,6 +622,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
         }, [aniDuration, reverse]);
 
         // aria temporary item focus & autoscroll
+        // todo replace with aria-activedescendant
         useEffect(() => {
             if (activeIndex < 0 || !isFocused || stateRef.current !== 'opened') {
                 return;

@@ -10,10 +10,12 @@
     padding-inline: 12px;
     /*cursor: pointer;*/
     column-gap: var(--uui-col-gap);
-    border-bottom: 1px solid var(--uui-color-outline-variant);
+
 }
 
-
+.uui-accordion-divider {
+    border-bottom: 1px solid var(--uui-color-outline-variant);
+}
 .uui-accordion-item div[role='region'] {
     padding-inline: 12px;
     padding-block: 12px;
