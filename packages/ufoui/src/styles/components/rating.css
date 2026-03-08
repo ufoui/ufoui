@@ -1,0 +1,52 @@
+.uui-rating {
+    --uui-icon-size: 24px;
+    outline: none;
+}
+
+.uui-rating.uui-extra-small {
+    --uui-icon-size: 20px;
+}
+
+.uui-rating.uui-medium {
+    --uui-icon-size: 32px;
+}
+
+.uui-rating.uui-large {
+    --uui-icon-size: 40px;
+}
+
+.uui-rating.uui-extra-large {
+    --uui-icon-size: 48px;
+}
+
+.uui-rating-icon {
+    position: relative;
+}
+
+.uui-rating-empty-icon {
+    color: var(--uui-color-outline-variant);
+}
+
+.uui-rating-empty-icon:hover {
+    color: var(--uui-color-outline);
+}
+
+.uui-rating-filled-icon {
+    color: var(--uui-color-primary);
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+fieldset:disabled .uui-rating-icon,
+.uui-rating.uui-disabled .uui-rating-icon {
+    opacity: var(--uui-disabled-opacity) !important;
+    pointer-events: none;
+}
+
+fieldset:disabled .uui-rating-filled-icon,
+.uui-rating.uui-disabled .uui-rating-filled-icon{
+    color: var(--uui-color-outline) !important;
+}

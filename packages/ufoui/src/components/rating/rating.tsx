@@ -1,183 +1,259 @@
+import React, { forwardRef, KeyboardEvent, MouseEvent, ReactNode, useMemo, useRef, useState } from 'react';
+
 import {
-  forwardRef,
-  KeyboardEvent,
-  MouseEvent,
-  ReactNode,
-  useMemo,
-  useState,
-} from 'react';
+    ControlStyle,
+    ElementDensity,
+    ElementFocusEffect,
+    ElementFont,
+    ElementSize,
+    ElementTextPlacement,
+    getSizeClass,
+    SurfaceColor,
+    uniqueID,
+} from '../../utils';
+import { Flex } from '../layout';
+import { StarFilledIcon, StarIcon } from '../../assets';
+import { useFocusVisible } from '../../hooks';
 
-import { BoxBase, BoxBaseProps } from '../base';
-import { SurfaceColor } from '../../utils';
+export interface RatingProps
+    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange' | 'value' | 'defaultValue' | 'size'> {
+    value?: number;
+    defaultValue?: number;
+    max?: number;
+    step?: number;
+    size?: ElementSize;
+    gap?: number;
 
-export interface RatingProps extends Omit<BoxBaseProps, 'type' | 'onChange'> {
-  value?: number;
-  defaultValue?: number;
-  max?: number;
-  step?: number;
+    disabled?: boolean;
 
-  readOnly?: boolean;
-  disabled?: boolean;
+    icon?: ReactNode;
+    emptyIcon?: ReactNode;
+    color?: SurfaceColor;
 
-  icon?: ReactNode;
-  emptyIcon?: ReactNode;
+    onChange?: (value: number) => void;
+    /** DOM id. Auto-generated when not provided. */
+    id?: string;
+    /** Error message text. Overrides description when present. */
+    error?: string;
 
-  color?: SurfaceColor;
+    /** Enables filled visual style. */
+    filled?: boolean;
+    /** Additional root class name. */
+    className?: string;
+    /** Font applied to the label text. */
+    font?: ElementFont;
+    /** Text label displayed next to the control. */
+    label?: string;
+    /** Marks the control as read-only without disabling focus. */
+    readOnly?: boolean;
 
-  onChange?: (value: number) => void;
+    /** Marks the control as required. Visual indicator only. */
+    required?: boolean;
+    /** Placement of text relative to the control. */
+    textPlacement?: ElementTextPlacement;
+    /** Visual density of the control. */
+    density?: ElementDensity;
+    /** Visual effects applied on focus. */
+    focusEffects?: ElementFocusEffect[];
+
+    /** Supporting text displayed below the label. */
+    description?: string;
 }
 
-export const Rating = forwardRef<HTMLDivElement, RatingProps>(
-  (
-    {
-      value,
-      defaultValue = 0,
-      max = 5,
-      step = 0.5,
-      readOnly = false,
-      disabled = false,
-      icon,
-      emptyIcon,
-      color = 'primary',
-      gap = 4,
-      onChange,
-      ...rest
-    },
-    ref,
-  ) => {
-    const controlled = value !== undefined;
-    const [internal, setInternal] = useState(defaultValue);
-    const [hover, setHover] = useState<number | null>(null);
+export const Rating = forwardRef<HTMLInputElement, RatingProps>(
+    (
+        {
+            size = 'small',
+            value,
+            defaultValue = 0,
+            max = 5,
+            step = 0.5,
+            readOnly = false,
+            disabled = false,
+            onFocus,
+            onBlur,
+            icon,
+            emptyIcon,
+            color,
+            gap = 4,
+            name,
+            id,
+            onChange,
+            focusEffects = ['ring'],
+            className,
+            'aria-label': ariaLabel,
+            filled,
+            ...rest
+        },
+        ref
+    ) => {
+        const trackRef = useRef<HTMLDivElement | null>(null);
+        const { focusVisible, isFocused, focusHandlers } = useFocusVisible(onFocus, onBlur);
 
-    const current = controlled ? (value ?? 0) : internal;
-    const displayValue = hover ?? current;
+        const isControlled = value !== undefined;
+        const [internal, setInternal] = useState(defaultValue);
+        const [hover, setHover] = useState<number | null>(null);
 
-    const clamped = useMemo(
-      () => Math.max(0, Math.min(displayValue, max)),
-      [displayValue, max],
-    );
+        const internalIdRef = useRef(uniqueID('rating'));
+        const elemId = id || name || internalIdRef.current;
 
-    function roundToStep(val: number) {
-      return Math.round(val / step) * step;
+        const current = isControlled ? (value ?? 0) : internal;
+        const displayValue = hover ?? current;
+
+        const clamped = useMemo(() => {
+            return Math.max(0, Math.min(displayValue, max));
+        }, [displayValue, max]);
+
+        function roundToStep(val: number) {
+            return Math.round(val / step) * step;
+        }
+
+        function update(val: number) {
+            const next = Math.max(0, Math.min(roundToStep(val), max));
+
+            if (!isControlled) {
+                setInternal(next);
+            }
+
+            onChange?.(next);
+        }
+
+        function getValueFromPosition(clientX: number) {
+            if (!trackRef.current) {
+                return current;
+            }
+
+            const rect = trackRef.current.getBoundingClientRect();
+            const percent = (clientX - rect.left) / rect.width;
+
+            return percent * max;
+        }
+
+        function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
+            if (readOnly || disabled) {
+                return;
+            }
+
+            const raw = getValueFromPosition(e.clientX);
+            setHover(roundToStep(raw));
+        }
+
+        function handleMouseLeave() {
+            if (!readOnly && !disabled) {
+                setHover(null);
+            }
+        }
+
+        function handleClick(e: MouseEvent<HTMLDivElement>) {
+            if (readOnly || disabled) {
+                return;
+            }
+
+            const raw = getValueFromPosition(e.clientX);
+            update(raw);
+        }
+
+        function handleKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+            if (readOnly || disabled) {
+                return;
+            }
+
+            const base = hover ?? current;
+            let next = base;
+
+            switch (e.key) {
+                case 'ArrowRight':
+                case 'ArrowUp':
+                    e.preventDefault();
+                    next = Math.min(base + step, max);
+                    break;
+
+                case 'ArrowLeft':
+                case 'ArrowDown':
+                    e.preventDefault();
+                    next = Math.max(base - step, 0);
+                    break;
+
+                case 'Home':
+                    e.preventDefault();
+                    next = 0;
+                    break;
+
+                case 'End':
+                    e.preventDefault();
+                    next = max;
+                    break;
+
+                default:
+                    return;
+            }
+
+            update(next);
+        }
+
+        /**
+         * Config
+         */
+
+        const defaultIcon = icon ?? StarFilledIcon;
+        const defaultEmptyIcon = emptyIcon ?? (filled ? defaultIcon : StarIcon);
+
+        const ratingClasses = [
+            'uui-rating',
+            getSizeClass(size),
+            disabled && 'uui-disabled',
+            ...(focusEffects.includes('ring') ? ['uui-focus-ring'] : []),
+        ]
+            .filter(Boolean)
+            .join(' ');
+
+        const stars = Array.from({ length: max }).map((_, i) => {
+            const fill = Math.min(Math.max(clamped - i, 0), 1) * 100;
+
+            const iconStyle = ControlStyle();
+            iconStyle.text(color);
+            iconStyle.set('width', `${fill}%`);
+
+            return (
+                <div
+                    className="uui-icon uui-rating-icon"
+                    key={i}
+                    style={{
+                        cursor: readOnly || disabled ? 'default' : 'pointer',
+                        lineHeight: 0,
+                    }}>
+                    <div className="uui-rating-empty-icon">{defaultEmptyIcon}</div>
+
+                    <div className="uui-rating-filled-icon" style={iconStyle.get()}>
+                        {defaultIcon}
+                    </div>
+                </div>
+            );
+        });
+
+        return (
+            <Flex
+                {...focusHandlers}
+                alignItems="center"
+                aria-valuemax={max}
+                aria-valuemin={0}
+                aria-valuenow={current}
+                className={ratingClasses}
+                gap={gap}
+                id={elemId}
+                onClick={handleClick}
+                onKeyDown={handleKeyDown}
+                onMouseLeave={handleMouseLeave}
+                onMouseMove={handleMouseMove}
+                ref={trackRef}
+                role="slider"
+                style={{ position: 'relative' }}
+                tabIndex={readOnly || disabled ? -1 : 0}>
+                <input disabled={disabled} ref={ref} type="hidden" value={current} {...rest} />
+                {stars}
+            </Flex>
+        );
     }
-
-    function update(val: number) {
-      const next = roundToStep(val);
-      if (!controlled) {
-        setInternal(next);
-      }
-      onChange?.(next);
-    }
-
-    function handleClick(e: MouseEvent<HTMLDivElement>, index: number) {
-      if (readOnly || disabled) {
-        return;
-      }
-
-      const rect = e.currentTarget.getBoundingClientRect();
-      const percent = (e.clientX - rect.left) / rect.width;
-
-      update(index + percent);
-    }
-
-    function handleKeyDown(e: KeyboardEvent<HTMLDivElement>) {
-      if (readOnly || disabled) {
-        return;
-      }
-
-      const base = hover ?? current;
-      let next = base;
-
-      switch (e.key) {
-        case 'ArrowRight':
-        case 'ArrowUp':
-          e.preventDefault();
-          next = base + step;
-          break;
-
-        case 'ArrowLeft':
-        case 'ArrowDown':
-          e.preventDefault();
-          next = base - step;
-          break;
-
-        case 'Home':
-          e.preventDefault();
-          next = 0;
-          break;
-
-        case 'End':
-          e.preventDefault();
-          next = max;
-          break;
-
-        default:
-          return;
-      }
-
-      update(next);
-    }
-
-    const activeColor = `var(--uui-${color})`;
-    const emptyColor = 'var(--uui-surfaceVariant)';
-
-    const defaultIcon = icon ?? '★';
-    const defaultEmptyIcon = emptyIcon ?? defaultIcon;
-
-    return (
-      <BoxBase
-        alignItems="center"
-        aria-valuemax={max}
-        aria-valuemin={0}
-        aria-valuenow={current}
-        gap={gap}
-        onKeyDown={handleKeyDown}
-        ref={ref}
-        role="slider"
-        tabIndex={readOnly || disabled ? -1 : 0}
-        type="flex"
-        {...rest}
-      >
-        {Array.from({ length: max }).map((_, i) => {
-          const fill = Math.min(Math.max(clamped - i, 0), 1) * 100;
-
-          return (
-            <div
-              key={i}
-              onClick={(e) => {
-                handleClick(e, i);
-              }}
-              onMouseEnter={() => !readOnly && !disabled && setHover(i + 1)}
-              onMouseLeave={() => !readOnly && !disabled && setHover(null)}
-              style={{
-                position: 'relative',
-                cursor: readOnly || disabled ? 'default' : 'pointer',
-                lineHeight: 0,
-              }}
-            >
-              {/* empty */}
-              <div style={{ color: emptyColor }}>{defaultEmptyIcon}</div>
-
-              {/* filled */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: `${fill}%`,
-                  overflow: 'hidden',
-                  pointerEvents: 'none',
-                  color: activeColor,
-                }}
-              >
-                {defaultIcon}
-              </div>
-            </div>
-          );
-        })}
-      </BoxBase>
-    );
-  },
 );
 
 Rating.displayName = 'Rating';
