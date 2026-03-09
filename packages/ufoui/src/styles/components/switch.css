@@ -10,13 +10,13 @@
   --uui-corner-rounded: 8px;
   --uui-icon-size: 1.5rem;
   --uui-active-thumb-scale: 1;
+  --uui-control-grid-gap: 0 18px;
   max-height: max-content;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   justify-items: start;
   column-gap: var(--uui-cb-col-gap);
-  /*min-height: 48px;*/
 }
 
 .uui-switch-control {
@@ -183,32 +183,10 @@
   --uui-state-size: 100%;
 }
 
-.uui-switch-label {
-  white-space: pre-line;
-  user-select: none;
-  cursor: pointer;
-}
-
 /*Disabled*/
 fieldset[disabled] .uui-switch,
 .uui-switch.uui-disabled {
   pointer-events: none;
-}
-
-.uui-disabled .uui-switch-label,
-.uui-disabled .uui-support-text,
-fieldset[disabled] .uui-switch-label,
-fieldset[disabled] .uui-support-text {
-  color: var(--uui-color-on-surface) !important;
-  opacity: var(--uui-disabled-opacity);
-}
-
-.uui-disabled .uui-switch-label,
-.uui-disabled .uui-support-text,
-fieldset[disabled] .uui-switch-label,
-fieldset[disabled] .uui-support-text {
-  color: var(--uui-color-on-surface) !important;
-  opacity: var(--uui-disabled-opacity);
 }
 
 /*Disabled unchecked*/
@@ -265,6 +243,5 @@ fieldset[disabled] .uui-support-text {
 
 .uui-disabled .uui-switch-content,
 fieldset[disabled] .uui-switch-content {
-  /*background-color: var(--uui-color-on-surface) !important;*/
   opacity: var(--uui-disabled-opacity);
 }

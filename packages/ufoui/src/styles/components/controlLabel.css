@@ -1,6 +1,8 @@
 .uui-control-label {
     color: var(--uui-color-on-surface);
     cursor: pointer;
+    white-space: pre-line;
+    user-select: none;
 }
 
 .uui-error .uui-control-label {
@@ -10,7 +12,7 @@
 .uui-error.uui-disabled .uui-control-label,
 .uui-disabled .uui-control-label,
 fieldset[disabled] .uui-control-label {
-    color: var(--uui-color-on-surface);
+    color: var(--uui-color-on-surface) !important;
     opacity: var(--uui-disabled-opacity);
     cursor: default;
     pointer-events: none;

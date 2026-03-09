@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { MdFavorite, MdFavoriteBorder, MdStar, MdStarBorder } from 'react-icons/md';
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 
 import {
     Article,
@@ -47,28 +47,12 @@ export const RatingPage = () => {
                 <Section gap={20}>
                     <H2>Default Stars</H2>
                     <Flex alignItems="end" gap={24}>
-                        <Rating
-                            {...shared}
-                            defaultValue={3}
-                            description="Enabled"
-                            emptyIcon={<MdStarBorder size={24} />}
-                            icon={<MdStar size={24} />}
-                            label="Rating"
-                        />
-                        <Rating
-                            {...shared}
-                            defaultValue={3}
-                            description="Disabled"
-                            disabled
-                            emptyIcon={<MdStarBorder size={28} />}
-                            icon={<MdStar size={28} />}
-                        />
+                        <Rating {...shared} defaultValue={3} description="Enabled" label="Rating" />
+                        <Rating {...shared} defaultValue={3} description="Disabled" disabled />
                         <Rating
                             {...shared}
                             defaultValue={3}
                             description="Read only with tooltip"
-                            emptyIcon={<MdStarBorder size={28} />}
-                            icon={<MdStar size={28} />}
                             label="Read only"
                             readOnly
                             title="Simple tooltip"
@@ -91,13 +75,7 @@ export const RatingPage = () => {
                 <Section gap={20}>
                     <H2>Different max</H2>
                     <Flex alignItems="center" gap={24}>
-                        <Rating
-                            {...shared}
-                            defaultValue={7}
-                            emptyIcon={<MdStarBorder size={20} />}
-                            icon={<MdStar size={20} />}
-                            max={10}
-                        />
+                        <Rating {...shared} defaultValue={7} max={10} />
                     </Flex>
                 </Section>
 
@@ -106,8 +84,6 @@ export const RatingPage = () => {
                     <Flex alignItems="center" gap={24}>
                         <Rating
                             {...shared}
-                            emptyIcon={<MdStarBorder size={24} />}
-                            icon={<MdStar size={24} />}
                             onChange={v => {
                                 setValue(v);
                             }}
@@ -120,20 +96,14 @@ export const RatingPage = () => {
                 <Section gap={20}>
                     <H2>Filled</H2>
                     <Flex alignItems="center" gap={24}>
-                        <Rating defaultValue={2.5} filled {...shared} icon={<MdStar size={24} />} />
+                        <Rating defaultValue={2.5} filled {...shared} />
                     </Flex>
                 </Section>
 
                 <Section gap={20}>
                     <H2>Error</H2>
                     <Flex alignItems="center" gap={24}>
-                        <Rating
-                            defaultValue={2.5}
-                            error="Some error"
-                            label="Error"
-                            {...shared}
-                            icon={<MdStar size={24} />}
-                        />
+                        <Rating defaultValue={2.5} error="Some error" label="Error" {...shared} />
                         <Rating
                             defaultValue={2.5}
                             disabled
@@ -141,7 +111,6 @@ export const RatingPage = () => {
                             filled
                             label="Disabled Error"
                             {...shared}
-                            icon={<MdStar size={24} />}
                         />
                     </Flex>
                 </Section>

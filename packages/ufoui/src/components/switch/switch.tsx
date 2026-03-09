@@ -20,7 +20,6 @@ import {
     getBorderClass,
     getDensityClass,
     getElevationClass,
-    getFontClass,
     getShapeClass,
     getSizeClass,
     getSurfaceColorVar,
@@ -31,7 +30,7 @@ import {
 } from '../../utils';
 import { FieldsetContext } from '../../context';
 import { useFocusVisible } from '../../hooks';
-import { InlineTooltipManager } from '../../internal';
+import { ControlGrid, ControlLabel, Description, InlineTooltipManager } from '../../internal';
 
 /**
  * Props for the Switch component.
@@ -274,12 +273,12 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
     };
 
     // render
-    const wrapperStyle = ControlStyle();
 
     const wrapperClasses = [
         'uui-switch',
         getDensityClass(density),
         className,
+        error && 'uui-error',
         resolvedDisabled && 'uui-disabled',
         ...(!children ? [getSizeClass(size)] : []),
     ]
@@ -399,98 +398,45 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
         );
     }
 
-    const labelStyle = ControlStyle();
-    labelStyle.text((error ? 'error' : undefined) ?? labelColor ?? textColor ?? 'onSurface');
-    const labelClasses = [getFontClass(font ?? 'bodyMedium'), 'uui-switch-label'].join(' ');
-    const labelText = label && (
-        <label className={labelClasses} htmlFor={elemId} style={labelStyle.get()}>
-            {label}
-            {required && (
-                <span aria-hidden="true" className="uui-required">
-                    *
-                </span>
-            )}
-        </label>
-    );
+    const labelText = label && <ControlLabel font={font} htmlFor={elemId} label={label} required={required} />;
+    const descriptionText = <Description description={description} error={error} />;
 
-    const descriptionStyle = ControlStyle();
-    if (error) {
-        descriptionStyle.text('error');
-    } else if (descriptionColor) {
-        descriptionStyle.text(descriptionColor);
-    } else {
-        descriptionStyle.text.on('surfaceVariant');
-    }
-
-    const descriptionClasses = [
-        getFontClass(descriptionFont ?? 'bodySmall'),
-        error && 'uui-error uui-support-text',
-        description && !error && 'uui-description uui-support-text',
-    ]
-        .filter(Boolean)
-        .join(' ');
-
-    const descriptionText = (description ?? error) && (
-        <div className={descriptionClasses} style={descriptionStyle.get()}>
-            {error ?? description}
+    const control = (
+        <div className="uui-switch-control-wrapper">
+            <div className={controlClasses} ref={controlRef} style={controlStyle.get()}>
+                <input
+                    {...focusHandlers}
+                    aria-label={finalAriaLabel}
+                    aria-readonly={readOnly === true ? true : undefined}
+                    checked={!!isChecked}
+                    className={inputClasses}
+                    disabled={resolvedDisabled}
+                    id={elemId}
+                    name={name}
+                    onChange={handleChange}
+                    onClick={handleClick}
+                    readOnly={readOnly}
+                    ref={mergeRefs(inputRef, ref)}
+                    type="checkbox"
+                    value={value}
+                    {...other}
+                />
+                {content}
+                {inlineTooltip && (
+                    <InlineTooltipManager align={tooltipAlign} tooltip={inlineTooltip} triggerRef={inputRef} />
+                )}
+            </div>
         </div>
     );
-
-    const controlText = (labelText ?? descriptionText) && (
-        <>
-            {labelText}
-            {descriptionText}
-        </>
-    );
-    const controlWrapperStyle = ControlStyle();
-    if (textPlacement === 'end') {
-        labelStyle.set('gridColumn', 2);
-        descriptionStyle.set('gridColumn', 2);
-        controlWrapperStyle.set('gridColumn', 1);
-    } else if (textPlacement === 'start') {
-        labelStyle.set('gridColumn', 1);
-        descriptionStyle.set('gridColumn', 1);
-        controlWrapperStyle.set('gridColumn', 2);
-        controlWrapperStyle.set('gridRow', 1);
-    } else {
-        wrapperStyle.set('gridTemplateColumns', '1fr');
-        wrapperStyle.set('justifyItems', 'start');
-    }
-    if (textPlacement === 'top') {
-        controlWrapperStyle.set('order', 1);
-        descriptionStyle.set('order', 2);
-    }
 
     return (
-        <div className={wrapperClasses} style={wrapperStyle.get()}>
-            <div className="uui-switch-control-wrapper" style={controlWrapperStyle.get()}>
-                <div className={controlClasses} ref={controlRef} style={controlStyle.get()}>
-                    <input
-                        {...focusHandlers}
-                        aria-label={finalAriaLabel}
-                        aria-readonly={readOnly === true ? true : undefined}
-                        checked={!!isChecked}
-                        className={inputClasses}
-                        disabled={resolvedDisabled}
-                        id={elemId}
-                        name={name}
-                        onChange={handleChange}
-                        onClick={handleClick}
-                        readOnly={readOnly}
-                        ref={mergeRefs(inputRef, ref)}
-                        type="checkbox"
-                        value={value}
-                        {...other}
-                    />
-                    {content}
-                </div>
-            </div>
-
-            {controlText}
-            {inlineTooltip && (
-                <InlineTooltipManager align={tooltipAlign} tooltip={inlineTooltip} triggerRef={inputRef} />
-            )}
-        </div>
+        <ControlGrid
+            className={wrapperClasses}
+            control={control}
+            description={descriptionText}
+            label={labelText}
+            textPlacement={textPlacement}
+        />
     );
 });
 
