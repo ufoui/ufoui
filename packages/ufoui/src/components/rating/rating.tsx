@@ -3,6 +3,7 @@ import React, { forwardRef, MouseEvent, ReactNode, useRef, useState } from 'reac
 import {
     cn,
     ControlStyle,
+    ElementAlign,
     ElementDensity,
     ElementFocusEffect,
     ElementFont,
@@ -14,7 +15,7 @@ import {
     uniqueID,
 } from '../../utils';
 import { StarFilledIcon, StarIcon } from '../../assets';
-import { ControlGrid, ControlLabel, Description } from '../../internal';
+import { ControlGrid, ControlLabel, Description, InlineTooltipManager } from '../../internal';
 import { useFocusVisible, useSliderKeys } from '../../hooks';
 
 /**
@@ -26,38 +27,26 @@ import { useFocusVisible, useSliderKeys } from '../../hooks';
  */
 export interface RatingProps
     extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange' | 'value' | 'defaultValue' | 'size'> {
-    /** Current rating value when used as a controlled component. */
-    value?: number;
-
-    /** Initial rating value for uncontrolled usage. */
-    defaultValue?: number;
-
-    /** Maximum rating value. */
-    max?: number;
-
-    /** Step size used for keyboard and pointer interaction. */
-    step?: number;
-
-    /** Visual size of the rating icons. */
-    size?: ElementSize;
-
-    /** Disables interaction with the control. */
-    disabled?: boolean;
-
-    /** Icon used for the filled rating state. */
-    icon?: ReactNode;
-
-    /** Icon used for the empty rating state. */
-    emptyIcon?: ReactNode;
+    /** Additional class applied to the root element. */
+    className?: string;
 
     /** Color applied to the filled icons. */
     color?: SurfaceColor;
 
-    /** Called when the rating value changes. */
-    onChange?: (value: number) => void;
+    /** Initial rating value for uncontrolled usage. */
+    defaultValue?: number;
 
-    /** DOM id used for accessibility attributes. */
-    id?: string;
+    /** Visual density of the control. */
+    density?: ElementDensity;
+
+    /** Supporting text displayed below the control. */
+    description?: string;
+
+    /** Disables interaction with the control. */
+    disabled?: boolean;
+
+    /** Icon used for the empty rating state. */
+    emptyIcon?: ReactNode;
 
     /** Error message displayed below the control. */
     error?: string;
@@ -65,14 +54,26 @@ export interface RatingProps
     /** Enables filled visual style for icons. */
     filled?: boolean;
 
-    /** Additional class applied to the root element. */
-    className?: string;
+    /** Visual effects applied when the control receives focus. */
+    focusEffects?: ElementFocusEffect[];
 
     /** Font applied to the label text. */
     font?: ElementFont;
 
+    /** Icon used for the filled rating state. */
+    icon?: ReactNode;
+
+    /** DOM id used for accessibility attributes. */
+    id?: string;
+
     /** Label text displayed next to the control. */
     label?: string;
+
+    /** Maximum rating value. */
+    max?: number;
+
+    /** Called when the rating value changes. */
+    onChange?: (value: number) => void;
 
     /** Prevents value changes while keeping the control focusable. */
     readOnly?: boolean;
@@ -80,17 +81,20 @@ export interface RatingProps
     /** Marks the control as required. */
     required?: boolean;
 
+    /** Visual size of the rating icons. */
+    size?: ElementSize;
+
+    /** Step size used for keyboard and pointer interaction. */
+    step?: number;
+
     /** Placement of label and description relative to the control. */
     textPlacement?: ElementTextPlacement;
 
-    /** Visual density of the control. */
-    density?: ElementDensity;
+    /** Tooltip alignment relative to the control. */
+    tooltipAlign?: ElementAlign;
 
-    /** Visual effects applied when the control receives focus. */
-    focusEffects?: ElementFocusEffect[];
-
-    /** Supporting text displayed below the control. */
-    description?: string;
+    /** Current rating value when used as a controlled component. */
+    value?: number;
 }
 
 /**
@@ -131,6 +135,7 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
             textPlacement = 'start',
             focusEffects = ['ring'],
             className,
+            tooltipAlign = 'auto',
             'aria-label': ariaLabel,
             filled,
             ...rest
@@ -143,6 +148,7 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
         const { isFocused, focusHandlers, focusVisible } = useFocusVisible(onFocus, onBlur);
 
         const trackRef = useRef<HTMLDivElement | null>(null);
+        const wrapperRef = useRef<HTMLDivElement | null>(null);
 
         const isControlled = value !== undefined;
         const [internal, setInternal] = useState(defaultValue);
@@ -152,16 +158,35 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
         const displayValue = hover ?? current;
         const clamped = Math.max(0, Math.min(displayValue, max));
 
+        const inlineTooltip = title ? <div id={`${elemId}-tip`}>{title}</div> : null;
+
         function computeValue(clientX: number) {
             if (!trackRef.current) {
                 return current;
             }
 
-            const rect = trackRef.current.getBoundingClientRect();
-            const percent = (clientX - rect.left) / rect.width;
-            const raw = percent * max;
+            const container = trackRef.current;
+            const rect = container.getBoundingClientRect();
+            const children = container.getElementsByClassName('uui-rating-icon');
 
-            return Math.max(0, Math.min(Math.round(raw / step) * step, max));
+            const relativeX = clientX - rect.left;
+
+            if (relativeX < 5) {
+                return 0;
+            }
+
+            const sectionWidth = rect.width / max;
+            let foundIndex = Math.floor(relativeX / sectionWidth);
+            foundIndex = Math.max(0, Math.min(foundIndex, max - 1));
+
+            const starRect = children[foundIndex].getBoundingClientRect();
+            const xInStar = clientX - starRect.left;
+            const percent = Math.max(0, Math.min(1, xInStar / starRect.width));
+
+            const stepsPerStar = 1 / step;
+            const rawValue = foundIndex + Math.ceil(percent * stepsPerStar) / stepsPerStar;
+
+            return parseFloat(Math.min(rawValue, max).toFixed(10));
         }
 
         function setValue(next: number) {
@@ -213,6 +238,7 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
             getSizeClass(size),
             className,
             filled && 'uui-filled',
+            readOnly && 'uui-read-only',
             error && 'uui-error',
             disabled && 'uui-disabled'
         );
@@ -264,6 +290,9 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
                 tabIndex={readOnly || disabled ? -1 : 0}>
                 <input disabled={disabled} ref={ref} type="hidden" value={current} {...rest} />
                 {stars}
+                {inlineTooltip && (
+                    <InlineTooltipManager align={tooltipAlign} tooltip={inlineTooltip} triggerRef={wrapperRef} />
+                )}
             </div>
         );
 
@@ -279,6 +308,8 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
                 control={rating}
                 description={controlDescription}
                 label={controlLabel}
+                ref={wrapperRef}
+                spanDesc
                 textPlacement={textPlacement}
             />
         );

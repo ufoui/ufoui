@@ -63,6 +63,16 @@ export const RatingPage = () => {
                             emptyIcon={<MdStarBorder size={28} />}
                             icon={<MdStar size={28} />}
                         />
+                        <Rating
+                            {...shared}
+                            defaultValue={3}
+                            description="Read only with tooltip"
+                            emptyIcon={<MdStarBorder size={28} />}
+                            icon={<MdStar size={28} />}
+                            label="Read only"
+                            readOnly
+                            title="Simple tooltip"
+                        />
                     </Flex>
                 </Section>
 

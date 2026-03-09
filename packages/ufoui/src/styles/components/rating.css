@@ -1,6 +1,7 @@
 .uui-rating {
     --uui-icon-size: 24px;
     --uui-col-gap: 4px;
+    --uui-control-grid-gap: 0px 8px;
 }
 
 .uui-rating-control{
@@ -9,7 +10,7 @@
     display: flex;
     align-items: center;
     column-gap: var(--uui-col-gap);
-    min-height: 40px;
+    min-height: 48px;
     cursor: pointer;
 }
 
@@ -49,9 +50,10 @@
 
 .uui-rating-empty-icon {
     color: var(--uui-color-outline-variant);
+    transition: color 0.08s ease-out;
 }
 
-.uui-rating:not(.uui-filled) .uui-rating-empty-icon:hover {
+.uui-rating:not(.uui-filled):not(.uui-read-only) .uui-rating-empty-icon:hover {
     color: var(--uui-color-outline);
 }
 
@@ -62,6 +64,11 @@
     left: 0;
     overflow: hidden;
     pointer-events: none;
+    transition: width 0.08s ease-out;
+}
+
+.uui-rating-control:active .uui-rating-filled-icon {
+    transition: none;
 }
 
 fieldset:disabled .uui-rating-icon,

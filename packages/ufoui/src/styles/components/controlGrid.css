@@ -1,7 +1,7 @@
 .uui-control-grid {
     display: grid;
     align-items: center;
-    gap: 4px 8px;
+    gap: var(--uui-control-grid-gap, 4px 8px);
 }
 
 .uui-control-grid-end {
@@ -16,8 +16,12 @@
     grid-template-columns: 1fr;
 }
 
-.uui-control-grid-end > :nth-child(3) {
+.uui-control-grid-end .uui-description {
     grid-column: 2;
+}
+
+.uui-control-grid.uui-spanned .uui-description {
+    grid-column: 1 / -1;
 }
 
 .uui-description {

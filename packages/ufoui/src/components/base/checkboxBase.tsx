@@ -33,7 +33,7 @@ import {
 import { getAnimationClass, getMotionStyleClass, MotionAnimation, MotionStyle } from '../../types';
 import { FieldsetContext, RadioGroupContext } from '../../context';
 import { useAnimate, useFocusVisible } from '../../hooks';
-import { InlineTooltipManager } from '../../internal/inlineTooltip/inlineTooltipManager';
+import { InlineTooltipManager } from '../../internal';
 
 /**
  * Props for the CheckboxBase component.
