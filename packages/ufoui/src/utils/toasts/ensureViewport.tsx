@@ -1,18 +1,30 @@
 import { createRoot } from 'react-dom/client';
 
-import { ToastViewport } from '../../components/toast/toastViewport';
+import { ToastViewport } from '../../components/toast';
 
-export const TOAST_VIEWPORT_ID = 'uui-toast-viewport-root';
+let mounted = false;
 
+/**
+ * Ensures that a global toast viewport exists.
+ *
+ * If the user already rendered ToastViewport manually,
+ * no additional viewport is created.
+ */
 export function ensureViewport() {
-  if (document.getElementById(TOAST_VIEWPORT_ID)) {
-    return;
-  }
+    if (mounted) {
+        return;
+    }
 
-  const container = document.createElement('div');
-  container.id = TOAST_VIEWPORT_ID;
-  document.body.appendChild(container);
+    if (document.querySelector('.uui-toast-viewport')) {
+        mounted = true;
+        return;
+    }
 
-  const root = createRoot(container);
-  root.render(<ToastViewport />);
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+
+    const root = createRoot(container);
+    root.render(<ToastViewport />);
+
+    mounted = true;
 }

@@ -1,13 +1,8 @@
-import React, { forwardRef, ReactNode } from 'react';
+import React, { forwardRef, ReactNode, useEffect } from 'react';
 
-import {
-  ControlStyle,
-  ElementElevation,
-  ElementShape,
-  SurfaceColor,
-} from '../../utils';
+import { cn, ControlStyle, ElementElevation, ElementShape, SurfaceColor, ToastStatus } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base';
-import { ToastStatus } from '../../utils/toasts/toast';
+import { toastStore } from '../../utils/toasts/toastStore';
 
 /**
  * Props for Toast component.
@@ -15,36 +10,44 @@ import { ToastStatus } from '../../utils/toasts/toast';
  * @category Toast
  */
 export interface ToastProps extends Omit<BoxBaseProps, 'children'> {
-  /** Primary heading text. */
-  title?: string;
+    /** Toast identifier used for lifecycle control. */
+    id: string;
 
-  /** Secondary supporting text. */
-  description?: string;
+    /** Primary heading text. */
+    title?: string;
 
-  /** Surface color token overriding default background and text. */
-  color?: SurfaceColor;
+    /** Secondary supporting text. */
+    description?: string;
 
-  /** Leading visual element. */
-  icon?: ReactNode;
+    /** Surface color token overriding default background and text. */
+    color?: SurfaceColor;
 
-  /** Action element rendered below content. */
-  action?: ReactNode;
+    /** Leading visual element. */
+    icon?: ReactNode;
 
-  /** Full content override replacing internal layout. */
-  content?: ReactNode;
+    /** Action element rendered below content. */
+    action?: ReactNode;
 
-  /** Elevation token. Default: 3 */
-  elevation?: ElementElevation;
+    /** Full content override replacing internal layout. */
+    content?: ReactNode;
 
-  /** Status variant applied as CSS modifier class. */
-  status?: ToastStatus;
+    /** Display duration in milliseconds. */
+    duration?: number;
 
-  /** Shape token. Default: smooth */
-  shape?: ElementShape;
+    /** Elevation token. Default: 3 */
+    elevation?: ElementElevation;
+
+    /** Status variant applied as CSS modifier class. */
+    status?: ToastStatus;
+
+    /** Shape token. Default: smooth */
+    shape?: ElementShape;
 }
 
 /**
- * Toast overlay container.
+ * Toast notification container.
+ *
+ * Handles auto-dismiss lifecycle when duration is provided.
  *
  * @function
  * @param props Component props.
@@ -52,53 +55,67 @@ export interface ToastProps extends Omit<BoxBaseProps, 'children'> {
  * @category Toast
  */
 export const Toast = forwardRef<HTMLDivElement, ToastProps>(
-  (
-    {
-      title,
-      description,
-      color,
-      icon,
-      action,
-      content,
-      elevation = 3,
-      shape = 'smooth',
-      status,
-      className,
-      ...rest
-    },
-    ref,
-  ) => {
-    const style = ControlStyle();
-    style.bg(color);
-    style.text.on(color);
-    const statusClass = status !== undefined ? `uui-toast-${status}` : '';
-    return (
-      <BoxBase
-        className={['uui-toast', className, statusClass]
-          .filter(Boolean)
-          .join(' ')}
-        elevation={elevation}
-        font="bodyMedium"
-        ref={ref}
-        shape={shape}
-        style={style.get()}
-        {...rest}
-      >
-        {content ?? (
-          <>
-            {icon && <div className="uui-icon">{icon}</div>}
-            <div className="uui-toast-content">
-              {title && <div className="uui-toast-title">{title}</div>}
-              {description && (
-                <div className="uui-toast-description">{description}</div>
-              )}
-              {action}
-            </div>
-          </>
-        )}
-      </BoxBase>
-    );
-  },
+    (
+        {
+            id,
+            title,
+            description,
+            color,
+            icon,
+            action,
+            content,
+            duration,
+            elevation = 3,
+            shape = 'smooth',
+            status,
+            className,
+            ...rest
+        },
+        ref
+    ) => {
+        useEffect(() => {
+            if (!duration || duration === 0) {
+                return;
+            }
+
+            const timer = setTimeout(() => {
+                toastStore.remove(id);
+            }, duration);
+
+            return () => {
+                clearTimeout(timer);
+            };
+        }, [id, duration]);
+
+        const style = ControlStyle();
+        style.bg(color);
+        style.text.on(color);
+
+        const statusClass = status ? `uui-toast-${status}` : undefined;
+
+        return (
+            <BoxBase
+                className={cn('uui-toast', statusClass, className)}
+                elevation={elevation}
+                font="bodyMedium"
+                ref={ref}
+                shape={shape}
+                style={style.get()}
+                {...rest}>
+                {content ?? (
+                    <>
+                        {icon && <div className="uui-icon">{icon}</div>}
+
+                        <div className="uui-toast-content">
+                            {title && <div className="uui-toast-title">{title}</div>}
+                            {description && <div className="uui-toast-description">{description}</div>}
+                            {action}
+                        </div>
+                    </>
+                )}
+            </BoxBase>
+        );
+    }
 );
 
 Toast.displayName = 'Toast';

@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 
 import { ControlStyle, ElementFont, getFontClass, SurfaceColor } from '../../utils';
 import { FieldsetContext } from '../../context';
-import { BoxBase, BoxBaseProps } from '../base/boxBase';
+import { BoxBase, BoxBaseProps } from '../base';
 
 /**
  * Props for {@link Fieldset}.

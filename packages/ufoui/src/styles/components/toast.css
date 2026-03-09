@@ -1,3 +1,12 @@
+.uui-toast-viewport {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+    z-index: var(--uui-toast-viewport-zindex, 1000);
+    gap: var(--uui-column-gap, 12px);
+}
+
 .uui-toast {
     --uui-toast-color: var(--uui-color-inverse-on-surface);
     --uui-toast-bg: var(--uui-color-inverse-surface);
@@ -7,12 +16,12 @@
     color: var(--uui-toast-color);
     background-color: var(--uui-toast-bg);
     align-items: center;
-    gap:4px;
+    gap: 4px;
 }
 
 .uui-toast-error {
-   --uui-toast-color: var(--uui-color-on-error-container);
-   --uui-toast-bg: var(--uui-color-error-container);
+    --uui-toast-color: var(--uui-color-on-error-container);
+    --uui-toast-bg: var(--uui-color-error-container);
 }
 
 .uui-toast-warning {

@@ -5,7 +5,7 @@ import { Article, Button, Section, toast, ToastViewport } from '@ufoui/core';
 export const ToastPage = () => {
     return (
         <Article direction="col" gap={16} p={24}>
-            <ToastViewport position="bottom-right" />
+            <ToastViewport position="bottomRight" />
 
             <Section gap={12}>
                 <Button label="Basic" onClick={() => toast('Hello world')} />

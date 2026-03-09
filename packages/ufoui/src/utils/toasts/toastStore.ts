@@ -1,54 +1,132 @@
 import { ToastOptions } from './toast';
 
-export type ToastState = Required<Pick<ToastOptions, 'id'>> &
-  Omit<ToastOptions, 'id'>;
+/**
+ * Internal toast state stored in the toast store.
+ *
+ * @category Toast
+ */
+export type ToastState = Required<Pick<ToastOptions, 'id'>> & Omit<ToastOptions, 'id'>;
 
+/**
+ * Partial update object used when modifying a toast.
+ *
+ * @category Toast
+ */
+export type ToastUpdate = Partial<Omit<ToastOptions, 'id'>>;
+
+/**
+ * Subscriber function receiving current toast list.
+ *
+ * @category Toast
+ */
 export type ToastStoreSubscriber = (toasts: ToastState[]) => void;
 
 let toasts: ToastState[] = [];
 let subscribers: ToastStoreSubscriber[] = [];
 
+/**
+ * Notifies all subscribers about toast state change.
+ *
+ * @function
+ */
 function notify() {
-  const snapshot = [...toasts];
-  subscribers.forEach((s) => {
-    s(snapshot);
-  });
+    const snapshot = [...toasts];
+    [...subscribers].forEach(s => {
+        s(snapshot);
+    });
 }
 
+/**
+ * Internal store managing toast lifecycle and subscriptions.
+ *
+ * @category Toast
+ */
 export const toastStore = {
-  subscribe(subscriber: ToastStoreSubscriber) {
-    subscribers.push(subscriber);
-    subscriber([...toasts]);
+    /**
+     * Subscribes to toast state updates.
+     *
+     * @function
+     */
+    subscribe(subscriber: ToastStoreSubscriber) {
+        subscribers.push(subscriber);
+        subscriber([...toasts]);
 
-    return () => {
-      subscribers = subscribers.filter((s) => s !== subscriber);
-    };
-  },
+        return () => {
+            subscribers = subscribers.filter(s => s !== subscriber);
+        };
+    },
 
-  add(toast: ToastState) {
-    if (toasts.some((t) => t.id === toast.id)) {
-      return;
-    }
-    toasts = [...toasts, toast];
-    notify();
-  },
+    /**
+     * Adds a new toast to the store.
+     *
+     * Priority toasts are inserted at the beginning
+     * so they appear before normal queued toasts.
+     *
+     * @function
+     */
+    add(toast: ToastState) {
+        if (toasts.some(t => t.id === toast.id)) {
+            return;
+        }
 
-  update(id: string, partial: Partial<ToastOptions>) {
-    toasts = toasts.map((t) => (t.id === id ? { ...t, ...partial } : t));
-    notify();
-  },
+        toasts = toast.priority ? [toast, ...toasts] : [...toasts, toast];
+        notify();
+    },
 
-  remove(id: string) {
-    toasts = toasts.filter((t) => t.id !== id);
-    notify();
-  },
+    /**
+     * Updates an existing toast.
+     *
+     * @function
+     */
+    update(id: string, partial: ToastUpdate) {
+        const index = toasts.findIndex(t => t.id === id);
+        if (index === -1) {
+            return;
+        }
 
-  clear() {
-    toasts = [];
-    notify();
-  },
+        const next = [...toasts];
+        next[index] = { ...next[index], ...partial };
 
-  getState() {
-    return [...toasts];
-  },
+        toasts = next;
+        notify();
+    },
+
+    /**
+     * Removes a toast from the store.
+     *
+     * @function
+     */
+    remove(id: string) {
+        const next = toasts.filter(t => t.id !== id);
+
+        if (next.length === toasts.length) {
+            return;
+        }
+
+        toasts = next;
+        notify();
+    },
+
+    /**
+     * Removes all toasts.
+     *
+     * @function
+     */
+    clear() {
+        if (toasts.length === 0) {
+            return;
+        }
+
+        toasts = [];
+        notify();
+    },
+
+    /**
+     * Returns current toast list snapshot.
+     *
+     * @function
+     */
+    getState() {
+        return [...toasts];
+    },
 };
