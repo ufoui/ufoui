@@ -6,7 +6,9 @@ import {
     Aside,
     Content,
     ElementDensity,
+    ElementFont,
     ElementSize,
+    ElementTextPlacement,
     Flex,
     H1,
     H2,
@@ -23,14 +25,18 @@ export const RatingPage = () => {
     const [color, setColor] = useState<SurfaceColor | null>(null);
     const [density, setDensity] = useState<ElementDensity | null>(null);
     const [size, setSize] = useState<ElementSize | null>(null);
+    const [font, setFont] = useState<ElementFont | null>(null);
+    const [textPlacement, setTextPlacement] = useState<ElementTextPlacement | null>(null);
 
     const shared = useMemo(
         () => ({
             color: color ?? undefined,
             density: density ?? undefined,
             size: size ?? undefined,
+            font: font ?? undefined,
+            textPlacement: textPlacement ?? undefined,
         }),
-        [color, density, size]
+        [color, density, size, font, textPlacement]
     );
 
     return (
@@ -40,16 +46,19 @@ export const RatingPage = () => {
 
                 <Section gap={20}>
                     <H2>Default Stars</H2>
-                    <Flex alignItems="center" gap={24}>
+                    <Flex alignItems="end" gap={24}>
                         <Rating
                             {...shared}
                             defaultValue={3}
+                            description="Enabled"
                             emptyIcon={<MdStarBorder size={24} />}
                             icon={<MdStar size={24} />}
+                            label="Rating"
                         />
                         <Rating
                             {...shared}
                             defaultValue={3}
+                            description="Disabled"
                             disabled
                             emptyIcon={<MdStarBorder size={28} />}
                             icon={<MdStar size={28} />}
@@ -96,26 +105,52 @@ export const RatingPage = () => {
                         />
                         <P>Value: {value}</P>
                     </Flex>
+                </Section>
 
-                    <Section gap={20}>
-                        <H2>Filled</H2>
-                        <Flex alignItems="center" gap={24}>
-                            <Rating defaultValue={2.5} filled {...shared} icon={<MdStar size={24} />} />
-                        </Flex>
-                    </Section>
+                <Section gap={20}>
+                    <H2>Filled</H2>
+                    <Flex alignItems="center" gap={24}>
+                        <Rating defaultValue={2.5} filled {...shared} icon={<MdStar size={24} />} />
+                    </Flex>
+                </Section>
+
+                <Section gap={20}>
+                    <H2>Error</H2>
+                    <Flex alignItems="center" gap={24}>
+                        <Rating
+                            defaultValue={2.5}
+                            error="Some error"
+                            label="Error"
+                            {...shared}
+                            icon={<MdStar size={24} />}
+                        />
+                        <Rating
+                            defaultValue={2.5}
+                            disabled
+                            error="Some error"
+                            filled
+                            label="Disabled Error"
+                            {...shared}
+                            icon={<MdStar size={24} />}
+                        />
+                    </Flex>
                 </Section>
             </Content>
 
             <Aside>
                 <Modifiers
                     density={density}
-                    onChange={({ surfaceColor: cl, density: ds, size: sz }) => {
+                    font={font}
+                    onChange={({ surfaceColor: cl, density: ds, size: sz, font: ft, textPlacement: tp }) => {
                         setColor(cl ?? null);
                         setDensity(ds ?? null);
                         setSize(sz ?? null);
+                        setFont(ft ?? null);
+                        setTextPlacement(tp ?? null);
                     }}
                     size={size}
                     surfaceColor={color}
+                    textPlacement={textPlacement}
                 />
             </Aside>
         </Article>

@@ -6,17 +6,17 @@ import { ReactNode } from 'react';
  * @category Slot
  */
 interface SlotProps {
-  /** Element rendered before the content. */
-  start?: ReactNode;
+    /** Element rendered before the content. */
+    start?: ReactNode;
 
-  /** Element rendered after the content. */
-  end?: ReactNode;
+    /** Element rendered after the content. */
+    end?: ReactNode;
 
-  /** Main slot content. */
-  content: ReactNode;
+    /** Main slot content. */
+    content: ReactNode;
 
-  /** Root class name. */
-  className?: string;
+    /** Root class name. */
+    className?: string;
 }
 
 /**
@@ -28,13 +28,13 @@ interface SlotProps {
  * @category Slot
  */
 export const Slot = ({ start, end, content, className }: SlotProps) => {
-  return (
-    <div className={`uui-slot ${className}`}>
-      {start}
-      {content}
-      {end}
-    </div>
-  );
+    return (
+        <div className={`uui-slot ${className}`}>
+            {start}
+            {content}
+            {end}
+        </div>
+    );
 };
 
 /**
@@ -45,9 +45,7 @@ export const Slot = ({ start, end, content, className }: SlotProps) => {
  *
  * @category Slot
  */
-export const Leading = (props: SlotProps) => (
-  <Slot {...props} className="uui-leading" />
-);
+export const Leading = (props: SlotProps) => <Slot {...props} className="uui-leading" />;
 
 /**
  * Slot wrapper for trailing content.
@@ -57,6 +55,4 @@ export const Leading = (props: SlotProps) => (
  *
  * @category Slot
  */
-export const Trailing = (props: SlotProps) => (
-  <Slot {...props} className="uui-trailing" />
-);
+export const Trailing = (props: SlotProps) => <Slot {...props} className="uui-trailing" />;

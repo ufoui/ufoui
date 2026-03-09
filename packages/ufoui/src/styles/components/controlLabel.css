@@ -1,0 +1,17 @@
+.uui-control-label {
+    color: var(--uui-color-on-surface);
+    cursor: pointer;
+}
+
+.uui-error .uui-control-label {
+    color: var(--uui-color-error);
+}
+
+.uui-error.uui-disabled .uui-control-label,
+.uui-disabled .uui-control-label,
+fieldset[disabled] .uui-control-label {
+    color: var(--uui-color-on-surface);
+    opacity: var(--uui-disabled-opacity);
+    cursor: default;
+    pointer-events: none;
+}

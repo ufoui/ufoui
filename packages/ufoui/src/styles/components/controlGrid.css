@@ -1,0 +1,29 @@
+.uui-control-grid {
+    display: grid;
+    align-items: center;
+    gap: 4px 8px;
+}
+
+.uui-control-grid-end {
+    grid-template-columns: auto 1fr;
+}
+
+.uui-control-grid-start {
+    grid-template-columns: 1fr auto;
+}
+
+.uui-control-grid-col {
+    grid-template-columns: 1fr;
+}
+
+.uui-control-grid-end > :nth-child(3) {
+    grid-column: 2;
+}
+
+.uui-description {
+    color: var(--uui-color-on-surface-variant);
+}
+
+.uui-error {
+    color: var(--uui-color-error);
+}

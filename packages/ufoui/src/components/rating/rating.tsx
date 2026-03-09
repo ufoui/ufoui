@@ -1,65 +1,108 @@
-import React, { forwardRef, KeyboardEvent, MouseEvent, ReactNode, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, MouseEvent, ReactNode, useRef, useState } from 'react';
 
 import {
+    cn,
     ControlStyle,
     ElementDensity,
     ElementFocusEffect,
     ElementFont,
     ElementSize,
     ElementTextPlacement,
+    getDensityClass,
     getSizeClass,
     SurfaceColor,
     uniqueID,
 } from '../../utils';
-import { Flex } from '../layout';
 import { StarFilledIcon, StarIcon } from '../../assets';
-import { useFocusVisible } from '../../hooks';
+import { ControlGrid, ControlLabel, Description } from '../../internal';
+import { useFocusVisible, useSliderKeys } from '../../hooks';
 
+/**
+ * Props for the Rating component.
+ *
+ * Numeric rating control rendered as a star slider with optional label and description.
+ *
+ * @category Rating
+ */
 export interface RatingProps
     extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange' | 'value' | 'defaultValue' | 'size'> {
+    /** Current rating value when used as a controlled component. */
     value?: number;
-    defaultValue?: number;
-    max?: number;
-    step?: number;
-    size?: ElementSize;
-    gap?: number;
 
+    /** Initial rating value for uncontrolled usage. */
+    defaultValue?: number;
+
+    /** Maximum rating value. */
+    max?: number;
+
+    /** Step size used for keyboard and pointer interaction. */
+    step?: number;
+
+    /** Visual size of the rating icons. */
+    size?: ElementSize;
+
+    /** Disables interaction with the control. */
     disabled?: boolean;
 
+    /** Icon used for the filled rating state. */
     icon?: ReactNode;
+
+    /** Icon used for the empty rating state. */
     emptyIcon?: ReactNode;
+
+    /** Color applied to the filled icons. */
     color?: SurfaceColor;
 
+    /** Called when the rating value changes. */
     onChange?: (value: number) => void;
-    /** DOM id. Auto-generated when not provided. */
+
+    /** DOM id used for accessibility attributes. */
     id?: string;
-    /** Error message text. Overrides description when present. */
+
+    /** Error message displayed below the control. */
     error?: string;
 
-    /** Enables filled visual style. */
+    /** Enables filled visual style for icons. */
     filled?: boolean;
-    /** Additional root class name. */
+
+    /** Additional class applied to the root element. */
     className?: string;
+
     /** Font applied to the label text. */
     font?: ElementFont;
-    /** Text label displayed next to the control. */
+
+    /** Label text displayed next to the control. */
     label?: string;
-    /** Marks the control as read-only without disabling focus. */
+
+    /** Prevents value changes while keeping the control focusable. */
     readOnly?: boolean;
 
-    /** Marks the control as required. Visual indicator only. */
+    /** Marks the control as required. */
     required?: boolean;
-    /** Placement of text relative to the control. */
+
+    /** Placement of label and description relative to the control. */
     textPlacement?: ElementTextPlacement;
+
     /** Visual density of the control. */
     density?: ElementDensity;
-    /** Visual effects applied on focus. */
+
+    /** Visual effects applied when the control receives focus. */
     focusEffects?: ElementFocusEffect[];
 
-    /** Supporting text displayed below the label. */
+    /** Supporting text displayed below the control. */
     description?: string;
 }
 
+/**
+ * Star rating input rendered as an interactive slider.
+ *
+ * Supports mouse, keyboard and form integration through a hidden input.
+ *
+ * @function
+ * @param props Component properties.
+ *
+ * @category Rating
+ */
 export const Rating = forwardRef<HTMLInputElement, RatingProps>(
     (
         {
@@ -68,17 +111,24 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
             defaultValue = 0,
             max = 5,
             step = 0.5,
-            readOnly = false,
-            disabled = false,
-            onFocus,
-            onBlur,
+            readOnly,
+            disabled,
             icon,
+            font,
             emptyIcon,
             color,
-            gap = 4,
             name,
             id,
+            label,
+            description,
+            error,
+            required,
+            density,
             onChange,
+            onFocus,
+            onBlur,
+            title,
+            textPlacement = 'start',
             focusEffects = ['ring'],
             className,
             'aria-label': ariaLabel,
@@ -87,30 +137,34 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
         },
         ref
     ) => {
+        const internalId = useRef(uniqueID('rating')).current;
+        const elemId = id ?? name ?? internalId;
+        const labelId = label ? `${elemId}_label` : undefined;
+        const { isFocused, focusHandlers, focusVisible } = useFocusVisible(onFocus, onBlur);
+
         const trackRef = useRef<HTMLDivElement | null>(null);
-        const { focusVisible, isFocused, focusHandlers } = useFocusVisible(onFocus, onBlur);
 
         const isControlled = value !== undefined;
         const [internal, setInternal] = useState(defaultValue);
         const [hover, setHover] = useState<number | null>(null);
 
-        const internalIdRef = useRef(uniqueID('rating'));
-        const elemId = id || name || internalIdRef.current;
-
         const current = isControlled ? (value ?? 0) : internal;
         const displayValue = hover ?? current;
+        const clamped = Math.max(0, Math.min(displayValue, max));
 
-        const clamped = useMemo(() => {
-            return Math.max(0, Math.min(displayValue, max));
-        }, [displayValue, max]);
+        function computeValue(clientX: number) {
+            if (!trackRef.current) {
+                return current;
+            }
 
-        function roundToStep(val: number) {
-            return Math.round(val / step) * step;
+            const rect = trackRef.current.getBoundingClientRect();
+            const percent = (clientX - rect.left) / rect.width;
+            const raw = percent * max;
+
+            return Math.max(0, Math.min(Math.round(raw / step) * step, max));
         }
 
-        function update(val: number) {
-            const next = Math.max(0, Math.min(roundToStep(val), max));
-
+        function setValue(next: number) {
             if (!isControlled) {
                 setInternal(next);
             }
@@ -118,24 +172,11 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
             onChange?.(next);
         }
 
-        function getValueFromPosition(clientX: number) {
-            if (!trackRef.current) {
-                return current;
-            }
-
-            const rect = trackRef.current.getBoundingClientRect();
-            const percent = (clientX - rect.left) / rect.width;
-
-            return percent * max;
-        }
-
         function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
             if (readOnly || disabled) {
                 return;
             }
-
-            const raw = getValueFromPosition(e.clientX);
-            setHover(roundToStep(raw));
+            setHover(computeValue(e.clientX));
         }
 
         function handleMouseLeave() {
@@ -149,109 +190,97 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
                 return;
             }
 
-            const raw = getValueFromPosition(e.clientX);
-            update(raw);
+            const next = computeValue(e.clientX);
+            setHover(null);
+            setValue(next === current ? 0 : next);
         }
 
-        function handleKeyDown(e: KeyboardEvent<HTMLDivElement>) {
-            if (readOnly || disabled) {
-                return;
-            }
-
-            const base = hover ?? current;
-            let next = base;
-
-            switch (e.key) {
-                case 'ArrowRight':
-                case 'ArrowUp':
-                    e.preventDefault();
-                    next = Math.min(base + step, max);
-                    break;
-
-                case 'ArrowLeft':
-                case 'ArrowDown':
-                    e.preventDefault();
-                    next = Math.max(base - step, 0);
-                    break;
-
-                case 'Home':
-                    e.preventDefault();
-                    next = 0;
-                    break;
-
-                case 'End':
-                    e.preventDefault();
-                    next = max;
-                    break;
-
-                default:
-                    return;
-            }
-
-            update(next);
-        }
-
-        /**
-         * Config
-         */
+        const sliderKeys = useSliderKeys({
+            value: displayValue,
+            min: 0,
+            max,
+            step,
+            disabled,
+            readOnly,
+            onChange: setValue,
+        });
 
         const defaultIcon = icon ?? StarFilledIcon;
         const defaultEmptyIcon = emptyIcon ?? (filled ? defaultIcon : StarIcon);
 
-        const ratingClasses = [
+        const wrapperClasses = cn(
             'uui-rating',
             getSizeClass(size),
-            disabled && 'uui-disabled',
-            ...(focusEffects.includes('ring') ? ['uui-focus-ring'] : []),
-        ]
-            .filter(Boolean)
-            .join(' ');
+            className,
+            filled && 'uui-filled',
+            error && 'uui-error',
+            disabled && 'uui-disabled'
+        );
 
-        const stars = Array.from({ length: max }).map((_, i) => {
+        const controlClasses = cn(
+            'uui-rating-control',
+            ...(focusEffects.includes('ring') && isFocused && focusVisible ? ['uui-focus-ring uui-focus-visible'] : []),
+            getDensityClass(density)
+        );
+
+        const finalColor = error ? 'error' : color;
+        const stars = Array.from({ length: Math.ceil(max) }).map((_, i) => {
             const fill = Math.min(Math.max(clamped - i, 0), 1) * 100;
 
-            const iconStyle = ControlStyle();
-            iconStyle.text(color);
-            iconStyle.set('width', `${fill}%`);
+            const style = ControlStyle();
+            style.text(finalColor);
+            style.set('width', `${fill}%`);
 
             return (
                 <div
                     className="uui-icon uui-rating-icon"
-                    key={i}
-                    style={{
-                        cursor: readOnly || disabled ? 'default' : 'pointer',
-                        lineHeight: 0,
-                    }}>
+                    key={`${elemId}-star-${i}`}
+                    style={{ cursor: readOnly || disabled ? 'default' : 'pointer', lineHeight: 0 }}>
                     <div className="uui-rating-empty-icon">{defaultEmptyIcon}</div>
-
-                    <div className="uui-rating-filled-icon" style={iconStyle.get()}>
+                    <div className="uui-rating-filled-icon" style={style.get()}>
                         {defaultIcon}
                     </div>
                 </div>
             );
         });
 
-        return (
-            <Flex
+        const rating = (
+            <div
                 {...focusHandlers}
-                alignItems="center"
+                aria-disabled={disabled || undefined}
+                aria-label={!label ? (ariaLabel ?? title) : undefined}
+                aria-labelledby={labelId}
                 aria-valuemax={max}
                 aria-valuemin={0}
-                aria-valuenow={current}
-                className={ratingClasses}
-                gap={gap}
+                aria-valuenow={displayValue}
+                className={controlClasses}
                 id={elemId}
                 onClick={handleClick}
-                onKeyDown={handleKeyDown}
+                onKeyDown={sliderKeys.onKeyDown}
                 onMouseLeave={handleMouseLeave}
                 onMouseMove={handleMouseMove}
                 ref={trackRef}
                 role="slider"
-                style={{ position: 'relative' }}
                 tabIndex={readOnly || disabled ? -1 : 0}>
                 <input disabled={disabled} ref={ref} type="hidden" value={current} {...rest} />
                 {stars}
-            </Flex>
+            </div>
+        );
+
+        const controlLabel = label && (
+            <ControlLabel focusRef={trackRef} font={font} id={labelId} label={label} required={required} tag="span" />
+        );
+
+        const controlDescription = (description ?? error) && <Description description={description} error={error} />;
+
+        return (
+            <ControlGrid
+                className={wrapperClasses}
+                control={rating}
+                description={controlDescription}
+                label={controlLabel}
+                textPlacement={textPlacement}
+            />
         );
     }
 );

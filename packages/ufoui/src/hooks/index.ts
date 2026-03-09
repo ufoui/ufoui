@@ -5,3 +5,4 @@ export * from './useFocusVisible';
 export * from './useResizeObserver';
 export * from './useSelection';
 export * from './useTheme';
+export * from './useSliderKeys';

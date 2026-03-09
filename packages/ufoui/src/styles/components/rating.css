@@ -1,6 +1,30 @@
 .uui-rating {
     --uui-icon-size: 24px;
+    --uui-col-gap: 4px;
+}
+
+.uui-rating-control{
+    position: relative;
     outline: none;
+    display: flex;
+    align-items: center;
+    column-gap: var(--uui-col-gap);
+    min-height: 40px;
+    cursor: pointer;
+}
+
+.uui-rating.uui-disabled .uui-rating-control,
+.uui-rating[aria-disabled="true"] .uui-rating-control {
+    cursor: default;
+    pointer-events: none;
+}
+
+.uui-rating-control.uui-compact {
+    min-height: 40px;
+}
+
+.uui-rating-control.uui-dense {
+    min-height: 32px;
 }
 
 .uui-rating.uui-extra-small {
@@ -27,7 +51,7 @@
     color: var(--uui-color-outline-variant);
 }
 
-.uui-rating-empty-icon:hover {
+.uui-rating:not(.uui-filled) .uui-rating-empty-icon:hover {
     color: var(--uui-color-outline);
 }
 

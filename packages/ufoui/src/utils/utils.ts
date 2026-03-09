@@ -420,3 +420,17 @@ export function clampInt(min: number, max: number, value: unknown, fallback?: nu
     }
     return Math.min(max, Math.max(min, Math.round(n)));
 }
+
+/**
+ * Joins class names into a single string.
+ *
+ * Accepts strings or arrays of strings and filters out falsy values.
+ *
+ * @function
+ * @param classes Class names to combine.
+ *
+ * @category Utils
+ */
+export function cn(...classes: (string | false | null | undefined | string[])[]): string {
+    return classes.flat().filter(Boolean).join(' ');
+}
