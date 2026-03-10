@@ -5,21 +5,15 @@ import { Toast } from './toast';
 
 export type ToastPosition = 'topLeft' | 'topCenter' | 'topRight' | 'bottomLeft' | 'bottomCenter' | 'bottomRight';
 
-/**
- * Props for ToastViewport component.
- *
- * @category Toast
- */
 export interface ToastViewportProps {
-    /** Position of the toast stack. Default: bottomRight */
     position?: ToastPosition;
-
-    /** Default auto-dismiss duration in milliseconds. Default: 4000 */
-    duration?: number;
-
-    /** Maximum number of visible toasts. Default: 3 */
+    timeout?: number;
     limit?: number;
 }
+
+type ToastPresence = ToastState & {
+    leaving?: boolean;
+};
 
 const POSITION: Record<ToastPosition, React.CSSProperties> = {
     topLeft: { top: 16, left: 16 },
@@ -31,26 +25,66 @@ const POSITION: Record<ToastPosition, React.CSSProperties> = {
     bottomRight: { bottom: 16, right: 16 },
 };
 
-/**
- * Global container responsible for rendering and managing toast notifications.
- *
- * @function
- * @param props Component props.
- *
- * @category Toast
- */
-export const ToastViewport = ({ position = 'bottomRight', duration = 4000, limit = 3 }: ToastViewportProps) => {
-    const [toasts, setToasts] = useState<ToastState[]>([]);
+export const ToastViewport = ({ position = 'bottomRight', timeout = 4000, limit = 1 }: ToastViewportProps) => {
+    const [items, setItems] = useState<ToastPresence[]>([]);
 
-    useEffect(() => toastStore.subscribe(setToasts), []);
+    useEffect(() => {
+        return toastStore.subscribe(next => {
+            setItems(prev => {
+                const prevMap = new Map(prev.map(t => [t.id, t]));
+                const nextIds = new Set(next.map(t => t.id));
 
-    const positionStyles = POSITION[position];
-    const visibleToasts = limit > 0 ? toasts.slice(0, limit) : toasts;
+                const staying: ToastPresence[] = next.map(t => {
+                    const old = prevMap.get(t.id);
+                    return old ? { ...old, ...t, leaving: false } : { ...t, leaving: false };
+                });
+
+                const leaving: ToastPresence[] = [];
+
+                for (const t of prev) {
+                    if (!nextIds.has(t.id)) {
+                        leaving.push({ ...t, leaving: true });
+                    }
+                }
+
+                return [...staying, ...leaving];
+            });
+        });
+    }, []);
+
+    const handleExitComplete = (id: string) => {
+        setItems(prev => prev.filter(t => t.id !== id));
+    };
+
+    const visible = (() => {
+        if (limit <= 0) {
+            return items;
+        }
+
+        const active: ToastPresence[] = [];
+        const overflow: ToastPresence[] = [];
+        const leaving: ToastPresence[] = [];
+
+        for (const t of items) {
+            if (t.leaving) {
+                leaving.push(t);
+                continue;
+            }
+
+            if (active.length < limit) {
+                active.push(t);
+            } else {
+                overflow.push({ ...t, leaving: true });
+            }
+        }
+
+        return [...active, ...overflow, ...leaving];
+    })();
 
     return (
-        <div className="uui-toast-viewport" style={positionStyles}>
-            {visibleToasts.map(t => {
-                const { priority, ...toastProps } = t;
+        <div className="uui-toast-viewport" style={POSITION[position]}>
+            {visible.map(t => {
+                const { priority, leaving, ...toastProps } = t;
 
                 const action =
                     typeof toastProps.action === 'function' ? toastProps.action(toastProps.id) : toastProps.action;
@@ -60,7 +94,9 @@ export const ToastViewport = ({ position = 'bottomRight', duration = 4000, limit
                         key={toastProps.id}
                         {...toastProps}
                         action={action}
-                        duration={toastProps.duration ?? duration}
+                        leaving={leaving}
+                        onExitComplete={handleExitComplete}
+                        timeout={toastProps.timeout ?? timeout}
                     />
                 );
             })}

@@ -3,6 +3,8 @@ import React, { forwardRef, ReactNode, useEffect } from 'react';
 import { cn, ControlStyle, ElementElevation, ElementShape, SurfaceColor, ToastStatus } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base';
 import { toastStore } from '../../utils/toasts/toastStore';
+import { getAnimationClass, getMotionStyleClass, MotionAnimation, MotionStyle } from '../../types';
+import { useAnimate } from '../../hooks';
 
 /**
  * Props for Toast component.
@@ -31,8 +33,8 @@ export interface ToastProps extends Omit<BoxBaseProps, 'children'> {
     /** Full content override replacing internal layout. */
     content?: ReactNode;
 
-    /** Display duration in milliseconds. */
-    duration?: number;
+    /** Time in milliseconds before the toast is automatically dismissed. */
+    timeout?: number;
 
     /** Elevation token. Default: 3 */
     elevation?: ElementElevation;
@@ -42,15 +44,27 @@ export interface ToastProps extends Omit<BoxBaseProps, 'children'> {
 
     /** Shape token. Default: smooth */
     shape?: ElementShape;
+
+    /** Animation preset used by internal motion elements. */
+    animation?: MotionAnimation;
+
+    /** Animation duration in milliseconds. */
+    duration?: number;
+
+    /** Motion style applied to animated elements. */
+    motionStyle?: MotionStyle;
+
+    leaving?: boolean;
+    onExitComplete?: (id: string) => void;
 }
 
 /**
  * Toast notification container.
  *
- * Handles auto-dismiss lifecycle when duration is provided.
+ * Handles auto-dismiss lifecycle using the timeout property.
  *
  * @function
- * @param props Component props.
+ * @param props Component properties.
  *
  * @category Toast
  */
@@ -64,38 +78,54 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
             icon,
             action,
             content,
-            duration,
+            duration = 3000,
+            animation = 'flipX',
+            motionStyle,
+            timeout,
             elevation = 3,
             shape = 'smooth',
             status,
+            onExitComplete,
             className,
             ...rest
         },
         ref
     ) => {
+        const { animationVars, animate, animating } = useAnimate({ t1: duration });
         useEffect(() => {
-            if (!duration || duration === 0) {
+            if (!timeout || timeout === 0) {
                 return;
             }
 
             const timer = setTimeout(() => {
                 toastStore.remove(id);
-            }, duration);
+                onExitComplete?.(id);
+            }, timeout);
 
             return () => {
                 clearTimeout(timer);
             };
-        }, [id, duration]);
+        }, [id, timeout]);
 
-        const style = ControlStyle();
+        const style = ControlStyle(animationVars);
         style.bg(color);
         style.text.on(color);
 
         const statusClass = status ? `uui-toast-${status}` : undefined;
 
+        useEffect(() => {
+            animate('open');
+        }, []);
+
         return (
             <BoxBase
-                className={cn('uui-toast', statusClass, className)}
+                className={cn(
+                    'uui-toast',
+                    statusClass,
+                    className,
+                    animating && getAnimationClass(animation),
+                    getMotionStyleClass(motionStyle)
+                )}
                 elevation={elevation}
                 font="bodyMedium"
                 ref={ref}

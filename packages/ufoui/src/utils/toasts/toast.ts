@@ -38,8 +38,8 @@ export interface ToastOptions {
     /** Action element rendered inside the toast. */
     action?: ReactNode | ((id: string) => ReactNode);
 
-    /** Display duration in milliseconds. */
-    duration?: number;
+    /** Time in milliseconds before the toast is automatically dismissed. */
+    timeout?: number;
 
     /** Priority toasts appear before normal queued toasts. */
     priority?: boolean;
@@ -55,6 +55,7 @@ type ToastPromiseMessage<T> = string | ToastOptions | ((v: T) => string | ToastO
 /**
  * Resolves toast message descriptor into ToastOptions.
  *
+ * @category Toast
  * @function
  */
 function resolveMessage<T>(msg: ToastPromiseMessage<T>, value: T): ToastOptions {
@@ -64,6 +65,8 @@ function resolveMessage<T>(msg: ToastPromiseMessage<T>, value: T): ToastOptions 
 
 /**
  * Creates and displays a toast.
+ *
+ * Accepts either a message string or a ToastOptions object.
  *
  * @function
  */
@@ -116,6 +119,7 @@ export const toast = Object.assign(show, {
      * Promise toasts use priority so the user immediately
      * sees feedback for the triggered action.
      *
+     * @category Toast
      * @function
      */
     async promise<T>(
@@ -128,7 +132,7 @@ export const toast = Object.assign(show, {
     ): Promise<T> {
         const id = show({
             ...resolveMessage(m.loading, undefined),
-            duration: 0,
+            timeout: 0,
             priority: true,
         });
 
@@ -137,7 +141,7 @@ export const toast = Object.assign(show, {
                 const next = resolveMessage(m.success, result);
 
                 toastStore.update(id, {
-                    duration: undefined,
+                    timeout: undefined,
                     ...next,
                 });
 
@@ -147,7 +151,7 @@ export const toast = Object.assign(show, {
                 const next = resolveMessage(m.error, error);
 
                 toastStore.update(id, {
-                    duration: undefined,
+                    timeout: undefined,
                     ...next,
                 });
 
