@@ -55,6 +55,7 @@ import { ProgressPage } from './pages/progressPage';
 import { ToastPage } from './pages/toastPage';
 import { AvatarPage } from './pages/avatarPage';
 import { RatingPage } from './pages/rating';
+import { CalendarPage } from './pages/calendarPage';
 import ColorPage from './pages/colorPage';
 
 export interface AppRoute {
@@ -100,6 +101,7 @@ export const appRoutes: AppRoute[] = [
 
     { label: 'Avatar', path: paths.avatar, component: AvatarPage, icon: LuUser, showInNav: true },
     { label: 'Rating', path: paths.rating, component: RatingPage, icon: LuStar, showInNav: true },
+    { label: 'Calendar', path: paths.calendar, component: CalendarPage, icon: LuSquareCode, showInNav: true },
 
     { label: 'Color', path: paths.color, component: ColorPage, icon: LuPalette, showInNav: true },
 ];

@@ -33,6 +33,7 @@ export * from './components/tabs';
 export * from './components/toolbar/toolbar';
 export * from './components/progress/progress';
 export * from './components/toast';
+export * from './components/calendar/calendar';
 export * from './components/avatar';
 export * from './components/rating/rating';
 export * from './utils';
