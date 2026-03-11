@@ -1,10 +1,10 @@
-import React, { forwardRef, ReactNode, useEffect } from 'react';
+import React, { forwardRef, ReactNode, useEffect, useState } from 'react';
 
 import { cn, ControlStyle, ElementElevation, ElementShape, SurfaceColor, ToastStatus } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base';
 import { toastStore } from '../../utils/toasts/toastStore';
-import { getAnimationClass, getMotionStyleClass, MotionAnimation, MotionStyle } from '../../types';
-import { useAnimate } from '../../hooks';
+import { MotionAnimation, MotionStyle } from '../../types';
+import { Collapse } from '../collapse/collapse';
 
 /**
  * Props for Toast component.
@@ -78,54 +78,54 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
             icon,
             action,
             content,
-            duration = 3000,
-            animation = 'flipX',
+            duration = 400,
+            animation = 'flipY',
             motionStyle,
             timeout,
             elevation = 3,
             shape = 'smooth',
             status,
+            leaving,
             onExitComplete,
             className,
             ...rest
         },
         ref
     ) => {
-        const { animationVars, animate, animating } = useAnimate({ t1: duration });
+        const [open, setOpen] = useState(false);
+
         useEffect(() => {
             if (!timeout || timeout === 0) {
                 return;
             }
 
             const timer = setTimeout(() => {
-                toastStore.remove(id);
-                onExitComplete?.(id);
+                setOpen(false);
+
+                setTimeout(() => {
+                    toastStore.remove(id);
+                    onExitComplete?.(id);
+                }, duration);
             }, timeout);
 
             return () => {
                 clearTimeout(timer);
             };
-        }, [id, timeout]);
+        }, [id, timeout, duration]);
 
-        const style = ControlStyle(animationVars);
+        const style = ControlStyle();
         style.bg(color);
         style.text.on(color);
 
         const statusClass = status ? `uui-toast-${status}` : undefined;
 
         useEffect(() => {
-            animate('open');
+            setOpen(true);
         }, []);
 
-        return (
+        const toast = (
             <BoxBase
-                className={cn(
-                    'uui-toast',
-                    statusClass,
-                    className,
-                    animating && getAnimationClass(animation),
-                    getMotionStyleClass(motionStyle)
-                )}
+                className={cn('uui-toast', statusClass, className)}
                 elevation={elevation}
                 font="bodyMedium"
                 ref={ref}
@@ -144,6 +144,14 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
                     </>
                 )}
             </BoxBase>
+        );
+
+        return (
+            <Collapse animation={animation} duration={duration} motionStyle={motionStyle} open={open}>
+                <div aria-labelledby={`${id}-trigger`} id={`${id}-content`} role="region">
+                    {toast}
+                </div>
+            </Collapse>
         );
     }
 );

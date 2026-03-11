@@ -25,7 +25,7 @@ const POSITION: Record<ToastPosition, React.CSSProperties> = {
     bottomRight: { bottom: 16, right: 16 },
 };
 
-export const ToastViewport = ({ position = 'bottomRight', timeout = 4000, limit = 1 }: ToastViewportProps) => {
+export const ToastViewport = ({ position = 'bottomRight', timeout = 4000, limit = 8 }: ToastViewportProps) => {
     const [items, setItems] = useState<ToastPresence[]>([]);
 
     useEffect(() => {
