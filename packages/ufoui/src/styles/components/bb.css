@@ -1,20 +1,22 @@
-.uui-bb.uui-wrapper {
+.uui-bb {
   max-height: max-content;
   display: flex;
   align-items: center;
   justify-content: center;
   min-width: 48px;
   min-height: 48px;
+  --uui-btn-color: var(--uui-control-color, var(--uui-color-primary));
+  /*--uui-*/
 }
 
 .uui-compact > .uui-bb,
-.uui-bb.uui-wrapper.uui-compact {
+.uui-bb.uui-compact {
   min-width: 40px;
   min-height: 40px;
 }
 
 .uui-dense > .uui-bb,
-.uui-bb.uui-wrapper.uui-dense {
+.uui-bb.uui-dense {
   min-width: 32px;
   min-height: 32px;
 }
@@ -27,6 +29,7 @@
   height: var(--uui-button-height, inherit);
   padding-left: var(--uui-button-padding, inherit);
   padding-right: var(--uui-button-padding, inherit);
+  color: var(--uui-btn-color);
 }
 
 .uui-btn-control.uui-btn-custom {
@@ -48,6 +51,7 @@
   inset: 0;
   transition: var(--uui-opacity-transition);
   z-index: 1;
+  background-color: var(--uui-btn-color);
 }
 
 .uui-btn-control.uui-focus-overlay:focus-visible .uui-state {

@@ -27,24 +27,16 @@ export type ButtonProps = Omit<ButtonBaseProps, 'elementClass'>;
  * <Button label="Cancel" />
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ font, size = 'small', ...props }: ButtonProps, ref) => {
-    const fontMap: Record<ElementSize, ElementFont> = {
-      extraSmall: 'labelLarge',
-      small: 'labelLarge',
-      medium: 'titleMedium',
-      large: 'headlineSmall',
-      extraLarge: 'headlineLarge',
-    };
-    return (
-      <ButtonBase
-        font={font ?? fontMap[size]}
-        ref={ref}
-        size={size}
-        {...props}
-        elementClass="uui-button"
-      />
-    );
-  },
+    ({ font, size = 'small', ...props }: ButtonProps, ref) => {
+        const fontMap: Record<ElementSize, ElementFont> = {
+            extraSmall: 'labelLarge',
+            small: 'labelLarge',
+            medium: 'titleMedium',
+            large: 'headlineSmall',
+            extraLarge: 'headlineLarge',
+        };
+        return <ButtonBase font={font ?? fontMap[size]} ref={ref} size={size} {...props} elementClass="uui-button" />;
+    }
 );
 
 Button.displayName = 'Button';

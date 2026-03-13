@@ -971,7 +971,7 @@
 }
 
 :root {
-  --uui-control-color: var(--uui-color-on-surface);
+  /*--uui-control-color: var(--uui-color-on-surface);*/
   --uui-control-bg-color: transparent;
   --uui-control-border-color: var(--uui-color-outline-variant);
 }
@@ -980,9 +980,9 @@
   background-color: var(--uui-control-bg-color);
 }
 
-.uui-color {
-  color: var(--uui-control-color);
-}
+/*.uui-color {*/
+/*  color: var(--uui-control-color);*/
+/*}*/
 
 .uui-border-color {
   border-color: var(--uui-control-border-color);

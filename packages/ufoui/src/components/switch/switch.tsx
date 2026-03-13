@@ -25,7 +25,6 @@ import {
     getSurfaceColorVar,
     mergeRefs,
     SemanticColor,
-    SurfaceColor,
     uniqueID,
 } from '../../utils';
 import { FieldsetContext } from '../../context';
@@ -67,12 +66,6 @@ export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
     /** Supporting text displayed below the label. */
     description?: string;
 
-    /** Text color override for the description. */
-    descriptionColor?: SurfaceColor;
-
-    /** Font token applied to the description text. */
-    descriptionFont?: ElementFont;
-
     /** Elevation level of the control surface. */
     elevation?: ElementElevation;
 
@@ -103,9 +96,6 @@ export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
     /** Text label associated with the control. */
     label?: string;
 
-    /** Text color override for the label. */
-    labelColor?: SurfaceColor;
-
     /** Name attribute forwarded to the input element. */
     name?: string;
 
@@ -126,9 +116,6 @@ export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
 
     /** Size of the control. */
     size?: ElementSize;
-
-    /** Text color override for label and content. */
-    textColor?: SurfaceColor;
 
     /** Layout of text relative to the control. */
     textPlacement?: ElementTextPlacement;
@@ -204,13 +191,9 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
         size = 'small',
         uncheckedIcon,
         description,
-        descriptionColor,
-        descriptionFont,
         className,
         error,
         focusColor,
-        labelColor,
-        textColor,
         duration = 200,
         tooltipAlign = 'auto',
         textPlacement = 'end',

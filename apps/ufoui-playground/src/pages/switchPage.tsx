@@ -45,7 +45,6 @@ export const SwitchPage = () => {
     const [focusColor, setFocusColor] = useState<SurfaceColor | null>(null);
     const [disabled, setDisabled] = useState<boolean | null>(false);
     const [font, setFont] = useState<ElementFont | null>(null);
-    const [textColor, setTextColor] = useState<SurfaceColor | null>(null);
     const [textPlacement, setTextPlacement] = useState<ElementTextPlacement | null>(null);
     const shared = useMemo(
         () => ({
@@ -63,7 +62,6 @@ export const SwitchPage = () => {
             filled: !!filled,
             readOnly: !!readOnly,
             font: font ?? undefined,
-            textColor: textColor ?? undefined,
             textPlacement: textPlacement ?? undefined,
         }),
         [
@@ -71,7 +69,6 @@ export const SwitchPage = () => {
             uncheckedBorder,
             uncheckedColor,
             textPlacement,
-            textColor,
             font,
             size,
             shape,
@@ -325,7 +322,6 @@ export const SwitchPage = () => {
                         focusColor: fc,
                         font: lf,
                         disabled: db,
-                        textColor: tc,
                         textPlacement: tp,
                         uncheckedColor: uc,
                         uncheckedBorder: ub,
@@ -342,7 +338,6 @@ export const SwitchPage = () => {
                         setFocusColor(fc ?? null);
                         setFont(lf ?? null);
                         setDisabled(db ?? null);
-                        setTextColor(tc ?? null);
                         setTextPlacement(tp ?? null);
                         setUncheckedColor(uc ?? null);
                         setUncheckedBorder(ub ?? null);
@@ -352,7 +347,6 @@ export const SwitchPage = () => {
                     readOnly={readOnly}
                     shape={shape}
                     size={size}
-                    textColor={textColor}
                     textPlacement={textPlacement}
                     uncheckedBorder={uncheckedBorder}
                     uncheckedBorderColor={uncheckedBorderColor}

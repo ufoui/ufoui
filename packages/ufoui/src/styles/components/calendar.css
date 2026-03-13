@@ -1,3 +1,7 @@
+.uui-calendar {
+    width: max-content;
+}
+
 .uui-calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -6,6 +10,11 @@
 .uui-calendar-day {
     --uui-button-width: 2.5rem;
     --uui-button-height: 2.5rem;
+    --uui-control-color: var(--uui-color-on-surface)
+}
+
+.uui-calendar-day .uui-btn-control:disabled .uui-state{
+    display: none;
 }
 
 /*.uui-calendar-weekday {*/

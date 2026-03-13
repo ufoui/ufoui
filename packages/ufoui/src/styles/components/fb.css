@@ -3,6 +3,7 @@
   --uui-field-padding-r: 16px;
   --uui-field-padding-y: 4px;
   --uui-slot-size: 48px;
+  --uui-control-color: var(--uui-color-on-surface);
   display: flex;
   flex-direction: column;
 }

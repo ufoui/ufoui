@@ -48,18 +48,11 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
         const weekDays = getWeekDaysShort();
 
         const style = ControlStyle();
-        style.bg('surface');
+        style.bg('surfaceContainerHigh');
         style.text.on('surface');
 
         return (
-            <BoxBase
-                className={cn('uui-calendar', className)}
-                // elevation={1}
-                // p={4}
-                // ref={ref}
-                // style={style.get()}
-                // width={320}
-                {...rest}>
+            <BoxBase className={cn('uui-calendar', className)} {...rest} style={style.get()}>
                 <div className="uui-calendar-header">
                     <div className="uui-calendar-title">{formatMonthYear(viewDate)}</div>
 

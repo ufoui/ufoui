@@ -19,8 +19,8 @@ export const CalendarPage = () => {
                     <H2>Variants</H2>
 
                     <div className="flex flex-wrap gap-4">
-                        <Calendar border={1} borderColor="outlineVariant" elevation={0} />
-                        <Calendar color="secondaryContainer" elevation={3} />
+                        <Calendar border={1} />
+                        <Calendar color="secondaryContainer" elevation={1} shape="square" />
                     </div>
                 </Section>
             </Content>
