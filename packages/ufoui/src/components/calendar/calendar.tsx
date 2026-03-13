@@ -3,6 +3,7 @@ import React, { forwardRef, useState } from 'react';
 import { BoxBase, BoxBaseProps } from '../base';
 import { cn, ControlStyle } from '../../utils';
 import { addMonths, formatMonthYear, getMonthDays, getWeekDaysShort, isSameDay } from './calendarUtils';
+import { IconButton } from '../iconButton/iconButton';
 
 /**
  * Props for Calendar component.
@@ -29,12 +30,12 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
     ({ value, onChange, viewDate: initialViewDate, className, ...rest }, ref) => {
         const [viewDate, setViewDate] = useState(initialViewDate || value || new Date());
 
-        const handlePrevMonth = (e: React.MouseEvent) => {
+        const handlePrevMonth = (e: React.MouseEvent<HTMLButtonElement>) => {
             e.preventDefault();
             setViewDate(addMonths(viewDate, -1));
         };
 
-        const handleNextMonth = (e: React.MouseEvent) => {
+        const handleNextMonth = (e: React.MouseEvent<HTMLButtonElement>) => {
             e.preventDefault();
             setViewDate(addMonths(viewDate, 1));
         };
@@ -53,52 +54,56 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
         return (
             <BoxBase
                 className={cn('uui-calendar', className)}
-                elevation={1}
-                padding={4}
-                ref={ref}
-                style={style.get()}
-                width={320}
+                // elevation={1}
+                // p={4}
+                // ref={ref}
+                // style={style.get()}
+                // width={320}
                 {...rest}>
-                {/* Header */}
-                <BoxBase alignItems="center" col={false} direction="row" gap={2} justifyContent="space-between" mb={2}>
-                    <BoxBase font="titleSmall" px={2}>
-                        {formatMonthYear(viewDate)}
-                    </BoxBase>
-                    <BoxBase col={false} direction="row">
-                        <button className="uui-calendar-nav-btn" onClick={handlePrevMonth} type="button">
+                <div className="uui-calendar-header">
+                    <div className="uui-calendar-title">{formatMonthYear(viewDate)}</div>
+
+                    <div className="uui-calendar-nav">
+                        <button
+                            aria-label="Previous month"
+                            className="uui-calendar-nav-btn"
+                            onClick={handlePrevMonth}
+                            type="button">
                             &lt;
                         </button>
-                        <button className="uui-calendar-nav-btn" onClick={handleNextMonth} type="button">
+
+                        <button
+                            aria-label="Next month"
+                            className="uui-calendar-nav-btn"
+                            onClick={handleNextMonth}
+                            type="button">
                             &gt;
                         </button>
-                    </BoxBase>
-                </BoxBase>
+                    </div>
+                </div>
 
-                {/* Grid */}
                 <div className="uui-calendar-grid">
-                    {/* Weekdays */}
                     {weekDays.map(day => (
                         <div className="uui-calendar-weekday" key={day}>
                             {day}
                         </div>
                     ))}
-                    {/* Days */}
+
                     {days.map((day, index) => {
-                        const isSelected = value && isSameDay(day.date, value);
+                        const isSelected = !!value && isSameDay(day.date, value);
+
                         return (
-                            <button
-                                className={cn('uui-calendar-day', {
-                                    'uui-calendar-day-outside': !day.isCurrentMonth,
-                                    'uui-calendar-day-today': day.isToday,
-                                    'uui-calendar-day-selected': isSelected,
-                                })}
+                            <IconButton
+                                className={cn('uui-calendar-day')}
+                                disabled={!day.isCurrentMonth}
+                                filled={isSelected}
                                 key={index}
                                 onClick={() => {
                                     handleDateClick(day.date);
                                 }}
-                                type="button">
+                                outlined={day.isToday}>
                                 <span>{day.date.getDate()}</span>
-                            </button>
+                            </IconButton>
                         );
                     })}
                 </div>

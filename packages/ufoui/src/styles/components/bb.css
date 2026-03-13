@@ -19,10 +19,19 @@
   min-height: 32px;
 }
 
-.uui-bb .uui-btn-control {
+.uui-btn-control {
   position: relative;
   outline: none;
   box-sizing: border-box;
+  width: var(--uui-button-width, inherit);
+  height: var(--uui-button-height, inherit);
+  padding-left: var(--uui-button-padding, inherit);
+  padding-right: var(--uui-button-padding, inherit);
+}
+
+.uui-btn-control.uui-btn-custom {
+  min-width: 24px;
+  min-height: 24px;
 }
 
 .uui-btn-content {

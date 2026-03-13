@@ -1,37 +1,37 @@
 import React, { useState } from 'react';
 
-import { BoxBase, Calendar, Typography } from '@ufoui/core';
+import { Article, Aside, Calendar, Content, H1, H2, P, Section } from '@ufoui/core';
 
 export const CalendarPage = () => {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
     return (
-        <BoxBase col gap={6} padding={6}>
-            <Typography variant="displaySmall">Calendar</Typography>
+        <Article direction="row" fullWidth>
+            <Content gap={24} grow px={24} py={24}>
+                <H1>Calendar</H1>
 
-            <BoxBase gap={4} row>
-                <BoxBase col gap={2}>
-                    <Typography variant="titleMedium">Standard Calendar</Typography>
+                <Section gap={16}>
+                    <H2>Standard Calendar</H2>
                     <Calendar onChange={setSelectedDate} value={selectedDate} />
-                </BoxBase>
+                </Section>
 
-                <BoxBase col gap={2}>
-                    <Typography variant="titleMedium">Selected Info</Typography>
-                    <BoxBase elevation={1} padding={4} shape="medium" style={{ minWidth: 200 }}>
-                        <Typography variant="bodyLarge">Selected: {selectedDate.toLocaleDateString()}</Typography>
-                    </BoxBase>
-                </BoxBase>
-            </BoxBase>
+                <Section gap={16}>
+                    <H2>Variants</H2>
 
-            <BoxBase col gap={2}>
-                <Typography variant="titleMedium">Variants</Typography>
-                <BoxBase gap={4} row>
-                    <Calendar border={1} borderColor="outlineVariant" elevation={0} />
+                    <div className="flex flex-wrap gap-4">
+                        <Calendar border={1} borderColor="outlineVariant" elevation={0} />
+                        <Calendar color="secondaryContainer" elevation={3} />
+                    </div>
+                </Section>
+            </Content>
 
-                    <Calendar color="secondaryContainer" elevation={3} />
-                </BoxBase>
-            </BoxBase>
-        </BoxBase>
+            <Aside px={20}>
+                <Section gap={12}>
+                    <H2>Selected date</H2>
+                    <P>{selectedDate.toLocaleDateString()}</P>
+                </Section>
+            </Aside>
+        </Article>
     );
 };
 
