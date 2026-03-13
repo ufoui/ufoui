@@ -1,5 +1,3 @@
-import React from 'react';
-
 export type ElementSize = 'extraSmall' | 'small' | 'medium' | 'large' | 'extraLarge';
 export type ElementInset = 'none' | 'left' | 'right' | 'top' | 'bottom' | 'middle';
 export type ElementShape = 'square' | 'smooth' | 'rounded' | 'round';
@@ -115,6 +113,48 @@ export type ElementFont =
     | 'overline';
 export type ElementTextPlacement = 'start' | 'end' | 'top' | 'bottom';
 
+/**
+ * Converts a camelCase, PascalCase, or acronym-based string into kebab-case.
+ *
+ * @param str - Input string to convert.
+ * @returns The kebab-case version of the string.
+ *
+ * @example
+ * toKebabCase("myVariableName"); // "my-variable-name"
+ * toKebabCase("URLParser"); // "url-parser"
+ *
+ * @category Utils
+ */
+export function toKebabCase(str: string): string {
+    return str
+        .replace(/([a-z0-9])([A-Z])/g, '$1-$2') // camelCase, PascalCase
+        .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2') // HTMLParser → HTML-Parser
+        .toLowerCase();
+}
+
+/**
+ * Clamps a numeric value to an integer range with a fallback.
+ *
+ * Converts the input to a number, rounds it to an integer,
+ * then clamps it between `min` and `max`.
+ * If the value is not a finite number, returns `fallback`.
+ *
+ * @param min - Minimum allowed value.
+ * @param max - Maximum allowed value.
+ * @param value - Input value to clamp. Can be any type.
+ * @param fallback - Value returned when input is invalid.
+ * @returns A clamped integer within the given range.
+ *
+ * @category Utils
+ */
+export function clampInt(min: number, max: number, value: unknown, fallback?: number): number | undefined {
+    const n = Number(value);
+    if (!Number.isFinite(n)) {
+        return fallback;
+    }
+    return Math.min(max, Math.max(min, Math.round(n)));
+}
+
 export const getAlignClass = (position: ElementAlign) => {
     const positions = {
         topLeft: 'uui-top-left',
@@ -133,32 +173,23 @@ export const getAlignClass = (position: ElementAlign) => {
     return positions[position];
 };
 
-export const getShapeClass = (shape?: ElementShape) => {
-    switch (shape) {
-        case 'square':
-            return 'uui-square';
-        case 'smooth':
-            return 'uui-smooth';
-        case 'rounded':
-            return 'uui-rounded';
-        case 'round':
-            return 'uui-round';
-        default:
-            return '';
-    }
+/**
+ * Returns the appropriate CSS class for the given shape token.
+ *
+ * @param shape Shape token.
+ * @returns CSS class for shape variant.
+ */
+export const getShapeClass = (shape?: ElementShape): string => {
+    return shape ? `uui-${shape}` : '';
 };
 
-export const getSizeClass = (size: ElementSize) => {
-    const map = {
-        extraSmall: 'uui-extra-small',
-        small: 'uui-small',
-        medium: 'uui-medium',
-        large: 'uui-large',
-        extraLarge: 'uui-extra-large',
-    } as const;
-
-    return map[size];
-};
+/**
+ * Returns the CSS class for the given size token.
+ *
+ * @param size Size token.
+ * @returns CSS class for size variant.
+ */
+export const getSizeClass = (size: ElementSize): string => `uui-${toKebabCase(size)}`;
 
 /**
  * Returns the appropriate CSS class for the given border size.
@@ -167,84 +198,38 @@ export const getSizeClass = (size: ElementSize) => {
  * @returns A class name like 'uui-border-2'
  */
 export const getBorderClass = (border?: ElementBorder): string => {
-    const size = clampInt(0, 5, border);
-    if (size === undefined) {
-        return '';
-    }
-    return `uui-border-${size}`;
+    const size = clampInt(0, 4, border);
+    return size === undefined ? '' : `uui-border-${size}`;
 };
 
 /**
- * Returns the appropriate CSS class for the given outline size.
+ * Returns the appropriate CSS class for the given elevation level.
  *
- * @param size - Outline size (0 to 4)
- * @returns A class name like 'uui-outline-2'
+ * @param elevation Elevation token.
+ * @returns CSS class in the form uui-elevation-X.
  */
-export const getOutlineClass = (size: ElementBorder): string => {
-    if (+size > 0 || +size < 5) {
-        return `uui-outline-${String(size)}`;
-    }
-    return 'uui-outline-0';
+export const getElevationClass = (elevation?: ElementElevation): string => {
+    const size = clampInt(0, 5, elevation);
+    return size === undefined ? '' : `uui-elevation-${size}`;
 };
 
-export const getElevationClass = (elevation?: ElementElevation) => {
-    switch (elevation) {
-        case 0:
-            return 'uui-elevation-0';
-        case 1:
-            return 'uui-elevation-1';
-        case 2:
-            return 'uui-elevation-2';
-        case 3:
-            return 'uui-elevation-3';
-        case 4:
-            return 'uui-elevation-4';
-        case 5:
-            return 'uui-elevation-5';
-        default:
-            return '';
-    }
+/**
+ * Returns the appropriate CSS class for the given density token.
+ *
+ * @param density Density token.
+ * @returns CSS class for density variant.
+ */
+export const getDensityClass = (density?: ElementDensity): string => {
+    return density ? `uui-${density}` : '';
 };
 
-export const getDensityClass = (density?: ElementDensity) => {
-    switch (density) {
-        case 'compact':
-            return 'uui-compact';
-        case 'dense':
-            return 'uui-dense';
-        default:
-            return '';
-    }
-};
-
-export const getFontClass = (font: ElementFont): string => {
-    const map: Record<ElementFont, string> = {
-        displayLarge: 'uui-font-display-large',
-        displayMedium: 'uui-font-display-medium',
-        displaySmall: 'uui-font-display-small',
-
-        headlineLarge: 'uui-font-headline-large',
-        headlineMedium: 'uui-font-headline-medium',
-        headlineSmall: 'uui-font-headline-small',
-
-        titleLarge: 'uui-font-title-large',
-        titleMedium: 'uui-font-title-medium',
-        titleSmall: 'uui-font-title-small',
-
-        labelLarge: 'uui-font-label-large',
-        labelMedium: 'uui-font-label-medium',
-        labelSmall: 'uui-font-label-small',
-
-        bodyLarge: 'uui-font-body-large',
-        bodyMedium: 'uui-font-body-medium',
-        bodySmall: 'uui-font-body-small',
-
-        caption: 'uui-font-caption',
-        overline: 'uui-font-overline',
-    };
-
-    return map[font];
-};
+/**
+ * Returns the CSS class for the given typography token.
+ *
+ * @param font Typography token.
+ * @returns CSS class in the form uui-font-<token>.
+ */
+export const getFontClass = (font: ElementFont): string => `uui-font-${toKebabCase(font)}`;
 
 /**
  * Merges multiple React refs into a single ref callback.
@@ -342,84 +327,6 @@ export const createRipple = (el: HTMLElement, event: React.MouseEvent<HTMLElemen
         container.remove();
     });
 };
-
-/**
- * Converts a camelCase, PascalCase, or acronym-based string into kebab-case.
- *
- * @param str - Input string to convert.
- * @returns The kebab-case version of the string.
- *
- * @example
- * toKebabCase("myVariableName"); // "my-variable-name"
- * toKebabCase("URLParser"); // "url-parser"
- *
- * @category Utils
- */
-export function toKebabCase(str: string): string {
-    return str
-        .replace(/([a-z0-9])([A-Z])/g, '$1-$2') // camelCase, PascalCase
-        .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2') // HTMLParser → HTML-Parser
-        .toLowerCase();
-}
-
-/**
- * Forces focus to behave like :focus-visible on all browsers,
- * including Safari which loses :focus-visible heuristics when
- * focus is set programmatically (e.g., in menus or lists).
- *
- * Adds `.uui-focus-visible` to the element on focus, and
- * removes it automatically on blur.
- *
- * Chrome/Firefox:
- *   - still rely on native :focus-visible
- *   - fallback class is ignored (lower specificity)
- *
- * Safari:
- *   - native :focus-visible is unreliable
- *   - fallback `.uui-focus-visible` replaces it
- *
- * @param el - HTMLElement to focus with visible highlighting.
- *
- * @category Utils
- */
-export function setFocusVisible(el: HTMLElement | null) {
-    if (!el) {
-        return;
-    }
-    el.classList.remove('uui-focus-visible');
-    el.focus();
-    el.classList.add('uui-focus-visible');
-    el.addEventListener(
-        'blur',
-        () => {
-            el.classList.remove('uui-focus-visible');
-        },
-        { once: true }
-    );
-}
-
-/**
- * Clamps a numeric value to an integer range with a fallback.
- *
- * Converts the input to a number, rounds it to an integer,
- * then clamps it between `min` and `max`.
- * If the value is not a finite number, returns `fallback`.
- *
- * @param min - Minimum allowed value.
- * @param max - Maximum allowed value.
- * @param value - Input value to clamp. Can be any type.
- * @param fallback - Value returned when input is invalid.
- * @returns A clamped integer within the given range.
- *
- * @category Utils
- */
-export function clampInt(min: number, max: number, value: unknown, fallback?: number): number | undefined {
-    const n = Number(value);
-    if (!Number.isFinite(n)) {
-        return fallback;
-    }
-    return Math.min(max, Math.max(min, Math.round(n)));
-}
 
 /**
  * Joins class names into a single string.
