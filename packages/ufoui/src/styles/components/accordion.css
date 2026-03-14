@@ -1,4 +1,6 @@
 .uui-accordion {
+    display: flex;
+    flex-direction: column;
     --uui-accordion-gap: 0px;
     --uui-corner-full: var(--uui-corner-large);
     --uui-slot-size: 24px;
@@ -6,18 +8,31 @@
     --uui-col-gap: 8px;
     gap: var(--uui-accordion-gap);
     min-width: 200px;
-    max-height: max-content;
+    align-self: start;
+
+}
+
+.uui-accordion-group {
     overflow: hidden;
 }
 
-.uui-accordion.uui-accordion-text {
-
-}
-
-.uui-accordion.uui-accordion-segmented {
+.uui-accordion.uui-accordion-pills {
     --uui-accordion-gap: 8px;
 }
 
-.uui-accordion.uui-accordion-grouped {
 
+.uui-accordion-segmented .uui-accordion-group.uui-open {
+    margin: 8px 0;
+}
+
+.uui-accordion-segmented .uui-accordion-group.uui-open:first-child {
+    margin-top: 0;
+}
+
+.uui-accordion-segmented .uui-accordion-group.uui-open:last-child {
+    margin-bottom: 0;
+}
+
+.uui-accordion-segmented .uui-accordion-group.uui-open:only-child {
+    margin: 0;
 }

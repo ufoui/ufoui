@@ -3,7 +3,6 @@ import React, { ReactNode, useRef } from 'react';
 import { Collapse } from '../collapse/collapse';
 import { useFocusVisible, useSelection } from '../../hooks';
 import { IS_ACCORDION_ITEM } from './accordionItem.guards';
-import { BoxBase, BoxBaseProps } from '../base';
 import { Leading, Trailing } from '../../internal';
 import { ExpandIcon } from '../../assets';
 import { AccordionConfig, AccordionVariant } from './accordion';
@@ -103,7 +102,7 @@ export const AccordionItem = ({
     const { focusVisible, focusHandlers } = useFocusVisible(onFocus, onBlur);
     const id = `accordion-${value}`;
     const finalShowIcon = showIcon ?? config?.showIcon ?? true;
-    const finalVariant = variant ?? config?.variant ?? 'grouped';
+    const finalVariant = variant ?? config?.variant ?? 'segmented';
     const finalDisabled = disabled ?? config?.disabled;
     const finalColor = color ?? config?.color;
     const expandIcon = finalShowIcon && <div className="uui-accordion-icon uui-icon">{icon ?? ExpandIcon}</div>;
@@ -129,16 +128,6 @@ export const AccordionItem = ({
         }
     }
 
-    let boxProps: BoxBaseProps = {};
-    if (finalVariant === 'segmented') {
-        boxProps = {
-            elevation: config?.elevation,
-            border: config?.border,
-            borderColor: config?.borderColor,
-            shape: config?.shape ?? 'rounded',
-        };
-    }
-
     const itemClasses = [
         `uui-accordion-item uui-accordion-item-${finalVariant}`,
         flush && 'uui-flush',
@@ -154,7 +143,7 @@ export const AccordionItem = ({
     controlStyle.text.on(finalColor);
 
     return (
-        <BoxBase {...boxProps} className={itemClasses} data-open={isOpen}>
+        <div className={itemClasses} data-open={isOpen}>
             <div className="uui-accordion-header" ref={headerRef} style={controlStyle.get()}>
                 {leadingContent}
                 <button
@@ -184,7 +173,7 @@ export const AccordionItem = ({
                 </div>
             </Collapse>
             <div className="uui-accordion-divider"></div>
-        </BoxBase>
+        </div>
     );
 };
 

@@ -10,26 +10,26 @@ import { useRovingFocus } from '../hooks/useRovingFocus';
  * @category Contexts
  */
 export interface SelectionContextValue<T = unknown> {
-  /** Clears all selected values. */
-  clear: () => void;
+    /** Clears all selected values. */
+    clear: () => void;
 
-  /** Optional configuration object passed from the parent component. */
-  config?: T;
+    /** Optional configuration object passed from the parent component. */
+    config?: T;
 
-  /** Selection mode: single or multiple. */
-  mode: 'single' | 'multiple';
+    /** Selection mode: single or multiple. */
+    mode: 'single' | 'multiple';
 
-  /** Optional roving focus controller for keyboard navigation between items. */
-  roving?: ReturnType<typeof useRovingFocus>;
+    /** Optional roving focus controller for keyboard navigation between items. */
+    roving?: ReturnType<typeof useRovingFocus>;
 
-  /** Sets a value directly. */
-  set: (value: string) => void;
+    /** Sets a value directly. */
+    set: (value: string) => void;
 
-  /** Toggles selection state for a given value. */
-  toggle: (value: string) => void;
+    /** Toggles selection state for a given value. */
+    toggle: (value: string) => void;
 
-  /** Currently selected values. */
-  values: string[];
+    /** Currently selected values. */
+    values: string[];
 }
 
 /**
@@ -39,6 +39,4 @@ export interface SelectionContextValue<T = unknown> {
  *
  * @category Contexts
  */
-export const SelectionContext = createContext<SelectionContextValue | null>(
-  null,
-);
+export const SelectionContext = createContext<SelectionContextValue | null>(null);

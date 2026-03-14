@@ -6,6 +6,7 @@ import { AccordionItemProps } from './accordionItem';
 import { isAccordionItem } from './accordionItem.guards';
 import {
     BorderColor,
+    cn,
     ElementBorder,
     ElementDensity,
     ElementElevation,
@@ -17,7 +18,7 @@ import {
 import { MotionAnimation, MotionStyle } from '../../types';
 import { useRovingFocus } from '../../hooks/useRovingFocus';
 
-export type AccordionVariant = 'text' | 'grouped' | 'segmented';
+export type AccordionVariant = 'text' | 'pills' | 'grouped' | 'segmented';
 
 export type AccordionConfig = {
     variant?: AccordionVariant;
@@ -71,7 +72,7 @@ export interface AccordionProps extends Omit<BoxBaseProps, 'type' | 'gap' | 'gap
  */
 export const Accordion = ({
     type = 'single',
-    variant = 'text',
+    variant = 'segmented',
     children,
     density,
     border,
@@ -82,7 +83,7 @@ export const Accordion = ({
     shape,
     animation,
     motionStyle,
-    duration,
+    duration = 2000,
     color,
     disabled,
 }: AccordionProps) => {
@@ -159,20 +160,53 @@ export const Accordion = ({
     );
 
     let boxProps: BoxBaseProps = {};
-    if (variant !== 'segmented') {
-        boxProps = {
-            elevation,
-            border,
-            borderColor,
-            shape: shape ?? (variant === 'grouped' ? 'rounded' : undefined),
-        };
+
+    boxProps = {
+        elevation,
+        border,
+        borderColor,
+        shape,
+    };
+
+    const groups: ReactElement<AccordionItemProps>[][] = [];
+    let current: ReactElement<AccordionItemProps>[] = [];
+
+    accordionItems.forEach(item => {
+        const isOpen = values.includes(item.props.value);
+        if (variant === 'pills') {
+            groups.push([item]);
+            return;
+        }
+
+        if (variant === 'segmented' && isOpen) {
+            if (current.length) {
+                groups.push(current);
+            }
+            groups.push([item]);
+            current = [];
+            return;
+        }
+
+        current.push(item);
+    });
+
+    if (current.length) {
+        groups.push(current);
     }
-    const classes = [`uui-accordion uui-accordion-${variant}`, getDensityClass(density)].filter(Boolean).join(' ');
+
+    const classes = ['uui-accordion-group', getDensityClass(density)];
     return (
         <SelectionContext.Provider value={contextValue}>
-            <BoxBase {...boxProps} className={classes} direction="col">
-                {accordionItems}
-            </BoxBase>
+            <div className={`uui-accordion uui-accordion-${variant}`}>
+                {groups.map((group, i) => {
+                    const groupOpen = group.some(item => values.includes(item.props.value));
+                    return (
+                        <BoxBase key={i} {...boxProps} className={cn(classes, groupOpen && 'uui-open')} direction="col">
+                            {group}
+                        </BoxBase>
+                    );
+                })}
+            </div>
         </SelectionContext.Provider>
     );
 };

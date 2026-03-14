@@ -22,13 +22,11 @@ export function useFocusVisible(onFocus?: FocusEventHandler<HTMLElement>, onBlur
     const focusVisible = getInputMethod() === 'keyboard';
 
     const handleFocus: FocusEventHandler<HTMLElement> = e => {
-        console.log('onFocus', e.currentTarget.className.slice(0, 10), e.relatedTarget?.className.slice(0, 10));
         setIsFocused(true);
         onFocus?.(e);
     };
 
     const handleBlur: FocusEventHandler<HTMLElement> = e => {
-        console.log('onBlur', e.currentTarget.className.slice(0, 10), e.relatedTarget?.className.slice(0, 10));
         setIsFocused(false);
         onBlur?.(e);
     };

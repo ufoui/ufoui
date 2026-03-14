@@ -36,6 +36,7 @@ P
 Span
 Label
 Avatar
+Rating
 
 @experimental
 TextField
@@ -60,10 +61,12 @@ AccordionItem
 Collapse
 ListItem
 List
+Slider
+Calendar
 
 @todo
-AccordionSummary
-AccordionDetails
+Stepper
+TopAppBar
 ListItemButton
 ListItemText
 ListItemIcon
@@ -82,11 +85,8 @@ FABGroup
 Pagination
 ProgressIndicator
 SegmentedButton
-Slider
 Snackbar
-Stepper
 TimePicker
-TopAppBar
 Skeleton
 Toast
 ChipSet
@@ -99,3 +99,5 @@ DialogTitle (Dialog)
 DialogContent (Dialog)
 DialogActions (Dialog)
 ToggleButton (All buttons)
+AccordionSummary
+AccordionDetails

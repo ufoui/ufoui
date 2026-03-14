@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { faker } from '@faker-js/faker';
-import { MdInfo, MdSettings, MdWarning } from 'react-icons/md';
 
 import {
     Accordion,
@@ -61,73 +60,75 @@ export const AccordionPage = () => {
                 {/* ───────────────────────── SINGLE ───────────────────────── */}
 
                 <H2>Single Item Accordion</H2>
-                <Grid cols={3} fullWidth gap={20}>
-                    {['text', 'segmented', 'grouped'].map(variant => (
+                <Grid cols={4} fullWidth gap={20}>
+                    {['text', 'grouped', 'pills', 'segmented'].map(variant => (
                         <Accordion key={variant} type="single" {...shared} variant={variant as AccordionVariant}>
-                            <AccordionItem label={faker.lorem.sentence()} value="a">
+                            <AccordionItem label={faker.lorem.sentence()} value={variant + 'a'}>
                                 <Div>{faker.lorem.paragraph()}</Div>
                             </AccordionItem>
 
-                            <AccordionItem label={faker.lorem.sentence()} value="b">
+                            <AccordionItem label={faker.lorem.sentence()} value={variant + 'b'}>
                                 <Div>{faker.lorem.paragraph()}</Div>
                             </AccordionItem>
 
-                            <AccordionItem label={faker.lorem.sentence()} value="c">
-                                <Div>{faker.lorem.paragraph()}</Div>
-                            </AccordionItem>
-                        </Accordion>
-                    ))}
-                </Grid>
-
-                {/* ───────────────────────── MULTIPLE ───────────────────────── */}
-
-                <H2>Multiple Items Accordion</H2>
-                <Grid cols={3} fullWidth gap={20}>
-                    {['text', 'segmented', 'grouped'].map(variant => (
-                        <Accordion key={variant} type="multiple" {...shared} variant={variant as AccordionVariant}>
-                            <AccordionItem label={faker.lorem.sentence()} value="1">
-                                <Div>{faker.lorem.paragraph()}</Div>
-                            </AccordionItem>
-
-                            <AccordionItem label={faker.lorem.sentence()} value="2">
+                            <AccordionItem label={faker.lorem.sentence()} value={variant + 'c'}>
                                 <Div>{faker.lorem.paragraph()}</Div>
                             </AccordionItem>
                         </Accordion>
                     ))}
                 </Grid>
 
-                <H2>Accordions With Leading Icons & Long Titles</H2>
-                <Grid cols={3} fullWidth gap={20}>
-                    <Accordion type="single" {...shared} variant="text">
-                        <AccordionItem label={longTitle} leading={<MdInfo />} value="1">
-                            <Div>{faker.lorem.paragraphs(2)}</Div>
-                        </AccordionItem>
+                {/* <H2>Multiple Items Accordion</H2>*/}
+                {/* <Grid cols={4} fullWidth gap={20}>*/}
+                {/*    {['text', 'grouped', 'pills', 'segmented'].map(variant => (*/}
+                {/*        <Accordion key={variant} type="multiple" {...shared} variant={variant as AccordionVariant}>*/}
+                {/*            <AccordionItem label={faker.lorem.sentence()} value="1">*/}
+                {/*                <Div>{faker.lorem.paragraph()}</Div>*/}
+                {/*            </AccordionItem>*/}
 
-                        <AccordionItem label={longTitle} leading={<MdSettings />} value="2">
-                            <Div>{faker.lorem.paragraphs(2)}</Div>
-                        </AccordionItem>
-                    </Accordion>
+                {/*            <AccordionItem label={faker.lorem.sentence()} value="2">*/}
+                {/*                <Div>{faker.lorem.paragraph()}</Div>*/}
+                {/*            </AccordionItem>*/}
 
-                    <Accordion type="single" {...shared} variant="segmented">
-                        <AccordionItem label={longTitle} leading={<MdWarning />} trailing={<MdInfo />} value="1">
-                            <Div>{faker.lorem.paragraphs(2)}</Div>
-                        </AccordionItem>
+                {/*            <AccordionItem label={faker.lorem.sentence()} value="3">*/}
+                {/*                <Div>{faker.lorem.paragraph()}</Div>*/}
+                {/*            </AccordionItem>*/}
+                {/*        </Accordion>*/}
+                {/*    ))}*/}
+                {/* </Grid>*/}
 
-                        <AccordionItem label={longTitle} leading={<MdInfo />} value="2">
-                            <Div>{faker.lorem.paragraphs(2)}</Div>
-                        </AccordionItem>
-                    </Accordion>
+                {/* <H2>Accordions With Leading Icons & Long Titles</H2>*/}
+                {/* <Grid cols={3} fullWidth gap={20}>*/}
+                {/*    <Accordion type="single" {...shared} variant="text">*/}
+                {/*        <AccordionItem label={longTitle} leading={<MdInfo />} value="1">*/}
+                {/*            <Div>{faker.lorem.paragraphs(2)}</Div>*/}
+                {/*        </AccordionItem>*/}
 
-                    <Accordion type="single" {...shared} variant="grouped">
-                        <AccordionItem label={longTitle} leading={<MdSettings />} value="1">
-                            <Div>{faker.lorem.paragraphs(2)}</Div>
-                        </AccordionItem>
+                {/*        <AccordionItem label={longTitle} leading={<MdSettings />} value="2">*/}
+                {/*            <Div>{faker.lorem.paragraphs(2)}</Div>*/}
+                {/*        </AccordionItem>*/}
+                {/*    </Accordion>*/}
 
-                        <AccordionItem label={longTitle} leading={<MdWarning />} value="2">
-                            <Div>{faker.lorem.paragraphs(2)}</Div>
-                        </AccordionItem>
-                    </Accordion>
-                </Grid>
+                {/*    <Accordion type="single" {...shared} variant="segmented">*/}
+                {/*        <AccordionItem label={longTitle} leading={<MdWarning />} trailing={<MdInfo />} value="1">*/}
+                {/*            <Div>{faker.lorem.paragraphs(2)}</Div>*/}
+                {/*        </AccordionItem>*/}
+
+                {/*        <AccordionItem label={longTitle} leading={<MdInfo />} value="2">*/}
+                {/*            <Div>{faker.lorem.paragraphs(2)}</Div>*/}
+                {/*        </AccordionItem>*/}
+                {/*    </Accordion>*/}
+
+                {/*    <Accordion type="single" {...shared} variant="grouped">*/}
+                {/*        <AccordionItem label={longTitle} leading={<MdSettings />} value="1">*/}
+                {/*            <Div>{faker.lorem.paragraphs(2)}</Div>*/}
+                {/*        </AccordionItem>*/}
+
+                {/*        <AccordionItem label={longTitle} leading={<MdWarning />} value="2">*/}
+                {/*            <Div>{faker.lorem.paragraphs(2)}</Div>*/}
+                {/*        </AccordionItem>*/}
+                {/*    </Accordion>*/}
+                {/* </Grid>*/}
             </Section>
 
             <Aside>
