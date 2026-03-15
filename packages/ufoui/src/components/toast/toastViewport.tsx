@@ -35,15 +35,15 @@ export const ToastViewport = ({ position = 'bottomRight', timeout = 4000, limit 
 
                 // 1. Aktualizujemy stare + wykrywamy te do usunięcia (leaving)
                 const updatedPrev = prev.map(t => {
-                    const freshData = nextMap.get(t.id);
+                    const found = nextMap.get(t.id);
 
-                    if (!freshData) {
+                    if (!found) {
                         // Nie ma w Store? Jeśli jeszcze nie "wychodzi", to odpalamy leaving
                         return t.leaving ? t : { ...t, leaving: true };
                     }
 
                     // Jest w Store? Nadpisujemy dane (ważne dla Promise!), zostawiamy flagę leaving
-                    return { ...freshData, leaving: t.leaving };
+                    return { ...found, leaving: t.leaving };
                 });
 
                 // 2. Nowe toasty (VIP idą na koniec listy items, ale slice/visible je obsłuży)
@@ -63,7 +63,11 @@ export const ToastViewport = ({ position = 'bottomRight', timeout = 4000, limit 
     })();
 
     return (
-        <div className="uui-toast-viewport uui-menu-scroll" style={POSITION[position]}>
+        <div
+            aria-live="polite"
+            aria-relevant="additions text"
+            className="uui-toast-viewport uui-menu-scroll"
+            style={POSITION[position]}>
             {visible.map(t => {
                 const { priority, leaving, ...toastProps } = t;
 

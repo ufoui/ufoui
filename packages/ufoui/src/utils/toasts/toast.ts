@@ -17,32 +17,35 @@ export type ToastStatus = 'success' | 'error' | 'warning' | 'info';
  * @category Toast
  */
 export interface ToastOptions {
-    /** Optional identifier. Generated automatically if not provided. */
-    id?: string;
-
-    /** Primary heading text. */
-    title?: string;
-
-    /** Supporting message text. */
-    description?: string;
+    /** Action element rendered inside the toast. */
+    action?: ReactNode | ((id: string) => ReactNode);
 
     /** Surface color token overriding background and text colors. */
     color?: SurfaceColor;
 
-    /** Status variant applied as CSS modifier class. */
-    status?: ToastStatus;
+    /** Full custom content replacing default layout. */
+    content?: ReactNode;
+
+    /** Supporting message text. */
+    description?: string;
 
     /** Leading visual element such as an icon. */
     icon?: ReactNode;
 
-    /** Action element rendered inside the toast. */
-    action?: ReactNode | ((id: string) => ReactNode);
+    /** Optional identifier. Generated automatically if not provided. */
+    id?: string;
+
+    /** Priority toasts appear before normal queued toasts. */
+    priority?: boolean;
+
+    /** Status variant applied as CSS modifier class. */
+    status?: ToastStatus;
 
     /** Time in milliseconds before the toast is automatically dismissed. */
     timeout?: number;
 
-    /** Priority toasts appear before normal queued toasts. */
-    priority?: boolean;
+    /** Primary heading text. */
+    title?: string;
 }
 
 /**

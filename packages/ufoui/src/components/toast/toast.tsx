@@ -166,11 +166,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
                 style={style.get()}
                 {...rest}>
                 <Collapse animation={animation} duration={duration} motionStyle={motionStyle} open={open}>
-                    <div
-                        aria-labelledby={`${id}-trigger`}
-                        className="uui-toast-region"
-                        id={`${id}-content`}
-                        role="region">
+                    <div className="uui-toast-region" id={`${id}-content`} role="region">
                         {toast}
                     </div>
                 </Collapse>
