@@ -16,73 +16,54 @@ type ToastPresence = ToastState & {
 };
 
 const POSITION: Record<ToastPosition, React.CSSProperties> = {
-    topLeft: { top: 16, left: 16 },
-    topCenter: { top: 16, left: '50%', transform: 'translateX(-50%)' },
-    topRight: { top: 16, right: 16 },
+    topLeft: { top: 16, left: 16, flexDirection: 'column-reverse' },
+    topCenter: { top: 16, left: '50%', transform: 'translateX(-50%)', flexDirection: 'column-reverse' },
+    topRight: { top: 16, right: 16, flexDirection: 'column-reverse' },
 
     bottomLeft: { bottom: 16, left: 16 },
     bottomCenter: { bottom: 16, left: '50%', transform: 'translateX(-50%)' },
     bottomRight: { bottom: 16, right: 16 },
 };
 
-export const ToastViewport = ({ position = 'bottomRight', timeout = 4000, limit = 8 }: ToastViewportProps) => {
+export const ToastViewport = ({ position = 'bottomRight', timeout = 4000, limit = 3 }: ToastViewportProps) => {
     const [items, setItems] = useState<ToastPresence[]>([]);
-
     useEffect(() => {
         return toastStore.subscribe(next => {
             setItems(prev => {
-                const prevMap = new Map(prev.map(t => [t.id, t]));
-                const nextIds = new Set(next.map(t => t.id));
+                const nextMap = new Map(next.map(t => [t.id, t]));
+                const prevIds = new Set(prev.map(t => t.id));
 
-                const staying: ToastPresence[] = next.map(t => {
-                    const old = prevMap.get(t.id);
-                    return old ? { ...old, ...t, leaving: false } : { ...t, leaving: false };
+                // 1. Aktualizujemy stare + wykrywamy te do usunięcia (leaving)
+                const updatedPrev = prev.map(t => {
+                    const freshData = nextMap.get(t.id);
+
+                    if (!freshData) {
+                        // Nie ma w Store? Jeśli jeszcze nie "wychodzi", to odpalamy leaving
+                        return t.leaving ? t : { ...t, leaving: true };
+                    }
+
+                    // Jest w Store? Nadpisujemy dane (ważne dla Promise!), zostawiamy flagę leaving
+                    return { ...freshData, leaving: t.leaving };
                 });
 
-                const leaving: ToastPresence[] = [];
+                // 2. Nowe toasty (VIP idą na koniec listy items, ale slice/visible je obsłuży)
+                const newItems = next.filter(t => !prevIds.has(t.id)).map(t => ({ ...t, leaving: false }));
 
-                for (const t of prev) {
-                    if (!nextIds.has(t.id)) {
-                        leaving.push({ ...t, leaving: true });
-                    }
-                }
-
-                return [...staying, ...leaving];
+                return [...updatedPrev, ...newItems];
             });
         });
-    }, []);
+    }, [limit]);
 
     const handleExitComplete = (id: string) => {
         setItems(prev => prev.filter(t => t.id !== id));
     };
 
     const visible = (() => {
-        if (limit <= 0) {
-            return items;
-        }
-
-        const active: ToastPresence[] = [];
-        const overflow: ToastPresence[] = [];
-        const leaving: ToastPresence[] = [];
-
-        for (const t of items) {
-            if (t.leaving) {
-                leaving.push(t);
-                continue;
-            }
-
-            if (active.length < limit) {
-                active.push(t);
-            } else {
-                overflow.push({ ...t, leaving: true });
-            }
-        }
-
-        return [...active, ...overflow, ...leaving];
+        return limit <= 0 ? items : items.slice(0, limit);
     })();
 
     return (
-        <div className="uui-toast-viewport" style={POSITION[position]}>
+        <div className="uui-toast-viewport uui-menu-scroll" style={POSITION[position]}>
             {visible.map(t => {
                 const { priority, leaving, ...toastProps } = t;
 

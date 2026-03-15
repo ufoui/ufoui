@@ -1,4 +1,5 @@
 import { MdCheckCircle, MdError, MdInfo, MdWarning } from 'react-icons/md';
+import { faker } from '@faker-js/faker';
 
 import { Article, Button, Section, toast, ToastViewport } from '@ufoui/core';
 
@@ -52,12 +53,79 @@ export const ToastPage = () => {
                             icon: <MdInfo />,
                             action: id => (
                                 <Button
-                                    filled
                                     label="Dismiss"
                                     onClick={() => {
                                         toast.dismiss(id);
                                     }}
                                 />
+                            ),
+                        })
+                    }
+                />
+
+                <Button
+                    label="Title + Info + Action"
+                    onClick={() =>
+                        toast({
+                            title: 'Toast title',
+                            description: 'New update available',
+                            status: 'info',
+                            icon: <MdInfo />,
+                            action: id => (
+                                <Button
+                                    label="Dismiss"
+                                    onClick={() => {
+                                        toast.dismiss(id);
+                                    }}
+                                />
+                            ),
+                        })
+                    }
+                />
+
+                <Button
+                    label="Long text"
+                    onClick={() =>
+                        toast({
+                            title: 'Toast title',
+                            description: faker.lorem.sentence(),
+                            status: 'success',
+                            icon: <MdInfo />,
+                            action: id => (
+                                <Button
+                                    label="Dismiss"
+                                    onClick={() => {
+                                        toast.dismiss(id);
+                                    }}
+                                />
+                            ),
+                        })
+                    }
+                />
+
+                <Button
+                    label="2 actions"
+                    onClick={() =>
+                        toast({
+                            title: 'Toast title',
+                            description: faker.lorem.sentence(),
+                            status: 'success',
+                            icon: <MdInfo />,
+                            action: id => (
+                                <>
+                                    <Button
+                                        label="Dismiss"
+                                        onClick={() => {
+                                            toast.dismiss(id);
+                                        }}
+                                    />
+                                    <Button
+                                        label="Nothing"
+                                        onClick={() => {
+                                            toast.dismiss(id);
+                                        }}
+                                    />
+                                </>
                             ),
                         })
                     }

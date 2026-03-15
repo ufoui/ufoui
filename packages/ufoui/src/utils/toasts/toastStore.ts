@@ -69,7 +69,8 @@ export const toastStore = {
             return;
         }
 
-        toasts = toast.priority ? [toast, ...toasts] : [...toasts, toast];
+        // toasts = toast.priority ? [toast, ...toasts] : [...toasts, toast];
+        toasts = [...toasts, toast];
         notify();
     },
 

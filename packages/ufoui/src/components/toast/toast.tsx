@@ -1,4 +1,4 @@
-import React, { forwardRef, ReactNode, useEffect, useState } from 'react';
+import React, { forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
 
 import { cn, ControlStyle, ElementElevation, ElementShape, SurfaceColor, ToastStatus } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base';
@@ -93,25 +93,35 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
         ref
     ) => {
         const [open, setOpen] = useState(false);
+        const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+        const exitingRef = useRef(false);
+
+        const startExit = () => {
+            if (exitingRef.current) {
+                return;
+            }
+            exitingRef.current = true;
+            setTimeout(() => {
+                onExitComplete?.(id);
+            }, duration);
+        };
 
         useEffect(() => {
             if (!timeout || timeout === 0) {
                 return;
             }
-
-            const timer = setTimeout(() => {
+            timerRef.current = setTimeout(() => {
+                toastStore.remove(id);
                 setOpen(false);
-
-                setTimeout(() => {
-                    toastStore.remove(id);
-                    onExitComplete?.(id);
-                }, duration);
+                startExit();
             }, timeout);
 
             return () => {
-                clearTimeout(timer);
+                if (timerRef.current) {
+                    clearTimeout(timerRef.current);
+                }
             };
-        }, [id, timeout, duration]);
+        }, [id, startExit, timeout]);
 
         const style = ControlStyle();
         style.bg(color);
@@ -123,7 +133,30 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
             setOpen(true);
         }, []);
 
-        const toast = (
+        useEffect(() => {
+            if (leaving) {
+                if (timerRef.current) {
+                    clearTimeout(timerRef.current);
+                }
+                setOpen(false);
+                startExit();
+            }
+        }, [leaving, startExit]);
+
+        const toast = content ?? (
+            <>
+                <div className="uui-toast-text">
+                    {icon && <div className="uui-icon">{icon}</div>}
+                    <div className="uui-toast-content">
+                        {title && <div className="uui-toast-title uui-font-label-large">{title}</div>}
+                        {description && <div className="uui-toast-description">{description}</div>}
+                    </div>
+                </div>
+                <div className="uui-toast-actions uui-slot">{action}</div>
+            </>
+        );
+
+        return (
             <BoxBase
                 className={cn('uui-toast', statusClass, className)}
                 elevation={elevation}
@@ -132,26 +165,16 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
                 shape={shape}
                 style={style.get()}
                 {...rest}>
-                {content ?? (
-                    <>
-                        {icon && <div className="uui-icon">{icon}</div>}
-
-                        <div className="uui-toast-content">
-                            {title && <div className="uui-toast-title">{title}</div>}
-                            {description && <div className="uui-toast-description">{description}</div>}
-                            {action}
-                        </div>
-                    </>
-                )}
+                <Collapse animation={animation} duration={duration} motionStyle={motionStyle} open={open}>
+                    <div
+                        aria-labelledby={`${id}-trigger`}
+                        className="uui-toast-region"
+                        id={`${id}-content`}
+                        role="region">
+                        {toast}
+                    </div>
+                </Collapse>
             </BoxBase>
-        );
-
-        return (
-            <Collapse animation={animation} duration={duration} motionStyle={motionStyle} open={open}>
-                <div aria-labelledby={`${id}-trigger`} id={`${id}-content`} role="region">
-                    {toast}
-                </div>
-            </Collapse>
         );
     }
 );
