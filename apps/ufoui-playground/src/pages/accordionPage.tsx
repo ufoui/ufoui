@@ -62,7 +62,7 @@ export const AccordionPage = () => {
                 <H2>Single Item Accordion</H2>
                 <Grid cols={4} fullWidth gap={20}>
                     {['text', 'grouped', 'pills', 'segmented'].map(variant => (
-                        <Accordion key={variant} type="single" {...shared} variant={variant as AccordionVariant}>
+                        <Accordion key={variant} type="multiple" {...shared} variant={variant as AccordionVariant}>
                             <AccordionItem label={faker.lorem.sentence()} value={variant + 'a'}>
                                 <Div>{faker.lorem.paragraph()}</Div>
                             </AccordionItem>
@@ -72,6 +72,28 @@ export const AccordionPage = () => {
                             </AccordionItem>
 
                             <AccordionItem label={faker.lorem.sentence()} value={variant + 'c'}>
+                                <Div>{faker.lorem.paragraph()}</Div>
+                            </AccordionItem>
+                            <AccordionItem label={faker.lorem.sentence()} value={variant + 'd'}>
+                                <Div>{faker.lorem.paragraph()}</Div>
+                            </AccordionItem>
+
+                            <AccordionItem label={faker.lorem.sentence()} value={variant + 'e'}>
+                                <Div>{faker.lorem.paragraph()}</Div>
+                            </AccordionItem>
+
+                            <AccordionItem label={faker.lorem.sentence()} value={variant + 'f'}>
+                                <Div>{faker.lorem.paragraph()}</Div>
+                            </AccordionItem>
+                            <AccordionItem label={faker.lorem.sentence()} value={variant + 'g'}>
+                                <Div>{faker.lorem.paragraph()}</Div>
+                            </AccordionItem>
+
+                            <AccordionItem label={faker.lorem.sentence()} value={variant + 'h'}>
+                                <Div>{faker.lorem.paragraph()}</Div>
+                            </AccordionItem>
+
+                            <AccordionItem label={faker.lorem.sentence()} value={variant + 'i'}>
                                 <Div>{faker.lorem.paragraph()}</Div>
                             </AccordionItem>
                         </Accordion>

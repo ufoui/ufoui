@@ -172,7 +172,7 @@ export const AccordionItem = ({
                     {children}
                 </div>
             </Collapse>
-            <div className="uui-accordion-divider"></div>
+            {/* <div className="uui-accordion-divider"></div>*/}
         </div>
     );
 };

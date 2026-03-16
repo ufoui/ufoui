@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useCallback, useMemo, useState } from 'react';
+import React, { ReactElement, ReactNode, useMemo } from 'react';
 
 import { SelectionContext, SelectionContextValue } from '../../context';
 import { BoxBase, BoxBaseProps } from '../base';
@@ -16,7 +16,7 @@ import {
     SurfaceColor,
 } from '../../utils';
 import { MotionAnimation, MotionStyle } from '../../types';
-import { useRovingFocus } from '../../hooks/useRovingFocus';
+import { useSelectionState } from '../../hooks';
 
 export type AccordionVariant = 'text' | 'pills' | 'grouped' | 'segmented';
 
@@ -83,111 +83,54 @@ export const Accordion = ({
     shape,
     animation,
     motionStyle,
-    duration = 2000,
+    duration = 250,
     color,
     disabled,
 }: AccordionProps) => {
-    const [values, setValues] = useState<string[]>([]);
-    const roving = useRovingFocus('vertical');
+    const ss = useSelectionState(type, 'vertical');
+    const { values } = ss;
     const accordionItems: ReactElement<AccordionItemProps>[] = React.Children.toArray(children).filter(isAccordionItem);
 
-    const toggle = useCallback(
-        (value: string) => {
-            setValues(prev => {
-                const isSelected = prev.includes(value);
-                if (type === 'single') {
-                    return isSelected ? [] : [value];
-                }
-                return isSelected ? prev.filter(v => v !== value) : [...prev, value];
-            });
-        },
-        [type]
-    );
+    const finalShape = shape ?? (variant !== 'text' ? 'round' : undefined);
+    const finalBorder = border ?? (variant !== 'text' ? 1 : undefined);
 
-    const set = useCallback((value: string) => {
-        setValues([value]);
-    }, []);
+    const accordionProps = {
+        elevation,
+        border: finalBorder,
+        borderColor,
+        shape: finalShape,
+    };
 
-    const clear = useCallback(() => {
-        setValues([]);
-    }, []);
+    const config = {
+        density: density,
+        variant: variant,
+        showIcon: showIcon,
+        font: font,
+        animation: animation,
+        motionStyle: motionStyle,
+        duration: duration,
+        color: color,
+        disabled: disabled,
+        ...accordionProps,
+    };
 
     const contextValue = useMemo<SelectionContextValue<AccordionConfig>>(
         () => ({
-            values,
-            mode: type,
-            toggle,
-            set,
-            clear,
-            roving,
-            config: {
-                density: density,
-                elevation: elevation,
-                variant: variant,
-                showIcon: showIcon,
-                font: font,
-                border: border,
-                borderColor: borderColor,
-                shape: shape,
-                animation: animation,
-                motionStyle: motionStyle,
-                duration: duration,
-                color: color,
-                disabled: disabled,
-            },
+            ...ss,
+            config,
         }),
-        [
-            values,
-            type,
-            toggle,
-            set,
-            clear,
-            roving,
-            density,
-            elevation,
-            variant,
-            showIcon,
-            font,
-            border,
-            borderColor,
-            shape,
-            animation,
-            motionStyle,
-            duration,
-            color,
-            disabled,
-        ]
+        [config, ss]
     );
 
-    let boxProps: BoxBaseProps = {};
-
-    boxProps = {
-        elevation,
-        border,
-        borderColor,
-        shape,
-    };
-
     const groups: ReactElement<AccordionItemProps>[][] = [];
-    let current: ReactElement<AccordionItemProps>[] = [];
+    const current: ReactElement<AccordionItemProps>[] = [];
 
     accordionItems.forEach(item => {
-        const isOpen = values.includes(item.props.value);
-        if (variant === 'pills') {
+        if (variant === 'pills' || variant === 'segmented') {
             groups.push([item]);
-            return;
+        } else {
+            current.push(item);
         }
-
-        if (variant === 'segmented' && isOpen) {
-            if (current.length) {
-                groups.push(current);
-            }
-            groups.push([item]);
-            current = [];
-            return;
-        }
-
-        current.push(item);
     });
 
     if (current.length) {
@@ -201,7 +144,11 @@ export const Accordion = ({
                 {groups.map((group, i) => {
                     const groupOpen = group.some(item => values.includes(item.props.value));
                     return (
-                        <BoxBase key={i} {...boxProps} className={cn(classes, groupOpen && 'uui-open')} direction="col">
+                        <BoxBase
+                            key={i}
+                            {...accordionProps}
+                            className={cn(classes, groupOpen && 'uui-open')}
+                            direction="col">
                             {group}
                         </BoxBase>
                     );

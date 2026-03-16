@@ -16,8 +16,8 @@ export interface SelectionContextValue<T = unknown> {
     /** Optional configuration object passed from the parent component. */
     config?: T;
 
-    /** Selection mode: single or multiple. */
-    mode: 'single' | 'multiple';
+    /** Selection type: single or multiple. */
+    type: 'single' | 'multiple';
 
     /** Optional roving focus controller for keyboard navigation between items. */
     roving?: ReturnType<typeof useRovingFocus>;

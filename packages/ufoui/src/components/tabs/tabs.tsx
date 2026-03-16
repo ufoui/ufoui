@@ -21,7 +21,7 @@ export const Tabs = ({ defaultValue, children, ...rest }: TabsProps) => {
     const contextValue = useMemo(
         () => ({
             values,
-            mode: 'single' as const,
+            type: 'single' as const,
             toggle: set,
             set,
             clear: () => {
