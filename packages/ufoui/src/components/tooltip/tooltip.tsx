@@ -1,38 +1,24 @@
 import { forwardRef, HTMLProps, ReactNode, useRef } from 'react';
 
-import { InlineTooltipManager } from '../../internal/inlineTooltip/inlineTooltipManager';
+import { InlineTooltipManager } from '../../internal';
 import { ElementAlign } from '../../utils';
 
 export interface TooltipProps extends HTMLProps<HTMLDivElement> {
-  title: string;
-  children?: ReactNode;
-  align?: ElementAlign;
+    title: string;
+    children?: ReactNode;
+    align?: ElementAlign;
 }
 
 export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
-  (
-    {
-      children,
-      className = '',
-      title = '',
-      align = 'topRight',
-      value,
-      ...props
-    }: TooltipProps,
-    ref,
-  ) => {
-    const buttonRef = useRef<HTMLDivElement>(null);
-    const inlineTooltip = <div>{title}</div>;
-    return (
-      <span className="uui-tooltip" ref={ref} {...props}>
-        <InlineTooltipManager
-          align={align}
-          tooltip={inlineTooltip}
-          triggerRef={buttonRef}
-        />
-        <div ref={buttonRef}>{children}</div>
-      </span>
-    );
-  },
+    ({ children, className = '', title = '', align = 'topRight', value, ...props }: TooltipProps, ref) => {
+        const buttonRef = useRef<HTMLDivElement>(null);
+        const inlineTooltip = <div>{title}</div>;
+        return (
+            <span className="uui-tooltip" ref={ref} {...props}>
+                <InlineTooltipManager align={align} tooltip={inlineTooltip} triggerRef={buttonRef} />
+                <div ref={buttonRef}>{children}</div>
+            </span>
+        );
+    }
 );
 Tooltip.displayName = 'Tooltip';

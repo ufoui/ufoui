@@ -1,2 +1,8 @@
 .uui-tooltip {
+    pointer-events: none;
+    z-index: 1000;
+    position: absolute;
+    color: var(--uui-color-inverse-on-surface);
+    background-color: var(--uui-color-inverse-surface);
+    padding: 0.25rem 0.5rem;
 }
