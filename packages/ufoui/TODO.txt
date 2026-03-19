@@ -39,6 +39,7 @@ Avatar
 Rating
 
 @experimental
+Breadcrumbs
 TextField
 Chip
 Tooltip

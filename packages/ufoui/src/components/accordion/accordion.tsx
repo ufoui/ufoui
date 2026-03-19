@@ -142,13 +142,62 @@ export const Accordion = ({
         <SelectionContext.Provider value={contextValue}>
             <div className={`uui-accordion uui-accordion-${variant}`}>
                 {groups.map((group, i) => {
-                    const groupOpen = group.some(item => values.includes(item.props.value));
+                    const item = group[0];
+                    const val = item.props.value;
+                    const isOpen = values.includes(val);
+
+                    // Sprawdzamy stan sąsiadów
+                    const isFirst = i === 0;
+                    const isLast = i === accordionItems.length - 1;
+
+                    const prevItem = accordionItems[i - 1];
+                    const nextItem = accordionItems[i + 1];
+
+                    const isPrevOpen = prevItem && values.includes(prevItem.props.value);
+                    const isNextOpen = nextItem && values.includes(nextItem.props.value);
+
+                    // LOGIKA "SKLEJANIA" (Tylko dla segmented)
+                    const isSegmented = variant === 'segmented';
+
+                    // Kleimy górę, jeśli nie jesteśmy pierwsi i nad nami jest zamknięty blok
+                    const shouldStickTop = isSegmented && !isFirst && !isOpen && !isPrevOpen;
+
+                    // Kleimy dół, jeśli nie jesteśmy ostatni i pod nami jest zamknięty blok
+                    const shouldStickBottom = isSegmented && !isLast && !isOpen && !isNextOpen;
+
+                    const topClip = shouldStickTop ? '0px' : '-100px';
+
+                    // Dla dołu robimy to samo - jeśli pod nami jest zamknięty (shouldStickBottom), tniemy.
+                    const bottomClip = shouldStickBottom ? '0px' : '-100px';
+
                     return (
                         <BoxBase
-                            key={i}
+                            key={val} // Stabilny klucz to podstawa animacji
                             {...accordionProps}
-                            className={cn(classes, groupOpen && 'uui-open')}
-                            direction="col">
+                            className={cn(classes, isOpen && 'uui-open')}
+                            direction="col"
+                            style={
+                                isSegmented
+                                    ? {
+                                          // Nakładanie ramek i odstępy
+                                          // marginTop: shouldStickTop ? '0' : isFirst ? '0' : '12px',
+                                          // Dynamiczne promienie (null/undefined przywraca domyślny z klasy shape)
+                                          borderTopLeftRadius: shouldStickTop ? 0 : undefined,
+                                          borderTopRightRadius: shouldStickTop ? 0 : undefined,
+                                          borderBottomLeftRadius: shouldStickBottom ? 0 : undefined,
+                                          borderBottomRightRadius: shouldStickBottom ? 0 : undefined,
+                                          // overflowY: 'hidden',
+                                          // clipPath: isOpen
+                                          //     ? 'inset(-100px -100px -100px -100px)'
+                                          //     : `inset(${topClip} -100px ${bottomClip} -100px)`,
+
+                                          // Żeby cienie i ramki otwartego elementu były na wierzchu
+                                          zIndex: isOpen ? 0 : i,
+                                          position: 'relative',
+                                          transition: 'all 250ms ease',
+                                      }
+                                    : undefined
+                            }>
                             {group}
                         </BoxBase>
                     );

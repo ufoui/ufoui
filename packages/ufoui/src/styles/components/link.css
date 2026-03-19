@@ -1,0 +1,57 @@
+.uui-link {
+    --uui-slot-size: 1em;
+    display: inline-flex;
+    text-decoration: none;
+    --uui-link-color: var(--uui-control-color, var(--uui-color-primary));
+    color: var(--uui-link-color);
+    outline: 0;
+    position: relative;
+
+    transition: color 150ms ease;
+}
+
+.uui-link-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.uui-link-text {
+    position: relative;
+    display: inline-block;
+}
+
+.uui-link-text::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    border-radius: 2px;
+
+    transition: width 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.uui-link-underline-none .uui-link-text::after {
+    display: none;
+}
+
+.uui-link-underline-always .uui-link-text::after {
+    width: 100%;
+}
+
+.uui-link-underline-hover:hover .uui-link-text::after {
+    width: 100%;
+}
+
+.uui-link[aria-disabled="true"] {
+    pointer-events: none;
+    opacity: var(--uui-disabled-opacity);
+    color: var(--uui-color-on-surface) !important;
+}
+
+
+

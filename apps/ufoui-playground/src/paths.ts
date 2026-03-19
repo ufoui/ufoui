@@ -1,6 +1,8 @@
 export const paths = {
     start: '/',
     button: '/components/button',
+    breadcrumbs: '/components/breadcrumbs',
+    link: '/components/link',
     checkbox: '/components/checkbox',
     switch: '/components/switch',
     radio: '/components/radio',

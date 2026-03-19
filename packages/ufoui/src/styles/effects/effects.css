@@ -1,0 +1,11 @@
+.uui-text-trigger.uui-hover-overlay:hover {
+    opacity: var(--uui-text-hover-opacity);
+}
+
+.uui-text-trigger.uui-pressed-overlay:active {
+    opacity: var(--uui-text-pressed-opacity);
+}
+
+.uui-text-trigger.uui-focus-overlay:focus-visible {
+    opacity: var(--uui-text-focus-opacity);
+}

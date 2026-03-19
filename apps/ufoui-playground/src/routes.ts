@@ -10,6 +10,7 @@ import {
     LuCirclePlus,
     LuHouse,
     LuLayers,
+    LuLink,
     LuList,
     LuListCollapse,
     LuLoader,
@@ -35,6 +36,8 @@ import { CheckboxPage } from './pages/checkboxPage';
 import { SwitchPage } from './pages/switchPage';
 import { RadioPage } from './pages/radioPage';
 import { ButtonPage } from './pages/buttonPage';
+import { BreadcrumbsPage } from './pages/breadcrumbsPage';
+import { LinkPage } from './pages/linkPage';
 import { FieldPage } from './pages/fieldPage';
 import { FabPage } from './pages/fabPage';
 import { MenuPage } from './pages/menuPage';
@@ -74,6 +77,8 @@ export const appRoutes: AppRoute[] = [
     { label: 'Collapse', path: paths.collapse, component: CollapsePage, icon: LuChevronDown, showInNav: true },
 
     { label: 'Button', path: paths.button, component: ButtonPage, icon: LuRectangleHorizontal, showInNav: true },
+    { label: 'Breadcrumbs', path: paths.breadcrumbs, component: BreadcrumbsPage, icon: LuLayers, showInNav: true },
+    { label: 'Link', path: paths.link, component: LinkPage, icon: LuLink, showInNav: true },
     { label: 'Icon Button', path: paths.iconButton, component: IconButtonPage, icon: LuSquareCode, showInNav: true },
     { label: 'Fab', path: paths.fab, component: FabPage, icon: LuCirclePlus, showInNav: true },
     { label: 'Chip', path: paths.chip, component: ChipPage, icon: LuTag, showInNav: true },

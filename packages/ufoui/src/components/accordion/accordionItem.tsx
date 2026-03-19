@@ -113,7 +113,7 @@ export const AccordionItem = ({
     const triggerClasses = [
         'uui-accordion-trigger',
         getFontClass(font ?? config?.font ?? 'labelLarge'),
-        ...(focusEffects.includes('ring') && focusVisible ? ['uui-focus-ring-in'] : []),
+        ...(focusEffects.includes('ring') && focusVisible ? ['uui-focus-ring'] : []),
         ...(focusEffects.includes('overlay') ? ['uui-focus-overlay'] : []),
         ...(hoverEffects.includes('overlay') ? ['uui-hover-overlay'] : []),
         ...(pressedEffects.includes('overlay') ? ['uui-pressed-overlay'] : []),

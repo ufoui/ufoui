@@ -1,14 +1,14 @@
 import React, { forwardRef, HTMLAttributes, ReactNode } from 'react';
 
 import {
-  ElementBorder,
-  ElementElevation,
-  ElementFont,
-  ElementShape,
-  getBorderClass,
-  getElevationClass,
-  getFontClass,
-  getShapeClass,
+    ElementBorder,
+    ElementElevation,
+    ElementFont,
+    ElementShape,
+    getBorderClass,
+    getElevationClass,
+    getFontClass,
+    getShapeClass,
 } from '../../utils/utils';
 import { BorderColor, getBorderColor, SurfaceColor } from '../../utils/color';
 import { ControlStyle } from '../../utils/controlStyle';
@@ -21,34 +21,33 @@ import { ControlStyle } from '../../utils/controlStyle';
  *
  * @category Text
  */
-export interface TextBaseProps
-  extends Omit<HTMLAttributes<HTMLElement>, 'color'> {
-  /** Custom HTML element/component. Default: span. */
-  component?: React.ElementType;
+export interface TextBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color'> {
+    /** Custom HTML element/component. Default: span. */
+    component?: React.ElementType;
 
-  /** Font token controlling typography (size, weight, line-height). */
-  font?: ElementFont;
+    /** Font token controlling typography (size, weight, line-height). */
+    font?: ElementFont;
 
-  /** Surface background token. */
-  color?: SurfaceColor;
+    /** Surface background token. */
+    color?: SurfaceColor;
 
-  /** Elevation level (0–5). */
-  elevation?: ElementElevation;
+    /** Elevation level (0–5). */
+    elevation?: ElementElevation;
 
-  /** Shape/border-radius token. */
-  shape?: ElementShape;
+    /** Shape/border-radius token. */
+    shape?: ElementShape;
 
-  /** Border width (0–5). */
-  border?: ElementBorder;
+    /** Border width (0–5). */
+    border?: ElementBorder;
 
-  /** Border color token. */
-  borderColor?: BorderColor;
+    /** Border color token. */
+    borderColor?: BorderColor;
 
-  /** Semantic UUI element class (e.g. uui-text, uui-heading). */
-  elementClass?: string;
+    /** Semantic UUI element class (e.g. uui-text, uui-heading). */
+    elementClass?: string;
 
-  /** Text content. */
-  children?: ReactNode;
+    /** Text content. */
+    children?: ReactNode;
 }
 
 /**
@@ -65,48 +64,48 @@ export interface TextBaseProps
  * @param props - Typography and visual styling props.
  */
 export const TextBase = forwardRef<HTMLElement, TextBaseProps>((props, ref) => {
-  const {
-    component,
-    font,
-    color,
-    elevation,
-    shape,
-    border,
-    borderColor,
-    elementClass,
-    children,
-    className,
-    style,
-    ...other
-  } = props;
+    const {
+        component,
+        font,
+        color,
+        elevation,
+        shape,
+        border,
+        borderColor,
+        elementClass,
+        children,
+        className,
+        style,
+        ...other
+    } = props;
 
-  const Tag: React.ElementType = component ?? 'span';
-  const controlStyle = ControlStyle(style);
+    const Tag: React.ElementType = component ?? 'span';
+    const controlStyle = ControlStyle(style);
 
-  if (border && +border > 0) {
-    controlStyle.border(getBorderColor(borderColor));
-  }
+    if (border && +border > 0) {
+        controlStyle.border(getBorderColor(borderColor));
+    }
 
-  controlStyle.bg(color);
-  controlStyle.text.on(color);
+    controlStyle.bg(color);
+    controlStyle.text.on(color);
 
-  const classes = [
-    'uui-inline',
-    elementClass,
-    ...(font ? [getFontClass(font)] : []),
-    ...(shape ? [getShapeClass(shape)] : []),
-    ...(elevation !== undefined ? [getElevationClass(elevation)] : []),
-    ...(border !== undefined ? [getBorderClass(border)] : []),
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+    const classes = [
+        'uui-inline',
+        elementClass,
+        ...(font ? [getFontClass(font)] : []),
+        ...(shape ? [getShapeClass(shape)] : []),
+        ...(elevation !== undefined ? [getElevationClass(elevation)] : []),
+        ...(border !== undefined ? [getBorderClass(border)] : []),
+        className,
+    ]
+        .filter(Boolean)
+        .join(' ');
 
-  return (
-    <Tag className={classes} ref={ref} style={controlStyle.get()} {...other}>
-      {children}
-    </Tag>
-  );
+    return (
+        <Tag className={classes} ref={ref} style={controlStyle.get()} {...other}>
+            {children}
+        </Tag>
+    );
 });
 
 TextBase.displayName = 'TextBase';

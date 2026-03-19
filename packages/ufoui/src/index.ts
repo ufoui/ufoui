@@ -36,6 +36,8 @@ export * from './components/toast';
 export * from './components/calendar/calendar';
 export * from './components/avatar';
 export * from './components/rating/rating';
+export * from './components/breadcrumbs/breadcrumbs';
+export * from './components/link/link';
 export * from './utils';
 export * from './types';
 export * from './hooks';

@@ -2,6 +2,9 @@
   --uui-hover-opacity: 0.08;
   --uui-focus-opacity: 0.1;
   --uui-pressed-opacity: 0.12;
+  --uui-text-hover-opacity: 0.88;
+  --uui-text-focus-opacity: 0.8;
+  --uui-text-pressed-opacity: 0.8;
   --uui-dragged-opacity: 0.16;
   --uui-selected-opacity: 0.24;
   --uui-disabled-opacity: 0.38;
