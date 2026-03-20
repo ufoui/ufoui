@@ -13,6 +13,7 @@
     },
     "build": {
       "executor": "@nx/vite:build",
+        "dependsOn": ["typecheck"],
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/ufoui",

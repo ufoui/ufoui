@@ -43,7 +43,7 @@ export interface FieldBaseProps extends Omit<React.InputHTMLAttributes<HTMLInput
     outlined?: boolean;
     filled?: boolean;
     classic?: boolean;
-    fullWidth?: boolean;
+    wFull?: boolean;
     /** Control shape variant. */
     shape?: ElementShape;
     /** Text color override for the label. */

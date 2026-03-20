@@ -53,14 +53,14 @@ export const AccordionPage = () => {
         'This is a very long accordion title used to test layout wrapping, truncation and alignment behavior inside the header element';
 
     return (
-        <Article direction="row" fullWidth>
+        <Article direction="row" wFull>
             <Section className="items-start gap-6 p-4" grow>
                 <H1>Accordion</H1>
 
                 {/* ───────────────────────── SINGLE ───────────────────────── */}
 
                 <H2>Single Item Accordion</H2>
-                <Grid cols={4} fullWidth gap={20}>
+                <Grid cols={4} gap={20} wFull>
                     {['text', 'grouped', 'pills', 'segmented'].map(variant => (
                         <Accordion key={variant} type="multiple" {...shared} variant={variant as AccordionVariant}>
                             <AccordionItem label={faker.lorem.sentence()} value={variant + 'a'}>
@@ -101,7 +101,7 @@ export const AccordionPage = () => {
                 </Grid>
 
                 {/* <H2>Multiple Items Accordion</H2>*/}
-                {/* <Grid cols={4} fullWidth gap={20}>*/}
+                {/* <Grid cols={4} wFull gap={20}>*/}
                 {/*    {['text', 'grouped', 'pills', 'segmented'].map(variant => (*/}
                 {/*        <Accordion key={variant} type="multiple" {...shared} variant={variant as AccordionVariant}>*/}
                 {/*            <AccordionItem label={faker.lorem.sentence()} value="1">*/}
@@ -120,7 +120,7 @@ export const AccordionPage = () => {
                 {/* </Grid>*/}
 
                 {/* <H2>Accordions With Leading Icons & Long Titles</H2>*/}
-                {/* <Grid cols={3} fullWidth gap={20}>*/}
+                {/* <Grid cols={3} wFull gap={20}>*/}
                 {/*    <Accordion type="single" {...shared} variant="text">*/}
                 {/*        <AccordionItem label={longTitle} leading={<MdInfo />} value="1">*/}
                 {/*            <Div>{faker.lorem.paragraphs(2)}</Div>*/}

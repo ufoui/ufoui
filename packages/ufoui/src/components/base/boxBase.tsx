@@ -1,18 +1,20 @@
-import React, { forwardRef, HTMLAttributes, ReactNode } from 'react';
+import { CSSProperties, ElementType, forwardRef, HTMLAttributes, ReactNode } from 'react';
 
 import {
     BorderColor,
+    cn,
     ControlStyle,
     ElementBorder,
     ElementElevation,
     ElementFont,
     ElementShape,
     getBorderClass,
-    getBorderColor,
     getElevationClass,
     getFontClass,
     getShapeClass,
+    getWrapperStyle,
     SurfaceColor,
+    WrapperProps,
 } from '../../utils';
 
 /**
@@ -44,21 +46,18 @@ export type BoxDirection = 'row' | 'col';
  *
  * @category Box
  */
-export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' | 'content'> {
+export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' | 'content'>, WrapperProps {
     /** Maps to `align-content` (grid/flex-wrap content alignment). */
-    alignContent?: React.CSSProperties['alignContent'];
+    alignContent?: CSSProperties['alignContent'];
 
     /** Maps to `align-items` (cross-axis alignment). */
-    alignItems?: React.CSSProperties['alignItems'];
+    alignItems?: CSSProperties['alignItems'];
 
     /** Border width (0–5). */
     border?: ElementBorder;
 
     /** Border color token. */
     borderColor?: BorderColor;
-
-    /** Bottom offset. */
-    bottom?: number | string;
 
     /** React children inside the box. */
     children?: ReactNode;
@@ -73,7 +72,7 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     cols?: number | string;
 
     /** Custom HTML element/component. Default: `div`. */
-    component?: React.ElementType;
+    component?: ElementType;
 
     /** Layout direction (`row` or `col`) for flex. Ignored if `row` or `col` is set. */
     direction?: BoxDirection;
@@ -94,10 +93,10 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     font?: ElementFont;
 
     /** Forces full height (100%). */
-    fullHeight?: boolean;
+    hFull?: boolean;
 
     /** Forces full width (100%). */
-    fullWidth?: boolean;
+    wFull?: boolean;
 
     /** Gap between children (flex/grid). */
     gap?: number | string;
@@ -115,31 +114,7 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     inline?: boolean;
 
     /** Maps to `justify-content` (main-axis alignment). */
-    justifyContent?: React.CSSProperties['justifyContent'];
-
-    /** Left offset. */
-    left?: number | string;
-
-    /** Margin (all sides). */
-    m?: number | string;
-
-    /** Margin bottom. */
-    mb?: number | string;
-
-    /** Margin left. */
-    ml?: number | string;
-
-    /** Margin right. */
-    mr?: number | string;
-
-    /** Margin top. */
-    mt?: number | string;
-
-    /** Horizontal margin (`margin-left` + `margin-right`). */
-    mx?: number | string;
-
-    /** Vertical margin (`margin-top` + `margin-bottom`). */
-    my?: number | string;
+    justifyContent?: CSSProperties['justifyContent'];
 
     /** Padding (all sides). */
     p?: number | string;
@@ -151,10 +126,7 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     pl?: number | string;
 
     /** Maps to `place-items` (grid shortcut for align+justify items). */
-    placeItems?: React.CSSProperties['placeItems'];
-
-    /** CSS position (mapped to `uui-*` class). */
-    position?: 'static' | 'relative' | 'absolute' | 'fixed' | 'sticky';
+    placeItems?: CSSProperties['placeItems'];
 
     /** Padding right. */
     pr?: number | string;
@@ -168,9 +140,6 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     /** Vertical padding (`padding-top` + `padding-bottom`). */
     py?: number | string;
 
-    /** Right offset. */
-    right?: number | string;
-
     /** Layout direction shortcut. Same as `direction="row"`. */
     row?: boolean;
 
@@ -180,17 +149,16 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     /** Shape/border-radius token (round, rounded, smooth, square). */
     shape?: ElementShape;
 
-    /** Top offset. */
-    top?: number | string;
-
     /** Layout mode (`flex`, `grid`, `block`). Default: `flex`. */
     type?: BoxType;
 
     /** Enables wrapping (`flex-wrap: wrap`). */
     wrap?: boolean;
 
-    /** Stacking order (z-index). */
-    zIndex?: number;
+    /** Width. */
+    w?: number | string;
+    /** Height. */
+    h?: number | string;
 }
 
 /**
@@ -236,16 +204,9 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
         className,
         style,
         font,
-        fullWidth,
-        fullHeight,
+        hFull,
+        wFull,
         grow,
-        m,
-        mx,
-        my,
-        mt,
-        mb,
-        ml,
-        mr,
         p,
         px,
         py,
@@ -266,175 +227,68 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
         component,
         row,
         col,
-        position,
-        top,
-        right,
-        bottom,
-        left,
-        zIndex,
+        w,
+        h,
         ...other
     } = props;
-    const Tag: React.ElementType = component ?? 'div';
-    const controlStyle = ControlStyle(style);
+    const Tag: ElementType = component ?? 'div';
+    const { wrapperStyle, otherProps } = getWrapperStyle(other);
+    const controlStyle = ControlStyle(wrapperStyle);
+    controlStyle.merge(style);
 
-    if (border && +border > 0) {
-        controlStyle.border(getBorderColor(borderColor));
-    }
+    const layoutProps: CSSProperties = {
+        width: w ?? (wFull ? '100%' : undefined),
+        height: h ?? (hFull ? '100%' : undefined),
+        padding: p,
+        paddingTop: pt ?? py,
+        paddingBottom: pb ?? py,
+        paddingLeft: pl ?? px,
+        paddingRight: pr ?? px,
+        gap: gap,
+        columnGap: gapX,
+        rowGap: gapY,
+        justifyContent,
+        alignItems,
+        placeItems,
+        alignContent,
+        flexWrap: wrap && type === 'flex' ? 'wrap' : undefined,
+        gridTemplateColumns: type === 'grid' ? (typeof cols === 'number' ? `repeat(${cols}, 1fr)` : cols) : undefined,
+        gridTemplateRows: type === 'grid' ? (typeof rows === 'number' ? `repeat(${rows}, 1fr)` : rows) : undefined,
+    };
+
+    controlStyle.merge(layoutProps);
+    controlStyle.border(borderColor);
+
     controlStyle.bg(color);
     controlStyle.text.on(color);
 
-    const layoutClasses: string[] = [];
-    if (type === 'flex') {
-        layoutClasses.push(inline ? 'uui-flex-inline' : 'uui-flex');
-    } else if (type === 'grid') {
-        layoutClasses.push(inline ? 'uui-grid-inline' : 'uui-grid');
-    } else {
-        layoutClasses.push(inline ? 'uui-inline-block' : 'uui-block');
-    }
-
-    if (fullWidth) {
-        controlStyle.set('width', '100%');
-    }
-
-    if (fullHeight) {
-        controlStyle.set('height', '100%');
-    }
-
-    if (grow) {
-        layoutClasses.push('uui-grow');
-    }
-
-    if (m !== undefined) {
-        controlStyle.set('margin', m);
-    }
-    if (mx !== undefined) {
-        controlStyle.set('marginLeft', mx);
-        controlStyle.set('marginRight', mx);
-    }
-    if (my !== undefined) {
-        controlStyle.set('marginTop', my);
-        controlStyle.set('marginBottom', my);
-    }
-    if (mt !== undefined) {
-        controlStyle.set('marginTop', mt);
-    }
-    if (mb !== undefined) {
-        controlStyle.set('marginBottom', mb);
-    }
-    if (ml !== undefined) {
-        controlStyle.set('marginLeft', ml);
-    }
-    if (mr !== undefined) {
-        controlStyle.set('marginRight', mr);
-    }
-
-    if (p !== undefined) {
-        controlStyle.set('padding', p);
-    }
-    if (px !== undefined) {
-        controlStyle.set('paddingLeft', px);
-        controlStyle.set('paddingRight', px);
-    }
-    if (py !== undefined) {
-        controlStyle.set('paddingTop', py);
-        controlStyle.set('paddingBottom', py);
-    }
-    if (pt !== undefined) {
-        controlStyle.set('paddingTop', pt);
-    }
-    if (pb !== undefined) {
-        controlStyle.set('paddingBottom', pb);
-    }
-    if (pl !== undefined) {
-        controlStyle.set('paddingLeft', pl);
-    }
-    if (pr !== undefined) {
-        controlStyle.set('paddingRight', pr);
-    }
-
-    if (gap !== undefined) {
-        controlStyle.set('gap', gap);
-    }
-    if (gapX !== undefined) {
-        controlStyle.set('columnGap', gapX);
-    }
-    if (gapY !== undefined) {
-        controlStyle.set('rowGap', gapY);
-    }
-
-    if (justifyContent !== undefined) {
-        controlStyle.set('justifyContent', justifyContent);
-    }
-    if (alignItems !== undefined) {
-        controlStyle.set('alignItems', alignItems);
-    }
-    if (placeItems !== undefined) {
-        controlStyle.set('placeItems', placeItems);
-    }
-
-    if (alignContent !== undefined) {
-        controlStyle.set('alignContent', alignContent);
-    }
-
-    if (wrap && type === 'flex') {
-        controlStyle.set('flexWrap', 'wrap');
-    }
-
-    if (top !== undefined) {
-        controlStyle.set('top', top);
-    }
-    if (right !== undefined) {
-        controlStyle.set('right', right);
-    }
-    if (bottom !== undefined) {
-        controlStyle.set('bottom', bottom);
-    }
-    if (left !== undefined) {
-        controlStyle.set('left', left);
-    }
-    if (zIndex !== undefined) {
-        controlStyle.set('zIndex', zIndex);
-    }
-
-    if (type === 'grid') {
-        if (cols !== undefined) {
-            controlStyle.set('gridTemplateColumns', typeof cols === 'number' ? `repeat(${cols}, 1fr)` : cols);
-        }
-        if (rows !== undefined) {
-            controlStyle.set('gridTemplateRows', typeof rows === 'number' ? `repeat(${rows}, 1fr)` : rows);
-        }
-    }
-
-    const resolvedDirection: BoxDirection | undefined =
-        (row ? 'row' : undefined) ?? (col ? 'col' : undefined) ?? direction;
-    let directionClass = '';
-    if (resolvedDirection && type === 'flex') {
-        directionClass = resolvedDirection === 'col' ? 'uui-flex-col' : 'uui-flex-row';
-    }
-
-    let flowClass = '';
-    if (flow && type === 'grid') {
-        flowClass = flow === 'col' ? 'uui-grid-flow-col' : 'uui-grid-flow-row';
-    }
-
-    const classes = [
+    const resDir = row ? 'row' : col ? 'col' : direction;
+    const classes = cn(
         className,
         'uui-box',
-        ...(font ? [getFontClass(font)] : []),
         elementClass,
-        ...layoutClasses,
-        ...(shape ? [getShapeClass(shape)] : []),
-        ...(elevation !== undefined ? [getElevationClass(elevation)] : []),
-        ...(border !== undefined ? [getBorderClass(border)] : []),
-        ...(position !== undefined ? [`uui-${position}`] : []),
-        directionClass,
-        flowClass,
-    ]
-        .filter(Boolean)
-        .join(' ');
+        font && getFontClass(font),
+        shape && getShapeClass(shape),
+        elevation !== undefined && getElevationClass(elevation),
+        border !== undefined && getBorderClass(border),
+        grow && 'uui-grow',
+        type === 'flex'
+            ? inline
+                ? 'uui-flex-inline'
+                : 'uui-flex'
+            : type === 'grid'
+              ? inline
+                  ? 'uui-grid-inline'
+                  : 'uui-grid'
+              : inline
+                ? 'uui-inline-block'
+                : 'uui-block',
+        resDir && type === 'flex' && `uui-flex-${resDir}`,
+        flow && type === 'grid' && `uui-grid-flow-${flow === 'col' ? 'col' : 'row'}`
+    );
 
     return (
-        <Tag className={classes} ref={ref} {...other} style={controlStyle.get()}>
+        <Tag className={classes} ref={ref} {...otherProps} style={controlStyle.get()}>
             {children}
         </Tag>
     );

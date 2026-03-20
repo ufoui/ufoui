@@ -6,7 +6,7 @@ export const CalendarPage = () => {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
     return (
-        <Article direction="row" fullWidth>
+        <Article direction="row" wFull>
             <Content gap={24} grow px={24} py={24}>
                 <H1>Calendar</H1>
 

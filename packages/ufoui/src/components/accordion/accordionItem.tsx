@@ -43,8 +43,8 @@ export interface AccordionItemProps {
     animation?: MotionAnimation;
     motionStyle?: MotionStyle;
     duration?: number;
-    flush: boolean;
-    divided: boolean;
+    flush?: boolean;
+    divided?: boolean;
     onFocus?: React.FocusEventHandler<HTMLButtonElement>;
     onBlur?: React.FocusEventHandler<HTMLButtonElement>;
     /** Hover visual effects. */

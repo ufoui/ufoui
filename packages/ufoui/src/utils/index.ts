@@ -7,3 +7,4 @@ export * from './generateSchemes';
 export * from './toasts';
 export * from './uniqueID';
 export * from './controlStyle';
+export * from './getWrapperStyle';

@@ -14,7 +14,7 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
         const buttonRef = useRef<HTMLDivElement>(null);
         const inlineTooltip = <div>{title}</div>;
         return (
-            <span className="uui-tooltip" ref={ref} {...props}>
+            <span className="uui-tooltip-wrapper" ref={ref} {...props}>
                 <InlineTooltipManager align={align} tooltip={inlineTooltip} triggerRef={buttonRef} />
                 <div ref={buttonRef}>{children}</div>
             </span>

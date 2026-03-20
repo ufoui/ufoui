@@ -60,7 +60,7 @@ export const BreadcrumbsPage = () => {
     }));
 
     return (
-        <Article direction="row" fullWidth>
+        <Article direction="row" wFull>
             <Section className="items-start gap-6 p-4" grow>
                 <H1>Breadcrumbs</H1>
 
@@ -104,4 +104,3 @@ export const BreadcrumbsPage = () => {
         </Article>
     );
 };
-

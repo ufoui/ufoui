@@ -44,7 +44,7 @@ export const CollapsePage = () => {
     );
 
     return (
-        <Article direction="row" fullWidth>
+        <Article direction="row" wFull>
             <Section className="items-start gap-6 p-4" grow>
                 <h2>Basic Collapse</h2>
 

@@ -28,7 +28,7 @@
  * style.text.on('surface');
  * return <button style={style.get()}>Press</button>;
  */
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 import { capitalize, inverseColorMap, SemanticColor, SurfaceColor, ThemeColor } from './color';
 
@@ -135,7 +135,8 @@ export function ControlStyle(initial?: React.CSSProperties) {
             if (!styles) {
                 return;
             }
-            Object.assign(bag, styles);
+            const newStyles = Object.fromEntries(Object.entries(styles).filter(([_, v]) => v != null)) as CSSProperties;
+            Object.assign(bag, newStyles);
         },
     };
 }

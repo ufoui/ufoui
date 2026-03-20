@@ -1,6 +1,9 @@
 import React, { forwardRef, HTMLAttributes, ReactNode } from 'react';
 
 import {
+    BorderColor,
+    cn,
+    ControlStyle,
     ElementBorder,
     ElementElevation,
     ElementFont,
@@ -9,9 +12,8 @@ import {
     getElevationClass,
     getFontClass,
     getShapeClass,
-} from '../../utils/utils';
-import { BorderColor, getBorderColor, SurfaceColor } from '../../utils/color';
-import { ControlStyle } from '../../utils/controlStyle';
+    SurfaceColor,
+} from '../../utils';
 
 /**
  * Props for {@link TextBase}.
@@ -82,24 +84,19 @@ export const TextBase = forwardRef<HTMLElement, TextBaseProps>((props, ref) => {
     const Tag: React.ElementType = component ?? 'span';
     const controlStyle = ControlStyle(style);
 
-    if (border && +border > 0) {
-        controlStyle.border(getBorderColor(borderColor));
-    }
-
+    controlStyle.border(borderColor);
     controlStyle.bg(color);
     controlStyle.text.on(color);
 
-    const classes = [
+    const classes = cn(
         'uui-inline',
         elementClass,
         ...(font ? [getFontClass(font)] : []),
         ...(shape ? [getShapeClass(shape)] : []),
         ...(elevation !== undefined ? [getElevationClass(elevation)] : []),
         ...(border !== undefined ? [getBorderClass(border)] : []),
-        className,
-    ]
-        .filter(Boolean)
-        .join(' ');
+        className
+    );
 
     return (
         <Tag className={classes} ref={ref} style={controlStyle.get()} {...other}>

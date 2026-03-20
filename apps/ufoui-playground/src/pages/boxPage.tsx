@@ -39,7 +39,7 @@ export const BoxPage = () => {
     );
 
     return (
-        <Article direction="row" fullWidth>
+        <Article direction="row" wFull>
             <Section className="items-start gap-4 p-4" color="surface" grow>
                 <h2>Basic Flex</h2>
                 <Flex {...shared}>
@@ -57,7 +57,7 @@ export const BoxPage = () => {
                     </Flex>
                 </Flex>
                 <h2>Flex Grow Example</h2>
-                <Flex {...shared} fullWidth>
+                <Flex {...shared} wFull>
                     <Flex color="primary" grow>
                         <div>Growing Flex 1</div>
                     </Flex>
@@ -66,8 +66,8 @@ export const BoxPage = () => {
                     </Flex>
                 </Flex>
                 <h2>Full Width Flex Example</h2>
-                <Flex {...shared} fullWidth>
-                    <Flex color="primary" fullWidth>
+                <Flex {...shared} wFull>
+                    <Flex color="primary" wFull>
                         <div>Full Width Flex 1</div>
                     </Flex>
                     <Flex>
@@ -119,12 +119,12 @@ export const BoxPage = () => {
                     <div>Simple Article Line 2</div>
                 </Article>
                 <h2 className="mt-6">Dividers</h2>
-                <Div fullWidth>
+                <Div wFull>
                     <div>Horizontal in block</div>
                     <Divider border={4} inset="middle" />
                     <div>Line 2</div>
                 </Div>
-                <Div fullWidth>
+                <Div wFull>
                     <span>Vertical in block</span>
                     <Divider border={4} className="" height="24px" inset="middle" vertical />
                     <span>Text after</span>
@@ -135,28 +135,28 @@ export const BoxPage = () => {
                     </span>
                 </Div>
                 <Divider />
-                <Flex fullWidth wrap>
+                <Flex wFull wrap>
                     <div>Horizontal in flex row wrap</div>
                     <Divider border={4} inset="middle" />
                     <div>Line 2</div>
                 </Flex>
-                <Flex fullWidth>
+                <Flex wFull>
                     <div>Horizontal in in flex row</div>
                     <Divider border={4} inset="middle" />
                     <div>Line 2</div>
                 </Flex>
-                <Flex alignItems="center" fullWidth>
+                <Flex alignItems="center" wFull>
                     <div>Vertical in in flex row</div>
                     <Divider border={4} inset="middle" insetSize={2} vertical />
                     <div>Line 2</div>
                 </Flex>
                 <Divider />
-                <Flex direction="col" fullWidth>
+                <Flex direction="col" wFull>
                     <div>Horizontal in flex col</div>
                     <Divider border={4} inset="middle" />
                     <div>Line 2</div>
                 </Flex>
-                <Flex direction="col" fullWidth>
+                <Flex direction="col" wFull>
                     <div>Vertical in in flex col</div>
                     <Divider border={4} height="20px" inset="middle" vertical />
                     <div>Line 2</div>

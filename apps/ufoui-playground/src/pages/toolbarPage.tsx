@@ -49,7 +49,7 @@ export const ToolbarPage = () => {
     );
 
     return (
-        <Article direction="row" fullWidth>
+        <Article direction="row" wFull>
             <Content gap={24} grow px={24} py={24}>
                 <Section gap={12}>
                     <h2>Docked</h2>

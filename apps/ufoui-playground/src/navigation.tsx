@@ -9,12 +9,7 @@ export const Navigation = () => {
     const navigate = useNavigate();
     const location = useLocation();
     return (
-        <Nav
-            className="z-10 w-[180px] pb-[100px] pt-5"
-            color="surfaceContainer"
-            direction="col"
-            fullHeight
-            position="fixed">
+        <Nav className="z-10 w-[180px] pb-[100px] pt-5" color="surfaceContainer" direction="col" hFull position="fixed">
             <Menu
                 className="h-full w-full [&>div.uui-menu-scroll]:max-h-full"
                 docked
