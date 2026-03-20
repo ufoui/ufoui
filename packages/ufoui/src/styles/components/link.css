@@ -2,15 +2,14 @@
     --uui-slot-size: 1em;
     --uui-icon-size: 0.85em;
     --uui-focus-ring-inset: -2px;
+    --uui-underline-origin: left;
+    --uui-link-color: var(--uui-control-color, var(--uui-color-primary));
     display: inline;
     align-self: flex-start;
     text-decoration: none;
-    --uui-link-color: var(--uui-control-color, var(--uui-color-primary));
     color: var(--uui-link-color);
     outline: 0;
     position: relative;
-
-    /*transition: color 150ms ease;*/
 }
 
 .uui-link-content {
@@ -40,10 +39,16 @@
     background: currentColor;
     border-radius: 2px;
 
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 180ms cubic-bezier(0.2, 0, 0, 1);
+    opacity:0;
+    transform: scaleX(1);
+    transform-origin: var(--uui-underline-origin);
+    transition: opacity 180ms cubic-bezier(0.2, 0, 0, 1);
+}
 
+.uui-link-anim-scale .uui-link-text::after{
+    transform: scaleX(0);
+    opacity:1;
+    transition: transform 180ms cubic-bezier(0.2, 0, 0, 1);
 }
 
 .uui-link-underline-none .uui-link-text::after {
@@ -52,14 +57,17 @@
 
 .uui-link-underline-always .uui-link-text::after {
     transform: scaleX(1);
+    opacity:1;
 }
 
 .uui-link-underline-hover:hover .uui-link-text::after {
     transform: scaleX(1);
+    opacity:1;
 }
 
 .uui-link-underline-hover:focus-visible .uui-link-text::after {
     transform: scaleX(1);
+    opacity:1;
 }
 
 .uui-link[aria-disabled="true"] {

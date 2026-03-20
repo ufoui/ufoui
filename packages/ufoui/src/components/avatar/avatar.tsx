@@ -11,44 +11,41 @@ import { IS_AVATAR } from './avatar.guards';
  *
  * @category Avatar
  */
-export interface AvatarProps
-  extends Omit<BoxBaseProps, 'component' | 'elementClass'> {
-  /** Size token controlling width and height. */
-  size?: ElementSize;
+export interface AvatarProps extends Omit<BoxBaseProps, 'component' | 'elementClass'> {
+    /** Size token controlling width and height. */
+    size?: ElementSize;
 
-  /** Image source URL. */
-  src?: string;
+    /** Image source URL. */
+    src?: string;
 
-  /** Alternative text for image element. */
-  alt?: string;
+    /** Alternative text for image element. */
+    alt?: string;
 
-  /** Full name used for initials and auto color derivation. */
-  name?: string;
+    /** Full name used for initials and auto color derivation. */
+    name?: string;
 
-  /** Custom fallback content rendered when no image and no name are provided. */
-  children?: ReactNode;
+    /** Custom fallback content rendered when no image and no name are provided. */
+    children?: ReactNode;
 }
 
-const AvatarColors = ThemeExtendedColorKeys.filter(
-  (c) => c !== 'white' && c !== 'black',
-);
+const AvatarColors = ThemeExtendedColorKeys.filter(c => c !== 'white' && c !== 'black');
 
 function stringHash(str: string): number {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return Math.abs(hash);
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return Math.abs(hash);
 }
 
 function getInitials(name?: string): string {
-  const parts = name?.trim().split(/\s+/).filter(Boolean);
-  if (!parts?.length) {
-    return '';
-  }
-  const first = parts[0][0];
-  const last = parts.length > 1 ? parts[parts.length - 1][0] : '';
-  return (first + last).toUpperCase();
+    const parts = name?.trim().split(/\s+/).filter(Boolean);
+    if (!parts?.length) {
+        return '';
+    }
+    const first = parts[0][0];
+    const last = parts.length > 1 ? parts[parts.length - 1][0] : '';
+    return (first + last).toUpperCase();
 }
 
 /**
@@ -62,71 +59,56 @@ function getInitials(name?: string): string {
  *
  * @category Avatar
  */
+
 export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
-  (
-    {
-      children,
-      className,
-      shape = 'round',
-      size = 'medium',
-      src,
-      alt,
-      name,
-      color,
-      ...rest
-    },
-    ref,
-  ) => {
-    const [imgError, setImgError] = useState(false);
+    ({ children, className, shape = 'round', size = 'medium', src, alt, name, color, ...rest }, ref) => {
+        const [imgError, setImgError] = useState(false);
 
-    const classes = ['uui-avatar', getSizeClass(size), className]
-      .filter(Boolean)
-      .join(' ');
+        const classes = ['uui-avatar', getSizeClass(size), className].filter(Boolean).join(' ');
 
-    const showImage = Boolean(src && !imgError);
-    const initials = getInitials(name);
+        const showImage = Boolean(src && !imgError);
+        const initials = getInitials(name);
 
-    const derivedColor = useMemo(() => {
-      if (!name || showImage || color) {
-        return undefined;
-      }
-      const index = stringHash(name) % AvatarColors.length;
-      return AvatarColors[index];
-    }, [name, showImage, color]);
+        const derivedColor = useMemo(() => {
+            if (!name || showImage || color) {
+                return undefined;
+            }
+            const index = stringHash(name) % AvatarColors.length;
+            return AvatarColors[index];
+        }, [name, showImage, color]);
 
-    let content: ReactNode;
+        let content: ReactNode;
 
-    if (showImage) {
-      content = (
-        <img
-          alt={alt ?? name ?? ''}
-          draggable={false}
-          onError={() => {
-            setImgError(true);
-          }}
-          src={src}
-        />
-      );
-    } else if (name) {
-      content = <span aria-hidden>{initials}</span>;
-    } else {
-      content = children;
+        if (showImage) {
+            content = (
+                <img
+                    alt={alt ?? name ?? ''}
+                    draggable={false}
+                    onError={() => {
+                        setImgError(true);
+                    }}
+                    src={src}
+                />
+            );
+        } else if (name) {
+            content = <span aria-hidden>{initials}</span>;
+        } else {
+            content = children;
+        }
+
+        return (
+            <Grid
+                aria-label={!showImage ? name : undefined}
+                className={classes}
+                color={color ?? derivedColor}
+                font="labelLarge"
+                ref={ref}
+                shape={shape}
+                {...rest}>
+                {content}
+            </Grid>
+        );
     }
-
-    return (
-      <Grid
-        aria-label={!showImage ? name : undefined}
-        className={classes}
-        color={color ?? derivedColor}
-        font="labelLarge"
-        ref={ref}
-        shape={shape}
-        {...rest}
-      >
-        {content}
-      </Grid>
-    );
-  },
 );
 
 /**

@@ -72,7 +72,7 @@ export const InlineTooltipManager = ({ tooltip, align, triggerRef }: InlineToolt
         };
     }, [align, open, triggerRef]);
 
-    const style = ControlStyle({
+    const s = ControlStyle({
         top: coords?.y ?? -9999,
         left: coords?.x ?? -9999,
         opacity: coords ? 1 : 0,
@@ -81,7 +81,7 @@ export const InlineTooltipManager = ({ tooltip, align, triggerRef }: InlineToolt
     const classes = ['uui-tooltip', 'uui-font-body-small', 'uui-elevation-2', 'uui-corner-small'].join(' ');
 
     return createPortal(
-        <div className={classes} ref={floatingRef} role="tooltip" style={style.get()}>
+        <div className={classes} ref={floatingRef} role="tooltip" style={s.get()}>
             {tooltip}
         </div>,
         document.body
