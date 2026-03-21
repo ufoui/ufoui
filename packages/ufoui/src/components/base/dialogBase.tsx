@@ -1,325 +1,188 @@
-import React, {
-  forwardRef,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import {
-  BorderColor,
-  ElementElevation,
-  ElementOutline,
-  ElementShape,
-  ElementSize,
-  getBorderClass,
-  getBorderColor,
-  getBorderColorClass,
-  getElevationClass,
-  getShapeClass,
-  getSizeClass,
-  getSurfaceColorClasses,
-  mergeRefs,
-  SurfaceColor,
+    BorderColor,
+    cn,
+    ControlStyle,
+    ElementElevation,
+    ElementOutline,
+    ElementShape,
+    ElementSize,
+    getSizeClass,
+    mergeRefs,
+    SurfaceColor,
 } from '../../utils';
-import { MotionAnimation, motionClassMap, MotionStyle } from '../../types';
-import { useEscapeHandler } from '../../hooks';
+import { getAnimationClass, getMotionStyleClass, MotionAnimation, MotionStyle } from '../../types';
+import { useAnimate, useEscapeHandler, useFocusTrap } from '../../hooks';
+import { BoxBase } from './boxBase';
 
-export type DialogType =
-  | 'basic'
-  | 'fullscreen'
-  | 'dockRight'
-  | 'dockLeft'
-  | 'dockTop'
-  | 'dockBottom';
+export type DialogType = 'basic' | 'fullscreen' | 'dockRight' | 'dockLeft' | 'dockTop' | 'dockBottom';
 
-export type DialogAnimation = 'auto' | 'none' | MotionAnimation;
+export type DialogAnimation = 'none' | MotionAnimation;
 
 const defaultAnimation: Record<DialogType, MotionAnimation> = {
-  basic: 'scale',
-  fullscreen: 'fade',
-  dockBottom: 'slideUp',
-  dockTop: 'slideDown',
-  dockRight: 'slideRight',
-  dockLeft: 'slideLeft',
+    basic: 'scale',
+    fullscreen: 'fade',
+    dockBottom: 'slideUp',
+    dockTop: 'slideDown',
+    dockRight: 'slideRight',
+    dockLeft: 'slideLeft',
 };
 
-const resolveAnimation = (
-  animation: DialogAnimation,
-  type: DialogType,
-): MotionAnimation | 'none' => {
-  return animation === 'auto' ? defaultAnimation[type] : animation;
+const resolveAnimation = (type: DialogType, animation?: DialogAnimation) => {
+    return animation === 'none' ? undefined : (animation ?? defaultAnimation[type]);
 };
 
 export interface DialogBaseProps {
-  elementClass: string;
-  open: boolean;
-  onClose?: () => void;
+    elementClass?: string;
+    open: boolean;
+    onClose?: () => void;
+    type?: DialogType;
 
-  type?: DialogType;
-
-  color?: SurfaceColor;
-  elevation?: ElementElevation;
-  size?: ElementSize;
-  shape?: ElementShape;
-  border?: ElementOutline;
-  borderColor?: BorderColor;
-
-  animation?: DialogAnimation;
-  duration?: number;
-
-  disableBackdropClose?: boolean;
-  disableEscapeKey?: boolean;
-
-  children?: ReactNode;
-  className?: string;
-
-  motionStyle?: MotionStyle;
-
-  modal?: boolean;
-  title?: string;
-  actions?: ReactNode[];
-  icon?: ReactNode;
-  // scrollBehavior?: DialogScroll;
-  showCloseButton?: boolean;
-  showHandle?: boolean;
-  autoFocus?: boolean;
+    color?: SurfaceColor;
+    elevation?: ElementElevation;
+    size?: ElementSize;
+    shape?: ElementShape;
+    border?: ElementOutline;
+    borderColor?: BorderColor;
+    animation?: DialogAnimation;
+    duration?: number;
+    disableBackdropClose?: boolean;
+    disableEscapeKey?: boolean;
+    children?: ReactNode;
+    className?: string;
+    motionStyle?: MotionStyle;
+    modal?: boolean;
+    autoFocus?: boolean;
 }
 
-const portalTarget =
-  typeof document !== 'undefined'
-    ? (document.getElementById('dialog-root') ?? document.body)
-    : null;
+const portalTarget = typeof document !== 'undefined' ? (document.getElementById('dialog-root') ?? document.body) : null;
 
 export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
-  (
-    {
-      open,
-      onClose,
-      type = 'basic',
-      color = 'surfaceContainerHigh',
-      elevation = 3,
-      shape = 'rounded',
-      border = 0,
-      borderColor,
-      size = 'small',
-      animation = 'auto',
-      duration = 250,
-      disableBackdropClose,
-      disableEscapeKey,
-      children,
-      className,
-      motionStyle = 'regular',
-      modal = false,
-    }: DialogBaseProps,
-    ref,
-  ) => {
-    const dialogRef = useRef<HTMLDivElement>(null);
+    (
+        {
+            open,
+            onClose,
+            type = 'basic',
+            color = 'surfaceContainerHigh',
+            elevation = 3,
+            shape = 'rounded',
+            border,
+            borderColor,
+            size = 'small',
+            animation,
+            duration = 250,
+            disableBackdropClose,
+            disableEscapeKey,
+            children,
+            className,
+            motionStyle,
+            modal = false,
+            autoFocus,
+        }: DialogBaseProps,
+        ref
+    ) => {
+        const dialogRef = useRef<HTMLDivElement>(null);
+        const [visible, setVisible] = useState(false);
 
-    const [visible, setVisible] = useState(false);
-    const [backdropVisible, setBackdropVisible] = useState(false);
-    const [opening, setOpening] = useState<boolean | undefined>();
-    const [animating, setAnimating] = useState(false);
-    const [reverse, setReverse] = useState<'normal' | 'reverse'>('normal');
-    const previouslyFocused = useRef<HTMLElement | null>(null);
+        const as = useAnimate({
+            t1: duration,
+        });
 
-    // Utility: get focusable elements inside dialog
-    const getFocusable = () => {
-      if (!dialogRef.current) {
-        return [];
-      }
-      return Array.from(
-        dialogRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-        ),
-      ).filter(
-        (el) =>
-          !el.hasAttribute('disabled') &&
-          el.getAttribute('aria-hidden') !== 'true',
-      );
-    };
+        const { animationVars, animate, animating, idle, active } = as;
 
-    // open/close state + animation enter/exit timing
-    useEffect(() => {
-      if (open) {
-        setVisible(true);
-        setReverse('normal');
-        setAnimating(true);
-        setOpening(true);
-      } else {
-        setReverse('reverse');
-        setAnimating(false);
-        setOpening(false);
-        const id = setTimeout(() => {
-          setVisible(false);
-        }, duration);
+        const [backdropVisible, setBackdropVisible] = useState(false);
 
-        return () => {
-          clearTimeout(id);
+        useEscapeHandler(!disableEscapeKey && visible, () => onClose?.());
+
+        useFocusTrap({
+            ref: dialogRef,
+            enabled: modal && visible,
+            autoFocus: autoFocus && !active,
+        });
+
+        useEffect(() => {
+            if (open) {
+                animate('open');
+                setVisible(true);
+            } else if (!idle) {
+                animate('closed');
+                setVisible(false);
+            }
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [open]);
+
+        useEffect(() => {
+            if (open) {
+                setBackdropVisible(true);
+            } else {
+                setBackdropVisible(false);
+            }
+        }, [open]);
+
+        // click outside the dialog to close
+        const handleBackdropClick = (e: React.MouseEvent) => {
+            if (disableBackdropClose) {
+                return;
+            }
+            if (e.target === e.currentTarget) {
+                onClose?.();
+            }
         };
-      }
-    }, [open, duration]);
 
-    // trigger exit animation when reverse flips
-    useEffect(() => {
-      if (reverse === 'reverse') {
-        setAnimating(true);
-      }
-    }, [reverse]);
+        useEffect(() => {
+            if (visible) {
+                const prev = document.body.style.overflow;
+                document.body.style.overflow = 'hidden';
+                return () => {
+                    document.body.style.overflow = prev;
+                };
+            }
+        }, [visible]);
 
-    // trigger enter animation
-    useEffect(() => {
-      if (opening === true) {
-        setBackdropVisible(true);
-      } else if (opening === false) {
-        setBackdropVisible(false);
-      }
-    }, [opening]);
+        const animationClass = getAnimationClass(resolveAnimation(type, animation));
+        const wrapperStyle = {
+            '--uui-duration': String(duration * 0.65) + 'ms',
+        } as React.CSSProperties;
 
-    useEscapeHandler(!disableEscapeKey && visible, () => onClose?.());
+        const controlStyle = ControlStyle();
+        controlStyle.merge(animationVars);
 
-    // click outside the dialog to close
-    const handleBackdropClick = (e: React.MouseEvent) => {
-      if (disableBackdropClose) {
-        return;
-      }
-      if (e.target === e.currentTarget) {
-        onClose?.();
-      }
-    };
+        const wrapperClasses = ['uui-dialog-backdrop', backdropVisible && 'uui-open'].filter(Boolean).join(' ');
 
-    // lock page scroll while dialog is visible
-    useEffect(() => {
-      if (visible) {
-        const prev = document.body.style.overflow;
-        document.body.style.overflow = 'hidden';
-        return () => {
-          document.body.style.overflow = prev;
-        };
-      }
-    }, [visible]);
+        const dialogClasses = cn(
+            'uui-db',
+            `uui-dialog-${type}`,
+            getSizeClass(size),
+            animating && animationClass,
+            getMotionStyleClass(motionStyle),
+            className
+        );
 
-    // focus trap + autofocus + restoring original focus after closing
-    useEffect(() => {
-      if (!visible || !modal) {
-        return;
-      }
-
-      const focusables = getFocusable();
-      previouslyFocused.current = document.activeElement as HTMLElement | null;
-
-      const target: HTMLElement | null =
-        focusables.length > 0 ? focusables[0] : dialogRef.current;
-
-      if (target) {
-        target.focus();
-      }
-
-      const onTrap = (e: KeyboardEvent) => {
-        if (e.key !== 'Tab') {
-          return;
+        if (!portalTarget || !(visible || active)) {
+            return null;
         }
 
-        const items = getFocusable();
-        if (items.length === 0) {
-          e.preventDefault();
-          return;
-        }
-
-        // eslint-disable-next-line prefer-destructuring
-        const first = items[0];
-        const last = items[items.length - 1];
-
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        }
-
-        if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      };
-
-      document.addEventListener('keydown', onTrap);
-
-      return () => {
-        document.removeEventListener('keydown', onTrap);
-        previouslyFocused.current?.focus();
-      };
-    }, [modal, visible]);
-
-    // hide portal if not visible
-    if (!visible || !portalTarget) {
-      return null;
+        return createPortal(
+            <div className={wrapperClasses} onClick={handleBackdropClick} style={wrapperStyle}>
+                <BoxBase
+                    aria-modal={modal ? true : undefined}
+                    border={border}
+                    borderColor={borderColor}
+                    className={dialogClasses}
+                    color={color}
+                    elevation={elevation}
+                    ref={mergeRefs(ref, dialogRef)}
+                    role="dialog"
+                    shape={shape}
+                    style={controlStyle.get()}>
+                    {children}
+                </BoxBase>
+            </div>,
+            portalTarget
+        );
     }
-
-    const shapeClass = getShapeClass(shape);
-    const borderClass = getBorderClass(border);
-    const borderColorClass = getBorderColorClass(getBorderColor(borderColor));
-    const elevationClass = getElevationClass(elevation);
-    const { bgColor, textOnColor } = getSurfaceColorClasses(color);
-
-    const resolved = resolveAnimation(animation, type);
-
-    const animationClass = resolved === 'none' ? '' : motionClassMap[resolved];
-    const motionStyleClass =
-      motionStyle === 'expressive' ? 'uui-motion-expressive' : '';
-
-    const wrapperStyle = {
-      '--uui-duration': String(duration * 0.65) + 'ms',
-    } as React.CSSProperties;
-
-    const controlStyle = {
-      '--uui-reverse': reverse,
-      '--uui-duration':
-        reverse === 'reverse'
-          ? String(duration * 0.67) + 'ms'
-          : String(duration) + 'ms',
-    } as React.CSSProperties;
-
-    const wrapperClasses = [
-      'uui-dialog-backdrop',
-      backdropVisible && 'uui-open',
-    ]
-      .filter(Boolean)
-      .join(' ');
-    const dialogClasses = [
-      'uui-db',
-      `uui-dialog-${type}`,
-      shapeClass,
-      borderClass,
-      getSizeClass(size),
-      borderColorClass,
-      elevationClass,
-      bgColor,
-      textOnColor,
-      animating && animationClass,
-      motionStyleClass,
-      className,
-    ]
-      .filter(Boolean)
-      .join(' ');
-
-    return createPortal(
-      // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
-      <div
-        className={wrapperClasses}
-        onClick={handleBackdropClick}
-        style={wrapperStyle}
-      >
-        <div
-          className={dialogClasses}
-          ref={mergeRefs(ref, dialogRef)}
-          style={controlStyle}
-        >
-          {children}
-        </div>
-      </div>,
-      portalTarget,
-    );
-  },
 );
 
 DialogBase.displayName = 'Dialog';

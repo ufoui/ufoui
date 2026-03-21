@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { DialogBase, DialogBaseProps } from '../base/dialogBase';
+import { DialogBase, DialogBaseProps } from '../base';
 
 /**
  * Props for {@link Drawer}.
@@ -24,17 +24,8 @@ export type DrawerProps = Omit<DialogBaseProps, 'elementClass' | 'type'>;
  *   Content
  * </Drawer>
  */
-export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
-  (props: DrawerProps, ref) => {
-    return (
-      <DialogBase
-        ref={ref}
-        {...props}
-        elementClass="uui-drawer"
-        type="dockRight"
-      />
-    );
-  },
-);
+export const Drawer = forwardRef<HTMLDivElement, DrawerProps>((props: DrawerProps, ref) => {
+    return <DialogBase ref={ref} {...props} elementClass="uui-drawer" type="dockRight" />;
+});
 
 Drawer.displayName = 'Drawer';

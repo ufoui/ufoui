@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-import { getFixedColorClasses, Grid, SemanticColor, useTheme } from '@ufoui/core';
+import { Grid, SemanticColor, useTheme } from '@ufoui/core';
 
 const colors: SemanticColor[] = ['primary', 'secondary', 'tertiary', 'warning', 'error', 'info', 'success'];
 
@@ -20,7 +20,6 @@ const ColorPage = () => {
             }, {}),
         },
     };
-    const { textBaseColor, borderBaseColor, bgBaseColor, textOnBackground } = getFixedColorClasses();
     return (
         <Grid className="EDEK grid-cols-2 gap-x-2">
             {colors.map(color => {
@@ -357,22 +356,22 @@ const ColorPage = () => {
                     </div>
                 </div>
             ))}
-            <div className="col-span-2 pt-2 font-bold capitalize">Background</div>
-            {['light', 'dark'].map(scheme => (
-                <div className={`flex justify-between ${scheme}`} key={scheme}>
-                    <div
-                        className="flex grow flex-col p-2"
-                        style={{
-                            color: lcTheme[scheme].onbackground,
-                            backgroundColor: lcTheme[scheme].background,
-                        }}>
-                        <div className={textOnBackground}>background / on background</div>
-                        <div className={textOnBackground}>
-                            {lcTheme[scheme].background} / {lcTheme[scheme].onbackground}
-                        </div>
-                    </div>
-                </div>
-            ))}
+            {/* <div className="col-span-2 pt-2 font-bold capitalize">Background</div>*/}
+            {/* {['light', 'dark'].map(scheme => (*/}
+            {/*    <div className={`flex justify-between ${scheme}`} key={scheme}>*/}
+            {/*        <div*/}
+            {/*            className="flex grow flex-col p-2"*/}
+            {/*            style={{*/}
+            {/*                color: lcTheme[scheme].onbackground,*/}
+            {/*                backgroundColor: lcTheme[scheme].background,*/}
+            {/*            }}>*/}
+            {/*            <div className={textOnBackground}>background / on background</div>*/}
+            {/*            <div className={textOnBackground}>*/}
+            {/*                {lcTheme[scheme].background} / {lcTheme[scheme].onbackground}*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/* ))}*/}
             <div className="col-span-2 pt-2 font-bold capitalize">Surface Tint</div>
             {['light', 'dark'].map(scheme => (
                 <div className={`flex justify-between ${scheme}`} key={scheme}>

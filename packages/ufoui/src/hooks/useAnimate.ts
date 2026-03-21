@@ -6,17 +6,17 @@ import { useCallback, useEffect, useRef, useState } from 'react';
  * @category Hooks
  */
 export interface UseAnimateOptions {
-  /** Duration (ms) of the opening phase. When omitted, animation can be stepped manually. */
-  t1?: number;
+    /** Duration (ms) of the opening phase. When omitted, animation can be stepped manually. */
+    t1?: number;
 
-  /** Duration (ms) of the closing phase. Defaults to a fraction of t1 when not provided. */
-  t2?: number;
+    /** Duration (ms) of the closing phase. Defaults to a fraction of t1 when not provided. */
+    t2?: number;
 
-  /** Enables one-shot animation behavior. */
-  oneShot?: boolean;
+    /** Enables one-shot animation behavior. */
+    oneShot?: boolean;
 
-  /** Initial phase on mount. */
-  initial?: 'idle' | 'open' | 'closed';
+    /** Initial phase on mount. */
+    initial?: 'idle' | 'open' | 'closed';
 }
 
 /**
@@ -25,168 +25,169 @@ export interface UseAnimateOptions {
  * @category Hooks
  */
 export interface UseAnimateResult {
-  /** True while in the opening phase. */
-  opening: boolean;
+    /** True during the opening phase. */
+    opening: boolean;
 
-  /** True while in the closing phase. */
-  closing: boolean;
+    /** True during the closing phase. */
+    closing: boolean;
 
-  /** True while an animation is actively running. */
-  animating: boolean;
+    /** True when animation is running and not temporarily suppressed. */
+    animating: boolean;
 
-  /** True when no animation is active. */
-  idle: boolean;
+    /** True while animation is in progress (opening or closing). */
+    active: boolean;
 
-  /** CSS variables controlling animation timing and direction. */
-  animationVars: Record<string, string>;
+    /** True only before any animation has started. */
+    idle: boolean;
 
-  /** Triggers the next animation step or forces open or closed direction. */
-  animate(next?: 'open' | 'closed'): void;
+    /** CSS variables controlling animation timing and direction. */
+    animationVars: Record<string, string>;
+
+    /** Triggers animation towards open or closed state. */
+    animate(next?: 'open' | 'closed'): void;
 }
 
 type Phase = 'idle' | 'opening' | 'open' | 'closing' | 'closed';
 
 /**
- * Animation state hook supporting automatic, one-shot, and manual step modes.
+ * Handles open/close animation with interrupt support.
  *
- * Mode behavior:
- * - Automatic mode: when t1 is provided, animate runs a timed open or close sequence.
- * - One-shot mode: when enabled, only the opening transition is performed.
- * - Manual mode: when t1 is not provided, each animate call advances the phase by one step.
+ * Flow:
+ * - animate('open') → sets phase to "opening" and starts a timer
+ * - after t1 → phase becomes "open" and timer is cleared
+ * - animate('closed') → sets phase to "closing" and starts a timer
+ * - after t2 → phase becomes "closed" and timer is cleared
  *
- * The hook handles animation interruption by clearing active timers and
- * temporarily suppressing visual animation to avoid glitches.
+ * Interrupt:
+ * - calling animate() during an active transition clears the current timer
+ * - a new transition starts immediately
+ * - for one render animating = false (reset frame)
  *
- * animationVars return CSS custom properties describing the active phase:
- * - --uui-duration defines the duration of the current phase in milliseconds.
- * - --uui-reverse indicates whether the animation direction should be reversed.
+ * State usage:
+ * - opening / closing → current transition phase
+ * - active → true while transition is in progress (used for mount/visibility)
+ * - animating → same as active, but disabled during reset frame (used for CSS classes)
+ * - idle → true only before the first animation
+ *
+ * Important:
+ * - use `active` to control visibility (mount/unmount)
+ * - use `animating` to apply or remove animation classes
+ *
+ * Timer:
+ * - created when transition starts
+ * - cleared on completion or interrupt
+ *
+ * Modes:
+ * - t1 defined → automatic timed transitions
+ * - t1 undefined → manual stepper (each call advances phase)
+ * - oneShot → only opening transition is executed
  *
  * @function
- * @param options Hook configuration options.
+ * @param options Hook configuration options
  *
  * @category Hooks
  */
 export function useAnimate(options: UseAnimateOptions = {}): UseAnimateResult {
-  const { initial = 'idle' } = options;
-  const [phase, setPhase] = useState<Phase>('idle');
-  const [resetting, setResetting] = useState(false);
-  const { t1 = 0, t2, oneShot = false } = options;
-  const closeTime = t2 ?? Math.round(t1 * 0.67);
-  const timerRef = useRef<number | null>(null);
+    const { initial = 'idle' } = options;
+    const [phase, setPhase] = useState<Phase>('idle');
+    const [resetting, setResetting] = useState(false);
+    const { t1 = 0, t2, oneShot = false } = options;
+    const closeTime = t2 ?? Math.round(t1 * 0.67);
+    const timerRef = useRef<number | null>(null);
 
-  const clearTimer = () => {
-    if (timerRef.current !== null) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-      return true;
-    }
-    return false;
-  };
-
-  const animate = useCallback(
-    (next?: 'open' | 'closed') => {
-      function delay(nextPhase: Phase, t: number) {
-        timerRef.current = window.setTimeout(() => {
-          setPhase(nextPhase);
-        }, t);
-      }
-
-      const wasAnimating = clearTimer();
-      if (wasAnimating) {
-        setResetting(true);
-      }
-
-      if (oneShot) {
-        if (t1) {
-          delay('open', t1);
-          setPhase('opening');
-        } else {
-          setPhase((v) => (v === 'opening' ? 'open' : 'opening'));
+    const clearTimer = () => {
+        if (timerRef.current !== null) {
+            clearTimeout(timerRef.current);
+            timerRef.current = null;
+            return true;
         }
-        return;
-      }
+        return false;
+    };
 
-      if (t1) {
-        // const shouldClose =
-        //   // eslint-disable-next-line no-nested-ternary
-        //   next === 'closed'
-        //     ? true
-        //     : // eslint-disable-next-line sonarjs/no-nested-conditional
-        //       next === 'open'
-        //       ? false
-        //       : phase === 'open' || phase === 'opening';
-        //
-        // const currentPhase: Phase = shouldClose ? 'closing' : 'opening';
-        // const nextPhase: Phase = shouldClose ? 'closed' : 'open';
-        //
-        // setPhase(currentPhase);
-        setPhase((prev) => {
-          const shouldClose =
-            // eslint-disable-next-line no-nested-ternary
-            next === 'closed'
-              ? true
-              : // eslint-disable-next-line sonarjs/no-nested-conditional
-                next === 'open'
-                ? false
-                : prev === 'open' || prev === 'opening';
+    const animate = useCallback(
+        (next?: 'open' | 'closed') => {
+            function delay(nextPhase: Phase, t: number) {
+                timerRef.current = window.setTimeout(() => {
+                    setPhase(nextPhase);
+                    clearTimer();
+                }, t);
+            }
 
-          const current = shouldClose ? 'closing' : 'opening';
-          const target = shouldClose ? 'closed' : 'open';
+            const wasAnimating = clearTimer();
+            if (wasAnimating) {
+                setResetting(true);
+            }
 
-          delay(target, target === 'open' ? t1 : closeTime);
-          return current;
-        });
-        // delay(nextPhase, nextPhase === 'open' ? t1 : closeTime);
-        return;
-      }
+            if (oneShot) {
+                if (t1) {
+                    delay('open', t1);
+                    setPhase('opening');
+                } else {
+                    setPhase(v => (v === 'opening' ? 'open' : 'opening'));
+                }
+                return;
+            }
 
-      // manual stepper
-      setPhase((v) => {
-        switch (v) {
-          case 'idle':
-          case 'closed':
-            return 'opening';
-          case 'opening':
-            return 'open';
-          case 'open':
-            return 'closing';
-          case 'closing':
-            return 'closed';
-          default:
-            return v;
+            if (t1) {
+                setPhase(prev => {
+                    const shouldClose =
+                        next === 'closed' ? true : next === 'open' ? false : prev === 'open' || prev === 'opening';
+
+                    const current = shouldClose ? 'closing' : 'opening';
+                    const target = shouldClose ? 'closed' : 'open';
+
+                    delay(target, target === 'open' ? t1 : closeTime);
+                    return current;
+                });
+                return;
+            }
+
+            // manual stepper
+            setPhase(v => {
+                switch (v) {
+                    case 'idle':
+                    case 'closed':
+                        return 'opening';
+                    case 'opening':
+                        return 'open';
+                    case 'open':
+                        return 'closing';
+                    case 'closing':
+                        return 'closed';
+                    default:
+                        return v;
+                }
+            });
+        },
+        [oneShot, t1, closeTime]
+    );
+
+    useEffect(() => {
+        if (resetting) {
+            setResetting(false);
         }
-      });
-    },
-    [oneShot, t1, closeTime],
-  );
+    }, [resetting]);
 
-  useEffect(() => {
-    if (resetting) {
-      setResetting(false);
-    }
-  }, [resetting]);
+    useEffect(() => {
+        if (initial !== 'idle') {
+            animate(initial === 'open' ? 'open' : 'closed');
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-  useEffect(() => {
-    if (initial !== 'idle') {
-      animate(initial === 'open' ? 'open' : 'closed');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const closing = phase === 'closing';
-  const opening = phase === 'opening';
-  const idle = phase === 'idle';
-  const animating = (opening || closing) && !resetting;
-  const duration = opening ? t1 : closeTime;
-  return {
-    opening,
-    closing,
-    animating,
-    idle,
-    animationVars: {
-      '--uui-duration': `${duration}ms`,
-      '--uui-reverse': closing ? 'reverse' : 'normal',
-    },
-    animate,
-  };
+    const closing = phase === 'closing';
+    const opening = phase === 'opening';
+    const duration = opening ? t1 : closeTime;
+    return {
+        opening,
+        closing,
+        animating: (opening || closing) && !resetting,
+        idle: phase === 'idle',
+        active: closing || opening,
+        animationVars: {
+            '--uui-duration': `${duration}ms`,
+            '--uui-reverse': closing ? 'reverse' : 'normal',
+        },
+        animate,
+    };
 }

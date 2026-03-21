@@ -1,7 +1,7 @@
 import { forwardRef, ReactNode, useMemo, useState } from 'react';
 
 import { BoxBaseProps } from '../base';
-import { ElementSize, getSizeClass } from '../../utils';
+import { cn, ElementSize, getSizeClass } from '../../utils';
 import { ThemeExtendedColorKeys } from '../../types';
 import { Grid } from '../layout';
 import { IS_AVATAR } from './avatar.guards';
@@ -64,7 +64,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     ({ children, className, shape = 'round', size = 'medium', src, alt, name, color, ...rest }, ref) => {
         const [imgError, setImgError] = useState(false);
 
-        const classes = ['uui-avatar', getSizeClass(size), className].filter(Boolean).join(' ');
+        const classes = cn('uui-avatar', getSizeClass(size), className);
 
         const showImage = Boolean(src && !imgError);
         const initials = getInitials(name);

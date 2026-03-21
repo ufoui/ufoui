@@ -1,4 +1,3 @@
-import { toKebabCase } from './utils';
 import { ThemeExtendedColorKeys, ThemeSchemeKeys, ThemeSemanticColorKeys, ThemeSurfaceColorKeys } from '../types';
 
 /**
@@ -97,7 +96,6 @@ export const getSemanticColorClasses = (color: SemanticColor) => {
  * for all semantic, extended, and surface tokens defined in {@link ThemeColor}.
  * Enables consistent inverse lookups for text/background pairings.
  *
- * Commonly used by {@link getSurfaceColorClasses}.
  *
  * @category Color
  */
@@ -177,62 +175,11 @@ export const inverseColorMap = {
 } as const satisfies Partial<Record<ThemeColor, ThemeColor>>;
 
 /**
- * Returns utility class names (`uui-*`) for a given surface color and its mapped “on” color.
- *
- * @remarks
- * Uses the {@link inverseColorMap} to find the related “on” color
- * (e.g. `'surfaceContainer'` → `'onSurface'`).
- * Produces `text`, `border`, and `background` variants for both.
- * All names are kebab-cased (e.g. `'surfaceContainerHigh'` → `'surface-container-high'`).
- *
- * @param color - Surface color key (e.g. `'surfaceContainerHigh'`).
- * @returns Object with `uui-text-*`, `uui-border-*`, and `uui-bg-*` class names for base and on-color.
- *
- * @example
- * ```ts
- * getSurfaceColorClasses('surfaceContainer');
- * // → { textColor: 'uui-text-surface-container', textOnColor: 'uui-text-on-surface', ... }
- * ```
- * @category Color
- */
-export const getSurfaceColorClasses = (color: SurfaceColor) => {
-    const surfaceColor = ThemeSurfaceColorKeys.includes(color) ? color : 'primary';
-    const baseColor = toKebabCase(surfaceColor as string);
-    const onColor = toKebabCase(inverseColorMap[surfaceColor]);
-    return {
-        textColor: `uui-text-${baseColor}`,
-        textOnColor: `uui-text-${onColor}`,
-        borderColor: `uui-border-${baseColor}`,
-        borderOnColor: `uui-border-${onColor}`,
-        bgColor: `uui-bg-${baseColor}`,
-        bgOnColor: `uui-bg-${onColor}`,
-    } as const;
-};
-
-/**
  * Represents the available border color options.
  *
  * @category Color
  */
 export type BorderColor = SurfaceColor;
-
-/**
- * Returns the appropriate border color class for a given configuration.
- *
- * @remarks
- * Typical border colors are `'outline'` and `'outlineVariant'`, matching MD3 tokens.
- * @param borderColor - Border color keyword or surface color token.
- * @returns The resolved border color class (e.g. `'uui-border-surface-container-high'`).
- *
- * @example
- * ```ts
- * getBorderColorClass('surfaceContainer'); // → 'uui-border-surface-container'
- * ```
- * @category Color
- */
-export function getBorderColorClass(borderColor: BorderColor) {
-    return getSurfaceColorClasses(borderColor).borderColor;
-}
 
 /**
  * Returns basic CSS variable references for a **surface color**.
@@ -332,53 +279,6 @@ export function getTintOverlayColor(elevation: number, tintColor: string): strin
 }
 
 // todo to remove
-
-/**
- * Returns a set of predefined utility class names for fixed theme colors.
- *
- * Each entry maps text, border, outline, and background variants like:
- * `textSurface`, `bgOnSurface`, `borderOutlineVariant`, etc.
- *
- * @returns Object with fixed color class mappings.
- */
-export const getFixedColorClasses = () => {
-    const keys = [
-        'surface',
-        'onSurface',
-        'surfaceDim',
-        'surfaceBright',
-        'surfaceContainerLowest',
-        'surfaceContainerLow',
-        'surfaceContainer',
-        'surfaceContainerHigh',
-        'surfaceContainerHighest',
-        'onSurfaceVariant',
-        'inverseSurface',
-        'inverseOnSurface',
-        'outline',
-        'outlineVariant',
-        'inversePrimary',
-        'scrim',
-        'shadow',
-        'white',
-        'black',
-        'background',
-        'onBackground',
-        'surfaceTint',
-    ];
-
-    const classes: Record<string, string> = {};
-
-    for (const key of keys) {
-        const cap = key.charAt(0).toUpperCase() + key.slice(1);
-        classes[`text${cap}`] = `uui-text-${key}`;
-        classes[`border${cap}`] = `uui-border-${key}`;
-        classes[`outline${cap}`] = `uui-outline-${key}`;
-        classes[`bg${cap}`] = `uui-bg-${key}`;
-    }
-
-    return classes;
-};
 
 export function capitalize(s: string) {
     return s.charAt(0).toUpperCase() + s.slice(1);

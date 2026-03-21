@@ -1,35 +1,26 @@
 import { ReactNode } from 'react';
 
-import { ElementFont, getFontClass, SurfaceColor } from '../../utils';
+import { cn, ElementFont, getFontClass, SurfaceColor } from '../../utils';
 
 export interface DialogTitleProps {
-  icon?: ReactNode;
-  label?: string;
-  children?: ReactNode;
-  className?: string;
-  font?: ElementFont;
-  color?: SurfaceColor;
-  textColor?: SurfaceColor;
+    icon?: ReactNode;
+    label?: string;
+    children?: ReactNode;
+    className?: string;
+    font?: ElementFont;
+    color?: SurfaceColor;
+    textColor?: SurfaceColor;
 }
 
-export const DialogTitle = ({
-  icon,
-  label,
-  children,
-  className,
-  font = 'headlineSmall',
-}: DialogTitleProps) => {
-  const content = label ?? children ?? null;
-  const wrapperClasses = ['uui-dialog-title', className];
-  wrapperClasses.push(getFontClass(font));
-  const wrapperClass = wrapperClasses.filter(Boolean).join(' ');
+export const DialogTitle = ({ icon, label, children, className, font = 'headlineSmall' }: DialogTitleProps) => {
+    const content = label ?? children ?? null;
 
-  return content ? (
-    <div className={wrapperClass}>
-      {icon && <div className="uui-icon">{icon}</div>}
-      {content && <div className="uui-content">{content}</div>}
-    </div>
-  ) : null;
+    return content ? (
+        <div className={cn('uui-dialog-title', className, getFontClass(font))}>
+            {icon && <div className="uui-icon">{icon}</div>}
+            {content && <div className="uui-content">{content}</div>}
+        </div>
+    ) : null;
 };
 
 DialogTitle.displayName = 'DialogTitle';

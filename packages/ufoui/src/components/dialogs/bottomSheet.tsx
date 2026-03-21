@@ -24,17 +24,8 @@ export type BottomSheetProps = Omit<DialogBaseProps, 'elementClass' | 'type'>;
  *   Content
  * </BottomSheet>
  */
-export const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>(
-  (props: BottomSheetProps, ref) => {
-    return (
-      <DialogBase
-        ref={ref}
-        {...props}
-        elementClass="uui-bottom-sheet"
-        type="dockBottom"
-      />
-    );
-  },
-);
+export const BottomSheet = forwardRef<HTMLDivElement, BottomSheetProps>((props: BottomSheetProps, ref) => {
+    return <DialogBase ref={ref} {...props} elementClass="uui-bottom-sheet" type="dockBottom" />;
+});
 
 BottomSheet.displayName = 'BottomSheet';

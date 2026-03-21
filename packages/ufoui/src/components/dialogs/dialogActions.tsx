@@ -1,57 +1,50 @@
 import { ReactNode } from 'react';
 
-import {
-  BorderColor,
-  ElementOutline,
-  getBorderClass,
-  getBorderColor,
-  getBorderColorClass,
-  getSurfaceColorClasses,
-  SurfaceColor,
-} from '../../utils';
+import { BorderColor, cn, ControlStyle, ElementOutline, getBorderClass, SurfaceColor } from '../../utils';
 
 export interface DialogActionsProps {
-  children?: ReactNode;
-  className?: string;
+    children?: ReactNode;
+    className?: string;
 
-  color?: SurfaceColor;
+    color?: SurfaceColor;
 
-  borderTop?: boolean;
-  borderTopWidth?: ElementOutline;
-  borderColor?: BorderColor;
+    borderTop?: boolean;
+    borderTopWidth?: ElementOutline;
+    borderColor?: BorderColor;
 }
 
 export const DialogActions = ({
-  children,
-  className,
-
-  color,
-  borderTop = false,
-  borderTopWidth = 1,
-  borderColor,
-}: DialogActionsProps) => {
-  if (!children) {
-    return null;
-  }
-
-  const colorClasses = color ? getSurfaceColorClasses(color) : null;
-  const borderWidthClass = borderTop ? getBorderClass(borderTopWidth) : '';
-  const borderColorClass =
-    borderTop && color ? getBorderColorClass(getBorderColor(borderColor)) : '';
-
-  const classes = [
-    'uui-dialog-actions',
-    colorClasses?.bgColor,
-    colorClasses?.textOnColor,
-    borderTop ? 'uui-dialog-actions-border-top' : '',
-    borderWidthClass,
-    borderColorClass,
+    children,
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
 
-  return <div className={classes}>{children}</div>;
+    color,
+    borderTop = false,
+    borderTopWidth = 1,
+    borderColor,
+}: DialogActionsProps) => {
+    if (!children) {
+        return null;
+    }
+
+    const borderWidthClass = borderTop ? getBorderClass(borderTopWidth) : '';
+
+    const style = ControlStyle();
+    style.border(borderColor);
+    style.text.on(color);
+    style.bg(color);
+
+    const classes = cn(
+        'uui-dialog-actions',
+        borderTop ? 'uui-dialog-actions-border-top' : '',
+        borderWidthClass,
+        className
+    );
+
+    return (
+        <div className={classes} style={style.get()}>
+            {children}
+        </div>
+    );
 };
 
 DialogActions.displayName = 'DialogActions';

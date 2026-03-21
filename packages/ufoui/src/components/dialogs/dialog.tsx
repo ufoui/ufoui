@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { DialogBase, DialogBaseProps } from '../base/dialogBase';
+import { DialogBase, DialogBaseProps } from '../base';
 
 /**
  * Props for {@link Dialog}.
@@ -22,10 +22,8 @@ export type DialogProps = Omit<DialogBaseProps, 'elementClass'>;
  *   Content
  * </Dialog>
  */
-export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
-  (props: DialogProps, ref) => {
+export const Dialog = forwardRef<HTMLDivElement, DialogProps>((props: DialogProps, ref) => {
     return <DialogBase ref={ref} {...props} elementClass="uui-dialog" />;
-  },
-);
+});
 
 Dialog.displayName = 'Dialog';
