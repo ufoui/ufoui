@@ -1,8 +1,8 @@
-import { ReactNode } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
-import { getFontClass } from '../../utils';
+import { cn, getFontClass } from '../../utils';
 
-export interface DescriptionProps {
+export interface DescriptionProps extends HTMLAttributes<HTMLElement> {
     /** Supporting description text. */
     description?: ReactNode;
 
@@ -20,21 +20,22 @@ export interface DescriptionProps {
  *
  * @category Slot
  */
-export const Description = ({ description, error }: DescriptionProps) => {
+export const Description = ({ description, error, ...rest }: DescriptionProps) => {
     const content = error ?? description;
 
     if (!content) {
         return null;
     }
 
-    const classes = [
+    const classes = cn(
         'uui-support-text',
         getFontClass('bodySmall'),
-        error && 'uui-error',
-        description && !error && 'uui-description',
-    ]
-        .filter(Boolean)
-        .join(' ');
-
-    return <div className={classes}>{content}</div>;
+        !!error && 'uui-error',
+        !!description && !error && 'uui-description'
+    );
+    return (
+        <div className={classes} {...rest}>
+            {content}
+        </div>
+    );
 };

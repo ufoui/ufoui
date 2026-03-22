@@ -33,7 +33,7 @@ import {
 import { getAnimationClass, getMotionStyleClass, MotionAnimation, MotionStyle } from '../../types';
 import { FieldsetContext, RadioGroupContext } from '../../context';
 import { useAnimate, useFocusVisible } from '../../hooks';
-import { InlineTooltipManager } from '../../internal';
+import { Description, InlineTooltipManager } from '../../internal';
 
 /**
  * Props for the CheckboxBase component.
@@ -422,7 +422,6 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         content = <div className={contentClasses}>{children}</div>;
     } else {
         const displayedIcon =
-            // eslint-disable-next-line no-nested-ternary
             visualState === 'indeterminate' ? indeterminateIcon : visualState === 'checked' ? icon : uncheckedIcon;
         content = (
             <div className={glyphClasses} style={glyphStyle.get()}>
@@ -448,35 +447,6 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
     );
 
     const descriptionStyle = ControlStyle();
-    if (error) {
-        descriptionStyle.text('error');
-    } else if (descriptionColor) {
-        descriptionStyle.text(descriptionColor);
-    } else {
-        descriptionStyle.text.on('surfaceVariant');
-    }
-
-    const descriptionClasses = [
-        getFontClass(descriptionFont ?? 'bodySmall'),
-        error && 'uui-error uui-support-text',
-        description && !error && 'uui-description uui-support-text',
-    ]
-        .filter(Boolean)
-        .join(' ');
-
-    const descriptionText = (description ?? error) && (
-        <div className={descriptionClasses} style={descriptionStyle.get()}>
-            {error ?? description}
-        </div>
-    );
-
-    const controlText = (labelText ?? descriptionText) && (
-        <>
-            {labelText}
-            {descriptionText}
-        </>
-    );
-
     const controlWrapperStyle = ControlStyle();
 
     if (textPlacement === 'end') {
@@ -496,6 +466,14 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         controlWrapperStyle.set('order', 1);
         descriptionStyle.set('order', 2);
     }
+
+    const descriptionText = <Description description={description} error={error} style={descriptionStyle.get()} />;
+    const controlText = (labelText ?? descriptionText) && (
+        <>
+            {labelText}
+            {descriptionText}
+        </>
+    );
 
     return (
         <div className={wrapperClasses} style={wrapperStyle.get()}>

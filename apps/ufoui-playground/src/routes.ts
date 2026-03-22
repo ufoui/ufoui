@@ -45,7 +45,7 @@ import { BadgePage } from './pages/badgePage';
 import { TooltipPage } from './pages/tooltipPage';
 import { IconButtonPage } from './pages/iconButtonPage';
 import { ChipPage } from './pages/chipPage';
-import DialogPage from './pages/dialogPage';
+import { DialogPage } from './pages/dialogPage';
 import { BoxPage } from './pages/boxPage';
 import SpinnerPage from './pages/spinnerPage';
 import AnimationPage from './pages/animationPage';

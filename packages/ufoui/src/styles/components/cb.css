@@ -5,12 +5,12 @@
   --uui-corner-rounded: 4px;
   --uui-icon-size: 1.5rem;
   --uui-glyph-size: 18px;
+  --uui-control-grid-gap: 0 0px;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   justify-items: start;
   column-gap: var(--uui-cb-col-gap);
-
   --uui-input-width: 100%;
 }
 
