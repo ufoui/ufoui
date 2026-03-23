@@ -19,6 +19,7 @@ import {
     ElementShape,
     ElementSize,
     Flex,
+    Grid,
     H1,
     H2,
     MotionAnimation,
@@ -62,9 +63,9 @@ const dialogTypes: DialogType[] = ['basic', 'fullscreen', 'dockRight', 'dockLeft
 
 export const DialogPage = () => {
     const [open, setOpen] = useState(false);
-    const [animation, setAnimation] = useState<MotionAnimation>('fade');
-    const [motionStyle, setMotionStyle] = useState<MotionStyle>('regular');
-    const [dialogType, setDialogType] = useState<DialogType>('basic');
+    const [animation, setAnimation] = useState<MotionAnimation | undefined>(undefined);
+    const [motionStyle, setMotionStyle] = useState<MotionStyle | undefined>(undefined);
+    const [dialogType, setDialogType] = useState<DialogType | undefined>(undefined);
 
     const [color, setColor] = useState<SurfaceColor | null>(null);
     const [density, setDensity] = useState<ElementDensity | null>(null);
@@ -99,8 +100,12 @@ export const DialogPage = () => {
                     <Flex gap={12}>
                         <Button
                             filled
-                            label="Open dialog"
+                            label="Default Animation"
+            
                             onClick={() => {
+                                setAnimation(undefined);
+                                setMotionStyle(undefined);
+                                setDialogType(undefined);
                                 setOpen(true);
                             }}
                         />
@@ -138,22 +143,6 @@ export const DialogPage = () => {
                     </Flex>
                 </Section>
 
-                <Section gap={20}>
-                    <H2>Types</H2>
-                    <Flex gap={12} wrap>
-                        {dialogTypes.map(t => (
-                            <Button
-                                key={t}
-                                label={t}
-                                onClick={() => {
-                                    setDialogType(t);
-                                    setOpen(true);
-                                }}
-                            />
-                        ))}
-                    </Flex>
-                </Section>
-
                 <Dialog
                     {...shared}
                     animation={animation}
@@ -164,7 +153,10 @@ export const DialogPage = () => {
                     }}
                     open={open}
                     type={dialogType}>
-                    <DialogTitle icon={<MdInfo />} label={`${animation} | ${motionStyle} | ${dialogType}`} />
+                    <DialogTitle
+                        icon={<MdInfo />}
+                        label={`${animation ?? 'default'} | ${motionStyle ?? 'default'} | ${dialogType ?? 'default (undefined → basic)'}`}
+                    />
 
                     <DialogContent>
                         <Flex direction="col" gap={8}>
@@ -206,6 +198,24 @@ export const DialogPage = () => {
                     size={size}
                     surfaceColor={color}
                 />
+                <Grid alignItems="center" cols={2} gapX={16} gapY={4}>
+                    <>
+                        <span>Type:</span>
+                        <select
+                            onChange={e => {
+                                const v = e.target.value;
+                                setDialogType(v === '' ? undefined : (v as DialogType));
+                            }}
+                            value={dialogType ?? ''}>
+                            <option value="">Default</option>
+                            {dialogTypes.map(t => (
+                                <option key={t} value={t}>
+                                    {t}
+                                </option>
+                            ))}
+                        </select>
+                    </>
+                </Grid>
             </Aside>
         </Article>
     );
