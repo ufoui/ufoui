@@ -638,7 +638,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
 
         // Keep active item in view; focus stays on role="menu" (aria-activedescendant).
         useEffect(() => {
-            if (activeIndex < 0 || !isFocused || stateRef.current !== 'opened') {
+            if (activeIndex < 0 || stateRef.current !== 'opened') {
                 return;
             }
             const itemEl = getMenuItemElement(activeIndex);
@@ -649,7 +649,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                 block: 'nearest',
                 inline: 'nearest',
             });
-        }, [activeIndex, isFocused]);
+        }, [activeIndex]);
 
         useEffect(() => {
             if (isFocused && focusVisible && activeIndex === -1 && stateRef.current === 'opened') {
