@@ -352,6 +352,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
         const level = __level ?? 0;
         const internalGroup = useRef(id ?? uniqueID('menu')).current;
         const groupId = __groupId ?? internalGroup;
+        const menuSurfaceId = useRef(uniqueID('uui-menu-surface')).current;
         const menuRef = useRef<HTMLDivElement>(null);
         const activeItemRef = useRef<HTMLDivElement | null>(null);
         const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
@@ -371,6 +372,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
         const openDuration = docked ? 0 : aniDuration;
         const openTimerRef = useRef<number | null>(null);
         const closeTimerRef = useRef<number | null>(null);
+        const prevSubmenuVisibleRef = useRef(false);
         const submenuVisible = submenuIndex !== -1;
 
         type MenuElement = ReactElement<MenuItemProps & MenuItemInternalProps> & ReactElement<DividerProps>;
@@ -424,6 +426,10 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
             }
 
             return menuRef.current.querySelector<HTMLDivElement>(`[data-menu-index="${String(itemIndex)}"]`);
+        }
+
+        function getMenuItemId(itemIndex: number) {
+            return `${menuSurfaceId}-i${itemIndex}`;
         }
 
         function getSubmenuItems(targetIndex: number) {
@@ -507,13 +513,22 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
             }
         }
 
-        // submenu close 1
+        // submenu close 1 — only after open → close, not on mount when submenu was never open.
         useEffect(() => {
-            if (!submenuVisible) {
-                setTimeout(() => {
+            const wasVisible = prevSubmenuVisibleRef.current;
+            const nowVisible = submenuVisible;
+
+            if (wasVisible && !nowVisible) {
+                const timeoutId = window.setTimeout(() => {
                     setClosingSubmenu(true);
                 }, aniDuration * 0.67);
+                prevSubmenuVisibleRef.current = nowVisible;
+                return () => {
+                    window.clearTimeout(timeoutId);
+                };
             }
+
+            prevSubmenuVisibleRef.current = nowVisible;
         }, [aniDuration, submenuVisible]);
 
         // submenu close 2
@@ -621,8 +636,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
             }
         }, [aniDuration, reverse]);
 
-        // aria temporary item focus & autoscroll
-        // todo replace with aria-activedescendant
+        // Keep active item in view; focus stays on role="menu" (aria-activedescendant).
         useEffect(() => {
             if (activeIndex < 0 || !isFocused || stateRef.current !== 'opened') {
                 return;
@@ -631,15 +645,10 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
             if (!itemEl) {
                 return;
             }
-            itemEl.focus({ preventScroll: true });
             itemEl.scrollIntoView({
                 block: 'nearest',
                 inline: 'nearest',
             });
-
-            setTimeout(() => {
-                menuRef.current?.focus({ preventScroll: true });
-            }, 0);
         }, [activeIndex, isFocused]);
 
         useEffect(() => {
@@ -758,6 +767,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                     'data-menu-index': index,
                     __interactionsDisabled: interactionsDisabled,
                     __index: index,
+                    id: child.props.id ?? getMenuItemId(index),
                     disabled: child.props.disabled,
                     active: index === activeIndex && isFocused,
                     focusVisible: focusVisible && isFocused,
@@ -964,6 +974,11 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
             .filter(Boolean)
             .join(' ');
 
+        const ariaActiveDescendant =
+            isFocused && activeIndex >= 0 && open && visible
+                ? ((menuItems[activeIndex]?.props as MenuItemProps).id ?? getMenuItemId(activeIndex))
+                : undefined;
+
         const menu = (
             <div
                 {...focusHandlers}
@@ -984,7 +999,8 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                     ...ctrlStyle.get(),
                 }}
                 tabIndex={0}
-                {...props}>
+                {...props}
+                aria-activedescendant={ariaActiveDescendant}>
                 <div className="uui-menu-scroll">{clonedChildren}</div>
             </div>
         );

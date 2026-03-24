@@ -468,8 +468,7 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
                 onClick={handleClick}
                 ref={mergeRefs(menuItemRef, ref)}
                 role={role}
-                // tabIndex={-1}
-            >
+                tabIndex={-1}>
                 {content}
             </div>
         );

@@ -72,7 +72,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             borderColor,
             size = 'medium',
             animation,
-            duration = 300,
+            duration = 500,
             disableBackdropClose,
             disableEscapeKey,
             children,
