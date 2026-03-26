@@ -1,6 +1,5 @@
 :root {
   --uui-backdrop-color: var(--uui-color-scrim);
-  --uui-dialog-dock-width: clamp(280px, 30vw, 420px);
 }
 
 .uui-db {
@@ -14,27 +13,32 @@
   --uui-dialog-max-width: none;
   --uui-dialog-min-width: none;
   min-width: 280px;
+  max-width: min(var(--uui-dialog-max-width), calc(100vw - 32px));
+  background-color: var(--uui-color-surface-container-high);
 }
 
 .uui-db.uui-extra-small {
-
-  max-width: 280px;
+  --uui-dialog-max-width: 320px;
 }
 
 .uui-db.uui-small {
-  max-width: 320px;
+  --uui-dialog-max-width: 400px;
 }
 
 .uui-db.uui-medium {
-  max-width: 400px;
+  --uui-dialog-max-width: 560px;
 }
 
 .uui-db.uui-large {
-  max-width: 480px;
+  --uui-dialog-max-width: 720px;
 }
 
 .uui-db.uui-extra-large {
-  max-width: 560px;
+  --uui-dialog-max-width: 960px;
+}
+
+.uui-db.uui-small.uui-dialog-dock-left,.uui-db.uui-small.uui-dialog-dock-right {
+  --uui-dialog-max-width: 360px;
 }
 
 .uui-dialog-basic {
@@ -53,64 +57,96 @@
   margin-left: auto;
   margin-right: auto;
   border-radius: 0;
+  background-color: var(--uui-color-surface);
 }
 
-.uui-dialog-dockBottom {
+
+.uui-dialog-dock-bottom {
   margin-top: auto;
-  width: 100%;
-  max-height: 85vh;
 }
 
-.uui-dialog-dockTop {
+.uui-dialog-dock-top {
   margin-bottom: auto;
-  width: 100%;
-  max-height: 85vh;
 }
 
-.uui-dialog-dockRight {
+.uui-dialog-dock-top,
+.uui-dialog-dock-bottom {
+  width: 100%;
+  max-height: 80vh;
+  max-width: min(var(--uui-dialog-max-width), 100%);
+}
+
+/*.uui-dialog-dock-top.uui-extra-large,*/
+/*.uui-dialog-dock-bottom.uui-extra-large  {*/
+/*  max-width: 100%;*/
+/*}*/
+
+.uui-db.uui-dialog-dock-top {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.uui-db.uui-dialog-dock-bottom {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.uui-dialog-dock-right {
   margin-left: auto;
   max-height: none;
-  max-width: none;
   height: 100%;
 }
 
-.uui-dialog-dockLeft {
+.uui-dialog-dock-left {
   margin-right: auto;
-  max-width: none;
   max-height: none;
   height: 100%;
 }
 
-.uui-dialog-dockLeft,
-.uui-dialog-dockRight {
-  width: var(--uui-dialog-dock-width);
-}
-
-.uui-db.uui-dialog-dockLeft {
+.uui-db.uui-dialog-dock-left {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.uui-db.uui-dialog-dockRight {
+.uui-db.uui-dialog-dock-right {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.uui-db.uui-dialog-dockTop {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
 
-.uui-db.uui-dialog-dockBottom {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.uui-db.uui-dialog-dockRight,
-.uui-db.uui-dialog-dockLeft {
+.uui-db.uui-dialog-dock-right,
+.uui-db.uui-dialog-dock-left {
   /*--uui-corner-smooth: 12px;*/
   --uui-corner-rounded: 16px;
 }
+
+.uui-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  background-color:  #00000000;
+  transition: background-color var(--uui-duration, 250ms) ease-out;
+  pointer-events: none;
+}
+
+.uui-dialog-backdrop.uui-modal.uui-open {
+  background-color: var(--uui-backdrop-color);
+  pointer-events: auto;
+}
+
+.uui-dialog-backdrop.uui-open {
+
+}
+
+.uui-db {
+  pointer-events: auto;
+}
+
+
+
 
 .uui-dialog-title {
   display: flex;
@@ -146,17 +182,4 @@
   padding: var(--uui-dialog-header-padding, 1.25rem 1.5rem);
 }
 
-.uui-dialog-backdrop {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  background-color:  #00000000;
-  transition: background-color var(--uui-duration, 250ms) ease-out;
-}
 
-.uui-dialog-backdrop.uui-open {
-  background-color: var(--uui-backdrop-color);
-}

@@ -12,6 +12,7 @@ import {
     getSizeClass,
     mergeRefs,
     SurfaceColor,
+    toKebabCase,
 } from '../../utils';
 import { getAnimationClass, getMotionStyleClass, MotionAnimation, MotionStyle } from '../../types';
 import { useAnimate, useEscapeHandler, useFocusTrap } from '../../hooks';
@@ -46,6 +47,8 @@ export interface DialogBaseProps {
     shape?: ElementShape;
     border?: ElementOutline;
     borderColor?: BorderColor;
+    wFull?: boolean;
+    hFull?: boolean;
     animation?: DialogAnimation;
     duration?: number;
     disableBackdropClose?: boolean;
@@ -65,12 +68,14 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             open,
             onClose,
             type = 'basic',
-            color = 'surfaceContainerHigh',
-            elevation = 3,
+            color,
+            elevation,
             shape = 'round',
             border,
             borderColor,
-            size = 'medium',
+            wFull,
+            hFull,
+            size,
             animation,
             duration = 500,
             disableBackdropClose,
@@ -83,15 +88,14 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         }: DialogBaseProps,
         ref
     ) => {
+        const finalElevation = elevation ?? (type !== 'fullscreen' ? 3 : undefined);
         const dialogRef = useRef<HTMLDivElement>(null);
         const [visible, setVisible] = useState(false);
 
         const as = useAnimate({
             t1: duration,
         });
-
         const { animationVars, animate, animating, idle, active } = as;
-
         const [backdropVisible, setBackdropVisible] = useState(false);
 
         useEscapeHandler(!disableEscapeKey && visible, () => onClose?.());
@@ -149,12 +153,12 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         const controlStyle = ControlStyle();
         controlStyle.merge(animationVars);
 
-        const wrapperClasses = ['uui-dialog-backdrop', backdropVisible && 'uui-open'].filter(Boolean).join(' ');
-
+        const finalSize = size ?? (type === 'dockLeft' || type === 'dockRight' ? 'small' : 'medium');
+        const wrapperClasses = cn('uui-dialog-backdrop', modal && 'uui-modal', backdropVisible && 'uui-open');
         const dialogClasses = cn(
             'uui-db',
-            `uui-dialog-${type}`,
-            getSizeClass(size),
+            `uui-dialog-${toKebabCase(type)}`,
+            getSizeClass(finalSize),
             animating && animationClass,
             getMotionStyleClass(motionStyle),
             className
@@ -172,11 +176,13 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                     borderColor={borderColor}
                     className={dialogClasses}
                     color={color}
-                    elevation={elevation}
+                    elevation={finalElevation}
+                    hFull={hFull}
                     ref={mergeRefs(ref, dialogRef)}
                     role="dialog"
                     shape={shape}
-                    style={controlStyle.get()}>
+                    style={controlStyle.get()}
+                    wFull={wFull}>
                     {children}
                 </BoxBase>
             </div>,

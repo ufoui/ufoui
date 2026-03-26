@@ -6,6 +6,7 @@ import {
     Aside,
     BorderColor,
     Button,
+    Checkbox,
     Content,
     Dialog,
     DialogActions,
@@ -25,6 +26,8 @@ import {
     MotionAnimation,
     MotionStyle,
     P,
+    Radio,
+    RadioGroup,
     Section,
     SurfaceColor,
 } from '@ufoui/core';
@@ -66,6 +69,9 @@ export const DialogPage = () => {
     const [animation, setAnimation] = useState<MotionAnimation | undefined>(undefined);
     const [motionStyle, setMotionStyle] = useState<MotionStyle | undefined>(undefined);
     const [dialogType, setDialogType] = useState<DialogType | undefined>(undefined);
+    const [modal, setModal] = useState(true);
+    const [fullWidth, setFullWidth] = useState(false);
+    const [fullHeight, setFullHeight] = useState(false);
 
     const [color, setColor] = useState<SurfaceColor | null>(null);
     const [density, setDensity] = useState<ElementDensity | null>(null);
@@ -75,6 +81,7 @@ export const DialogPage = () => {
     const [elevation, setElevation] = useState<ElementElevation | null>(null);
     const [border, setBorder] = useState<ElementBorder | null>(null);
     const [borderColor, setBorderColor] = useState<BorderColor | null>(null);
+    const [disabled, setDisabled] = useState<boolean | null>(false);
 
     const shared = useMemo(
         () => ({
@@ -146,13 +153,17 @@ export const DialogPage = () => {
                 <Dialog
                     {...shared}
                     animation={animation}
-                    modal
+                    disableBackdropClose={!!disabled}
+                    disableEscapeKey={!!disabled}
+                    hFull={fullHeight}
+                    modal={modal}
                     motionStyle={motionStyle}
                     onClose={() => {
                         setOpen(false);
                     }}
                     open={open}
-                    type={dialogType}>
+                    type={dialogType}
+                    wFull={fullWidth}>
                     <DialogTitle
                         icon={<MdInfo />}
                         label={`${animation ?? 'default'} | ${motionStyle ?? 'default'} | ${dialogType ?? 'default (undefined → basic)'}`}
@@ -168,6 +179,7 @@ export const DialogPage = () => {
 
                     <DialogActions>
                         <Button
+                            disabled={!!disabled}
                             label="Close"
                             onClick={() => {
                                 setOpen(false);
@@ -181,10 +193,11 @@ export const DialogPage = () => {
                 <Modifiers
                     border={border}
                     borderColor={borderColor}
+                    disabled={disabled}
                     density={density}
                     elevation={elevation}
                     font={font}
-                    onChange={({ surfaceColor, density, size, font, shape, elevation, border, borderColor }) => {
+                    onChange={({ surfaceColor, density, size, font, shape, elevation, border, borderColor, disabled }) => {
                         setColor(surfaceColor ?? null);
                         setDensity(density ?? null);
                         setSize(size ?? null);
@@ -193,6 +206,7 @@ export const DialogPage = () => {
                         setElevation(elevation ?? null);
                         setBorder(border ?? null);
                         setBorderColor(borderColor ?? null);
+                        setDisabled(disabled ?? null);
                     }}
                     shape={shape}
                     size={size}
@@ -201,19 +215,32 @@ export const DialogPage = () => {
                 <Grid alignItems="center" cols={2} gapX={16} gapY={4}>
                     <>
                         <span>Type:</span>
-                        <select
-                            onChange={e => {
-                                const v = e.target.value;
-                                setDialogType(v === '' ? undefined : (v as DialogType));
-                            }}
+                        <RadioGroup
+                            name="dialogType"
+                            onChange={v => setDialogType(v === '' ? undefined : (v as DialogType))}
                             value={dialogType ?? ''}>
-                            <option value="">Default</option>
+                            <Radio label="Default" value="" />
                             {dialogTypes.map(t => (
-                                <option key={t} value={t}>
-                                    {t}
-                                </option>
+                                <Radio key={t} label={t} value={t} />
                             ))}
-                        </select>
+                        </RadioGroup>
+                    </>
+                    <>
+                        <span>Modal:</span>
+                        <Checkbox checked={modal} density="dense" label=" " onChange={() => setModal(v => !v)} />
+                    </>
+                    <>
+                        <span>FullWidth:</span>
+                        <Checkbox checked={fullWidth} density="dense" label=" " onChange={() => setFullWidth(v => !v)} />
+                    </>
+                    <>
+                        <span>FullHeight:</span>
+                        <Checkbox
+                            checked={fullHeight}
+                            density="dense"
+                            label=" "
+                            onChange={() => setFullHeight(v => !v)}
+                        />
                     </>
                 </Grid>
             </Aside>
