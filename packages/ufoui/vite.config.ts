@@ -8,6 +8,8 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 import fs from 'fs';
 
+const packageJsonPath = path.join(__dirname, 'package.json');
+
 export default defineConfig(({ mode }) => ({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/libs/ufo-ui',
@@ -29,50 +31,18 @@ export default defineConfig(({ mode }) => ({
       tsconfigPath: path.join(__dirname, 'tsconfig.lib.json'),
     }),
 
-    // generuje package.json do dist
+    // kopiuje package.json do dist (manifest publikacji — źródło: packages/ufoui/package.json)
     {
       name: 'write-package-json',
       closeBundle() {
-        const pkg = {
-          name: '@ufoui/core',
-          version: '0.0.6',
-          description: 'Lightweight Material Design 3 UI components for React',
-
-          type: 'module',
-          main: './index.mjs',
-          module: './index.mjs',
-          types: './index.d.ts',
-
-          license: 'Apache-2.0',
-          author: 'ufoui',
-
-          repository: {
-            type: 'git',
-            url: 'https://github.com/ufoui/ufoui.git',
-          },
-
-          keywords: ['react', 'components', 'ui', 'ufoui', 'core'],
-
-          peerDependencies: {
-            react: '^18.0.0',
-            'react-dom': '^18.0.0',
-            '@material/material-color-utilities': '^0.3.0',
-          },
-          sideEffects: ['*.css'],
-
-          exports: {
-            '.': {
-              import: './index.mjs',
-              types: './index.d.ts',
-            },
-            './style.css': './index.css',
-            './style': './index.css',
-          },
-        };
+        const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')) as Record<
+          string,
+          unknown
+        >;
 
         fs.writeFileSync(
           path.resolve(__dirname, '../../dist/packages/ufoui/package.json'),
-          JSON.stringify(pkg, null, 2),
+          `${JSON.stringify(pkg, null, 2)}\n`,
         );
       },
     },

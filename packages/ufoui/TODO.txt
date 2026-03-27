@@ -43,6 +43,8 @@ Trailing
 Description
 
 @experimental
+ControlLabel
+StateLayer
 Collapse
 Accordion
 AccordionItem
@@ -52,7 +54,6 @@ BottomSheet
 Calendar
 Card
 Chip
-ControlLabel
 DateField
 DateTimeField
 DateTimeInput
@@ -78,7 +79,6 @@ Select
 Slider
 Slot
 Spinner
-StateLayer
 Tab
 Tabs
 TextField

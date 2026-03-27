@@ -1,0 +1,46 @@
+{
+  "name": "@ufoui/core",
+  "version": "0.0.7",
+  "description": "Lightweight Material Design 3 UI components for React",
+  "type": "module",
+  "main": "./index.mjs",
+  "module": "./index.mjs",
+  "types": "./index.d.ts",
+  "license": "Apache-2.0",
+  "author": "ufoui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ufoui/ufoui.git"
+  },
+  "keywords": [
+    "react",
+    "react-components",
+    "components",
+    "material-design",
+    "material-design-3",
+    "md3",
+    "material-you",
+    "ui",
+    "ui-kit",
+    "component-library",
+    "typescript",
+    "esm",
+    "ufoui"
+  ],
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "@material/material-color-utilities": "^0.3.0"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "types": "./index.d.ts"
+    },
+    "./style.css": "./index.css",
+    "./style": "./index.css"
+  }
+}
