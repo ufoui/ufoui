@@ -98,7 +98,7 @@ export const DialogPage = () => {
     );
 
     return (
-        <Article direction="row" wFull>
+        <Article direction="row" wf>
             <Content gap={24} grow>
                 <H1>Dialog</H1>
 
@@ -108,7 +108,6 @@ export const DialogPage = () => {
                         <Button
                             filled
                             label="Default Animation"
-            
                             onClick={() => {
                                 setAnimation(undefined);
                                 setMotionStyle(undefined);
@@ -133,7 +132,7 @@ export const DialogPage = () => {
                                         setMotionStyle('regular');
                                         setOpen(true);
                                     }}
-                                    wFull
+                                    wf
                                 />
                                 <Button
                                     color="tertiary"
@@ -155,7 +154,7 @@ export const DialogPage = () => {
                     animation={animation}
                     disableBackdropClose={!!disabled}
                     disableEscapeKey={!!disabled}
-                    hFull={fullHeight}
+                    hf={fullHeight}
                     modal={modal}
                     motionStyle={motionStyle}
                     onClose={() => {
@@ -163,7 +162,7 @@ export const DialogPage = () => {
                     }}
                     open={open}
                     type={dialogType}
-                    wFull={fullWidth}>
+                    wf={fullWidth}>
                     <DialogTitle
                         icon={<MdInfo />}
                         label={`${animation ?? 'default'} | ${motionStyle ?? 'default'} | ${dialogType ?? 'default (undefined → basic)'}`}
@@ -193,11 +192,21 @@ export const DialogPage = () => {
                 <Modifiers
                     border={border}
                     borderColor={borderColor}
-                    disabled={disabled}
                     density={density}
+                    disabled={disabled}
                     elevation={elevation}
                     font={font}
-                    onChange={({ surfaceColor, density, size, font, shape, elevation, border, borderColor, disabled }) => {
+                    onChange={({
+                        surfaceColor,
+                        density,
+                        size,
+                        font,
+                        shape,
+                        elevation,
+                        border,
+                        borderColor,
+                        disabled,
+                    }) => {
                         setColor(surfaceColor ?? null);
                         setDensity(density ?? null);
                         setSize(size ?? null);
@@ -217,7 +226,9 @@ export const DialogPage = () => {
                         <span>Type:</span>
                         <RadioGroup
                             name="dialogType"
-                            onChange={v => setDialogType(v === '' ? undefined : (v as DialogType))}
+                            onChange={v => {
+                                setDialogType(v === '' ? undefined : (v as DialogType));
+                            }}
                             value={dialogType ?? ''}>
                             <Radio label="Default" value="" />
                             {dialogTypes.map(t => (
@@ -227,11 +238,25 @@ export const DialogPage = () => {
                     </>
                     <>
                         <span>Modal:</span>
-                        <Checkbox checked={modal} density="dense" label=" " onChange={() => setModal(v => !v)} />
+                        <Checkbox
+                            checked={modal}
+                            density="dense"
+                            label=" "
+                            onChange={() => {
+                                setModal(v => !v);
+                            }}
+                        />
                     </>
                     <>
                         <span>FullWidth:</span>
-                        <Checkbox checked={fullWidth} density="dense" label=" " onChange={() => setFullWidth(v => !v)} />
+                        <Checkbox
+                            checked={fullWidth}
+                            density="dense"
+                            label=" "
+                            onChange={() => {
+                                setFullWidth(v => !v);
+                            }}
+                        />
                     </>
                     <>
                         <span>FullHeight:</span>
@@ -239,7 +264,9 @@ export const DialogPage = () => {
                             checked={fullHeight}
                             density="dense"
                             label=" "
-                            onChange={() => setFullHeight(v => !v)}
+                            onChange={() => {
+                                setFullHeight(v => !v);
+                            }}
                         />
                     </>
                 </Grid>

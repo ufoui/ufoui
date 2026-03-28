@@ -83,7 +83,7 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
     font?: ElementFont;
 
     /** Expands button to full width. */
-    wFull?: boolean;
+    wf?: boolean;
 
     /** Hover visual effects. */
     hoverEffects?: ElementHoverEffect[];
@@ -246,7 +246,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         id = '',
         name = '',
         loading,
-        wFull = false,
+        wf = false,
         link,
         selected,
         defaultSelected,
@@ -268,7 +268,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     const elemId = id || name || internalIdRef.current;
     const linkContent = link ? React.cloneElement(link, { ref: linkRef, style: { display: 'none' } }) : null;
 
-    const wrapperClasses = [elementClass, className, 'uui-bb', getDensityClass(density), ...(wFull ? ['uui-full'] : [])]
+    const wrapperClasses = [elementClass, className, 'uui-bb', getDensityClass(density), ...(wf ? ['uui-w-full'] : [])]
         .filter(Boolean)
         .join(' ');
 
@@ -285,7 +285,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         ...(pressedEffects.includes('overlay') ? ['uui-pressed-overlay'] : []),
         ...(selectedEffects.includes('overlay') ? ['uui-selected-overlay'] : []),
         ...(loading ? ['uui-loading'] : []),
-        ...(wFull ? ['uui-full'] : []),
+        ...(wf ? ['uui-w-full'] : []),
         ...(!children ? [getSizeClass(size)] : []),
         ...(isSelected ? ['uui-selected'] : []),
     ];

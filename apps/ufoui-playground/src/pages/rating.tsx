@@ -40,7 +40,7 @@ export const RatingPage = () => {
     );
 
     return (
-        <Article direction="row" wFull>
+        <Article direction="row" wf>
             <Content gap={24} grow>
                 <H1>Rating</H1>
 

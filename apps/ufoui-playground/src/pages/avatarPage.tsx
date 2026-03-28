@@ -40,7 +40,7 @@ export const AvatarPage = () => {
     );
 
     return (
-        <Article direction="row" wFull>
+        <Article direction="row" wf>
             <Content gap={20} grow>
                 <H1>Avatar</H1>
                 <Section gap={20}>
@@ -81,7 +81,7 @@ export const AvatarPage = () => {
                     <P>Custom content</P>
                     <Flex gap={16}>
                         <Avatar {...shared}>
-                            <Grid color="inverseSurface" fullHeight placeItems="center" wFull>
+                            <Grid color="inverseSurface" hf placeItems="center" wf>
                                 👽
                             </Grid>
                         </Avatar>

@@ -90,7 +90,7 @@ export const ListPage = () => {
     });
 
     return (
-        <Article direction="row" wFull>
+        <Article direction="row" wf>
             <Section className="items-start gap-6 p-4" grow>
                 <h2>List Demo (Icons + Checkbox + Radio)</h2>
 

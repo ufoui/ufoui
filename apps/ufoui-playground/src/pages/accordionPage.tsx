@@ -53,14 +53,14 @@ export const AccordionPage = () => {
         'This is a very long accordion title used to test layout wrapping, truncation and alignment behavior inside the header element';
 
     return (
-        <Article direction="row" wFull>
+        <Article direction="row" wf>
             <Section className="items-start gap-6 p-4" grow>
                 <H1>Accordion</H1>
 
                 {/* ───────────────────────── SINGLE ───────────────────────── */}
 
                 <H2>Single Item Accordion</H2>
-                <Grid cols={4} gap={20} wFull>
+                <Grid cols={4} gap={20} wf>
                     {['text', 'grouped', 'pills', 'segmented'].map(variant => (
                         <Accordion key={variant} type="multiple" {...shared} variant={variant as AccordionVariant}>
                             <AccordionItem label={faker.lorem.sentence()} value={variant + 'a'}>

@@ -47,8 +47,10 @@ export interface DialogBaseProps {
     shape?: ElementShape;
     border?: ElementOutline;
     borderColor?: BorderColor;
-    wFull?: boolean;
-    hFull?: boolean;
+    wf?: boolean;
+    hf?: boolean;
+    fit?: boolean;
+    detached?: boolean;
     animation?: DialogAnimation;
     duration?: number;
     disableBackdropClose?: boolean;
@@ -70,13 +72,15 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             type = 'basic',
             color,
             elevation,
-            shape = 'round',
+            shape,
             border,
             borderColor,
-            wFull,
-            hFull,
+            wf,
+            hf,
             size,
             animation,
+            fit,
+            detached,
             duration = 500,
             disableBackdropClose,
             disableEscapeKey,
@@ -146,10 +150,6 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         }, [visible]);
 
         const animationClass = getAnimationClass(resolveAnimation(type, animation));
-        const wrapperStyle = {
-            '--uui-duration': String(duration * 0.65) + 'ms',
-        } as React.CSSProperties;
-
         const controlStyle = ControlStyle();
         controlStyle.merge(animationVars);
 
@@ -158,6 +158,8 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         const dialogClasses = cn(
             'uui-db',
             `uui-dialog-${toKebabCase(type)}`,
+            wf && 'uui-w-full',
+            hf && 'uui-h-full',
             getSizeClass(finalSize),
             animating && animationClass,
             getMotionStyleClass(motionStyle),
@@ -169,7 +171,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         }
 
         return createPortal(
-            <div className={wrapperClasses} onClick={handleBackdropClick} style={wrapperStyle}>
+            <div className={wrapperClasses} onClick={handleBackdropClick} style={animationVars}>
                 <BoxBase
                     aria-modal={modal ? true : undefined}
                     border={border}
@@ -177,12 +179,10 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                     className={dialogClasses}
                     color={color}
                     elevation={finalElevation}
-                    hFull={hFull}
                     ref={mergeRefs(ref, dialogRef)}
                     role="dialog"
                     shape={shape}
-                    style={controlStyle.get()}
-                    wFull={wFull}>
+                    style={controlStyle.get()}>
                     {children}
                 </BoxBase>
             </div>,

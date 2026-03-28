@@ -15,6 +15,7 @@
   min-width: 280px;
   max-width: min(var(--uui-dialog-max-width), calc(100vw - 32px));
   background-color: var(--uui-color-surface-container-high);
+  border-radius: var(--uui-corner-full);
 }
 
 .uui-db.uui-extra-small {
@@ -76,10 +77,10 @@
   max-width: min(var(--uui-dialog-max-width), 100%);
 }
 
-/*.uui-dialog-dock-top.uui-extra-large,*/
-/*.uui-dialog-dock-bottom.uui-extra-large  {*/
-/*  max-width: 100%;*/
-/*}*/
+.uui-db.uui-dialog-dock-right,
+.uui-db.uui-dialog-dock-left {
+  border-radius: var(--uui-corner-rounded);
+}
 
 .uui-db.uui-dialog-dock-top {
   border-top-left-radius: 0;
@@ -114,11 +115,6 @@
 }
 
 
-.uui-db.uui-dialog-dock-right,
-.uui-db.uui-dialog-dock-left {
-  /*--uui-corner-smooth: 12px;*/
-  --uui-corner-rounded: 16px;
-}
 
 .uui-dialog-backdrop {
   position: fixed;

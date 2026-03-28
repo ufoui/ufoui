@@ -10,10 +10,7 @@ import { BoxBase, BoxBaseProps } from '../base/boxBase';
  *
  * @category Grid
  */
-export type GridProps = Omit<
-  BoxBaseProps,
-  'elementClass' | 'type' | 'direction' | 'wrap'
->;
+export type GridProps = Omit<BoxBaseProps, 'elementClass' | 'type' | 'direction' | 'wrap'>;
 
 /**
  * Grid layout container.
@@ -43,7 +40,7 @@ export type GridProps = Omit<
  * </Grid>
  */
 export const Grid = forwardRef<HTMLDivElement, GridProps>((props, ref) => {
-  return <BoxBase {...props} ref={ref} type="grid" />;
+    return <BoxBase {...props} ref={ref} type="grid" />;
 });
 
 Grid.displayName = 'Grid';

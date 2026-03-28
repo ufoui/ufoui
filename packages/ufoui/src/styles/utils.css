@@ -1,9 +1,13 @@
-.uui-full {
-  @apply w-full;
+.uui-w-full {
+  width:100%;
+}
+
+.uui-h-full {
+  height:100%;
 }
 
 .uui-grow {
-  @apply flex-grow;
+  flex-grow: 1;
 }
 
 .uui-overflow-hidden {

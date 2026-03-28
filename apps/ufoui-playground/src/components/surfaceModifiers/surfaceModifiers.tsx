@@ -1,5 +1,5 @@
 import {
-    ElementBorderWidth,
+    ElementBorder,
     ElementElevation,
     ElementShape,
     ElementSize,
@@ -10,13 +10,13 @@ import {
 type ButtonModifiersProps = {
     size?: ElementSize;
     shape?: ElementShape;
-    border?: ElementBorderWidth;
+    border?: ElementBorder;
     color?: SemanticColor;
     elevation?: ElementElevation;
     onChange: (mod: {
         size?: ElementSize;
         shape?: ElementShape;
-        border?: ElementBorderWidth;
+        border?: ElementBorder;
         color?: SemanticColor;
         elevation?: ElementElevation;
     }) => void;
@@ -94,7 +94,7 @@ export const SurfaceModifiers = ({ size, shape, border, color, elevation, onChan
                         shape,
                         color,
                         elevation,
-                        border: e.target.value === '' ? undefined : (+e.target.value as ElementBorderWidth),
+                        border: e.target.value === '' ? undefined : (+e.target.value as ElementBorder),
                     });
                 }}
                 value={border ?? ''}>

@@ -1,6 +1,6 @@
 {
   "name": "@ufoui/core",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "Lightweight Material Design 3 UI components for React",
   "type": "module",
   "main": "./index.mjs",
@@ -25,7 +25,8 @@
     "component-library",
     "typescript",
     "esm",
-    "ufoui"
+    "ufoui",
+    "ufo-ui"
   ],
   "peerDependencies": {
     "react": "^18.0.0",

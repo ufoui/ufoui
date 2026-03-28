@@ -1,7 +1,16 @@
 import { MdAdd } from 'react-icons/md';
 import { useState } from 'react';
 
-import { Button, ButtonProps, ElementElevation, ElementShape, ElementSize, Flex, SemanticColor } from '@ufoui/core';
+import {
+    Button,
+    ButtonProps,
+    ElementBorder,
+    ElementElevation,
+    ElementShape,
+    ElementSize,
+    Flex,
+    SemanticColor,
+} from '@ufoui/core';
 
 import { SurfaceModifiers } from '../components/surfaceModifiers/surfaceModifiers';
 
@@ -53,14 +62,14 @@ const flexStyles = [
 export const FlexPage = () => {
     const [size, setSize] = useState<ElementSize>();
     const [shape, setShape] = useState<ElementShape>();
-    const [border, setBorder] = useState<ElementBorderWidth>();
+    const [border, setBorder] = useState<ElementBorder>();
     const [color, setColor] = useState<SemanticColor>();
     const [elevation, setElevation] = useState<ElementElevation>();
 
     const shared: {
         size?: ElementSize;
         shape?: ElementShape;
-        border?: ElementBorderWidth;
+        border?: ElementBorder;
         color?: SemanticColor;
         elevation?: ElementElevation;
     } = {
