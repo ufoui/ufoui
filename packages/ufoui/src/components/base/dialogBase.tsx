@@ -96,19 +96,41 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
     ) => {
         const finalElevation = elevation ?? (type !== 'fullscreen' ? 3 : undefined);
         const dialogRef = useRef<HTMLDivElement>(null);
+        const backdropRef = useRef<HTMLDivElement>(null);
         const [visible, setVisible] = useState(false);
-        // const [size, setSize] = useState<number | undefined>(undefined);
+        const [wFlush, setWFlush] = useState(false);
+        const [hFlush, setHFlush] = useState(false);
 
         const { animationVars, animate, animating, idle, active } = useAnimate({
             t1: duration,
         });
 
-        const handleResize = ({ height }: ObservedElementSize) => {
-            // setSize(height);
+        const handleResize = (_next: ObservedElementSize) => {
+            const backdrop = backdropRef.current;
+            const dialog = dialogRef.current;
+            if (!backdrop || !dialog) {
+                setWFlush(false);
+                setHFlush(false);
+                return;
+            }
+            const b = backdrop.getBoundingClientRect();
+            const d = dialog.getBoundingClientRect();
+            const eps = 1;
+            if (type === 'dockLeft' || type === 'dockRight') {
+                setWFlush(Math.abs(d.width - b.width) <= eps);
+                setHFlush(false);
+            } else if (type === 'dockTop' || type === 'dockBottom') {
+                setHFlush(Math.abs(d.height - b.height) <= eps);
+                setWFlush(false);
+            } else {
+                setWFlush(false);
+                setHFlush(false);
+            }
         };
 
-        const observeDialogResize = type !== 'basic' && type !== 'fullscreen';
+        const observeDialogResize = type !== 'basic' && type !== 'fullscreen' && !detached;
         useResizeObserver(dialogRef, handleResize, observeDialogResize && !animating, true);
+        useResizeObserver(backdropRef, handleResize, observeDialogResize && !animating, true);
 
         const [backdropVisible, setBackdropVisible] = useState(false);
 
@@ -124,6 +146,8 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             if (open) {
                 animate('open');
                 setVisible(true);
+                setHFlush(false);
+                setWFlush(false);
             } else if (!idle) {
                 animate('closed');
                 setVisible(false);
@@ -164,17 +188,18 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         controlStyle.merge(animationVars);
 
         const finalSize = size ?? (type === 'dockLeft' || type === 'dockRight' ? 'small' : 'medium');
-        const wrapperClasses = cn(
+        const backdropClasses = cn(
             'uui-dialog-backdrop',
             modal && 'uui-modal',
             backdropVisible && 'uui-open',
             detached && 'uui-dialog-backdrop-detached'
         );
         const dialogClasses = cn(
-            'uui-db',
+            'uui-dlg',
             `uui-dialog-${toKebabCase(type)}`,
             wf && 'uui-w-full',
             hf && 'uui-h-full',
+            (wFlush || hFlush) && 'uui-maximized',
             fit && 'uui-fit',
             flush && 'uui-flush',
             getSizeClass(finalSize),
@@ -188,7 +213,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         }
 
         return createPortal(
-            <div className={wrapperClasses} onClick={handleBackdropClick} style={animationVars}>
+            <div className={backdropClasses} onClick={handleBackdropClick} ref={backdropRef} style={animationVars}>
                 <BoxBase
                     aria-modal={modal ? true : undefined}
                     border={border}

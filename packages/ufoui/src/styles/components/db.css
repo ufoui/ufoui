@@ -19,7 +19,7 @@
     pointer-events: auto;
 }
 
-.uui-db {
+.uui-dlg {
     position: relative;
     width: 100%;
     overflow: hidden;
@@ -34,33 +34,34 @@
     background-color: var(--uui-color-surface-container-high);
     border-radius: var(--uui-corner-full);
     pointer-events: auto;
+    transition: border-radius var(--uui-duration, 220ms) ease;
 }
 
-.uui-db.uui-fit {
+.uui-dlg.uui-fit {
     width: max-content;
 }
 
-.uui-db.uui-extra-small {
+.uui-dlg.uui-extra-small {
     --uui-dialog-max-width: 320px;
 }
 
-.uui-db.uui-small {
+.uui-dlg.uui-small {
     --uui-dialog-max-width: 400px;
 }
 
-.uui-db.uui-medium {
+.uui-dlg.uui-medium {
     --uui-dialog-max-width: 560px;
 }
 
-.uui-db.uui-large {
+.uui-dlg.uui-large {
     --uui-dialog-max-width: 720px;
 }
 
-.uui-db.uui-extra-large {
+.uui-dlg.uui-extra-large {
     --uui-dialog-max-width: 960px;
 }
 
-.uui-db.uui-small.uui-dialog-dock-left, .uui-db.uui-small.uui-dialog-dock-right {
+.uui-dlg.uui-small.uui-dialog-dock-left, .uui-dlg.uui-small.uui-dialog-dock-right {
     --uui-dialog-max-width: 360px;
 }
 
@@ -84,28 +85,30 @@
 .uui-dialog-dock-top,
 .uui-dialog-dock-bottom {
     max-width: min(var(--uui-dialog-max-width), 100%);
+    /*max-height: 100%;*/
 }
 
 .uui-dialog-dock-left,
 .uui-dialog-dock-right {
     height: 100%;
     max-height: 100%;
+    max-width: min(var(--uui-dialog-max-width), 100%);
 }
 
-.uui-db.uui-w-full.uui-dialog-basic {
+.uui-dlg.uui-w-full.uui-dialog-basic {
     max-width: calc(100vw - 32px);
     width: 100%;
 }
 
-.uui-db.uui-w-full.uui-dialog-dock-left,
-.uui-db.uui-w-full.uui-dialog-dock-right,
-.uui-db.uui-w-full.uui-dialog-dock-top,
-.uui-db.uui-w-full.uui-dialog-dock-bottom {
+.uui-dlg.uui-w-full.uui-dialog-dock-left,
+.uui-dlg.uui-w-full.uui-dialog-dock-right,
+.uui-dlg.uui-w-full.uui-dialog-dock-top,
+.uui-dlg.uui-w-full.uui-dialog-dock-bottom {
     max-width: 100%;
     width: 100%;
 }
 
-.uui-db.uui-h-full.uui-dialog-basic {
+.uui-dlg.uui-h-full.uui-dialog-basic {
     height: 100%;
     max-height: calc(100vh - 32px);
 }
@@ -118,25 +121,37 @@
     margin-bottom: auto;
 }
 
-.uui-db.uui-h-full.uui-dialog-dock-top,
-.uui-db.uui-h-full.uui-dialog-dock-bottom,
-.uui-db.uui-w-full.uui-dialog-dock-left,
-.uui-db.uui-w-full.uui-dialog-dock-right {
-    border-radius: 0;
-}
 
-.uui-db.uui-dialog-dock-right,
-.uui-db.uui-dialog-dock-left {
+.uui-dlg.uui-dialog-dock-right,
+.uui-dlg.uui-dialog-dock-left {
     border-radius: var(--uui-corner-rounded);
 }
 
-.uui-db.uui-dialog-dock-top {
+.uui-dlg.uui-maximized,
+.uui-dlg.uui-h-full.uui-dialog-dock-top,
+.uui-dlg.uui-h-full.uui-dialog-dock-bottom,
+.uui-dlg.uui-w-full.uui-dialog-dock-left,
+.uui-dlg.uui-w-full.uui-dialog-dock-right {
+    border-radius: 0;
+}
+
+.uui-dlg.uui-dialog-dock-top {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
 
-.uui-db.uui-dialog-dock-bottom {
+.uui-dlg.uui-dialog-dock-bottom {
     border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.uui-dlg.uui-dialog-dock-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.uui-dlg.uui-dialog-dock-right {
+    border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
@@ -148,16 +163,6 @@
     margin-right: auto;
 }
 
-.uui-db.uui-dialog-dock-left {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
-.uui-db.uui-dialog-dock-right {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
 
 .uui-dialog-content {
     display: block;
@@ -166,7 +171,7 @@
     overflow-y: auto;
 }
 
-.uui-db.uui-flush .uui-dialog-content {
+.uui-dlg.uui-flush .uui-dialog-content {
     padding: 0;
 }
 
