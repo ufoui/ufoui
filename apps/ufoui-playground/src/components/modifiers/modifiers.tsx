@@ -21,8 +21,11 @@ type ButtonModifiersProps = {
     color?: SemanticColor | null;
     density?: ElementDensity | null;
     disabled?: boolean | null;
+    detached?: boolean | null;
     dockedElevation?: ElementElevation | null;
     elevation?: ElementElevation | null;
+    fit?: boolean | null;
+    flush?: boolean | null;
     filled?: boolean | null;
     flat?: boolean | null;
     showIcon?: boolean | null;
@@ -37,8 +40,11 @@ type ButtonModifiersProps = {
         density?: ElementDensity | null;
         disabled?: boolean | null;
         dockedElevation?: ElementElevation | null;
+        detached?: boolean | null;
         elevation?: ElementElevation | null;
         filled?: boolean | null;
+        fit?: boolean | null;
+        flush?: boolean | null;
         flat?: boolean | null;
         showIcon?: boolean | null;
         focusColor?: SurfaceColor | null;
@@ -94,9 +100,12 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         toggle,
         surfaceColor,
         density,
+        detached,
         disabled,
         fullColor,
         dockedElevation,
+        fit,
+        flush,
         labelFont,
         readOnly,
         font,
@@ -655,6 +664,57 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             });
                         }}
                         title="Show Icon"
+                    />
+                </>
+            )}
+            {fit !== undefined && (
+                <>
+                    <label htmlFor="mod_dialog_fit">Fit:</label>
+                    <Checkbox
+                        checked={!!fit}
+                        density="dense"
+                        id="mod_dialog_fit"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                fit: e.target.checked,
+                            });
+                        }}
+                        title="Fit content width"
+                    />
+                </>
+            )}
+            {detached !== undefined && (
+                <>
+                    <label htmlFor="mod_dialog_detached">Detached:</label>
+                    <Checkbox
+                        checked={!!detached}
+                        density="dense"
+                        id="mod_dialog_detached"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                detached: e.target.checked,
+                            });
+                        }}
+                        title="Inset backdrop (detached)"
+                    />
+                </>
+            )}
+            {flush !== undefined && (
+                <>
+                    <label htmlFor="mod_dialog_flush">Flush:</label>
+                    <Checkbox
+                        checked={!!flush}
+                        density="dense"
+                        id="mod_dialog_flush"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                flush: e.target.checked,
+                            });
+                        }}
+                        title="No inner padding (title/content/actions)"
                     />
                 </>
             )}

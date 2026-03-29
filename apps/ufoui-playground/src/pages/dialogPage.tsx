@@ -82,6 +82,9 @@ export const DialogPage = () => {
     const [border, setBorder] = useState<ElementBorder | null>(null);
     const [borderColor, setBorderColor] = useState<BorderColor | null>(null);
     const [disabled, setDisabled] = useState<boolean | null>(false);
+    const [fit, setFit] = useState(false);
+    const [detached, setDetached] = useState(false);
+    const [flush, setFlush] = useState(false);
 
     const shared = useMemo(
         () => ({
@@ -152,8 +155,11 @@ export const DialogPage = () => {
                 <Dialog
                     {...shared}
                     animation={animation}
+                    detached={detached}
                     disableBackdropClose={!!disabled}
                     disableEscapeKey={!!disabled}
+                    fit={fit}
+                    flush={flush}
                     hf={fullHeight}
                     modal={modal}
                     motionStyle={motionStyle}
@@ -193,8 +199,11 @@ export const DialogPage = () => {
                     border={border}
                     borderColor={borderColor}
                     density={density}
+                    detached={detached}
                     disabled={disabled}
                     elevation={elevation}
+                    fit={fit}
+                    flush={flush}
                     font={font}
                     onChange={({
                         surfaceColor,
@@ -206,6 +215,9 @@ export const DialogPage = () => {
                         border,
                         borderColor,
                         disabled,
+                        fit: nextFit,
+                        detached: nextDetached,
+                        flush: nextFlush,
                     }) => {
                         setColor(surfaceColor ?? null);
                         setDensity(density ?? null);
@@ -216,6 +228,15 @@ export const DialogPage = () => {
                         setBorder(border ?? null);
                         setBorderColor(borderColor ?? null);
                         setDisabled(disabled ?? null);
+                        if (nextFit !== undefined) {
+                            setFit(!!nextFit);
+                        }
+                        if (nextDetached !== undefined) {
+                            setDetached(!!nextDetached);
+                        }
+                        if (nextFlush !== undefined) {
+                            setFlush(!!nextFlush);
+                        }
                     }}
                     shape={shape}
                     size={size}

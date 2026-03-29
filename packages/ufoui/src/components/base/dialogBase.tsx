@@ -15,7 +15,7 @@ import {
     toKebabCase,
 } from '../../utils';
 import { getAnimationClass, getMotionStyleClass, MotionAnimation, MotionStyle } from '../../types';
-import { useAnimate, useEscapeHandler, useFocusTrap } from '../../hooks';
+import { ObservedElementSize, useAnimate, useEscapeHandler, useFocusTrap, useResizeObserver } from '../../hooks';
 import { BoxBase } from './boxBase';
 
 export type DialogType = 'basic' | 'fullscreen' | 'dockRight' | 'dockLeft' | 'dockTop' | 'dockBottom';
@@ -60,6 +60,7 @@ export interface DialogBaseProps {
     motionStyle?: MotionStyle;
     modal?: boolean;
     autoFocus?: boolean;
+    flush?: boolean;
 }
 
 const portalTarget = typeof document !== 'undefined' ? (document.getElementById('dialog-root') ?? document.body) : null;
@@ -89,17 +90,26 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             motionStyle,
             modal = false,
             autoFocus,
+            flush,
         }: DialogBaseProps,
         ref
     ) => {
         const finalElevation = elevation ?? (type !== 'fullscreen' ? 3 : undefined);
         const dialogRef = useRef<HTMLDivElement>(null);
         const [visible, setVisible] = useState(false);
+        // const [size, setSize] = useState<number | undefined>(undefined);
 
-        const as = useAnimate({
+        const { animationVars, animate, animating, idle, active } = useAnimate({
             t1: duration,
         });
-        const { animationVars, animate, animating, idle, active } = as;
+
+        const handleResize = ({ height }: ObservedElementSize) => {
+            // setSize(height);
+        };
+
+        const observeDialogResize = type !== 'basic' && type !== 'fullscreen';
+        useResizeObserver(dialogRef, handleResize, observeDialogResize && !animating, true);
+
         const [backdropVisible, setBackdropVisible] = useState(false);
 
         useEscapeHandler(!disableEscapeKey && visible, () => onClose?.());
@@ -154,12 +164,19 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         controlStyle.merge(animationVars);
 
         const finalSize = size ?? (type === 'dockLeft' || type === 'dockRight' ? 'small' : 'medium');
-        const wrapperClasses = cn('uui-dialog-backdrop', modal && 'uui-modal', backdropVisible && 'uui-open');
+        const wrapperClasses = cn(
+            'uui-dialog-backdrop',
+            modal && 'uui-modal',
+            backdropVisible && 'uui-open',
+            detached && 'uui-dialog-backdrop-detached'
+        );
         const dialogClasses = cn(
             'uui-db',
             `uui-dialog-${toKebabCase(type)}`,
             wf && 'uui-w-full',
             hf && 'uui-h-full',
+            fit && 'uui-fit',
+            flush && 'uui-flush',
             getSizeClass(finalSize),
             animating && animationClass,
             getMotionStyleClass(motionStyle),

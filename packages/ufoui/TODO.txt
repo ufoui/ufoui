@@ -41,11 +41,11 @@ ControlGrid
 Leading
 Trailing
 Description
+Collapse
 
 @experimental
 ControlLabel
 StateLayer
-Collapse
 Accordion
 AccordionItem
 AvatarGroup

@@ -56,11 +56,11 @@ export const CollapsePage = () => {
                     }}
                 />
 
-                <Collapse {...shared} animation="slideDown" open={open1}>
+                <Collapse {...shared} open={open1}>
                     <Span>{text1}</Span>
                 </Collapse>
 
-                <h2 className="mt-6">SlideUp Animation</h2>
+                <h2 className="mt-6">SlideDown Animation</h2>
 
                 <Button
                     label={open2 ? 'Close' : 'Open'}
@@ -70,7 +70,7 @@ export const CollapsePage = () => {
                     tonal
                 />
                 <Div className="w-[1250px]">
-                    <Collapse {...shared} animation="slideUp" motionStyle="expressive" open={open2}>
+                    <Collapse {...shared} animation="slideDown" motionStyle="expressive" open={open2}>
                         <Span>{text2}</Span>
                     </Collapse>
                 </Div>

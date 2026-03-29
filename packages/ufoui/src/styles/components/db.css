@@ -1,181 +1,201 @@
 :root {
-  --uui-backdrop-color: var(--uui-color-scrim);
+    --uui-backdrop-color: var(--uui-color-scrim);
+}
+
+.uui-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    background-color: #00000000;
+    transition: background-color var(--uui-duration, 250ms) ease-out;
+    pointer-events: none;
+}
+
+.uui-dialog-backdrop.uui-modal.uui-open {
+    background-color: var(--uui-backdrop-color);
+    pointer-events: auto;
 }
 
 .uui-db {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  --uui-corner-full: var(--uui-corner-extra-large);
-  --uui-corner-rounded: var(--uui-corner-large);
-  --uui-dialog-max-width: none;
-  --uui-dialog-min-width: none;
-  min-width: 280px;
-  max-width: min(var(--uui-dialog-max-width), calc(100vw - 32px));
-  background-color: var(--uui-color-surface-container-high);
-  border-radius: var(--uui-corner-full);
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    --uui-corner-full: var(--uui-corner-extra-large);
+    --uui-corner-rounded: var(--uui-corner-large);
+    --uui-dialog-max-width: none;
+    --uui-dialog-min-width: none;
+    min-width: 280px;
+    max-width: min(var(--uui-dialog-max-width), calc(100vw - 32px));
+    background-color: var(--uui-color-surface-container-high);
+    border-radius: var(--uui-corner-full);
+    pointer-events: auto;
+}
+
+.uui-db.uui-fit {
+    width: max-content;
 }
 
 .uui-db.uui-extra-small {
-  --uui-dialog-max-width: 320px;
+    --uui-dialog-max-width: 320px;
 }
 
 .uui-db.uui-small {
-  --uui-dialog-max-width: 400px;
+    --uui-dialog-max-width: 400px;
 }
 
 .uui-db.uui-medium {
-  --uui-dialog-max-width: 560px;
+    --uui-dialog-max-width: 560px;
 }
 
 .uui-db.uui-large {
-  --uui-dialog-max-width: 720px;
+    --uui-dialog-max-width: 720px;
 }
 
 .uui-db.uui-extra-large {
-  --uui-dialog-max-width: 960px;
+    --uui-dialog-max-width: 960px;
 }
 
-.uui-db.uui-small.uui-dialog-dock-left,.uui-db.uui-small.uui-dialog-dock-right {
-  --uui-dialog-max-width: 360px;
+.uui-db.uui-small.uui-dialog-dock-left, .uui-db.uui-small.uui-dialog-dock-right {
+    --uui-dialog-max-width: 360px;
 }
 
 .uui-dialog-basic {
-  width: 100%;
-  height: max-content;
-  margin-left: auto;
-  margin-right: auto;
-  max-height: 80vh;
+    height: max-content;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 80vh;
 }
 
 .uui-dialog-fullscreen {
-  width: 100%;
-  height: 100%;
-  min-width: 100%;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 0;
-  background-color: var(--uui-color-surface);
-}
-
-
-.uui-dialog-dock-bottom {
-  margin-top: auto;
-}
-
-.uui-dialog-dock-top {
-  margin-bottom: auto;
+    height: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 0;
+    background-color: var(--uui-color-surface);
 }
 
 .uui-dialog-dock-top,
 .uui-dialog-dock-bottom {
-  width: 100%;
-  max-height: 80vh;
-  max-width: min(var(--uui-dialog-max-width), 100%);
+    max-width: min(var(--uui-dialog-max-width), 100%);
+}
+
+.uui-dialog-dock-left,
+.uui-dialog-dock-right {
+    height: 100%;
+    max-height: 100%;
+}
+
+.uui-db.uui-w-full.uui-dialog-basic {
+    max-width: calc(100vw - 32px);
+    width: 100%;
+}
+
+.uui-db.uui-w-full.uui-dialog-dock-left,
+.uui-db.uui-w-full.uui-dialog-dock-right,
+.uui-db.uui-w-full.uui-dialog-dock-top,
+.uui-db.uui-w-full.uui-dialog-dock-bottom {
+    max-width: 100%;
+    width: 100%;
+}
+
+.uui-db.uui-h-full.uui-dialog-basic {
+    height: 100%;
+    max-height: calc(100vh - 32px);
+}
+
+.uui-dialog-dock-bottom {
+    margin-top: auto;
+}
+
+.uui-dialog-dock-top {
+    margin-bottom: auto;
+}
+
+.uui-db.uui-h-full.uui-dialog-dock-top,
+.uui-db.uui-h-full.uui-dialog-dock-bottom,
+.uui-db.uui-w-full.uui-dialog-dock-left,
+.uui-db.uui-w-full.uui-dialog-dock-right {
+    border-radius: 0;
 }
 
 .uui-db.uui-dialog-dock-right,
 .uui-db.uui-dialog-dock-left {
-  border-radius: var(--uui-corner-rounded);
+    border-radius: var(--uui-corner-rounded);
 }
 
 .uui-db.uui-dialog-dock-top {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
 .uui-db.uui-dialog-dock-bottom {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .uui-dialog-dock-right {
-  margin-left: auto;
-  max-height: none;
-  height: 100%;
+    margin-left: auto;
 }
 
 .uui-dialog-dock-left {
-  margin-right: auto;
-  max-height: none;
-  height: 100%;
+    margin-right: auto;
 }
 
 .uui-db.uui-dialog-dock-left {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .uui-db.uui-dialog-dock-right {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 
-
-.uui-dialog-backdrop {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  background-color:  #00000000;
-  transition: background-color var(--uui-duration, 250ms) ease-out;
-  pointer-events: none;
+.uui-dialog-content {
+    display: block;
+    padding: var(--uui-dialog-content-padding, 0 1.5rem 1.5rem);
+    flex: 1;
+    overflow-y: auto;
 }
 
-.uui-dialog-backdrop.uui-modal.uui-open {
-  background-color: var(--uui-backdrop-color);
-  pointer-events: auto;
+.uui-db.uui-flush .uui-dialog-content {
+    padding: 0;
 }
-
-.uui-dialog-backdrop.uui-open {
-
-}
-
-.uui-db {
-  pointer-events: auto;
-}
-
-
 
 
 .uui-dialog-title {
-  display: flex;
-  align-items: center;
-  gap: var(--uui-col-space, 0.75rem);
-  padding: var(--uui-dialog-content-padding, 1rem 1.5rem 1.5rem);
+    display: flex;
+    align-items: center;
+    gap: var(--uui-col-space, 0.75rem);
+    padding: var(--uui-dialog-content-padding, 1rem 1.5rem 1.5rem);
 }
 
 .uui-dialog-title .uui-content {
-  flex: 1;
-}
-
-.uui-dialog-content {
-  display: block;
-  padding: var(--uui-dialog-content-padding, 0 1.5rem 1.5rem);
-  flex: 1;
-  overflow-y: auto;
+    flex: 1;
 }
 
 .uui-dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: var(--uui-col-space, 0.75rem);
-  padding: var(--uui-dialog-actions-padding, 1rem 1.5rem);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--uui-col-space, 0.75rem);
+    padding: var(--uui-dialog-actions-padding, 1rem 1.5rem);
 }
 
 .uui-dialog-actions-border-top {
-  border-top-style: solid;
+    border-top-style: solid;
 }
 
 .uui-dialog-header {
-  padding: var(--uui-dialog-header-padding, 1.25rem 1.5rem);
+    padding: var(--uui-dialog-header-padding, 1.25rem 1.5rem);
 }
 
 

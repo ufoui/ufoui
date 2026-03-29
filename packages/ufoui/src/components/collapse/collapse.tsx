@@ -43,7 +43,7 @@ export interface CollapseProps extends Omit<BoxBaseProps, 'elevation'> {
 export const Collapse = forwardRef<HTMLDivElement, CollapseProps>((props, ref) => {
     const {
         open,
-        animation = 'slideDown',
+        animation = 'fade',
         duration = 220,
         motionStyle = 'regular',
         className,
@@ -66,7 +66,7 @@ export const Collapse = forwardRef<HTMLDivElement, CollapseProps>((props, ref) =
         isFirstRender.current = false;
     };
 
-    useResizeObserver(contentRef, handleResize, !animating);
+    useResizeObserver(contentRef, handleResize, !animating, true);
 
     useEffect(() => {
         if (isFirstRender.current) {
