@@ -12,7 +12,7 @@
         background-color: #00000000;
         transition: background-color var(--uui-duration, 250ms) ease-out;
         pointer-events: none;
-        --uui-control-shape: var(--uui-corner-full);
+        --uui-default-shape: var(--uui-corner-full);
         --uui-corner-full: var(--uui-corner-extra-large);
         --uui-corner-rounded: var(--uui-corner-large);
     }
@@ -24,11 +24,12 @@
 
     .uui-dlg-backdrop.uui-anchored {
         position: absolute;
+        z-index: 10;
     }
 
     .uui-dlg-backdrop.uui-docked {
         position: relative;
-        /*align-self: end;*/
+        z-index: 10;
     }
 
     .uui-dlg {
@@ -37,15 +38,12 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
-
         --uui-dialog-max-width: none;
         --uui-dialog-min-width: none;
         min-width: 280px;
         max-width: min(var(--uui-dialog-max-width), calc(100% - 32px));
         background-color: var(--uui-color-surface-container-high);
-        /*border-radius: var(--uui-corner-full);*/
-
-        border-radius: var(--uui-control-shape);
+        border-radius: var(--uui-control-shape,var(--uui-default-shape));
         pointer-events: auto;
         transition: border-radius var(--uui-duration, 220ms) ease;
     }
@@ -172,7 +170,7 @@
 
     .uui-dlg.uui-dlg-dock-right,
     .uui-dlg.uui-dlg-dock-left {
-        /*border-radius: var(--uui-corner-rounded);*/
+        --uui-default-shape: var(--uui-corner-rounded);
     }
 
     .uui-dlg.uui-maximized:not(.uui-detached),

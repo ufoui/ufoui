@@ -18,8 +18,28 @@ import { getAnimationClass, getMotionStyleClass, MotionAnimation, MotionStyle } 
 import { ObservedElementSize, useAnimate, useEscapeHandler, useFocusTrap, useResizeObserver } from '../../hooks';
 import { BoxBase } from './boxBase';
 
+/**
+ * Layout mode for the DialogBase component.
+ *
+ * @remarks
+ * Determines dialog placement and sizing:
+ * - `'basic'` - centered dialog
+ * - `'fullscreen'` - full viewport
+ * - `'dockLeft'` / `'dockRight'` / `'dockTop'` / `'dockBottom'` -  edge-docked panels
+ *
+ * @category Base components
+ */
 export type DialogType = 'basic' | 'fullscreen' | 'dockRight' | 'dockLeft' | 'dockTop' | 'dockBottom';
 
+/**
+ * Animation preset for open and close transitions.
+ *
+ * @remarks
+ * Use `'none'` to disable motion. Otherwise uses a {@link MotionAnimation} value.
+ * When omitted, a default animation is chosen for the current layout mode.
+ *
+ * @category Base components
+ */
 export type DialogAnimation = 'none' | MotionAnimation;
 
 const defaultAnimation: Record<DialogType, MotionAnimation> = {
@@ -35,38 +55,118 @@ const resolveAnimation = (type: DialogType, animation?: DialogAnimation) => {
     return animation === 'none' ? undefined : (animation ?? defaultAnimation[type]);
 };
 
+/**
+ * Props for the DialogBase component.
+ *
+ * Supports backdrop and portal rendering, transitions, Escape and backdrop
+ * dismiss, and optional modal focus trap and scroll locking.
+ *
+ * @category Base components
+ */
 export interface DialogBaseProps {
+    /** Semantic UUI element class for the dialog panel. */
     elementClass?: string;
+
+    /** Whether the dialog is open. */
     open: boolean;
+
+    /** Handler invoked when the dialog should close. */
     onClose?: () => void;
+
+    /** Layout mode. Default: basic */
     type?: DialogType;
 
+    /** Surface background token. */
     color?: SurfaceColor;
+
+    /** Elevation level. Default: 3 for non-fullscreen layouts. */
     elevation?: ElementElevation;
+
+    /** Predefined panel size. Default: small for horizontal docks, medium otherwise. */
     size?: ElementSize;
+
+    /** Shape of the dialog panel. */
     shape?: ElementShape;
+
+    /** Outline thickness when outlined. */
     border?: ElementOutline;
+
+    /** Outline color when outlined. */
     borderColor?: BorderColor;
+
+    /** Expands panel to full width. */
     wf?: boolean;
+
+    /** Expands panel to full height. */
     hf?: boolean;
+
+    /** Fits content to the panel. */
     fit?: boolean;
+
+    /** Renders the panel in detached layout style. */
     detached?: boolean;
+
+    /** Animation preset; `'none'` disables motion. */
     animation?: DialogAnimation;
+
+    /** Duration in milliseconds for open and close animations. Default: 500 */
     duration?: number;
-    disableBackdropClose?: boolean;
-    disableEscapeKey?: boolean;
+
+    /** Whether the dialog closes when the backdrop is clicked. Default: true */
+    closeOnBackdrop?: boolean;
+
+    /** Whether the dialog closes when Escape is pressed. Default: true */
+    closeOnEsc?: boolean;
+
+    /** Dialog content. */
     children?: ReactNode;
+
+    /** Additional class names for the dialog panel. */
     className?: string;
+
+    /** Motion style helper classes for the panel. */
     motionStyle?: MotionStyle;
+
+    /** Enables modal behaviour, focus trap, aria-modal, and body scroll lock when applicable. */
     modal?: boolean;
+
+    /** Focuses the dialog when opened (with modal focus trap). */
     autoFocus?: boolean;
+
+    /** Removes default panel padding. */
     flush?: boolean;
+
+    /** Renders inline without portaling (e.g. docked regions). */
     docked?: boolean;
+
+    /** Skips portaling and modal body scroll lock; for anchored overlays. */
     anchored?: boolean;
 }
 
 const portalTarget = typeof document !== 'undefined' ? (document.getElementById('dialog-root') ?? document.body) : null;
 
+/**
+ * Low-level base component for modal and docked dialogs.
+ *
+ * Renders a backdrop and panel (via BoxBase), portaled to `#dialog-root` or
+ * `document.body` unless `docked` or `anchored`.
+ *
+ *
+ * @param props Component properties.
+ * @function
+ *
+ * @example
+ * <DialogBase open={open} onClose={() => setOpen(false)} modal>
+ * {children}
+ * </DialogBase>
+ *
+ * @example
+ * <DialogBase open type="dockRight" anchored >
+ * {children}
+ * </DialogBase>
+ *
+ * @category Base components
+ */
 export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
     (
         {
@@ -76,8 +176,6 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             color,
             elevation,
             shape,
-            // border,
-            // borderColor,
             wf,
             hf,
             size,
@@ -85,8 +183,8 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             fit,
             detached,
             duration = 500,
-            disableBackdropClose,
-            disableEscapeKey,
+            closeOnBackdrop = true,
+            closeOnEsc = true,
             children,
             className,
             motionStyle,
@@ -136,11 +234,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         const observeDialogResize = type !== 'basic' && type !== 'fullscreen' && !detached;
         useResizeObserver(dialogRef, handleResize, observeDialogResize && !animating, true);
         useResizeObserver(backdropRef, handleResize, observeDialogResize && !animating, true);
-
-        const [backdropVisible, setBackdropVisible] = useState(false);
-
-        useEscapeHandler(!disableEscapeKey && visible, () => onClose?.());
-
+        useEscapeHandler(closeOnEsc && visible, () => onClose?.());
         useFocusTrap({
             ref: dialogRef,
             enabled: modal && visible,
@@ -160,20 +254,9 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [open]);
 
-        useEffect(() => {
-            if (open) {
-                setBackdropVisible(true);
-            } else {
-                setBackdropVisible(false);
-            }
-        }, [open]);
-
         // click outside the dialog to close
         const handleBackdropClick = (e: React.MouseEvent) => {
-            if (disableBackdropClose) {
-                return;
-            }
-            if (e.target === e.currentTarget) {
+            if (closeOnBackdrop && e.target === e.currentTarget) {
                 onClose?.();
             }
         };
@@ -188,6 +271,11 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             }
         }, [anchored, docked, modal, visible]);
 
+        useEffect(() => {
+            setMaxW(false);
+            setMaxH(false);
+        }, [type]);
+
         const animationClass = getAnimationClass(resolveAnimation(type, animation));
         const controlStyle = ControlStyle();
         controlStyle.merge(animationVars);
@@ -196,7 +284,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         const backdropClasses = cn(
             'uui-dlg-backdrop',
             modal && 'uui-modal',
-            backdropVisible && 'uui-open',
+            visible && 'uui-open',
             docked && 'uui-docked',
             anchored && 'uui-anchored'
         );
@@ -224,8 +312,6 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                 <BoxBase
                     {...rest}
                     aria-modal={modal ? true : undefined}
-                    // border={border}
-                    // borderColor={borderColor}
                     className={dialogClasses}
                     color={color}
                     elevation={finalElevation}
