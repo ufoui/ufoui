@@ -84,6 +84,8 @@ export const DialogPage = () => {
     const [disabled, setDisabled] = useState<boolean | null>(false);
     const [fit, setFit] = useState(false);
     const [detached, setDetached] = useState(false);
+    const [docked, setDocked] = useState(false);
+    const [anchored, setAnchored] = useState(false);
     const [flush, setFlush] = useState(false);
 
     const shared = useMemo(
@@ -102,7 +104,7 @@ export const DialogPage = () => {
 
     return (
         <Article direction="row" wf>
-            <Content gap={24} grow>
+            <Content gap={24} grow position="relative">
                 <H1>Dialog</H1>
 
                 <Section gap={20}>
@@ -154,10 +156,12 @@ export const DialogPage = () => {
 
                 <Dialog
                     {...shared}
+                    anchored={anchored}
                     animation={animation}
                     detached={detached}
                     disableBackdropClose={!!disabled}
                     disableEscapeKey={!!disabled}
+                    docked={docked}
                     fit={fit}
                     flush={flush}
                     hf={fullHeight}
@@ -196,11 +200,13 @@ export const DialogPage = () => {
 
             <Aside>
                 <Modifiers
+                    anchored={anchored}
                     border={border}
                     borderColor={borderColor}
                     density={density}
                     detached={detached}
                     disabled={disabled}
+                    docked={docked}
                     elevation={elevation}
                     fit={fit}
                     flush={flush}
@@ -217,6 +223,8 @@ export const DialogPage = () => {
                         disabled,
                         fit: nextFit,
                         detached: nextDetached,
+                        docked: nextDocked,
+                        anchored: nextAnchored,
                         flush: nextFlush,
                     }) => {
                         setColor(surfaceColor ?? null);
@@ -233,6 +241,12 @@ export const DialogPage = () => {
                         }
                         if (nextDetached !== undefined) {
                             setDetached(!!nextDetached);
+                        }
+                        if (nextDocked !== undefined) {
+                            setDocked(!!nextDocked);
+                        }
+                        if (nextAnchored !== undefined) {
+                            setAnchored(!!nextAnchored);
                         }
                         if (nextFlush !== undefined) {
                             setFlush(!!nextFlush);

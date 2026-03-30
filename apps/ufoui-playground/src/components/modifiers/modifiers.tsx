@@ -22,6 +22,8 @@ type ButtonModifiersProps = {
     density?: ElementDensity | null;
     disabled?: boolean | null;
     detached?: boolean | null;
+    docked?: boolean | null;
+    anchored?: boolean | null;
     dockedElevation?: ElementElevation | null;
     elevation?: ElementElevation | null;
     fit?: boolean | null;
@@ -39,6 +41,8 @@ type ButtonModifiersProps = {
         color?: SemanticColor | null;
         density?: ElementDensity | null;
         disabled?: boolean | null;
+        docked?: boolean | null;
+        anchored?: boolean | null;
         dockedElevation?: ElementElevation | null;
         detached?: boolean | null;
         elevation?: ElementElevation | null;
@@ -112,6 +116,8 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         focusColor,
         textPlacement,
         showIcon,
+        docked,
+        anchored,
     } = props;
 
     const fontList = [
@@ -560,7 +566,6 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                                 flat: e.target.checked,
                             });
                         }}
-                        title="Flat"
                     />
                 </>
             )}
@@ -578,7 +583,6 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                                 toggle: e.target.checked,
                             });
                         }}
-                        title="Toggle"
                     />
                 </>
             )}
@@ -595,7 +599,6 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                                 filled: e.target.checked,
                             });
                         }}
-                        title="Filled"
                     />
                 </>
             )}
@@ -612,7 +615,6 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                                 fullColor: e.target.checked,
                             });
                         }}
-                        title="Disabled"
                     />
                 </>
             )}
@@ -629,7 +631,6 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                                 disabled: e.target.checked,
                             });
                         }}
-                        title="Disabled"
                     />
                 </>
             )}
@@ -646,7 +647,6 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                                 readOnly: e.target.checked,
                             });
                         }}
-                        title="ReadOnly"
                     />
                 </>
             )}
@@ -663,7 +663,6 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                                 showIcon: e.target.checked,
                             });
                         }}
-                        title="Show Icon"
                     />
                 </>
             )}
@@ -680,7 +679,6 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                                 fit: e.target.checked,
                             });
                         }}
-                        title="Fit content width"
                     />
                 </>
             )}
@@ -697,7 +695,38 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                                 detached: e.target.checked,
                             });
                         }}
-                        title="Inset backdrop (detached)"
+                    />
+                </>
+            )}
+            {docked !== undefined && (
+                <>
+                    <label htmlFor="mod_dialog_docked">Docked:</label>
+                    <Checkbox
+                        checked={!!docked}
+                        density="dense"
+                        id="mod_dialog_docked"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                docked: e.target.checked,
+                            });
+                        }}
+                    />
+                </>
+            )}
+            {anchored !== undefined && (
+                <>
+                    <label htmlFor="mod_dialog_anchored">Anchored:</label>
+                    <Checkbox
+                        checked={!!anchored}
+                        density="dense"
+                        id="mod_dialog_anchored"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                anchored: e.target.checked,
+                            });
+                        }}
                     />
                 </>
             )}
@@ -714,7 +743,6 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                                 flush: e.target.checked,
                             });
                         }}
-                        title="No inner padding (title/content/actions)"
                     />
                 </>
             )}

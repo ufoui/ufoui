@@ -1,206 +1,254 @@
-:root {
-    --uui-backdrop-color: var(--uui-color-scrim);
-}
+    :root {
+        --uui-backdrop-color: var(--uui-color-scrim);
+    }
 
-.uui-dialog-backdrop {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    background-color: #00000000;
-    transition: background-color var(--uui-duration, 250ms) ease-out;
-    pointer-events: none;
-}
+    .uui-dlg-backdrop {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        background-color: #00000000;
+        transition: background-color var(--uui-duration, 250ms) ease-out;
+        pointer-events: none;
+        --uui-control-shape: var(--uui-corner-full);
+        --uui-corner-full: var(--uui-corner-extra-large);
+        --uui-corner-rounded: var(--uui-corner-large);
+    }
 
-.uui-dialog-backdrop.uui-modal.uui-open {
-    background-color: var(--uui-backdrop-color);
-    pointer-events: auto;
-}
+    .uui-dlg-backdrop.uui-modal.uui-open {
+        background-color: var(--uui-backdrop-color);
+        pointer-events: auto;
+    }
 
-.uui-dlg {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    --uui-corner-full: var(--uui-corner-extra-large);
-    --uui-corner-rounded: var(--uui-corner-large);
-    --uui-dialog-max-width: none;
-    --uui-dialog-min-width: none;
-    min-width: 280px;
-    max-width: min(var(--uui-dialog-max-width), calc(100vw - 32px));
-    background-color: var(--uui-color-surface-container-high);
-    border-radius: var(--uui-corner-full);
-    pointer-events: auto;
-    transition: border-radius var(--uui-duration, 220ms) ease;
-}
+    .uui-dlg-backdrop.uui-anchored {
+        position: absolute;
+    }
 
-.uui-dlg.uui-fit {
-    width: max-content;
-}
+    .uui-dlg-backdrop.uui-docked {
+        position: relative;
+        /*align-self: end;*/
+    }
 
-.uui-dlg.uui-extra-small {
-    --uui-dialog-max-width: 320px;
-}
+    .uui-dlg {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
 
-.uui-dlg.uui-small {
-    --uui-dialog-max-width: 400px;
-}
+        --uui-dialog-max-width: none;
+        --uui-dialog-min-width: none;
+        min-width: 280px;
+        max-width: min(var(--uui-dialog-max-width), calc(100% - 32px));
+        background-color: var(--uui-color-surface-container-high);
+        /*border-radius: var(--uui-corner-full);*/
 
-.uui-dlg.uui-medium {
-    --uui-dialog-max-width: 560px;
-}
+        border-radius: var(--uui-control-shape);
+        pointer-events: auto;
+        transition: border-radius var(--uui-duration, 220ms) ease;
+    }
 
-.uui-dlg.uui-large {
-    --uui-dialog-max-width: 720px;
-}
+    .uui-dlg.uui-fit {
+        width: max-content;
+    }
 
-.uui-dlg.uui-extra-large {
-    --uui-dialog-max-width: 960px;
-}
+    .uui-dlg.uui-extra-small {
+        --uui-dialog-max-width: 320px;
+    }
 
-.uui-dlg.uui-small.uui-dialog-dock-left, .uui-dlg.uui-small.uui-dialog-dock-right {
-    --uui-dialog-max-width: 360px;
-}
+    .uui-dlg.uui-small {
+        --uui-dialog-max-width: 400px;
+    }
 
-.uui-dialog-basic {
-    height: max-content;
-    margin-left: auto;
-    margin-right: auto;
-    max-height: 80vh;
-}
+    .uui-dlg.uui-medium {
+        --uui-dialog-max-width: 560px;
+    }
 
-.uui-dialog-fullscreen {
-    height: 100%;
-    min-width: 100%;
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 0;
-    background-color: var(--uui-color-surface);
-}
+    .uui-dlg.uui-large {
+        --uui-dialog-max-width: 720px;
+    }
 
-.uui-dialog-dock-top,
-.uui-dialog-dock-bottom {
-    max-width: min(var(--uui-dialog-max-width), 100%);
-    /*max-height: 100%;*/
-}
+    .uui-dlg.uui-extra-large {
+        --uui-dialog-max-width: 960px;
+    }
 
-.uui-dialog-dock-left,
-.uui-dialog-dock-right {
-    height: 100%;
-    max-height: 100%;
-    max-width: min(var(--uui-dialog-max-width), 100%);
-}
+    .uui-dlg.uui-small.uui-dlg-dock-left, .uui-dlg.uui-small.uui-dlg-dock-right {
+        --uui-dialog-max-width: 360px;
+    }
 
-.uui-dlg.uui-w-full.uui-dialog-basic {
-    max-width: calc(100vw - 32px);
-    width: 100%;
-}
+    .uui-dlg-basic {
+        height: max-content;
+        margin-left: auto;
+        margin-right: auto;
+        max-height: 80vh;
+    }
 
-.uui-dlg.uui-w-full.uui-dialog-dock-left,
-.uui-dlg.uui-w-full.uui-dialog-dock-right,
-.uui-dlg.uui-w-full.uui-dialog-dock-top,
-.uui-dlg.uui-w-full.uui-dialog-dock-bottom {
-    max-width: 100%;
-    width: 100%;
-}
+    .uui-dlg-fullscreen {
+        height: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 0;
+        background-color: var(--uui-color-surface);
+    }
 
-.uui-dlg.uui-h-full.uui-dialog-basic {
-    height: 100%;
-    max-height: calc(100vh - 32px);
-}
+    .uui-dlg-dock-top,
+    .uui-dlg-dock-bottom {
+        max-width: min(var(--uui-dialog-max-width), 100%);
+        max-height: 100%;
+    }
 
-.uui-dialog-dock-bottom {
-    margin-top: auto;
-}
+    .uui-dlg-dock-left,
+    .uui-dlg-dock-right {
+        height: 100%;
+        max-height: 100%;
+    }
 
-.uui-dialog-dock-top {
-    margin-bottom: auto;
-}
+    .uui-dlg-dock-left,
+    .uui-dlg-dock-right {
+        max-width: min(var(--uui-dialog-max-width), 100%);
+    }
+
+    .uui-dlg-dock-top.uui-detached {
+        margin-top: 16px;
+    }
+
+    .uui-dlg-dock-bottom.uui-detached {
+        margin-bottom: 16px;
+    }
+
+    .uui-dlg-dock-left.uui-detached {
+        margin-left: 16px;
+    }
+
+    .uui-dlg-dock-right.uui-detached {
+        margin-right: 16px;
+    }
+
+    .uui-dlg.uui-w-full.uui-dlg-basic {
+        max-width: calc(100% - 32px);
+        width: 100%;
+    }
+
+    .uui-dlg.uui-dlg-dock-top.uui-detached,
+    .uui-dlg.uui-dlg-dock-bottom.uui-detached,
+    .uui-dlg.uui-dlg-dock-left.uui-detached,
+    .uui-dlg.uui-dlg-dock-right.uui-detached {
+        max-height: calc(100% - 32px);
+        max-width: min(var(--uui-dialog-max-width), calc(100vw - 32px));
+    }
+
+    .uui-dlg.uui-w-full.uui-dlg-dock-left,
+    .uui-dlg.uui-w-full.uui-dlg-dock-right,
+    .uui-dlg.uui-w-full.uui-dlg-dock-top,
+    .uui-dlg.uui-w-full.uui-dlg-dock-bottom {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .uui-dlg.uui-w-full.uui-dlg-dock-left.uui-detached,
+    .uui-dlg.uui-w-full.uui-dlg-dock-right.uui-detached,
+    .uui-dlg.uui-w-full.uui-dlg-dock-top.uui-detached,
+    .uui-dlg.uui-w-full.uui-dlg-dock-bottom.uui-detached {
+        max-width: calc(100% - 32px);
+        width: 100%;
+    }
+
+    .uui-dlg.uui-h-full.uui-dlg-basic {
+        height: 100%;
+        max-height: calc(100% - 32px);
+    }
+
+    .uui-dlg-dock-bottom {
+        margin-top: auto;
+    }
+
+    .uui-dlg-dock-top {
+        margin-bottom: auto;
+    }
+
+    .uui-dlg.uui-dlg-dock-right,
+    .uui-dlg.uui-dlg-dock-left {
+        /*border-radius: var(--uui-corner-rounded);*/
+    }
+
+    .uui-dlg.uui-maximized:not(.uui-detached),
+    .uui-dlg.uui-h-full.uui-dlg-dock-top:not(.uui-detached),
+    .uui-dlg.uui-h-full.uui-dlg-dock-bottom:not(.uui-detached),
+    .uui-dlg.uui-w-full.uui-dlg-dock-left:not(.uui-detached),
+    .uui-dlg.uui-w-full.uui-dlg-dock-right:not(.uui-detached) {
+        border-radius: 0;
+    }
+
+    .uui-dlg.uui-dlg-dock-top:not(.uui-detached) {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+    .uui-dlg.uui-dlg-dock-bottom:not(.uui-detached) {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .uui-dlg.uui-dlg-dock-left:not(.uui-detached) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .uui-dlg.uui-dlg-dock-right:not(.uui-detached) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .uui-dlg-dock-right {
+        margin-left: auto;
+    }
+
+    .uui-dlg-dock-left {
+        margin-right: auto;
+    }
 
 
-.uui-dlg.uui-dialog-dock-right,
-.uui-dlg.uui-dialog-dock-left {
-    border-radius: var(--uui-corner-rounded);
-}
+    .uui-dialog-content {
+        display: block;
+        padding: var(--uui-dialog-content-padding, 0 1.5rem 1.5rem);
+        flex: 1;
+        overflow-y: auto;
+    }
 
-.uui-dlg.uui-maximized,
-.uui-dlg.uui-h-full.uui-dialog-dock-top,
-.uui-dlg.uui-h-full.uui-dialog-dock-bottom,
-.uui-dlg.uui-w-full.uui-dialog-dock-left,
-.uui-dlg.uui-w-full.uui-dialog-dock-right {
-    border-radius: 0;
-}
-
-.uui-dlg.uui-dialog-dock-top {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-}
-
-.uui-dlg.uui-dialog-dock-bottom {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-.uui-dlg.uui-dialog-dock-left {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
-.uui-dlg.uui-dialog-dock-right {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-.uui-dialog-dock-right {
-    margin-left: auto;
-}
-
-.uui-dialog-dock-left {
-    margin-right: auto;
-}
+    .uui-dlg.uui-flush .uui-dialog-content {
+        padding: 0;
+    }
 
 
-.uui-dialog-content {
-    display: block;
-    padding: var(--uui-dialog-content-padding, 0 1.5rem 1.5rem);
-    flex: 1;
-    overflow-y: auto;
-}
+    .uui-dialog-title {
+        display: flex;
+        align-items: center;
+        gap: var(--uui-col-space, 0.75rem);
+        padding: var(--uui-dialog-content-padding, 1rem 1.5rem 1.5rem);
+    }
 
-.uui-dlg.uui-flush .uui-dialog-content {
-    padding: 0;
-}
+    .uui-dialog-title .uui-content {
+        flex: 1;
+    }
 
+    .uui-dialog-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: var(--uui-col-space, 0.75rem);
+        padding: var(--uui-dialog-actions-padding, 1rem 1.5rem);
+    }
 
-.uui-dialog-title {
-    display: flex;
-    align-items: center;
-    gap: var(--uui-col-space, 0.75rem);
-    padding: var(--uui-dialog-content-padding, 1rem 1.5rem 1.5rem);
-}
+    .uui-dialog-actions-border-top {
+        border-top-style: solid;
+    }
 
-.uui-dialog-title .uui-content {
-    flex: 1;
-}
-
-.uui-dialog-actions {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: var(--uui-col-space, 0.75rem);
-    padding: var(--uui-dialog-actions-padding, 1rem 1.5rem);
-}
-
-.uui-dialog-actions-border-top {
-    border-top-style: solid;
-}
-
-.uui-dialog-header {
-    padding: var(--uui-dialog-header-padding, 1.25rem 1.5rem);
-}
+    .uui-dialog-header {
+        padding: var(--uui-dialog-header-padding, 1.25rem 1.5rem);
+    }
 
 

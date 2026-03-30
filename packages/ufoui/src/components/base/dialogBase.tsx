@@ -61,6 +61,8 @@ export interface DialogBaseProps {
     modal?: boolean;
     autoFocus?: boolean;
     flush?: boolean;
+    docked?: boolean;
+    anchored?: boolean;
 }
 
 const portalTarget = typeof document !== 'undefined' ? (document.getElementById('dialog-root') ?? document.body) : null;
@@ -74,8 +76,8 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             color,
             elevation,
             shape,
-            border,
-            borderColor,
+            // border,
+            // borderColor,
             wf,
             hf,
             size,
@@ -91,6 +93,9 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             modal = false,
             autoFocus,
             flush,
+            docked,
+            anchored,
+            ...rest
         }: DialogBaseProps,
         ref
     ) => {
@@ -98,8 +103,8 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         const dialogRef = useRef<HTMLDivElement>(null);
         const backdropRef = useRef<HTMLDivElement>(null);
         const [visible, setVisible] = useState(false);
-        const [wFlush, setWFlush] = useState(false);
-        const [hFlush, setHFlush] = useState(false);
+        const [maxW, setMaxW] = useState(false);
+        const [maxH, setMaxH] = useState(false);
 
         const { animationVars, animate, animating, idle, active } = useAnimate({
             t1: duration,
@@ -109,22 +114,22 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             const backdrop = backdropRef.current;
             const dialog = dialogRef.current;
             if (!backdrop || !dialog) {
-                setWFlush(false);
-                setHFlush(false);
+                setMaxW(false);
+                setMaxH(false);
                 return;
             }
             const b = backdrop.getBoundingClientRect();
             const d = dialog.getBoundingClientRect();
             const eps = 1;
             if (type === 'dockLeft' || type === 'dockRight') {
-                setWFlush(Math.abs(d.width - b.width) <= eps);
-                setHFlush(false);
+                setMaxW(d.width >= b.width - eps);
+                setMaxH(false);
             } else if (type === 'dockTop' || type === 'dockBottom') {
-                setHFlush(Math.abs(d.height - b.height) <= eps);
-                setWFlush(false);
+                setMaxH(d.height >= b.height - eps);
+                setMaxW(false);
             } else {
-                setWFlush(false);
-                setHFlush(false);
+                setMaxW(false);
+                setMaxH(false);
             }
         };
 
@@ -146,8 +151,8 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             if (open) {
                 animate('open');
                 setVisible(true);
-                setHFlush(false);
-                setWFlush(false);
+                setMaxH(false);
+                setMaxW(false);
             } else if (!idle) {
                 animate('closed');
                 setVisible(false);
@@ -174,14 +179,14 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         };
 
         useEffect(() => {
-            if (visible) {
+            if (visible && modal && !anchored && !docked) {
                 const prev = document.body.style.overflow;
                 document.body.style.overflow = 'hidden';
                 return () => {
                     document.body.style.overflow = prev;
                 };
             }
-        }, [visible]);
+        }, [anchored, docked, modal, visible]);
 
         const animationClass = getAnimationClass(resolveAnimation(type, animation));
         const controlStyle = ControlStyle();
@@ -189,19 +194,21 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
 
         const finalSize = size ?? (type === 'dockLeft' || type === 'dockRight' ? 'small' : 'medium');
         const backdropClasses = cn(
-            'uui-dialog-backdrop',
+            'uui-dlg-backdrop',
             modal && 'uui-modal',
             backdropVisible && 'uui-open',
-            detached && 'uui-dialog-backdrop-detached'
+            docked && 'uui-docked',
+            anchored && 'uui-anchored'
         );
         const dialogClasses = cn(
             'uui-dlg',
-            `uui-dialog-${toKebabCase(type)}`,
+            `uui-dlg-${toKebabCase(type)}`,
             wf && 'uui-w-full',
             hf && 'uui-h-full',
-            (wFlush || hFlush) && 'uui-maximized',
+            (maxW || maxH) && 'uui-maximized',
             fit && 'uui-fit',
             flush && 'uui-flush',
+            detached && 'uui-detached',
             getSizeClass(finalSize),
             animating && animationClass,
             getMotionStyleClass(motionStyle),
@@ -212,12 +219,13 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             return null;
         }
 
-        return createPortal(
+        const dialog = (
             <div className={backdropClasses} onClick={handleBackdropClick} ref={backdropRef} style={animationVars}>
                 <BoxBase
+                    {...rest}
                     aria-modal={modal ? true : undefined}
-                    border={border}
-                    borderColor={borderColor}
+                    // border={border}
+                    // borderColor={borderColor}
                     className={dialogClasses}
                     color={color}
                     elevation={finalElevation}
@@ -227,9 +235,9 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                     style={controlStyle.get()}>
                     {children}
                 </BoxBase>
-            </div>,
-            portalTarget
+            </div>
         );
+        return docked || anchored ? dialog : createPortal(dialog, portalTarget);
     }
 );
 
