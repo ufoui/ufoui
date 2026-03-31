@@ -92,6 +92,7 @@ export const DialogPage = () => {
     const [flush, setFlush] = useState(false);
 
     const paragraphs = useMemo(() => Array.from({ length: 7 }, () => faker.lorem.sentence()), []);
+    const nestedParagraphs = useMemo(() => Array.from({ length: 3 }, () => faker.lorem.paragraph()), []);
 
     const shared = useMemo(
         () => ({
@@ -211,9 +212,9 @@ export const DialogPage = () => {
                         <DialogContent>
                             <Flex direction="col" gap={8}>
                                 <P>This is a nested dialog stacked on top of the main one.</P>
-                                <P>{faker.lorem.paragraph()}</P>
-                                <P>{faker.lorem.paragraph()}</P>
-                                <P>{faker.lorem.paragraph()}</P>
+                                {nestedParagraphs.map((text, i) => (
+                                    <P key={i}>{text}</P>
+                                ))}
                             </Flex>
                         </DialogContent>
                         <DialogActions>

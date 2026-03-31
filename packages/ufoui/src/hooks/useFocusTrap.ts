@@ -1,5 +1,7 @@
 import { RefObject, useEffect, useRef } from 'react';
 
+const trapStack: HTMLElement[] = [];
+
 /**
  * Options for the useFocusTrap hook.
  *
@@ -43,13 +45,14 @@ export const useFocusTrap = ({ ref, enabled, autoFocus = true }: UseFocusTrapOpt
 
         const root = ref.current;
         lastFocusedElement.current = document.activeElement as HTMLElement;
+        trapStack.push(root);
 
         const getFocusable = () => {
             return Array.from(
                 root.querySelectorAll<HTMLElement>(
                     'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
                 )
-            ).filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null);
+            ).filter(el => !el.hasAttribute('disabled') && el.getClientRects().length > 0);
         };
 
         if (autoFocus && !root.contains(document.activeElement)) {
@@ -63,7 +66,7 @@ export const useFocusTrap = ({ ref, enabled, autoFocus = true }: UseFocusTrapOpt
         }
 
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key !== 'Tab') {
+            if (e.key !== 'Tab' || trapStack[trapStack.length - 1] !== root) {
                 return;
             }
 
@@ -90,11 +93,15 @@ export const useFocusTrap = ({ ref, enabled, autoFocus = true }: UseFocusTrapOpt
             const target = e.target as HTMLElement;
 
             if (!root.contains(target)) {
+                if (trapStack[trapStack.length - 1] !== root) {
+                    return;
+                }
+
                 const items = getFocusable();
                 const next = items[0] ?? root;
 
                 if (next !== target) {
-                    next.focus();
+                    next.focus({ preventScroll: true });
                 }
             }
         };
@@ -106,10 +113,15 @@ export const useFocusTrap = ({ ref, enabled, autoFocus = true }: UseFocusTrapOpt
             document.removeEventListener('keydown', handleKeyDown);
             document.removeEventListener('focusin', handleFocusIn);
 
+            const idx = trapStack.lastIndexOf(root);
+            if (idx !== -1) {
+                trapStack.splice(idx, 1);
+            }
+
             const prev = lastFocusedElement.current;
             if (prev && document.contains(prev)) {
                 setTimeout(() => {
-                    prev.focus();
+                    prev.focus({ preventScroll: true });
                 }, 0);
             }
         };
