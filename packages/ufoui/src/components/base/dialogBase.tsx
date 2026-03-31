@@ -209,25 +209,12 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         });
 
         const handleResize = (_next: ObservedElementSize) => {
-            const backdrop = backdropRef.current;
-            const dialog = dialogRef.current;
-            if (!backdrop || !dialog) {
-                setMaxW(false);
-                setMaxH(false);
-                return;
-            }
-            const b = backdrop.getBoundingClientRect();
-            const d = dialog.getBoundingClientRect();
-            const eps = 1;
-            if (type === 'dockLeft' || type === 'dockRight') {
-                setMaxW(d.width >= b.width - eps);
-                setMaxH(false);
-            } else if (type === 'dockTop' || type === 'dockBottom') {
-                setMaxH(d.height >= b.height - eps);
-                setMaxW(false);
-            } else {
-                setMaxW(false);
-                setMaxH(false);
+            if (backdropRef.current && dialogRef.current) {
+                const { width: bw, height: bh } = backdropRef.current.getBoundingClientRect();
+                const { width: dw, height: dh } = dialogRef.current.getBoundingClientRect();
+                const eps = 1;
+                setMaxW((type === 'dockLeft' || type === 'dockRight') && dw >= bw - eps);
+                setMaxH((type === 'dockTop' || type === 'dockBottom') && dh >= bh - eps);
             }
         };
 
@@ -308,7 +295,12 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         }
 
         const dialog = (
-            <div className={backdropClasses} onClick={handleBackdropClick} ref={backdropRef} style={animationVars}>
+            <div
+                className={backdropClasses}
+                onClick={handleBackdropClick}
+                ref={backdropRef}
+                role="presentation"
+                style={animationVars}>
                 <BoxBase
                     {...rest}
                     aria-modal={modal ? true : undefined}

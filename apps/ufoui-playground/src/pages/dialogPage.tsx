@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { faker } from '@faker-js/faker';
 import { MdInfo } from 'react-icons/md';
 
 import {
@@ -66,6 +67,8 @@ const dialogTypes: DialogType[] = ['basic', 'fullscreen', 'dockRight', 'dockLeft
 
 export const DialogPage = () => {
     const [open, setOpen] = useState(false);
+    const [openNested, setOpenNested] = useState(false);
+    const [openNested2, setOpenNested2] = useState(false);
     const [animation, setAnimation] = useState<MotionAnimation | undefined>(undefined);
     const [motionStyle, setMotionStyle] = useState<MotionStyle | undefined>(undefined);
     const [dialogType, setDialogType] = useState<DialogType | undefined>(undefined);
@@ -87,6 +90,8 @@ export const DialogPage = () => {
     const [docked, setDocked] = useState(false);
     const [anchored, setAnchored] = useState(false);
     const [flush, setFlush] = useState(false);
+
+    const paragraphs = useMemo(() => Array.from({ length: 7 }, () => faker.lorem.sentence()), []);
 
     const shared = useMemo(
         () => ({
@@ -159,8 +164,8 @@ export const DialogPage = () => {
                     anchored={anchored}
                     animation={animation}
                     detached={detached}
-                    disableBackdropClose={!!disabled}
-                    disableEscapeKey={!!disabled}
+                    closeOnBackdrop={!disabled}
+                    closeOnEsc={!disabled}
                     docked={docked}
                     fit={fit}
                     flush={flush}
@@ -175,18 +180,23 @@ export const DialogPage = () => {
                     wf={fullWidth}>
                     <DialogTitle
                         icon={<MdInfo />}
-                        label={`${animation ?? 'default'} | ${motionStyle ?? 'default'} | ${dialogType ?? 'default (undefined → basic)'}`}
+                        label={`${animation ?? 'default'} | ${motionStyle ?? 'default'} | ${dialogType ?? 'basic'}`}
                     />
 
                     <DialogContent>
                         <Flex direction="col" gap={8}>
-                            {[...Array(5)].map((_, i) => (
-                                <P key={i}>Row {i + 1}</P>
+                            {paragraphs.map((text, i) => (
+                                <P key={i}>{text}</P>
                             ))}
                         </Flex>
                     </DialogContent>
 
                     <DialogActions>
+                        <Button
+                            disabled={!!disabled}
+                            label="Open nested dialog"
+                            onClick={() => setOpenNested(true)}
+                        />
                         <Button
                             disabled={!!disabled}
                             label="Close"
@@ -195,6 +205,32 @@ export const DialogPage = () => {
                             }}
                         />
                     </DialogActions>
+
+                    <Dialog modal onClose={() => setOpenNested(false)} open={openNested}>
+                        <DialogTitle label="Nested dialog" />
+                        <DialogContent>
+                            <Flex direction="col" gap={8}>
+                                <P>This is a nested dialog stacked on top of the main one.</P>
+                                <P>{faker.lorem.paragraph()}</P>
+                                <P>{faker.lorem.paragraph()}</P>
+                                <P>{faker.lorem.paragraph()}</P>
+                            </Flex>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button label="Open one more" onClick={() => setOpenNested2(true)} />
+                            <Button label="Close" onClick={() => setOpenNested(false)} />
+                        </DialogActions>
+
+                        <Dialog modal onClose={() => setOpenNested2(false)} open={openNested2}>
+                            <DialogTitle label="Nested dialog 2" />
+                            <DialogContent>
+                                <P>Third level — deepest dialog in the stack.</P>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button label="Close" onClick={() => setOpenNested2(false)} />
+                            </DialogActions>
+                        </Dialog>
+                    </Dialog>
                 </Dialog>
             </Content>
 
