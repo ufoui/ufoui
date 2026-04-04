@@ -35,7 +35,7 @@ export interface ToolbarProps extends Omit<BoxBaseProps, 'component' | 'elementC
     density?: ElementDensity;
 
     /** Makes toolbar full width. */
-    wFull?: boolean;
+    fullWidth?: boolean;
 
     /** Positions floating toolbar. */
     placement?: 'top' | 'bottom' | 'left' | 'right' | 'center';
@@ -79,7 +79,7 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
             elevation,
             shape,
             density,
-            wFull,
+            fullWidth,
             placement = 'bottom',
             fixed,
             divider,
@@ -101,7 +101,7 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
             `uui-toolbar-${variant}`,
             disabled && 'uui-disabled',
             className,
-            wFull && 'uui-toolbar-full',
+            fullWidth && 'uui-toolbar-full',
             fixed && 'uui-toolbar-fixed',
             divider && 'uui-toolbar-divider',
             finalElevation && getElevationClass(finalElevation),

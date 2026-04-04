@@ -1,50 +1,55 @@
 import { ReactNode } from 'react';
 
-import { BorderColor, cn, ControlStyle, ElementOutline, getBorderClass, SurfaceColor } from '../../utils';
+import { cn, ControlStyle, flatChildren } from '../../utils';
+import { isDialogAction } from './dialogActions.guards';
+
+/** Slot contract for components that can act as dialog actions. */
+export interface DialogActionProps {
+    label?: string;
+    'aria-label'?: string;
+    icon?: ReactNode;
+    leading?: ReactNode;
+    trailing?: ReactNode;
+    disabled?: boolean;
+}
 
 export interface DialogActionsProps {
-    children?: ReactNode;
+    actions?: ReactNode;
+    position?: 'top' | 'subtitle' | 'bottom' | 'inline';
+    align?: 'start' | 'center' | 'end';
+    stack?: boolean;
     className?: string;
+    /** Maximum number of visible actions before the rest collapse into an overflow menu. */
+    maxActions?: number;
 
-    color?: SurfaceColor;
-
-    borderTop?: boolean;
-    borderTopWidth?: ElementOutline;
-    borderColor?: BorderColor;
+    /** Accessible label for the overflow actions button. Default: "More actions" */
+    moreLabel?: string;
+    moreIcon?: ReactNode;
 }
 
 export const DialogActions = ({
-    children,
+    actions,
     className,
-
-    color,
-    borderTop = false,
-    borderTopWidth = 1,
-    borderColor,
+    position,
+    align,
+    stack,
+    maxActions,
+    moreLabel,
 }: DialogActionsProps) => {
-    if (!children) {
-        return null;
-    }
-
-    const borderWidthClass = borderTop ? getBorderClass(borderTopWidth) : '';
-
+    const actionItems = flatChildren(actions).filter(isDialogAction);
     const style = ControlStyle();
-    style.border(borderColor);
-    style.text.on(color);
-    style.bg(color);
-
     const classes = cn(
         'uui-dialog-actions',
-        borderTop ? 'uui-dialog-actions-border-top' : '',
-        borderWidthClass,
+        position && `uui-actions-${position}`,
+        align && align !== 'end' && `uui-actions-${align}`,
+        stack && 'uui-actions-stack',
         className
     );
-
-    return (
+    return actionItems.length ? (
         <div className={classes} style={style.get()}>
-            {children}
+            {actionItems}
         </div>
-    );
+    ) : null;
 };
 
 DialogActions.displayName = 'DialogActions';

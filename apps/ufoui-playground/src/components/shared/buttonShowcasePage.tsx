@@ -195,10 +195,20 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
                     <Div>Full & limited width</Div>
                     <Flex gap={16}>
                         <div className="w-[400px] bg-black">
-                            <Component color="primary" filled icon={<FaHome />} label="Full width" wFull></Component>
+                            <Component
+                                color="primary"
+                                filled
+                                fullWidth
+                                icon={<FaHome />}
+                                label="Full width"></Component>
                         </div>
                         <div className="w-[100px] bg-black">
-                            <Component color="primary" filled icon={<FaHome />} label="Full width" wFull></Component>
+                            <Component
+                                color="primary"
+                                filled
+                                fullWidth
+                                icon={<FaHome />}
+                                label="Full width"></Component>
                         </div>
                     </Flex>
 

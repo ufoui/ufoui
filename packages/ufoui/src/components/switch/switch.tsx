@@ -4,13 +4,13 @@ import {
     BorderColor,
     ControlStyle,
     createRipple,
-    ElementAlign,
     ElementDensity,
     ElementElevation,
     ElementFocusEffect,
     ElementFont,
     ElementHoverEffect,
     ElementOutline,
+    ElementPlacement,
     ElementPressedEffect,
     ElementSelectedEffect,
     ElementShape,
@@ -121,7 +121,7 @@ export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
     textPlacement?: ElementTextPlacement;
 
     /** Tooltip alignment relative to the control. */
-    tooltipAlign?: ElementAlign;
+    tooltipAlign?: ElementPlacement;
 
     /** Touch and click visual effects. */
     touchEffects?: ElementTouchEffect[];

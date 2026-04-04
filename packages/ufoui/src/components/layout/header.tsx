@@ -28,18 +28,8 @@ export type HeaderProps = Omit<BoxBaseProps, 'elementClass' | 'component'>;
  *
  * @category Box
  */
-export const Header = forwardRef<HTMLElement, HeaderProps>(
-  ({ direction = 'row', ...props }, ref) => {
-    return (
-      <BoxBase
-        ref={ref}
-        {...props}
-        component="header"
-        direction={direction}
-        elementClass="uui-header"
-      />
-    );
-  },
-);
+export const Header = forwardRef<HTMLElement, HeaderProps>(({ direction = 'row', ...props }, ref) => {
+    return <BoxBase ref={ref} {...props} component="header" direction={direction} elementClass="uui-header" />;
+});
 
 Header.displayName = 'Header';

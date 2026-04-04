@@ -10,6 +10,7 @@ export interface DialogTitleProps {
     font?: ElementFont;
     color?: SurfaceColor;
     textColor?: SurfaceColor;
+    align?: 'start' | 'center' | 'end';
 }
 
 export const DialogTitle = ({ icon, label, children, className, font = 'headlineSmall' }: DialogTitleProps) => {

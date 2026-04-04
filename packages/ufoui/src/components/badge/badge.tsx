@@ -1,16 +1,16 @@
 import { HTMLAttributes } from 'react';
 
 import {
-    ElementAlign,
     ElementBorder,
     ElementElevation,
     ElementFont,
+    ElementPlacement,
     ElementShape,
     ElementSize,
-    getAlignClass,
     getBorderClass,
     getElevationClass,
     getFontClass,
+    getPlacementClass,
     getShapeClass,
     getSizeClass,
 } from '../../utils/utils';
@@ -26,7 +26,7 @@ import { ControlStyle } from '../../utils/controlStyle';
  */
 export interface BadgeProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'ref' | 'size'> {
     /** Position relative to the parent element. */
-    align?: ElementAlign;
+    align?: ElementPlacement;
 
     /** Accessible label for screen readers when badge conveys information. */
     ariaLabel?: string;
@@ -104,7 +104,7 @@ export const Badge = (props: BadgeProps) => {
         getSizeClass(size),
         getFontClass(finalFont),
     ];
-    const slotClass: string = ['uui-badge-slot', getAlignClass(align)].filter(Boolean).join(' ');
+    const slotClass: string = ['uui-badge-slot', getPlacementClass(align)].filter(Boolean).join(' ');
 
     const controlStyle = ControlStyle();
     controlStyle.bg(color);

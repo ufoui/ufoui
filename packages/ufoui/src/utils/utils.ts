@@ -74,7 +74,7 @@ export type ElementElevation = 0 | 1 | 2 | 3 | 4 | 5;
  *
  * @category Utils
  */
-export type ElementAlign =
+export type ElementPlacement =
     | 'topLeft'
     | 'topCenter'
     | 'topRight'
@@ -155,7 +155,7 @@ export function clampInt(min: number, max: number, value: unknown, fallback?: nu
     return Math.min(max, Math.max(min, Math.round(n)));
 }
 
-export const getAlignClass = (position: ElementAlign) => {
+export const getPlacementClass = (position: ElementPlacement) => {
     const positions = {
         topLeft: 'uui-top-left',
         topCenter: 'uui-top-center',

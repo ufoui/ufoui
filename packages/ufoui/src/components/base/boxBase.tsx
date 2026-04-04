@@ -93,10 +93,10 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     font?: ElementFont;
 
     /** Forces full height (100%). */
-    hf?: boolean;
+    fullHeight?: boolean;
 
     /** Forces full width (100%). */
-    wf?: boolean;
+    fullWidth?: boolean;
 
     /** Gap between children (flex/grid). */
     gap?: number | string;
@@ -204,8 +204,8 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
         className,
         style,
         font,
-        hf,
-        wf,
+        fullHeight,
+        fullWidth,
         grow,
         p,
         px,
@@ -237,8 +237,8 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
     controlStyle.merge(style);
 
     const layoutProps: CSSProperties = {
-        width: w ?? (wf ? '100%' : undefined),
-        height: h ?? (hf ? '100%' : undefined),
+        width: w ?? (fullWidth ? '100%' : undefined),
+        height: h ?? (fullHeight ? '100%' : undefined),
         padding: p,
         paddingTop: pt ?? py,
         paddingBottom: pb ?? py,

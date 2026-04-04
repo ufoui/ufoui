@@ -10,9 +10,7 @@ import {
     Checkbox,
     Content,
     Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
+    DialogIconSlot,
     DialogType,
     ElementBorder,
     ElementDensity,
@@ -65,6 +63,10 @@ const animations: MotionAnimation[] = [
 
 const dialogTypes: DialogType[] = ['basic', 'fullscreen', 'dockRight', 'dockLeft', 'dockTop', 'dockBottom'];
 
+type DialogActionsPlacement = 'top' | 'subtitle' | 'bottom' | 'inline';
+type DialogActionsAlign = 'start' | 'center' | 'end';
+type DialogTitleAlign = 'start' | 'center' | 'end';
+
 export const DialogPage = () => {
     const [open, setOpen] = useState(false);
     const [openNested, setOpenNested] = useState(false);
@@ -91,6 +93,14 @@ export const DialogPage = () => {
     const [anchored, setAnchored] = useState(false);
     const [flush, setFlush] = useState(false);
 
+    const [actionsPlacement, setActionsPlacement] = useState<DialogActionsPlacement | null>(null);
+    const [actionsAlign, setActionsAlign] = useState<DialogActionsAlign | null>(null);
+    const [actionsStack, setActionsStack] = useState(false);
+    const [titleAlign, setTitleAlign] = useState<DialogTitleAlign | null>(null);
+    const [iconSlot, setIconSlot] = useState<DialogIconSlot | null>(null);
+    const [showClose, setShowClose] = useState(false);
+    const [showBack, setShowBack] = useState(false);
+
     const paragraphs = useMemo(() => Array.from({ length: 7 }, () => faker.lorem.sentence()), []);
     const nestedParagraphs = useMemo(() => Array.from({ length: 3 }, () => faker.lorem.paragraph()), []);
 
@@ -109,7 +119,7 @@ export const DialogPage = () => {
     );
 
     return (
-        <Article direction="row" wf>
+        <Article direction="row" fullWidth>
             <Content gap={24} grow position="relative">
                 <H1>Dialog</H1>
 
@@ -137,13 +147,13 @@ export const DialogPage = () => {
                                 <Button
                                     color="secondary"
                                     filled
+                                    fullWidth
                                     label={`${a} (regular)`}
                                     onClick={() => {
                                         setAnimation(a);
                                         setMotionStyle('regular');
                                         setOpen(true);
                                     }}
-                                    wf
                                 />
                                 <Button
                                     color="tertiary"
@@ -162,76 +172,104 @@ export const DialogPage = () => {
 
                 <Dialog
                     {...shared}
+                    actionsAlign={actionsAlign ?? undefined}
+                    actionsPlacement={actionsPlacement ?? undefined}
+                    actionsStack={actionsStack}
+                    actions={
+                        <>
+                            <Button
+                                disabled={!!disabled}
+                                label="Open nested dialog"
+                                onClick={() => {
+                                    setOpenNested(true);
+                                }}
+                            />
+                            <Button
+                                disabled={!!disabled}
+                                label="Close"
+                                onClick={() => {
+                                    setOpen(false);
+                                }}
+                            />
+                        </>
+                    }
                     anchored={anchored}
                     animation={animation}
-                    detached={detached}
                     closeOnBackdrop={!disabled}
                     closeOnEsc={!disabled}
+                    detached={detached}
                     docked={docked}
                     fit={fit}
                     flush={flush}
-                    hf={fullHeight}
+                    fullHeight={fullHeight}
+                    fullWidth={fullWidth}
+                    icon={<MdInfo />}
+                    iconSlot={iconSlot ?? undefined}
+                    label={`${animation ?? 'default'} | ${motionStyle ?? 'default'} | ${dialogType ?? 'basic'}`}
                     modal={modal}
                     motionStyle={motionStyle}
                     onClose={() => {
                         setOpen(false);
                     }}
                     open={open}
-                    type={dialogType}
-                    wf={fullWidth}>
-                    <DialogTitle
-                        icon={<MdInfo />}
-                        label={`${animation ?? 'default'} | ${motionStyle ?? 'default'} | ${dialogType ?? 'basic'}`}
-                    />
+                    showBack={showBack}
+                    showClose={showClose}
+                    titleAlign={titleAlign ?? undefined}
+                    type={dialogType}>
+                    <Flex direction="col" gap={8}>
+                        {paragraphs.map((text, i) => (
+                            <P key={i}>{text}</P>
+                        ))}
+                    </Flex>
+                </Dialog>
 
-                    <DialogContent>
-                        <Flex direction="col" gap={8}>
-                            {paragraphs.map((text, i) => (
-                                <P key={i}>{text}</P>
-                            ))}
-                        </Flex>
-                    </DialogContent>
+                <Dialog
+                    actions={
+                        <>
+                            <Button
+                                label="Open one more"
+                                onClick={() => {
+                                    setOpenNested2(true);
+                                }}
+                            />
+                            <Button
+                                label="Close"
+                                onClick={() => {
+                                    setOpenNested(false);
+                                }}
+                            />
+                        </>
+                    }
+                    label="Nested dialog"
+                    modal
+                    onClose={() => {
+                        setOpenNested(false);
+                    }}
+                    open={openNested}>
+                    <Flex direction="col" gap={8}>
+                        <P>This is a nested dialog stacked on top of the main one.</P>
+                        {nestedParagraphs.map((text, i) => (
+                            <P key={i}>{text}</P>
+                        ))}
+                    </Flex>
+                </Dialog>
 
-                    <DialogActions>
+                <Dialog
+                    actions={
                         <Button
-                            disabled={!!disabled}
-                            label="Open nested dialog"
-                            onClick={() => setOpenNested(true)}
-                        />
-                        <Button
-                            disabled={!!disabled}
                             label="Close"
                             onClick={() => {
-                                setOpen(false);
+                                setOpenNested2(false);
                             }}
                         />
-                    </DialogActions>
-
-                    <Dialog modal onClose={() => setOpenNested(false)} open={openNested}>
-                        <DialogTitle label="Nested dialog" />
-                        <DialogContent>
-                            <Flex direction="col" gap={8}>
-                                <P>This is a nested dialog stacked on top of the main one.</P>
-                                {nestedParagraphs.map((text, i) => (
-                                    <P key={i}>{text}</P>
-                                ))}
-                            </Flex>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button label="Open one more" onClick={() => setOpenNested2(true)} />
-                            <Button label="Close" onClick={() => setOpenNested(false)} />
-                        </DialogActions>
-
-                        <Dialog modal onClose={() => setOpenNested2(false)} open={openNested2}>
-                            <DialogTitle label="Nested dialog 2" />
-                            <DialogContent>
-                                <P>Third level — deepest dialog in the stack.</P>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button label="Close" onClick={() => setOpenNested2(false)} />
-                            </DialogActions>
-                        </Dialog>
-                    </Dialog>
+                    }
+                    label="Nested dialog 2"
+                    modal
+                    onClose={() => {
+                        setOpenNested2(false);
+                    }}
+                    open={openNested2}>
+                    <P>Third level — deepest dialog in the stack.</P>
                 </Dialog>
             </Content>
 
@@ -294,6 +332,95 @@ export const DialogPage = () => {
                     surfaceColor={color}
                 />
                 <Grid alignItems="center" cols={2} gapX={16} gapY={4}>
+                    <>
+                        <span>Actions placement:</span>
+                        <select
+                            onChange={e => {
+                                setActionsPlacement(
+                                    e.target.value === '' ? null : (e.target.value as DialogActionsPlacement)
+                                );
+                            }}
+                            value={actionsPlacement ?? ''}>
+                            <option value="">Default</option>
+                            <option value="top">top</option>
+                            <option value="subtitle">subtitle</option>
+                            <option value="bottom">bottom</option>
+                            <option value="inline">inline</option>
+                        </select>
+                    </>
+                    <>
+                        <span>Actions align:</span>
+                        <select
+                            onChange={e => {
+                                setActionsAlign(e.target.value === '' ? null : (e.target.value as DialogActionsAlign));
+                            }}
+                            value={actionsAlign ?? ''}>
+                            <option value="">Default</option>
+                            <option value="start">start</option>
+                            <option value="center">center</option>
+                            <option value="end">end</option>
+                        </select>
+                    </>
+                    <>
+                        <span>Actions stack:</span>
+                        <Checkbox
+                            checked={actionsStack}
+                            density="dense"
+                            label=" "
+                            onChange={() => {
+                                setActionsStack(v => !v);
+                            }}
+                        />
+                    </>
+                    <>
+                        <span>Title align:</span>
+                        <select
+                            onChange={e => {
+                                setTitleAlign(e.target.value === '' ? null : (e.target.value as DialogTitleAlign));
+                            }}
+                            value={titleAlign ?? ''}>
+                            <option value="">Default</option>
+                            <option value="start">start</option>
+                            <option value="center">center</option>
+                            <option value="end">end</option>
+                        </select>
+                    </>
+                    <>
+                        <span>Icon slot:</span>
+                        <select
+                            onChange={e => {
+                                setIconSlot(e.target.value === '' ? null : (e.target.value as DialogIconSlot));
+                            }}
+                            value={iconSlot ?? ''}>
+                            <option value="">Default</option>
+                            <option value="leading">leading</option>
+                            <option value="top">top</option>
+                            <option value="contentLeft">contentLeft</option>
+                            <option value="contentRight">contentRight</option>
+                        </select>
+                    </>
+                    <>
+                        <span>Show close:</span>
+                        <Checkbox
+                            checked={showClose}
+                            density="dense"
+                            label=" "
+                            onChange={() => {
+                                setShowClose(v => !v);
+                            }}
+                        />
+                    </>
+                    <>
+                        <span>Show back:</span>
+                        <Checkbox
+                            checked={showBack}
+                            density="dense"
+                            label=" "
+                            onChange={() => {
+                                setShowBack(v => !v);
+                            }}
+                        />
+                    </>
                     <>
                         <span>Type:</span>
                         <RadioGroup

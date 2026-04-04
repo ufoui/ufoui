@@ -4,7 +4,6 @@ import {
     BorderColor,
     ControlStyle,
     createRipple,
-    ElementAlign,
     ElementBorder,
     ElementDensity,
     ElementElevation,
@@ -12,6 +11,7 @@ import {
     ElementFont,
     ElementHoverEffect,
     ElementOutline,
+    ElementPlacement,
     ElementPressedEffect,
     ElementSelectedEffect,
     ElementShape,
@@ -153,7 +153,7 @@ export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLIn
     textPlacement?: ElementTextPlacement;
 
     /** Tooltip alignment relative to the control. */
-    tooltipAlign?: ElementAlign;
+    tooltipAlign?: ElementPlacement;
 
     /** Touch and click visual effects. */
     touchEffects?: ElementTouchEffect[];

@@ -1,12 +1,12 @@
 import { forwardRef, HTMLProps } from 'react';
 
-import { ElementAlign, ElementShape, ElementSize } from '../../utils/utils';
+import { ElementPlacement, ElementShape, ElementSize } from '../../utils/utils';
 import { SemanticColor } from '../../utils/color';
 
 export interface CardProps extends Omit<HTMLProps<HTMLSpanElement>, 'ref' | 'size'> {
     value: string | number;
     color?: SemanticColor;
-    position?: ElementAlign;
+    position?: ElementPlacement;
     size?: ElementSize;
     shape?: ElementShape;
     raised?: boolean;

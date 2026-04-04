@@ -14,33 +14,19 @@ import {
     SurfaceColor,
     toKebabCase,
 } from '../../utils';
-import { getAnimationClass, getMotionStyleClass, MotionAnimation, MotionStyle } from '../../types';
+import {
+    DialogAnimation,
+    DialogIconSlot,
+    DialogType,
+    getAnimationClass,
+    getMotionStyleClass,
+    MotionAnimation,
+    MotionStyle,
+} from '../../types';
 import { ObservedElementSize, useAnimate, useEscapeHandler, useFocusTrap, useResizeObserver } from '../../hooks';
 import { BoxBase } from './boxBase';
-
-/**
- * Layout mode for the DialogBase component.
- *
- * @remarks
- * Determines dialog placement and sizing:
- * - `'basic'` - centered dialog
- * - `'fullscreen'` - full viewport
- * - `'dockLeft'` / `'dockRight'` / `'dockTop'` / `'dockBottom'` -  edge-docked panels
- *
- * @category Base components
- */
-export type DialogType = 'basic' | 'fullscreen' | 'dockRight' | 'dockLeft' | 'dockTop' | 'dockBottom';
-
-/**
- * Animation preset for open and close transitions.
- *
- * @remarks
- * Use `'none'` to disable motion. Otherwise uses a {@link MotionAnimation} value.
- * When omitted, a default animation is chosen for the current layout mode.
- *
- * @category Base components
- */
-export type DialogAnimation = 'none' | MotionAnimation;
+import { DialogActions, DialogContent, DialogTitle } from '../dialogs';
+import { ArrowBackIcon, CloseIcon, MoreVertIcon } from '../../assets';
 
 const defaultAnimation: Record<DialogType, MotionAnimation> = {
     basic: 'scale',
@@ -95,10 +81,10 @@ export interface DialogBaseProps {
     borderColor?: BorderColor;
 
     /** Expands panel to full width. */
-    wf?: boolean;
+    fullWidth?: boolean;
 
     /** Expands panel to full height. */
-    hf?: boolean;
+    fullHeight?: boolean;
 
     /** Fits content to the panel. */
     fit?: boolean;
@@ -120,6 +106,63 @@ export interface DialogBaseProps {
 
     /** Dialog content. */
     children?: ReactNode;
+
+    /** Visual title text. Referenced via aria-labelledby on the dialog element. */
+    label?: string;
+
+    /** Accessible label for dialogs without a visible title. */
+    'aria-label'?: string;
+
+    /** Icon rendered in the dialog. Position controlled by iconPosition. */
+    icon?: ReactNode;
+
+    /** Where the icon is placed. Default: leading */
+    iconSlot?: DialogIconSlot;
+
+    /** Alignment of the title text. Default: start */
+    titleAlign?: 'start' | 'center' | 'end';
+
+    /** Full leading slot content for the title area. */
+    leading?: ReactNode;
+
+    /** Trailing slot content for the title area. */
+    trailing?: ReactNode;
+
+    /** Action buttons rendered in the dialog. */
+    actions?: ReactNode;
+
+    /** Where actions are placed. Default: inline for fullscreen, bottom otherwise (MD3) */
+    actionsPlacement?: 'top' | 'subtitle' | 'bottom' | 'inline';
+
+    /** Alignment of action buttons. Default: end (MD3) */
+    actionsAlign?: 'start' | 'center' | 'end';
+
+    /** Stack actions vertically instead of horizontally. Default: false (MD3) */
+    actionsStack?: boolean;
+
+    /** Maximum number of visible actions before the rest collapse into an overflow menu. Only applies when actionsPosition is inline. */
+    maxActions?: number;
+
+    /** Accessible label for the overflow actions button. Default: "More actions" */
+    moreLabel?: string;
+
+    /** Custom icon for the overflow actions button. */
+    moreIcon?: ReactNode;
+
+    /** Renders a close button in the trailing slot. */
+    showClose?: boolean;
+
+    /** Custom icon for the close button. */
+    closeIcon?: ReactNode;
+
+    /** Renders a back button in the leading slot. */
+    showBack?: boolean;
+
+    /** Custom icon for the back button. */
+    backIcon?: ReactNode;
+
+    /** Handler for the back button. Defaults to onClose. */
+    onBack?: () => void;
 
     /** Additional class names for the dialog panel. */
     className?: string;
@@ -176,8 +219,8 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             color,
             elevation,
             shape,
-            wf,
-            hf,
+            fullWidth,
+            fullHeight,
             size,
             animation,
             fit,
@@ -186,6 +229,24 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             closeOnBackdrop = true,
             closeOnEsc = true,
             children,
+            label,
+            icon,
+            iconSlot = 'leading',
+            titleAlign,
+            leading,
+            trailing,
+            actions,
+            actionsPlacement,
+            actionsAlign,
+            actionsStack,
+            maxActions,
+            moreLabel,
+            moreIcon,
+            showClose,
+            closeIcon,
+            showBack,
+            backIcon,
+            onBack,
             className,
             motionStyle,
             modal = false,
@@ -203,6 +264,9 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         const [visible, setVisible] = useState(false);
         const [maxW, setMaxW] = useState(false);
         const [maxH, setMaxH] = useState(false);
+        const finalBackIcon = backIcon ?? ArrowBackIcon;
+        const finalCloseIcon = closeIcon ?? CloseIcon;
+        const finalMoreIcon = moreIcon ?? MoreVertIcon;
 
         const { animationVars, animate, animating, idle, active } = useAnimate({
             t1: duration,
@@ -278,8 +342,8 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         const dialogClasses = cn(
             'uui-dlg',
             `uui-dlg-${toKebabCase(type)}`,
-            wf && 'uui-w-full',
-            hf && 'uui-h-full',
+            fullWidth && 'uui-w-full',
+            fullHeight && 'uui-h-full',
             (maxW || maxH) && 'uui-maximized',
             fit && 'uui-fit',
             flush && 'uui-flush',
@@ -293,6 +357,23 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         if (!portalTarget || !(visible || active)) {
             return null;
         }
+
+        const resolvedPosition = actionsPlacement ?? (type === 'fullscreen' ? 'inline' : 'bottom');
+        const handleBack = onBack ?? onClose;
+
+        const iconEl = icon ? <div className="uui-dialog-icon">{icon}</div> : null;
+
+        const actionsEl = (
+            <DialogActions
+                actions={actions}
+                align={actionsAlign}
+                maxActions={maxActions}
+                moreIcon={finalMoreIcon}
+                moreLabel={moreLabel}
+                position={resolvedPosition !== 'inline' ? resolvedPosition : undefined}
+                stack={actionsStack}
+            />
+        );
 
         const dialog = (
             <div
@@ -311,7 +392,43 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                     role="dialog"
                     shape={shape}
                     style={controlStyle.get()}>
-                    {children}
+                    <div className={cn('uui-dialog-header', iconSlot === 'top' && 'uui-icon-top')}>
+                        {leading && <div className="uui-leading">{leading}</div>}
+                        {showBack && (
+                            <div className="uui-dialog-back" onClick={handleBack}>
+                                {finalBackIcon}
+                            </div>
+                        )}
+                        {iconSlot === 'leading' && iconEl}
+                        {iconSlot === 'top' && iconEl}
+                        <DialogTitle align={titleAlign} label={label} />
+                        {resolvedPosition === 'inline' ? (
+                            <>
+                                {actionsEl}
+                                {trailing && <div className="uui-trailing">{trailing}</div>}
+                                {showClose && (
+                                    <div className="uui-dialog-close" onClick={onClose}>
+                                        {finalCloseIcon}
+                                    </div>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                {trailing && <div className="uui-trailing">{trailing}</div>}
+                                {showClose && (
+                                    <div className="uui-dialog-close" onClick={onClose}>
+                                        {closeIcon}
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
+
+                    <DialogContent icon={icon} iconSlot={iconSlot}>
+                        {children}
+                    </DialogContent>
+
+                    {resolvedPosition !== 'inline' && actionsEl}
                 </BoxBase>
             </div>
         );

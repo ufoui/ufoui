@@ -3,10 +3,10 @@ import React, { forwardRef, MouseEvent, ReactNode, useRef, useState } from 'reac
 import {
     cn,
     ControlStyle,
-    ElementAlign,
     ElementDensity,
     ElementFocusEffect,
     ElementFont,
+    ElementPlacement,
     ElementSize,
     ElementTextPlacement,
     getDensityClass,
@@ -91,7 +91,7 @@ export interface RatingProps
     textPlacement?: ElementTextPlacement;
 
     /** Tooltip alignment relative to the control. */
-    tooltipAlign?: ElementAlign;
+    tooltipAlign?: ElementPlacement;
 
     /** Current rating value when used as a controlled component. */
     value?: number;

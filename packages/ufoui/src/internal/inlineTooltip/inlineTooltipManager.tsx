@@ -1,12 +1,12 @@
 import React, { HTMLProps, ReactElement, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { calculateFloatingPosition, ControlStyle, ElementAlign } from '../../utils';
+import { calculateFloatingPosition, ControlStyle, ElementPlacement } from '../../utils';
 
 interface InlineTooltipManagerProps extends HTMLProps<HTMLSpanElement> {
     triggerRef: React.RefObject<HTMLElement>;
     tooltip: ReactElement;
-    align: ElementAlign;
+    align: ElementPlacement;
 }
 
 export const InlineTooltipManager = ({ tooltip, align, triggerRef }: InlineTooltipManagerProps) => {

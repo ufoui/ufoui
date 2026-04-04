@@ -4,13 +4,13 @@ import {
     BorderColor,
     ControlStyle,
     createRipple,
-    ElementAlign,
     ElementDensity,
     ElementElevation,
     ElementFocusEffect,
     ElementFont,
     ElementHoverEffect,
     ElementOutline,
+    ElementPlacement,
     ElementPressedEffect,
     ElementSelectedEffect,
     ElementShape,
@@ -28,7 +28,7 @@ import {
     SurfaceColor,
     uniqueID,
 } from '../../utils';
-import { InlineTooltipManager } from '../../internal/inlineTooltip/inlineTooltipManager';
+import { InlineTooltipManager } from '../../internal';
 import { Spinner } from '../spinner/spinner';
 
 /**
@@ -83,7 +83,7 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
     font?: ElementFont;
 
     /** Expands button to full width. */
-    wf?: boolean;
+    fullWidth?: boolean;
 
     /** Hover visual effects. */
     hoverEffects?: ElementHoverEffect[];
@@ -164,7 +164,7 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
     tonal?: boolean;
 
     /** Tooltip alignment relative to the button. */
-    tooltipAlign?: ElementAlign;
+    tooltipAlign?: ElementPlacement;
 
     /** Touch and click visual effects. */
     touchEffects?: ElementTouchEffect[];
@@ -246,7 +246,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         id = '',
         name = '',
         loading,
-        wf = false,
+        fullWidth = false,
         link,
         selected,
         defaultSelected,
@@ -268,7 +268,13 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     const elemId = id || name || internalIdRef.current;
     const linkContent = link ? React.cloneElement(link, { ref: linkRef, style: { display: 'none' } }) : null;
 
-    const wrapperClasses = [elementClass, className, 'uui-bb', getDensityClass(density), ...(wf ? ['uui-w-full'] : [])]
+    const wrapperClasses = [
+        elementClass,
+        className,
+        'uui-bb',
+        getDensityClass(density),
+        ...(fullWidth ? ['uui-w-full'] : []),
+    ]
         .filter(Boolean)
         .join(' ');
 
@@ -285,7 +291,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         ...(pressedEffects.includes('overlay') ? ['uui-pressed-overlay'] : []),
         ...(selectedEffects.includes('overlay') ? ['uui-selected-overlay'] : []),
         ...(loading ? ['uui-loading'] : []),
-        ...(wf ? ['uui-w-full'] : []),
+        ...(fullWidth ? ['uui-w-full'] : []),
         ...(!children ? [getSizeClass(size)] : []),
         ...(isSelected ? ['uui-selected'] : []),
     ];

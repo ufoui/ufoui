@@ -35,7 +35,7 @@ export const LinkPage = () => {
     );
 
     return (
-        <Article direction="row" wf>
+        <Article direction="row" fullWidth>
             <Content className="items-start gap-6 p-4" grow>
                 <H1>Link</H1>
                 <Section className="flex w-full flex-col gap-3">

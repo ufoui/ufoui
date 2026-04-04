@@ -8,3 +8,4 @@ export * from './toasts';
 export * from './uniqueID';
 export * from './controlStyle';
 export * from './getWrapperStyle';
+export * from './flatChildren';

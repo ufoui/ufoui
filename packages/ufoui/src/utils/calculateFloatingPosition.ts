@@ -1,6 +1,6 @@
 import { RefObject } from 'react';
 
-import { ElementAlign } from './utils';
+import { ElementPlacement } from './utils';
 
 /**
  * Floating behavior presets used by `calculateFloatingPosition()`.
@@ -26,9 +26,9 @@ export type ElementFloatingMode = 'tooltip' | 'dropdown' | 'menu' | 'submenu';
  * @category Utils
  */
 export interface CalculateFloatingPositionOptions {
-  placement?: ElementAlign;
-  offset?: number;
-  mode?: ElementFloatingMode;
+    placement?: ElementPlacement;
+    offset?: number;
+    mode?: ElementFloatingMode;
 }
 
 /**
@@ -41,9 +41,9 @@ export interface CalculateFloatingPositionOptions {
  * @category Utils
  */
 export interface ElementFloatingPosition {
-  x: number;
-  y: number;
-  placement: ElementAlign;
+    x: number;
+    y: number;
+    placement: ElementPlacement;
 }
 
 /**
@@ -71,158 +71,126 @@ export interface ElementFloatingPosition {
  * @category Utils
  */
 export function calculateFloatingPosition(
-  referenceRef: RefObject<HTMLElement>,
-  floatingRef: RefObject<HTMLElement>,
-  options: CalculateFloatingPositionOptions = {},
+    referenceRef: RefObject<HTMLElement>,
+    floatingRef: RefObject<HTMLElement>,
+    options: CalculateFloatingPositionOptions = {}
 ): ElementFloatingPosition | null {
-  const { placement = 'topCenter', offset = 8, mode = 'tooltip' } = options;
+    const { placement = 'topCenter', offset = 8, mode = 'tooltip' } = options;
 
-  const EDGE_PAD = 12;
+    const EDGE_PAD = 12;
 
-  const modeFallbacks: Record<ElementFloatingMode, ElementAlign[]> = {
-    tooltip: ['topCenter', 'bottomCenter', 'centerRight', 'centerLeft'],
-    dropdown: ['bottomCenter', 'topCenter', 'centerRight', 'centerLeft'],
-    menu: [
-      'bottomLeft',
-      'bottomRight',
-      'topLeft',
-      'topRight',
-      'centerRight',
-      'centerLeft',
-    ],
-    submenu: [
-      'topRightOut',
-      'topLeftOut',
-      'centerRight',
-      'centerLeft',
-      'bottomCenter',
-      'topCenter',
-    ],
-  };
+    const modeFallbacks: Record<ElementFloatingMode, ElementPlacement[]> = {
+        tooltip: ['topCenter', 'bottomCenter', 'centerRight', 'centerLeft'],
+        dropdown: ['bottomCenter', 'topCenter', 'centerRight', 'centerLeft'],
+        menu: ['bottomLeft', 'bottomRight', 'topLeft', 'topRight', 'centerRight', 'centerLeft'],
+        submenu: ['topRightOut', 'topLeftOut', 'centerRight', 'centerLeft', 'bottomCenter', 'topCenter'],
+    };
 
-  const fallbackPlacements =
-    placement === 'auto'
-      ? modeFallbacks[mode]
-      : [placement, ...modeFallbacks[mode]];
+    const fallbackPlacements = placement === 'auto' ? modeFallbacks[mode] : [placement, ...modeFallbacks[mode]];
 
-  const reference = referenceRef.current;
-  const floating = floatingRef.current;
-  if (!reference || !floating) {
-    return null;
-  }
-
-  const refRect = reference.getBoundingClientRect();
-  const floatRect = floating.getBoundingClientRect();
-  const viewportWidth = window.innerWidth;
-  const viewportHeight = window.innerHeight;
-
-  const tryPlacement = (place: ElementAlign): ElementFloatingPosition => {
-    let x = 0;
-    let y = 0;
-
-    switch (place) {
-      case 'topCenter':
-        x = refRect.left + (refRect.width - floatRect.width) / 2;
-        y = refRect.top - floatRect.height - offset;
-        break;
-
-      case 'topLeft':
-        x = refRect.left;
-        y = refRect.top - floatRect.height - offset;
-        break;
-
-      case 'topRight':
-        x = refRect.right - floatRect.width;
-        y = refRect.top - floatRect.height - offset;
-        break;
-
-      case 'bottomCenter':
-        x = refRect.left + (refRect.width - floatRect.width) / 2;
-        y = refRect.bottom + offset;
-        break;
-
-      case 'bottomLeft':
-        x = refRect.left;
-        y = refRect.bottom + offset;
-        break;
-
-      case 'bottomRight':
-        x = refRect.right - floatRect.width;
-        y = refRect.bottom + offset;
-        break;
-
-      case 'centerLeft':
-        x = refRect.left - floatRect.width - offset;
-        y = refRect.top + (refRect.height - floatRect.height) / 2;
-        break;
-
-      case 'centerRight':
-        x = refRect.right + offset;
-        y = refRect.top + (refRect.height - floatRect.height) / 2;
-        break;
-
-      case 'center':
-        x = refRect.left + (refRect.width - floatRect.width) / 2;
-        y = refRect.top + (refRect.height - floatRect.height) / 2;
-        break;
-
-      case 'topRightOut':
-        x = refRect.right + offset;
-        y = refRect.top;
-        break;
-
-      case 'topLeftOut':
-        x = refRect.left - floatRect.width - offset;
-        y = refRect.top;
-        break;
+    const reference = referenceRef.current;
+    const floating = floatingRef.current;
+    if (!reference || !floating) {
+        return null;
     }
 
-    return { x, y, placement: place };
-  };
+    const refRect = reference.getBoundingClientRect();
+    const floatRect = floating.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
 
-  for (const p of fallbackPlacements) {
-    const pos = tryPlacement(p);
+    const tryPlacement = (place: ElementPlacement): ElementFloatingPosition => {
+        let x = 0;
+        let y = 0;
 
-    const fitsHorizontally =
-      pos.x >= 0 && pos.x + floatRect.width <= viewportWidth;
-    const fitsVertically =
-      pos.y >= 0 && pos.y + floatRect.height <= viewportHeight;
+        switch (place) {
+            case 'topCenter':
+                x = refRect.left + (refRect.width - floatRect.width) / 2;
+                y = refRect.top - floatRect.height - offset;
+                break;
 
-    let fits = false;
+            case 'topLeft':
+                x = refRect.left;
+                y = refRect.top - floatRect.height - offset;
+                break;
 
-    if (p === 'centerLeft' || p === 'centerRight') {
-      fits = fitsHorizontally;
-    } else if (p === 'topCenter' || p === 'bottomCenter' || p === 'center') {
-      fits = fitsVertically;
-    } else {
-      fits = fitsHorizontally && fitsVertically;
+            case 'topRight':
+                x = refRect.right - floatRect.width;
+                y = refRect.top - floatRect.height - offset;
+                break;
+
+            case 'bottomCenter':
+                x = refRect.left + (refRect.width - floatRect.width) / 2;
+                y = refRect.bottom + offset;
+                break;
+
+            case 'bottomLeft':
+                x = refRect.left;
+                y = refRect.bottom + offset;
+                break;
+
+            case 'bottomRight':
+                x = refRect.right - floatRect.width;
+                y = refRect.bottom + offset;
+                break;
+
+            case 'centerLeft':
+                x = refRect.left - floatRect.width - offset;
+                y = refRect.top + (refRect.height - floatRect.height) / 2;
+                break;
+
+            case 'centerRight':
+                x = refRect.right + offset;
+                y = refRect.top + (refRect.height - floatRect.height) / 2;
+                break;
+
+            case 'center':
+                x = refRect.left + (refRect.width - floatRect.width) / 2;
+                y = refRect.top + (refRect.height - floatRect.height) / 2;
+                break;
+
+            case 'topRightOut':
+                x = refRect.right + offset;
+                y = refRect.top;
+                break;
+
+            case 'topLeftOut':
+                x = refRect.left - floatRect.width - offset;
+                y = refRect.top;
+                break;
+        }
+
+        return { x, y, placement: place };
+    };
+
+    for (const p of fallbackPlacements) {
+        const pos = tryPlacement(p);
+
+        const fitsHorizontally = pos.x >= 0 && pos.x + floatRect.width <= viewportWidth;
+        const fitsVertically = pos.y >= 0 && pos.y + floatRect.height <= viewportHeight;
+
+        let fits = false;
+
+        if (p === 'centerLeft' || p === 'centerRight') {
+            fits = fitsHorizontally;
+        } else if (p === 'topCenter' || p === 'bottomCenter' || p === 'center') {
+            fits = fitsVertically;
+        } else {
+            fits = fitsHorizontally && fitsVertically;
+        }
+
+        if (fits) {
+            pos.x = Math.max(EDGE_PAD, Math.min(pos.x, viewportWidth - floatRect.width - EDGE_PAD));
+            pos.y = Math.max(EDGE_PAD, Math.min(pos.y, viewportHeight - floatRect.height - EDGE_PAD));
+
+            return pos;
+        }
     }
 
-    if (fits) {
-      pos.x = Math.max(
-        EDGE_PAD,
-        Math.min(pos.x, viewportWidth - floatRect.width - EDGE_PAD),
-      );
-      pos.y = Math.max(
-        EDGE_PAD,
-        Math.min(pos.y, viewportHeight - floatRect.height - EDGE_PAD),
-      );
+    // Fallback — clamp with edge padding
+    const fallback = tryPlacement(placement);
 
-      return pos;
-    }
-  }
-
-  // Fallback — clamp with edge padding
-  const fallback = tryPlacement(placement);
-
-  fallback.x = Math.max(
-    EDGE_PAD,
-    Math.min(fallback.x, viewportWidth - floatRect.width - EDGE_PAD),
-  );
-  fallback.y = Math.max(
-    EDGE_PAD,
-    Math.min(fallback.y, viewportHeight - floatRect.height - EDGE_PAD),
-  );
-
-  return fallback;
+    fallback.x = Math.max(EDGE_PAD, Math.min(fallback.x, viewportWidth - floatRect.width - EDGE_PAD));
+    fallback.y = Math.max(EDGE_PAD, Math.min(fallback.y, viewportHeight - floatRect.height - EDGE_PAD));
+    return fallback;
 }

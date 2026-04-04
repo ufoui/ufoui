@@ -19,13 +19,13 @@ import {
     BorderColor,
     calculateFloatingPosition,
     ControlStyle,
-    ElementAlign,
     ElementBorder,
     ElementDensity,
     ElementElevation,
     ElementFloatingMode,
     ElementFocusEffect,
     ElementFont,
+    ElementPlacement,
     ElementSelectedEffect,
     ElementShape,
     ElementTouchEffect,
@@ -161,7 +161,7 @@ export interface MenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'>
     openOnHover?: boolean;
 
     /** Preferred placement relative to the anchor. */
-    placement?: ElementAlign;
+    placement?: ElementPlacement;
 
     /** Icon used for checked radio items. */
     radioCheckedIcon?: ReactNode;

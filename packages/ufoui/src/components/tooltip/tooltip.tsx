@@ -1,12 +1,12 @@
 import { forwardRef, HTMLProps, ReactNode, useRef } from 'react';
 
 import { InlineTooltipManager } from '../../internal';
-import { ElementAlign } from '../../utils';
+import { ElementPlacement } from '../../utils';
 
 export interface TooltipProps extends HTMLProps<HTMLDivElement> {
     title: string;
     children?: ReactNode;
-    align?: ElementAlign;
+    align?: ElementPlacement;
 }
 
 export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(
