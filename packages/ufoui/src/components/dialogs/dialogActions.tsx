@@ -15,7 +15,7 @@ export interface DialogActionProps {
 
 export interface DialogActionsProps {
     actions?: ReactNode;
-    position?: 'top' | 'subtitle' | 'bottom' | 'inline';
+    slot?: 'top' | 'subtitle' | 'bottom' | 'inline';
     align?: 'start' | 'center' | 'end';
     stack?: boolean;
     className?: string;
@@ -30,7 +30,7 @@ export interface DialogActionsProps {
 export const DialogActions = ({
     actions,
     className,
-    position,
+    slot,
     align,
     stack,
     maxActions,
@@ -40,7 +40,7 @@ export const DialogActions = ({
     const style = ControlStyle();
     const classes = cn(
         'uui-dialog-actions',
-        position && `uui-actions-${position}`,
+        slot && `uui-actions-${slot}`,
         align && align !== 'end' && `uui-actions-${align}`,
         stack && 'uui-actions-stack',
         className

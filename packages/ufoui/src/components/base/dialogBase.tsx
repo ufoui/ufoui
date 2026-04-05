@@ -25,7 +25,7 @@ import {
 } from '../../types';
 import { ObservedElementSize, useAnimate, useEscapeHandler, useFocusTrap, useResizeObserver } from '../../hooks';
 import { BoxBase } from './boxBase';
-import { DialogActions, DialogContent, DialogTitle } from '../dialogs';
+import { DialogActions, DialogContent, DialogHeader } from '../dialogs';
 import { ArrowBackIcon, CloseIcon, MoreVertIcon } from '../../assets';
 
 const defaultAnimation: Record<DialogType, MotionAnimation> = {
@@ -113,7 +113,7 @@ export interface DialogBaseProps {
     /** Accessible label for dialogs without a visible title. */
     'aria-label'?: string;
 
-    /** Icon rendered in the dialog. Position controlled by iconPosition. */
+    /** Icon rendered in the dialog. Position controlled by iconSlot. */
     icon?: ReactNode;
 
     /** Where the icon is placed. Default: leading */
@@ -359,10 +359,6 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         }
 
         const resolvedPosition = actionsPlacement ?? (type === 'fullscreen' ? 'inline' : 'bottom');
-        const handleBack = onBack ?? onClose;
-
-        const iconEl = icon ? <div className="uui-dialog-icon">{icon}</div> : null;
-
         const actionsEl = (
             <DialogActions
                 actions={actions}
@@ -370,7 +366,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                 maxActions={maxActions}
                 moreIcon={finalMoreIcon}
                 moreLabel={moreLabel}
-                position={resolvedPosition !== 'inline' ? resolvedPosition : undefined}
+                slot={resolvedPosition !== 'inline' ? resolvedPosition : undefined}
                 stack={actionsStack}
             />
         );
@@ -392,37 +388,22 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                     role="dialog"
                     shape={shape}
                     style={controlStyle.get()}>
-                    <div className={cn('uui-dialog-header', iconSlot === 'top' && 'uui-icon-top')}>
-                        {leading && <div className="uui-leading">{leading}</div>}
-                        {showBack && (
-                            <div className="uui-dialog-back" onClick={handleBack}>
-                                {finalBackIcon}
-                            </div>
-                        )}
-                        {iconSlot === 'leading' && iconEl}
-                        {iconSlot === 'top' && iconEl}
-                        <DialogTitle align={titleAlign} label={label} />
-                        {resolvedPosition === 'inline' ? (
-                            <>
-                                {actionsEl}
-                                {trailing && <div className="uui-trailing">{trailing}</div>}
-                                {showClose && (
-                                    <div className="uui-dialog-close" onClick={onClose}>
-                                        {finalCloseIcon}
-                                    </div>
-                                )}
-                            </>
-                        ) : (
-                            <>
-                                {trailing && <div className="uui-trailing">{trailing}</div>}
-                                {showClose && (
-                                    <div className="uui-dialog-close" onClick={onClose}>
-                                        {closeIcon}
-                                    </div>
-                                )}
-                            </>
-                        )}
-                    </div>
+                    <DialogHeader
+                        actions={actionsEl}
+                        backIcon={finalBackIcon}
+                        closeIcon={finalCloseIcon}
+                        iconEl={icon}
+                        iconSlot={iconSlot}
+                        inlineActions={resolvedPosition === 'inline'}
+                        label={label}
+                        leading={leading}
+                        onBack={onBack}
+                        onClose={onClose}
+                        showBack={showBack}
+                        showClose={showClose}
+                        titleAlign={titleAlign}
+                        trailing={trailing}
+                    />
 
                     <DialogContent icon={icon} iconSlot={iconSlot}>
                         {children}
