@@ -3,7 +3,8 @@
 }
 
 .uui-icon {
-  display: flex;
+  display: grid;
+  place-items: center;
   /*width: var(--uui-icon-size);*/
   /*height: var(--uui-icon-size);*/
 }

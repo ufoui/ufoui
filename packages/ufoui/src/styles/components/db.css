@@ -46,7 +46,7 @@
     border-radius: var(--uui-control-shape, var(--uui-default-shape));
     pointer-events: auto;
     transition: border-radius var(--uui-duration, 220ms) ease;
-    padding: 24px 24px 0px 24px;
+    padding: 24px 0 0 0;
 }
 
 .uui-dlg.uui-fit {
@@ -217,7 +217,7 @@
     column-gap: 24px;
     flex: 1;
     overflow-y: auto;
-    padding: 0 0 24px 0;
+    padding: 0 24px 24px 24px;
     order:2;
 }
 
@@ -229,33 +229,21 @@
     order: 1;
 }
 
-.uui-icon-contentLeft,
-.uui-icon-contentRight {
+.uui-dialog-content .uui-icon-contentLeft,
+.uui-dialog-content .uui-icon-contentRight {
     --uui-icon-size: 48px;
     min-width: 48px;
     justify-content: center;
     align-items: center
 }
 
-.uui-icon-contentLeft {
+.uui-dialog-content .uui-icon-contentLeft {
     order: 0;
 }
 
-.uui-icon-contentRight {
+.uui-dialog-content .uui-icon-contentRight {
     order: 2;
     margin-left: auto;
-}
-
-
-.uui-dialog-title {
-    display: flex;
-    align-items: center;
-    gap: var(--uui-col-space, 0.75rem);
-
-}
-
-.uui-dialog-title .uui-content {
-    flex: 1;
 }
 
 .uui-dialog-actions {
@@ -264,7 +252,7 @@
     justify-content: flex-end;
     align-items: center;
     column-gap: var(--uui-col-space, 0.75rem);
-    padding: 0 0 20px 0;
+    padding: 0 24px 20px 24px;
     order: 3;
 }
 
@@ -304,18 +292,29 @@
 }
 
 
+
+
 .uui-dialog-header {
+    --uui-slot-size: 48px;
+    --uui-icon-size: 24px;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: center;
     order: 1;
-    padding: 0 0 20px 0;
+    padding: 0 12px 20px 12px;
     /*padding: var(--uui-dialog-header-padding, 1.25rem 1.5rem);*/
 }
-
-.uui-dialog-header.uui-icon-above {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+.uui-dialog-header .uui-icon-top{
+    width: 100%;
 }
 
+.uui-dialog-title {
+    display: flex;
+    align-items: center;
+    gap: var(--uui-col-space, 0.75rem);
+
+}
+
+.uui-dialog-title .uui-content {
+    flex: 1;
+}

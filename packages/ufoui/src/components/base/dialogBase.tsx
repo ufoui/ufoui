@@ -1,5 +1,4 @@
 import React, { forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 
 import {
     BorderColor,
@@ -11,6 +10,7 @@ import {
     ElementSize,
     getSizeClass,
     mergeRefs,
+    renderPortal,
     SurfaceColor,
     toKebabCase,
 } from '../../utils';
@@ -26,7 +26,6 @@ import {
 import { ObservedElementSize, useAnimate, useEscapeHandler, useFocusTrap, useResizeObserver } from '../../hooks';
 import { BoxBase } from './boxBase';
 import { DialogActions, DialogContent, DialogHeader } from '../dialogs';
-import { ArrowBackIcon, CloseIcon, MoreVertIcon } from '../../assets';
 
 const defaultAnimation: Record<DialogType, MotionAnimation> = {
     basic: 'scale',
@@ -116,6 +115,10 @@ export interface DialogBaseProps {
     /** Icon rendered in the dialog. Position controlled by iconSlot. */
     icon?: ReactNode;
 
+    showIcon?: boolean;
+
+    iconColor?: SurfaceColor;
+
     /** Where the icon is placed. Default: leading */
     iconSlot?: DialogIconSlot;
 
@@ -186,13 +189,11 @@ export interface DialogBaseProps {
     anchored?: boolean;
 }
 
-const portalTarget = typeof document !== 'undefined' ? (document.getElementById('dialog-root') ?? document.body) : null;
-
 /**
  * Low-level base component for modal and docked dialogs.
  *
- * Renders a backdrop and panel (via BoxBase), portaled to `#dialog-root` or
- * `document.body` unless `docked` or `anchored`.
+ * Renders a backdrop and panel (via BoxBase), portaled to `#dialog-root` (created if
+ * missing; see {@link renderPortal}) unless `docked` or `anchored`.
  *
  *
  * @param props Component properties.
@@ -231,6 +232,8 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             children,
             label,
             icon,
+            showIcon,
+            iconColor,
             iconSlot = 'leading',
             titleAlign,
             leading,
@@ -249,7 +252,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             onBack,
             className,
             motionStyle,
-            modal = false,
+            modal,
             autoFocus,
             flush,
             docked,
@@ -264,9 +267,6 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         const [visible, setVisible] = useState(false);
         const [maxW, setMaxW] = useState(false);
         const [maxH, setMaxH] = useState(false);
-        const finalBackIcon = backIcon ?? ArrowBackIcon;
-        const finalCloseIcon = closeIcon ?? CloseIcon;
-        const finalMoreIcon = moreIcon ?? MoreVertIcon;
 
         const { animationVars, animate, animating, idle, active } = useAnimate({
             t1: duration,
@@ -305,7 +305,6 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [open]);
 
-        // click outside the dialog to close
         const handleBackdropClick = (e: React.MouseEvent) => {
             if (closeOnBackdrop && e.target === e.currentTarget) {
                 onClose?.();
@@ -327,7 +326,6 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             setMaxH(false);
         }, [type]);
 
-        const animationClass = getAnimationClass(resolveAnimation(type, animation));
         const controlStyle = ControlStyle();
         controlStyle.merge(animationVars);
 
@@ -349,24 +347,24 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             flush && 'uui-flush',
             detached && 'uui-detached',
             getSizeClass(finalSize),
-            animating && animationClass,
+            animating && getAnimationClass(resolveAnimation(type, animation)),
             getMotionStyleClass(motionStyle),
             className
         );
 
-        if (!portalTarget || !(visible || active)) {
+        if (!(visible || active)) {
             return null;
         }
 
-        const resolvedPosition = actionsPlacement ?? (type === 'fullscreen' ? 'inline' : 'bottom');
-        const actionsEl = (
+        const actionsPosition = actionsPlacement ?? (type === 'fullscreen' ? 'inline' : 'bottom');
+        const dialogActions = (
             <DialogActions
                 actions={actions}
                 align={actionsAlign}
                 maxActions={maxActions}
-                moreIcon={finalMoreIcon}
+                moreIcon={moreIcon}
                 moreLabel={moreLabel}
-                slot={resolvedPosition !== 'inline' ? resolvedPosition : undefined}
+                placement={actionsPlacement}
                 stack={actionsStack}
             />
         );
@@ -389,12 +387,11 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                     shape={shape}
                     style={controlStyle.get()}>
                     <DialogHeader
-                        actions={actionsEl}
-                        backIcon={finalBackIcon}
-                        closeIcon={finalCloseIcon}
-                        iconEl={icon}
+                        actions={dialogActions}
+                        backIcon={backIcon}
+                        closeIcon={closeIcon}
+                        icon={icon}
                         iconSlot={iconSlot}
-                        inlineActions={resolvedPosition === 'inline'}
                         label={label}
                         leading={leading}
                         onBack={onBack}
@@ -409,11 +406,12 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                         {children}
                     </DialogContent>
 
-                    {resolvedPosition !== 'inline' && actionsEl}
+                    {actionsPosition !== 'inline' && dialogActions}
                 </BoxBase>
             </div>
         );
-        return docked || anchored ? dialog : createPortal(dialog, portalTarget);
+
+        return docked || anchored ? dialog : renderPortal('uui-dialog-root', dialog);
     }
 );
 

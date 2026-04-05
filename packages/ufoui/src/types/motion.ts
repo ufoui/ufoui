@@ -61,11 +61,11 @@ export const motionClassMap: Record<MotionAnimation, string> = {
 
 /**
  * Returns CSS class name for given motion animation.
- * Returns empty string when animation is not defined.
+ * Returns empty string when animation is not defined or set to 'none'.
  */
-export function getAnimationClass(animation?: MotionAnimation): string {
+export function getAnimationClass(animation?: MotionAnimation | 'none'): string {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    return animation ? (motionClassMap[animation] ?? '') : '';
+    return animation && animation !== 'none' ? (motionClassMap[animation] ?? '') : '';
 }
 
 /**

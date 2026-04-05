@@ -3,6 +3,11 @@ import { ReactNode } from 'react';
 import { cn } from '../../utils';
 import { DialogIconSlot } from '../../types';
 import { DialogTitle } from './dialogTitle';
+import { Leading, Trailing } from '../../internal';
+import { ArrowBackIcon, CloseIcon } from '../../assets';
+import { IconButton } from '../iconButton/iconButton';
+import { Icon } from '../../internal/icon/icon';
+import { DialogActions } from './dialogActions';
 
 /**
  * Props for {@link DialogHeader}.
@@ -23,7 +28,7 @@ export interface DialogHeaderProps {
     backIcon?: ReactNode;
 
     /** Resolved icon wrapper for leading/top slots; omit when no dialog icon. */
-    iconEl?: ReactNode | null;
+    icon?: ReactNode | null;
 
     /** Where the icon is placed inside the header vs content (see {@link DialogIconSlot}). */
     iconSlot: DialogIconSlot;
@@ -33,9 +38,6 @@ export interface DialogHeaderProps {
 
     /** Title text. */
     label?: string;
-
-    /** When true, action buttons are laid out in the header after the title. */
-    inlineActions: boolean;
 
     /** Action button row ({@link DialogActions} output). */
     actions: ReactNode;
@@ -69,11 +71,10 @@ export const DialogHeader = ({
     showBack,
     onBack,
     backIcon,
-    iconEl,
+    icon,
     iconSlot,
     titleAlign,
     label,
-    inlineActions,
     actions,
     trailing,
     showClose,
@@ -81,37 +82,27 @@ export const DialogHeader = ({
     closeIcon,
 }: DialogHeaderProps) => {
     const handleBack = onBack ?? onClose;
+    const finalBackIcon = backIcon ?? ArrowBackIcon;
+    const finalCloseIcon = closeIcon ?? CloseIcon;
+    const backButton = showBack && <IconButton icon={finalBackIcon} onClick={handleBack} />;
+    const closeButton = showClose && <IconButton icon={finalCloseIcon} onClick={onClose} />;
+    const mainIcon = icon != null ? <Icon className={`uui-icon-${iconSlot}`} icon={icon} /> : null;
+    const leadingIcons = (
+        <>
+            {backButton}
+            {iconSlot === 'leading' && mainIcon}
+        </>
+    );
+
+    const leadingContent = <Leading content={leading} start={leadingIcons} />;
+    const trailingContent = <Trailing content={trailing} end={closeButton} />;
     return (
-        <div className={cn('uui-dialog-header', iconSlot === 'top' && 'uui-icon-top')}>
-            {leading && <div className="uui-leading">{leading}</div>}
-            {showBack && (
-                <div className="uui-dialog-back" onClick={handleBack}>
-                    {backIcon}
-                </div>
-            )}
-            {iconSlot === 'leading' && iconEl}
-            {iconSlot === 'top' && iconEl}
+        <div className={cn('uui-dialog-header')}>
+            {iconSlot === 'top' && mainIcon}
+            {leadingContent}
             <DialogTitle align={titleAlign} label={label} />
-            {inlineActions ? (
-                <>
-                    {actions}
-                    {trailing && <div className="uui-trailing">{trailing}</div>}
-                    {showClose && (
-                        <div className="uui-dialog-close" onClick={onClose}>
-                            {closeIcon}
-                        </div>
-                    )}
-                </>
-            ) : (
-                <>
-                    {trailing && <div className="uui-trailing">{trailing}</div>}
-                    {showClose && (
-                        <div className="uui-dialog-close" onClick={onClose}>
-                            {closeIcon}
-                        </div>
-                    )}
-                </>
-            )}
+            <DialogActions actions={actions} />
+            {trailingContent}
         </div>
     );
 };

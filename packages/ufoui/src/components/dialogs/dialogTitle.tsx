@@ -1,24 +1,20 @@
 import { ReactNode } from 'react';
 
-import { cn, ElementFont, getFontClass, SurfaceColor } from '../../utils';
+import { cn, ElementFont, getFontClass } from '../../utils';
 
 export interface DialogTitleProps {
-    icon?: ReactNode;
     label?: string;
     children?: ReactNode;
     className?: string;
     font?: ElementFont;
-    color?: SurfaceColor;
-    textColor?: SurfaceColor;
     align?: 'start' | 'center' | 'end';
 }
 
-export const DialogTitle = ({ icon, label, children, className, font = 'headlineSmall' }: DialogTitleProps) => {
+export const DialogTitle = ({ label, children, className, font = 'headlineSmall' }: DialogTitleProps) => {
     const content = label ?? children ?? null;
 
     return content ? (
         <div className={cn('uui-dialog-title', className, getFontClass(font))}>
-            {icon && <div className="uui-icon">{icon}</div>}
             {content && <div className="uui-content">{content}</div>}
         </div>
     ) : null;

@@ -12,7 +12,6 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import { createPortal } from 'react-dom';
 
 import { MotionAnimation, motionClassMap, MotionStyle } from '../../types';
 import {
@@ -36,6 +35,7 @@ import {
     getShapeClass,
     inverseColorMap,
     mergeRefs,
+    renderPortal,
     SurfaceColor,
     uniqueID,
 } from '../../utils';
@@ -1004,7 +1004,6 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                 <div className="uui-menu-scroll">{clonedChildren}</div>
             </div>
         );
-        const portalTarget = document.getElementById('menu-root') ?? document.body;
 
         let submenuChildren = null;
         if (submenuIndex !== -1) {
@@ -1013,7 +1012,8 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                 submenuChildren = submenu;
             }
         }
-        const portal = createPortal(
+        const portal = renderPortal(
+            'uui-menu-root',
             <>
                 {!docked && menu}
                 {activeItemRef.current && submenuIndex !== -1 && (
@@ -1063,8 +1063,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                         {submenuChildren}
                     </Menu>
                 )}
-            </>,
-            portalTarget
+            </>
         );
         return docked && level === 0 ? (
             <>

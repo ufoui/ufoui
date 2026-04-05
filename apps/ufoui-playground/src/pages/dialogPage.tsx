@@ -74,7 +74,7 @@ export const DialogPage = () => {
     const [animation, setAnimation] = useState<MotionAnimation | undefined>(undefined);
     const [motionStyle, setMotionStyle] = useState<MotionStyle | undefined>(undefined);
     const [dialogType, setDialogType] = useState<DialogType | undefined>(undefined);
-    const [modal, setModal] = useState(true);
+    const [modal, setModal] = useState(false);
     const [fullWidth, setFullWidth] = useState(false);
     const [fullHeight, setFullHeight] = useState(false);
 
@@ -172,9 +172,6 @@ export const DialogPage = () => {
 
                 <Dialog
                     {...shared}
-                    actionsAlign={actionsAlign ?? undefined}
-                    actionsPlacement={actionsPlacement ?? undefined}
-                    actionsStack={actionsStack}
                     actions={
                         <>
                             <Button
@@ -193,6 +190,9 @@ export const DialogPage = () => {
                             />
                         </>
                     }
+                    actionsAlign={actionsAlign ?? undefined}
+                    actionsPlacement={actionsPlacement ?? undefined}
+                    actionsStack={actionsStack}
                     anchored={anchored}
                     animation={animation}
                     closeOnBackdrop={!disabled}

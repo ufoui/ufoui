@@ -1,7 +1,6 @@
 import React, { HTMLProps, ReactElement, useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 
-import { calculateFloatingPosition, ControlStyle, ElementPlacement } from '../../utils';
+import { calculateFloatingPosition, ControlStyle, ElementPlacement, renderPortal } from '../../utils';
 
 interface InlineTooltipManagerProps extends HTMLProps<HTMLSpanElement> {
     triggerRef: React.RefObject<HTMLElement>;
@@ -80,11 +79,11 @@ export const InlineTooltipManager = ({ tooltip, align, triggerRef }: InlineToolt
     });
     const classes = ['uui-tooltip', 'uui-font-body-small', 'uui-elevation-2', 'uui-corner-small'].join(' ');
 
-    return createPortal(
+    return renderPortal(
+        'uui-tooltip-root',
         <div className={classes} ref={floatingRef} role="tooltip" style={s.get()}>
             {tooltip}
-        </div>,
-        document.body
+        </div>
     );
 };
 
