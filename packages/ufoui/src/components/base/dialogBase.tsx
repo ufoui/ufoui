@@ -182,7 +182,7 @@ export interface DialogBaseProps {
     /** Removes default panel padding. */
     flush?: boolean;
 
-    /** Renders inline without portaling (e.g. docked regions). */
+    /** Renders inline without a portal (e.g. docked regions). */
     docked?: boolean;
 
     /** Skips portaling and modal body scroll lock; for anchored overlays. */
@@ -260,6 +260,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             ...rest
         }: DialogBaseProps,
         ref
+        // eslint-disable-next-line sonarjs/cognitive-complexity
     ) => {
         const finalElevation = elevation ?? (type !== 'fullscreen' ? 3 : undefined);
         const dialogRef = useRef<HTMLDivElement>(null);
@@ -391,6 +392,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                         backIcon={backIcon}
                         closeIcon={closeIcon}
                         icon={icon}
+                        iconColor={iconColor}
                         iconSlot={iconSlot}
                         label={label}
                         leading={leading}
@@ -398,11 +400,12 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                         onClose={onClose}
                         showBack={showBack}
                         showClose={showClose}
+                        showIcon={showIcon}
                         titleAlign={titleAlign}
                         trailing={trailing}
                     />
 
-                    <DialogContent icon={icon} iconSlot={iconSlot}>
+                    <DialogContent icon={icon} iconColor={iconColor} iconSlot={iconSlot} showIcon={showIcon}>
                         {children}
                     </DialogContent>
 

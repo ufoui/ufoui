@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { cn } from '../../utils';
+import { cn, ControlStyle, SurfaceColor } from '../../utils';
 
 /**
  * Props for the {@link Icon} wrapper.
@@ -13,6 +13,9 @@ export interface IconProps {
 
     /** Additional class names merged with the base `uui-icon` token. */
     className?: string;
+
+    /** Theme surface token as CSS `color` (for `currentColor` SVG). */
+    color?: SurfaceColor;
 }
 
 /**
@@ -24,8 +27,14 @@ export interface IconProps {
  *
  * @category Internal components
  */
-export const Icon = ({ icon, className }: IconProps) => {
-    return <div className={cn('uui-icon', className)}>{icon}</div>;
+export const Icon = ({ icon, className, color }: IconProps) => {
+    const iconStyle = ControlStyle();
+    iconStyle.text(color);
+    return (
+        <div className={cn('uui-icon', className)} style={iconStyle.get()}>
+            {icon}
+        </div>
+    );
 };
 
 Icon.displayName = 'Icon';

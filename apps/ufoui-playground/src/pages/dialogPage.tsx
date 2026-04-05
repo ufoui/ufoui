@@ -98,6 +98,7 @@ export const DialogPage = () => {
     const [actionsStack, setActionsStack] = useState(false);
     const [titleAlign, setTitleAlign] = useState<DialogTitleAlign | null>(null);
     const [iconSlot, setIconSlot] = useState<DialogIconSlot | null>(null);
+    const [showIcon, setShowIcon] = useState(true);
     const [showClose, setShowClose] = useState(false);
     const [showBack, setShowBack] = useState(false);
 
@@ -206,6 +207,7 @@ export const DialogPage = () => {
                     icon={<MdInfo />}
                     iconSlot={iconSlot ?? undefined}
                     label={`${animation ?? 'default'} | ${motionStyle ?? 'default'} | ${dialogType ?? 'basic'}`}
+                    showIcon={showIcon}
                     modal={modal}
                     motionStyle={motionStyle}
                     onClose={() => {
@@ -398,6 +400,17 @@ export const DialogPage = () => {
                             <option value="contentLeft">contentLeft</option>
                             <option value="contentRight">contentRight</option>
                         </select>
+                    </>
+                    <>
+                        <span>Show icon:</span>
+                        <Checkbox
+                            checked={showIcon}
+                            density="dense"
+                            label=" "
+                            onChange={() => {
+                                setShowIcon(v => !v);
+                            }}
+                        />
                     </>
                     <>
                         <span>Show close:</span>
