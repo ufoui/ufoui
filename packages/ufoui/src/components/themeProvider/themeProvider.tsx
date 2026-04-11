@@ -2,7 +2,7 @@ import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 import '../../styles/index.css';
 import { defaultTheme, ThemeContext, ThemeContextValue } from '../../context';
-import { generateSchemes, ThemeColor } from '../../utils';
+import { applyThemeTokens, generateMaterialColors, ThemeColor } from '../../utils';
 import { Theme } from '../../types';
 
 export interface ThemeProviderProps {
@@ -57,7 +57,14 @@ export interface ThemeProviderProps {
  * @group Theme
  */
 export const ThemeProvider = ({ children, colorMode, seedColor, colors }: ThemeProviderProps) => {
-    const [theme, setTheme] = useState<Theme>(defaultTheme);
+    const [theme, setTheme] = useState<Theme>(() => {
+        const darkMode = colorMode === 'dark';
+        const generatedSchemes = generateMaterialColors(seedColor, colors, defaultTheme.schemes);
+        return {
+            darkMode,
+            schemes: generatedSchemes,
+        };
+    });
 
     /**
      * Sets dark mode by toggling the `dark` class on the `<body>`.
@@ -115,12 +122,16 @@ export const ThemeProvider = ({ children, colorMode, seedColor, colors }: ThemeP
     }, [colorMode]);
 
     useEffect(() => {
-        const { schemes } = defaultTheme;
+        const generatedSchemes = generateMaterialColors(seedColor, colors, defaultTheme.schemes);
         setTheme(v => ({
             darkMode: v.darkMode,
-            schemes: generateSchemes(seedColor, colors, schemes),
+            schemes: generatedSchemes,
         }));
     }, [colors, seedColor]);
+
+    useEffect(() => {
+        applyThemeTokens(theme.schemes);
+    }, [theme.schemes]);
 
     const value = useMemo<ThemeContextValue>(
         () => ({

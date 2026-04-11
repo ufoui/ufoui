@@ -3,7 +3,7 @@ export * from './utils';
 export * from './calculateFloatingPosition';
 export * from './interactionMode';
 export * from './generateMaterialColors';
-export * from './generateSchemes';
+export * from './applyThemeTokens';
 export * from './toasts';
 export * from './uniqueID';
 export * from './controlStyle';

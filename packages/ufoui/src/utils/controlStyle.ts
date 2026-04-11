@@ -31,92 +31,7 @@
 import React, { CSSProperties } from 'react';
 
 import { capitalize, SemanticColor, SurfaceColor, ThemeColor } from './color';
-
-/**
- * Bidirectional mapping between theme colors and their “on” counterparts.
- *
- * @remarks
- * Provides both directions — e.g. `'surface' → 'onSurface'` and `'onSurface' → 'surface'` —
- * for all semantic, extended, and surface tokens defined in {@link ThemeColor}.
- * Enables consistent inverse lookups for text/background pairings.
- *
- *
- * @category Color
- */
-export const inverseColorMap = {
-    // SURFACE
-    surface: 'onSurface',
-    surfaceVariant: 'onSurfaceVariant',
-    surfaceContainerLowest: 'onSurface',
-    surfaceContainerLow: 'onSurface',
-    surfaceContainer: 'onSurface',
-    surfaceContainerHigh: 'onSurface',
-    surfaceContainerHighest: 'onSurface',
-    surfaceDim: 'onSurface',
-    surfaceBright: 'onSurface',
-    background: 'onBackground',
-    inverseSurface: 'inverseOnSurface',
-
-    // SEMANTIC
-    primary: 'onPrimary',
-    secondary: 'onSecondary',
-    tertiary: 'onTertiary',
-    warning: 'onWarning',
-    info: 'onInfo',
-    success: 'onSuccess',
-    error: 'onError',
-
-    // EXTENDED
-    primaryContainer: 'onPrimaryContainer',
-    primaryFixed: 'onPrimaryFixed',
-    primaryFixedDim: 'onPrimaryFixedVariant',
-    secondaryContainer: 'onSecondaryContainer',
-    secondaryFixed: 'onSecondaryFixed',
-    secondaryFixedDim: 'onSecondaryFixedVariant',
-    tertiaryContainer: 'onTertiaryContainer',
-    tertiaryFixed: 'onTertiaryFixed',
-    tertiaryFixedDim: 'onTertiaryFixedVariant',
-    warningContainer: 'onWarningContainer',
-    warningFixed: 'onWarningFixed',
-    warningFixedDim: 'onWarningFixedVariant',
-    infoContainer: 'onInfoContainer',
-    infoFixed: 'onInfoFixed',
-    infoFixedDim: 'onInfoFixedVariant',
-    successContainer: 'onSuccessContainer',
-    successFixed: 'onSuccessFixed',
-    successFixedDim: 'onSuccessFixedVariant',
-    errorContainer: 'onErrorContainer',
-    errorFixed: 'onErrorFixed',
-    errorFixedDim: 'onErrorFixedVariant',
-
-    // NEUTRAL / TECHNICAL (for TS completeness)
-    outline: 'surface',
-    outlineVariant: 'inverseSurface',
-    inversePrimary: 'onPrimaryContainer',
-    black: 'white',
-    white: 'black',
-
-    onSurface: 'surface',
-    onSurfaceVariant: 'surfaceVariant',
-    onBackground: 'background',
-    inverseOnSurface: 'inverseSurface',
-
-    onPrimary: 'primary',
-    onSecondary: 'secondary',
-    onTertiary: 'tertiary',
-    onWarning: 'warning',
-    onInfo: 'info',
-    onSuccess: 'success',
-    onError: 'error',
-
-    onPrimaryContainer: 'primaryContainer',
-    onSecondaryContainer: 'secondaryContainer',
-    onTertiaryContainer: 'tertiaryContainer',
-    onWarningContainer: 'warningContainer',
-    onInfoContainer: 'infoContainer',
-    onSuccessContainer: 'successContainer',
-    onErrorContainer: 'errorContainer',
-} as const satisfies Partial<Record<ThemeColor, ThemeColor>>;
+import { getOnColorName } from './colorRegistry';
 
 /**
  * Creates a strictly typed style builder for MD3 color tokens.
@@ -150,8 +65,7 @@ export function ControlStyle(initial?: React.CSSProperties) {
             {
                 on(color?: SurfaceColor) {
                     if (color) {
-                        const mapped = inverseColorMap[color];
-
+                        const mapped = getOnColorName(color);
                         if (mapped !== undefined) {
                             apply(toVar(mapped));
                         }
