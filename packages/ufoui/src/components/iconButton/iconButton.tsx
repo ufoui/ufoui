@@ -8,10 +8,7 @@ import { ButtonBase, ButtonBaseProps } from '../base/buttonBase';
  *
  * @category IconButton
  */
-export type IconButtonProps = Omit<
-  ButtonBaseProps,
-  'elementClass' | 'endIcon' | 'trailing'
->;
+export type IconButtonProps = Omit<ButtonBaseProps, 'elementClass' | 'endIcon' | 'trailing'>;
 
 /**
  * Icon-only button used for compact or secondary actions.
@@ -32,37 +29,36 @@ export type IconButtonProps = Omit<
  * </IconButton>
  */
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  (
-    {
-      'aria-label': ariaLabel,
-      endIcon: _,
-      trailing: __,
-      loading,
-      size = 'small',
-      shape = 'round',
-      label,
-      title,
-      children,
-      ...props
-    }: IconButtonProps & { endIcon?: ReactNode; trailing?: ReactNode },
-    ref,
-  ) => {
-    const altLabel = ariaLabel ?? label;
-    return (
-      <ButtonBase
-        ref={ref}
-        {...props}
-        aria-label={altLabel}
-        elementClass="uui-icon-button"
-        loading={loading}
-        shape={shape}
-        size={size}
-        title={title}
-      >
-        {!loading && children}
-      </ButtonBase>
-    );
-  },
+    (
+        {
+            'aria-label': ariaLabel,
+            endIcon: _,
+            trailing: __,
+            loading,
+            size = 'small',
+            shape = 'round',
+            label,
+            title,
+            children,
+            ...props
+        }: IconButtonProps & { endIcon?: ReactNode; trailing?: ReactNode },
+        ref
+    ) => {
+        const altLabel = ariaLabel ?? label;
+        return (
+            <ButtonBase
+                ref={ref}
+                {...props}
+                aria-label={altLabel}
+                elementClass="uui-icon-button"
+                loading={loading}
+                shape={shape}
+                size={size}
+                title={title}>
+                {!loading && children}
+            </ButtonBase>
+        );
+    }
 );
 
 IconButton.displayName = 'IconButton';

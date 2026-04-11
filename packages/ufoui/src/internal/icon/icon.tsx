@@ -30,11 +30,11 @@ export interface IconProps {
 export const Icon = ({ icon, className, color }: IconProps) => {
     const iconStyle = ControlStyle();
     iconStyle.text(color);
-    return (
+    return icon ? (
         <div className={cn('uui-icon', className)} style={iconStyle.get()}>
             {icon}
         </div>
-    );
+    ) : null;
 };
 
 Icon.displayName = 'Icon';

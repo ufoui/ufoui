@@ -1,12 +1,12 @@
-import { ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
-import { cn } from '../../utils';
+import type { DialogActionsProps } from './dialogActions';
+import { cn, ElementFont, SurfaceColor } from '../../utils';
 import { DialogIconSlot } from '../../types';
 import { DialogTitle } from './dialogTitle';
 import { Leading, Trailing } from '../../internal';
 import { ArrowBackIcon, CloseIcon } from '../../assets';
 import { IconButton } from '../iconButton/iconButton';
-import { Icon } from '../../internal/icon/icon';
 import { DialogActions } from './dialogActions';
 
 /**
@@ -25,10 +25,13 @@ export interface DialogHeaderProps {
     onBack?: () => void;
 
     /** Icon element for the back control. */
-    backIcon?: ReactNode;
+    backIcon?: ReactElement;
 
     /** Resolved icon wrapper for leading/top slots; omit when no dialog icon. */
-    icon?: ReactNode | null;
+    icon?: ReactElement;
+
+    showIcon?: boolean;
+    iconColor?: SurfaceColor;
 
     /** Where the icon is placed inside the header vs content (see {@link DialogIconSlot}). */
     iconSlot: DialogIconSlot;
@@ -39,8 +42,13 @@ export interface DialogHeaderProps {
     /** Title text. */
     label?: string;
 
-    /** Action button row ({@link DialogActions} output). */
-    actions: ReactNode;
+    /** Action buttons (see {@link DialogActions}). */
+    actions?: DialogActionsProps['actions'];
+    actionsAlign?: DialogActionsProps['align'];
+    actionsStack?: DialogActionsProps['stack'];
+    maxActions?: DialogActionsProps['maxActions'];
+    moreLabel?: DialogActionsProps['moreLabel'];
+    moreIcon?: DialogActionsProps['moreIcon'];
 
     /** Optional content after actions / before close in the header row. */
     trailing?: ReactNode;
@@ -52,7 +60,9 @@ export interface DialogHeaderProps {
     onClose?: () => void;
 
     /** Icon element for the close control (already resolved to default or override). */
-    closeIcon: ReactNode;
+    closeIcon?: ReactElement;
+
+    font?: ElementFont;
 }
 
 /**
@@ -72,37 +82,51 @@ export const DialogHeader = ({
     onBack,
     backIcon,
     icon,
+    showIcon,
+    iconColor,
     iconSlot,
     titleAlign,
     label,
     actions,
+    actionsAlign,
+    actionsStack,
+    maxActions,
+    moreLabel,
+    moreIcon,
     trailing,
     showClose,
     onClose,
     closeIcon,
+    font,
 }: DialogHeaderProps) => {
     const handleBack = onBack ?? onClose;
     const finalBackIcon = backIcon ?? ArrowBackIcon;
     const finalCloseIcon = closeIcon ?? CloseIcon;
     const backButton = showBack && <IconButton icon={finalBackIcon} onClick={handleBack} />;
     const closeButton = showClose && <IconButton icon={finalCloseIcon} onClick={onClose} />;
-    const mainIcon = icon != null ? <Icon className={`uui-icon-${iconSlot}`} icon={icon} /> : null;
-    const leadingIcons = (
-        <>
-            {backButton}
-            {iconSlot === 'leading' && mainIcon}
-        </>
-    );
 
-    const leadingContent = <Leading content={leading} start={leadingIcons} />;
-    const trailingContent = <Trailing content={trailing} end={closeButton} />;
     return (
         <div className={cn('uui-dialog-header')}>
-            {iconSlot === 'top' && mainIcon}
-            {leadingContent}
-            <DialogTitle align={titleAlign} label={label} />
-            <DialogActions actions={actions} />
-            {trailingContent}
+            <Leading content={leading} start={backButton} />
+            <DialogTitle
+                align={titleAlign}
+                font={font}
+                icon={icon}
+                iconColor={iconColor}
+                iconSlot={iconSlot}
+                label={label}
+                showIcon={showIcon}
+            />
+            <DialogActions
+                actions={actions}
+                align={actionsAlign}
+                maxActions={maxActions}
+                moreIcon={moreIcon}
+                moreLabel={moreLabel}
+                placement="inline"
+                stack={actionsStack}
+            />
+            <Trailing content={trailing} end={closeButton} />
         </div>
     );
 };

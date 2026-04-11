@@ -13,13 +13,13 @@ const pkgPath = path.join(repoRoot, 'packages', 'ufoui', 'package.json');
 const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
 const parts = String(pkg.version).split('.');
 
-if (parts.length !== 3 || parts.some((p) => !/^\d+$/.test(p))) {
-  console.error(`bump-ufoui-patch: expected X.Y.Z (digits only), got "${pkg.version}"`);
-  process.exit(1);
+if (parts.length !== 3 || parts.some(p => !/^\d+$/.test(p))) {
+    console.error(`bump-ufoui-patch: expected X.Y.Z (digits only), got "${pkg.version}"`);
+    process.exit(1);
 }
 
 const patch = Number(parts[2]) + 1;
 pkg.version = `${parts[0]}.${parts[1]}.${patch}`;
 
 fs.writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`);
-console.log(pkg.version);
+console.info(pkg.version);

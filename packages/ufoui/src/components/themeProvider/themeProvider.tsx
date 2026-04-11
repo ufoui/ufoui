@@ -6,29 +6,29 @@ import { generateSchemes, ThemeColor } from '../../utils';
 import { Theme } from '../../types';
 
 export interface ThemeProviderProps {
-  /** React children to render within the theme context. */
-  children: ReactNode;
+    /** React children to render within the theme context. */
+    children: ReactNode;
 
-  /**
-   * Optional color mode: 'light' or 'dark'.
-   * If not provided, defaults to 'light'.
-   */
-  colorMode?: 'light' | 'dark';
+    /**
+     * Optional color mode: 'light' or 'dark'.
+     * If not provided, defaults to 'light'.
+     */
+    colorMode?: 'light' | 'dark';
 
-  /**
-   * Optional seed color used to generate MD3 theme.
-   * Defaults to #6750A4 if omitted.
-   */
-  seedColor?: string;
+    /**
+     * Optional seed color used to generate MD3 theme.
+     * Defaults to #6750A4 if omitted.
+     */
+    seedColor?: string;
 
-  /**
-   * Optional custom colors used for info, warning, and success roles.
-   * If omitted, defaults to:
-   * - info: #03a9f4
-   * - warning: #ffd600
-   * - success: #689f38
-   */
-  extraColors?: Partial<Record<'info' | 'warning' | 'success', string>>;
+    /**
+     * Optional custom colors used for info, warning, and success roles.
+     * If omitted, defaults to:
+     * - info: #03a9f4
+     * - warning: #ffd600
+     * - success: #689f38
+     */
+    extraColors?: Partial<Record<'info' | 'warning' | 'success', string>>;
 }
 
 /**
@@ -61,90 +61,83 @@ export interface ThemeProviderProps {
  * @category Components
  * @group Theme
  */
-export const ThemeProvider = ({
-  children,
-  colorMode,
-  seedColor,
-  extraColors,
-}: ThemeProviderProps) => {
-  const [theme, setTheme] = useState<Theme>(defaultTheme);
+export const ThemeProvider = ({ children, colorMode, seedColor, extraColors }: ThemeProviderProps) => {
+    const [theme, setTheme] = useState<Theme>(defaultTheme);
 
-  /**
-   * Sets dark mode by toggling the `dark` class on the `<body>`.
-   * Also updates the `darkMode` flag in the theme state.
-   *
-   * @param darkMode - Whether dark mode should be active.
-   */
-  const setDarkMode = useCallback(
-    (darkMode: boolean) => {
-      if (darkMode) {
-        document.body.classList.add('dark');
-      } else {
-        document.body.classList.remove('dark');
-      }
-      setTheme((prev) => ({ ...prev, darkMode }));
-    },
-    [setTheme],
-  );
+    /**
+     * Sets dark mode by toggling the `dark` class on the `<body>`.
+     * Also updates the `darkMode` flag in the theme state.
+     *
+     * @param darkMode - Whether dark mode should be active.
+     */
+    const setDarkMode = useCallback(
+        (darkMode: boolean) => {
+            if (darkMode) {
+                document.body.classList.add('dark');
+            } else {
+                document.body.classList.remove('dark');
+            }
+            setTheme(prev => ({ ...prev, darkMode }));
+        },
+        [setTheme]
+    );
 
-  /**
-   * Returns the current theme value (from either light or dark scheme)
-   * for a given color token.
-   *
-   * @param color - The theme token key (e.g. `"primary"`, `"onBackground"`).
-   * @returns The resolved color hex string.
-   */
-  const getColorValue = useCallback(
-    (color: ThemeColor): string => {
-      const scheme = theme.darkMode ? theme.schemes.dark : theme.schemes.light;
-      return scheme[color] ?? '';
-    },
-    [theme],
-  );
+    /**
+     * Returns the current theme value (from either light or dark scheme)
+     * for a given color token.
+     *
+     * @param color - The theme token key (e.g. `"primary"`, `"onBackground"`).
+     * @returns The resolved color hex string.
+     */
+    const getColorValue = useCallback(
+        (color: ThemeColor): string => {
+            const scheme = theme.darkMode ? theme.schemes.dark : theme.schemes.light;
+            return scheme[color] ?? '';
+        },
+        [theme]
+    );
 
-  /**
-   * Returns a theme value from the specified scheme.
-   *
-   * @param scheme - `'light'` or `'dark'`.
-   * @param color - The theme token key (e.g. `"primary"`, `"surfaceContainer"`).
-   * @returns The resolved color hex string.
-   */
-  const getThemeColorValue = useCallback(
-    (scheme: 'light' | 'dark', color: ThemeColor): string => {
-      return theme.schemes[scheme][color] ?? '';
-    },
-    [theme],
-  );
+    /**
+     * Returns a theme value from the specified scheme.
+     *
+     * @param scheme - `'light'` or `'dark'`.
+     * @param color - The theme token key (e.g. `"primary"`, `"surfaceContainer"`).
+     * @returns The resolved color hex string.
+     */
+    const getThemeColorValue = useCallback(
+        (scheme: 'light' | 'dark', color: ThemeColor): string => {
+            return theme.schemes[scheme][color] ?? '';
+        },
+        [theme]
+    );
 
-  useEffect(() => {
-    if (colorMode) {
-      const dark = colorMode === 'dark';
-      document.body.classList.toggle('dark', dark);
-      setTheme((v) => ({ ...v, darkMode: dark }));
-    }
-  }, [colorMode]);
+    useEffect(() => {
+        if (colorMode) {
+            const dark = colorMode === 'dark';
+            document.body.classList.toggle('dark', dark);
+            setTheme(v => ({ ...v, darkMode: dark }));
+        }
+    }, [colorMode]);
 
-  useEffect(() => {
-    const { schemes } = defaultTheme;
-    setTheme((v) => ({
-      darkMode: v.darkMode,
-      schemes: generateSchemes(seedColor, extraColors, schemes),
-    }));
-  }, [extraColors, seedColor]);
+    useEffect(() => {
+        const { schemes } = defaultTheme;
+        setTheme(v => ({
+            darkMode: v.darkMode,
+            schemes: generateSchemes(seedColor, extraColors, schemes),
+        }));
+    }, [extraColors, seedColor]);
 
-  const value = useMemo<ThemeContextValue>(
-    () => ({
-      theme,
-      setTheme,
-      darkMode: theme.darkMode,
-      setDarkMode,
-      getColorValue,
-      getThemeColorValue,
-    }),
-    [getColorValue, getThemeColorValue, setDarkMode, theme],
-  );
+    const value = useMemo<ThemeContextValue>(
+        () => ({
+            theme,
+            setTheme,
+            darkMode: theme.darkMode,
+            setDarkMode,
+            getColorValue,
+            getThemeColorValue,
+        }),
+        [getColorValue, getThemeColorValue, setDarkMode, theme]
+    );
 
-  return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
-  );
+    return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 };

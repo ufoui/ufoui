@@ -28,13 +28,13 @@ interface SlotProps {
  * @category Slot
  */
 export const Slot = ({ start, end, content, className }: SlotProps) => {
-    return (
+    return (start ?? end ?? content) ? (
         <div className={`uui-slot ${className}`}>
             {start}
             {content}
             {end}
         </div>
-    );
+    ) : null;
 };
 
 /**

@@ -5,7 +5,7 @@ import { AvatarProps } from './avatar';
 export const IS_AVATAR = Symbol.for('uui.avatar');
 
 type AvatarMarker = {
-  [IS_AVATAR]?: true;
+    [IS_AVATAR]?: true;
 };
 
 /**
@@ -20,9 +20,5 @@ type AvatarMarker = {
  * @internal
  */
 export function isAvatar(el: React.ReactNode): el is ReactElement<AvatarProps> {
-  return (
-    isValidElement(el) &&
-    typeof el.type !== 'string' &&
-    !!(el.type as AvatarMarker)[IS_AVATAR]
-  );
+    return isValidElement(el) && typeof el.type !== 'string' && !!(el.type as AvatarMarker)[IS_AVATAR];
 }

@@ -1,10 +1,11 @@
-import React, { forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 
 import {
     BorderColor,
     cn,
     ControlStyle,
     ElementElevation,
+    ElementFont,
     ElementOutline,
     ElementShape,
     ElementSize,
@@ -113,7 +114,7 @@ export interface DialogBaseProps {
     'aria-label'?: string;
 
     /** Icon rendered in the dialog. Position controlled by iconSlot. */
-    icon?: ReactNode;
+    icon?: ReactElement;
 
     showIcon?: boolean;
 
@@ -150,19 +151,19 @@ export interface DialogBaseProps {
     moreLabel?: string;
 
     /** Custom icon for the overflow actions button. */
-    moreIcon?: ReactNode;
+    moreIcon?: ReactElement;
 
     /** Renders a close button in the trailing slot. */
     showClose?: boolean;
 
     /** Custom icon for the close button. */
-    closeIcon?: ReactNode;
+    closeIcon?: ReactElement;
 
     /** Renders a back button in the leading slot. */
     showBack?: boolean;
 
     /** Custom icon for the back button. */
-    backIcon?: ReactNode;
+    backIcon?: ReactElement;
 
     /** Handler for the back button. Defaults to onClose. */
     onBack?: () => void;
@@ -187,6 +188,9 @@ export interface DialogBaseProps {
 
     /** Skips portaling and modal body scroll lock; for anchored overlays. */
     anchored?: boolean;
+
+    font: ElementFont;
+    titleFont?: ElementFont;
 }
 
 /**
@@ -257,6 +261,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             flush,
             docked,
             anchored,
+            titleFont,
             ...rest
         }: DialogBaseProps,
         ref
@@ -272,6 +277,9 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         const { animationVars, animate, animating, idle, active } = useAnimate({
             t1: duration,
         });
+
+        const vdock = type === 'dockLeft' || type === 'dockRight';
+        const finalTitleFont = titleFont ?? (vdock ? 'titleLarge' : undefined);
 
         const handleResize = (_next: ObservedElementSize) => {
             if (backdropRef.current && dialogRef.current) {
@@ -357,18 +365,18 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             return null;
         }
 
-        const actionsPosition = actionsPlacement ?? (type === 'fullscreen' ? 'inline' : 'bottom');
-        const dialogActions = (
-            <DialogActions
-                actions={actions}
-                align={actionsAlign}
-                maxActions={maxActions}
-                moreIcon={moreIcon}
-                moreLabel={moreLabel}
-                placement={actionsPlacement}
-                stack={actionsStack}
-            />
-        );
+        const dialogActions =
+            actionsPlacement !== 'inline' ? (
+                <DialogActions
+                    actions={actions}
+                    align={actionsAlign}
+                    maxActions={maxActions}
+                    moreIcon={moreIcon}
+                    moreLabel={moreLabel}
+                    placement={actionsPlacement}
+                    stack={actionsStack}
+                />
+            ) : null;
 
         const dialog = (
             <div
@@ -388,14 +396,20 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                     shape={shape}
                     style={controlStyle.get()}>
                     <DialogHeader
-                        actions={dialogActions}
+                        actions={actionsPlacement === 'inline' && actions}
+                        actionsAlign={actionsAlign}
+                        actionsStack={actionsStack}
                         backIcon={backIcon}
                         closeIcon={closeIcon}
+                        font={finalTitleFont}
                         icon={icon}
                         iconColor={iconColor}
                         iconSlot={iconSlot}
                         label={label}
                         leading={leading}
+                        maxActions={maxActions}
+                        moreIcon={moreIcon}
+                        moreLabel={moreLabel}
                         onBack={onBack}
                         onClose={onClose}
                         showBack={showBack}
@@ -409,7 +423,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                         {children}
                     </DialogContent>
 
-                    {actionsPosition !== 'inline' && dialogActions}
+                    {dialogActions}
                 </BoxBase>
             </div>
         );

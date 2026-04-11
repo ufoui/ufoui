@@ -104,7 +104,6 @@ export function generateMaterialColors(
             }
         });
     });
-
     schemes.light.scrim = '#00000052';
     schemes.dark.scrim = '#00000052';
     // custom colors

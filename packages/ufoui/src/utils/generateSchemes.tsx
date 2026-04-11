@@ -1,7 +1,4 @@
-import {
-  ExtraColorOverrides,
-  generateMaterialColors,
-} from './generateMaterialColors';
+import { ExtraColorOverrides, generateMaterialColors } from './generateMaterialColors';
 import { PartialThemeSchemes, ThemeSchemes } from '../types';
 import { toKebabCase } from './utils';
 
@@ -36,39 +33,34 @@ import { toKebabCase } from './utils';
  */
 // seedColor = '#1A73E8',
 // seedColor = '#6750A4', default md3
+
 export function generateSchemes(
-  seedColor = '#6750A4',
-  extraColors?: ExtraColorOverrides,
-  schemes: PartialThemeSchemes = {},
+    seedColor = '#6750A4',
+    extraColors?: ExtraColorOverrides,
+    schemes: PartialThemeSchemes = {}
 ): ThemeSchemes {
-  const styleId = 'ufo-ui-theme';
-  let style = document.getElementById(styleId) as HTMLStyleElement | null;
+    const styleId = 'ufo-ui-theme';
+    let style = document.getElementById(styleId) as HTMLStyleElement | null;
 
-  if (!style) {
-    style = document.createElement('style');
-    style.id = styleId;
-    document.head.appendChild(style);
-  }
+    if (!style) {
+        style = document.createElement('style');
+        style.id = styleId;
+        document.head.appendChild(style);
+    }
 
-  const generatedSchemes = generateMaterialColors(
-    seedColor,
-    extraColors,
-    schemes,
-  );
+    const generatedSchemes = generateMaterialColors(seedColor, extraColors, schemes);
 
-  // Light mode
-  const lightVars = [
-    ...Object.entries(generatedSchemes.light).map(
-      ([k, v]) => `--uui-color-${toKebabCase(k)}: ${v};`,
-    ),
-  ].join('');
+    // Light mode
+    const lightVars = [
+        ...Object.entries(generatedSchemes.light).map(([k, v]) => `--uui-color-${toKebabCase(k)}: ${v};`),
+    ].join('');
 
-  // Dark mode
-  const darkVars = Object.entries(generatedSchemes.dark)
-    .map(([k, v]) => `--uui-color-${toKebabCase(k)}: ${v};`)
-    .join('');
+    // Dark mode
+    const darkVars = Object.entries(generatedSchemes.dark)
+        .map(([k, v]) => `--uui-color-${toKebabCase(k)}: ${v};`)
+        .join('');
 
-  style.textContent = `:root{${lightVars}}.dark{${darkVars}}`;
+    style.textContent = `:root{${lightVars}}.dark{${darkVars}}`;
 
-  return generatedSchemes;
+    return generatedSchemes;
 }
