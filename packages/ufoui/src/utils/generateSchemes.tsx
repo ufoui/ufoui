@@ -1,4 +1,4 @@
-import { ExtraColorOverrides, generateMaterialColors } from './generateMaterialColors';
+import { generateMaterialColors, UserColors } from './generateMaterialColors';
 import { PartialThemeSchemes, ThemeSchemes } from '../types';
 import { toKebabCase } from './utils';
 
@@ -6,8 +6,8 @@ import { toKebabCase } from './utils';
  * Generates and injects CSS custom properties for Material Design 3 theme colors.
  *
  * This function calls `generateMaterialColors()` to resolve a complete light/dark
- * `ThemeSchemes` object based on a seed color, optional extra semantic colors
- * (`info`, `warning`, `success`), and optional overrides for individual color tokens.
+ * `ThemeSchemes` object based on a seed color, optional custom colors map,
+ * and optional overrides for individual color tokens.
  *
  * All resolved tokens are converted to CSS variables using kebab-case, e.g.:
  *   `--uui-color-primary`, `--uui-color-on-surface`, etc.
@@ -17,8 +17,7 @@ import { toKebabCase } from './utils';
  *
  * @param seedColor - The base seed color used to generate MD3 tonal palettes.
  *                    Defaults to `#6750A4` if not provided.
- * @param extraColors - Optional map of base semantic colors for `info`, `warning`, and `success`.
- *                      These override the default values.
+ * @param colors - Optional map of custom base colors.
  * @param schemes - Optional overrides for light and dark color tokens.
  *                  Partial values will be merged with the generated ones.
  *
@@ -36,7 +35,7 @@ import { toKebabCase } from './utils';
 
 export function generateSchemes(
     seedColor = '#6750A4',
-    extraColors?: ExtraColorOverrides,
+    colors?: UserColors,
     schemes: PartialThemeSchemes = {}
 ): ThemeSchemes {
     const styleId = 'ufo-ui-theme';
@@ -48,7 +47,7 @@ export function generateSchemes(
         document.head.appendChild(style);
     }
 
-    const generatedSchemes = generateMaterialColors(seedColor, extraColors, schemes);
+    const generatedSchemes = generateMaterialColors(seedColor, colors, schemes);
 
     // Light mode
     const lightVars = [

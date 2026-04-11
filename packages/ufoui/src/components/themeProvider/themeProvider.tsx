@@ -21,21 +21,15 @@ export interface ThemeProviderProps {
      */
     seedColor?: string;
 
-    /**
-     * Optional custom colors used for info, warning, and success roles.
-     * If omitted, defaults to:
-     * - info: #03a9f4
-     * - warning: #ffd600
-     * - success: #689f38
-     */
-    extraColors?: Partial<Record<'info' | 'warning' | 'success', string>>;
+    /** Optional custom colors map used to define or override generated theme roles. */
+    colors?: Record<string, string>;
 }
 
 /**
  * Provides a ThemeContext to all descendant components using Material Design 3 color tokens.
  *
  * - Dynamically generates full theme schemes (`light` and `dark`) based on the provided `seedColor`
- *   and optional `extraColors` (`info`, `warning`, `success`).
+ *   and optional `colors`.
  * - Injects resolved colors as CSS custom properties into the DOM (`:root` and `.dark`).
  * - Automatically toggles the `.dark` class on `<body>` based on `colorMode`.
  * - Exposes utility functions via context:
@@ -49,11 +43,11 @@ export interface ThemeProviderProps {
  * @param children - React children rendered within the theme context.
  * @param colorMode - Optional color mode: `'light'` or `'dark'`. Defaults to `'light'`.
  * @param seedColor - Optional base color used to generate the theme. Defaults to `#6750A4`.
- * @param extraColors - Optional custom base colors for semantic roles (`info`, `warning`, `success`).
+ * @param colors - Optional custom colors map used to define or override generated theme roles.
  *
  * @example
  * ```tsx
- * <ThemeProvider colorMode="dark" seedColor="#6200ee" extraColors={{ info: '#2196f3' }}>
+ * <ThemeProvider colorMode="dark" seedColor="#6200ee" colors={{ info: '#2196f3', primary: '#0f62fe' }}>
  *   <App />
  * </ThemeProvider>
  * ```
@@ -61,7 +55,7 @@ export interface ThemeProviderProps {
  * @category Components
  * @group Theme
  */
-export const ThemeProvider = ({ children, colorMode, seedColor, extraColors }: ThemeProviderProps) => {
+export const ThemeProvider = ({ children, colorMode, seedColor, colors }: ThemeProviderProps) => {
     const [theme, setTheme] = useState<Theme>(defaultTheme);
 
     /**
@@ -123,9 +117,9 @@ export const ThemeProvider = ({ children, colorMode, seedColor, extraColors }: T
         const { schemes } = defaultTheme;
         setTheme(v => ({
             darkMode: v.darkMode,
-            schemes: generateSchemes(seedColor, extraColors, schemes),
+            schemes: generateSchemes(seedColor, colors, schemes),
         }));
-    }, [extraColors, seedColor]);
+    }, [colors, seedColor]);
 
     const value = useMemo<ThemeContextValue>(
         () => ({
