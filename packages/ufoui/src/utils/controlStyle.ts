@@ -136,7 +136,9 @@ export function ControlStyle(initial?: React.CSSProperties) {
             if (!styles) {
                 return;
             }
-            const newStyles = Object.fromEntries(Object.entries(styles).filter(([_, v]) => v != null)) as CSSProperties;
+            const newStyles = Object.fromEntries(
+                Object.entries(styles).filter(([_, v]) => v !== null)
+            ) as CSSProperties;
             Object.assign(bag, newStyles);
         },
     };
