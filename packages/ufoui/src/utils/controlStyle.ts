@@ -30,7 +30,8 @@
  */
 import React, { CSSProperties } from 'react';
 
-import { capitalize, inverseColorMap, SemanticColor, SurfaceColor, ThemeColor } from './color';
+import { capitalize, SemanticColor, SurfaceColor, ThemeColor } from './color';
+import { getOnColorName } from './colorRegistry';
 
 /**
  * Creates a strictly typed style builder for MD3 color tokens.
@@ -64,7 +65,7 @@ export function ControlStyle(initial?: React.CSSProperties) {
             {
                 on(color?: SurfaceColor) {
                     if (color) {
-                        const mapped = inverseColorMap[color];
+                        const mapped = getOnColorName(color);
 
                         if (mapped !== undefined) {
                             apply(toVar(mapped));

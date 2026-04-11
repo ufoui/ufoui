@@ -182,12 +182,8 @@ export interface ThemeScheme {
 
     /** Pure black color used for contrast or background. */
     black: string;
-    /** Foreground color displayed on black (typically white). */
-    onBlack: string;
     /** Pure white color used for contrast or foreground. */
     white: string;
-    /** Foreground color displayed on white (typically black). */
-    onWhite: string;
 
     /** Allows for additional custom tokens. */
     [key: string]: string;

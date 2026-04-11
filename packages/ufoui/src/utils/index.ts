@@ -10,3 +10,4 @@ export * from './controlStyle';
 export * from './getWrapperStyle';
 export * from './flatChildren';
 export * from './renderPortal';
+export * from './colorRegistry';

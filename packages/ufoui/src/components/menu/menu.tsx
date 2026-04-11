@@ -32,8 +32,8 @@ import {
     getBorderColor,
     getDensityClass,
     getElevationClass,
+    getOnColorName,
     getShapeClass,
-    inverseColorMap,
     mergeRefs,
     renderPortal,
     SurfaceColor,
@@ -811,9 +811,9 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                 });
             } else if (isDivider(child)) {
                 const dividerColor =
-                    inverseColorMap[containerColor] === 'onSurface'
+                    getOnColorName(containerColor) === 'onSurface'
                         ? 'outlineVariant'
-                        : (inverseColorMap[containerColor] as BorderColor);
+                        : (getOnColorName(containerColor) as BorderColor);
                 const overriddenProps: DividerProps = {
                     borderColor: child.props.borderColor ?? child.props.color ?? dividerColor ?? 'outlineVariant',
                     vertical: horizontal,

@@ -40,10 +40,11 @@ export interface ThemeProviderProps {
  *
  * This provider must wrap your application to enable theming and contextual access to color tokens.
  *
- * @param children - React children rendered within the theme context.
- * @param colorMode - Optional color mode: `'light'` or `'dark'`. Defaults to `'light'`.
- * @param seedColor - Optional base color used to generate the theme. Defaults to `#6750A4`.
- * @param colors - Optional custom colors map used to define or override generated theme roles.
+ * @param props - Theme provider props.
+ * @param props.children - React children rendered within the theme context.
+ * @param props.colorMode - Optional color mode: `'light'` or `'dark'`. Defaults to `'light'`.
+ * @param props.seedColor - Optional base color used to generate the theme. Defaults to `#6750A4`.
+ * @param props.colors - Optional custom colors map used to define or override generated theme roles.
  *
  * @example
  * ```tsx

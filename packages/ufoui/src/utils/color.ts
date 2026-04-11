@@ -2,10 +2,11 @@ import { ThemeExtendedColorKeys, ThemeSchemeKeys, ThemeSemanticColorKeys, ThemeS
 
 /**
  * Represents a high-level semantic color token (e.g. `primary`, `error`, `success`).
- * Derived from {@link ThemeSemanticColorKeys}.
+ * Based on core semantic keys and optionally extended by custom color names.
  * @category Color
  */
-export type SemanticColor = (typeof ThemeSemanticColorKeys)[number];
+type CoreSemanticColor = (typeof ThemeSemanticColorKeys)[number];
+export type SemanticColor<TColors extends Record<string, string> = {}> = CoreSemanticColor | Extract<keyof TColors, string>;
 
 /**
  * Represents tokens extending the {@link SemanticColor} set
@@ -30,149 +31,6 @@ export type SurfaceColor = (typeof ThemeSurfaceColorKeys)[number];
  * @category Color
  */
 export type ThemeColor = (typeof ThemeSchemeKeys)[number];
-
-/**
- * Generates utility class names (`uui-*`) for a given **semantic color** and its variants.
- *
- * @remarks
- * Produces `text`, `border`, and `background` class names for a semantic color and its
- * derived tokens (`on`, `container`, `fixed`, `fixedDim`, etc.).
- * If the provided key is invalid, `'primary'` is used as fallback.
- *
- * All class names follow the pattern `uui-{type}-{kebab-case-color}`.
- *
- * @param color - Semantic color name (e.g. `'primary'`, `'error'`, `'success'`).
- * @returns Object with `uui-text-*`, `uui-border-*`, and `uui-bg-*` class names for all variants.
- *
- * @example
- * ```ts
- * getSemanticColorClasses('primary');
- * // → { textColor: 'uui-text-primary', bgOnColor: 'uui-bg-on-primary', ... }
- * ```
- * @category Color
- */
-export const getSemanticColorClasses = (color: SemanticColor) => {
-    const elementColor = ThemeSemanticColorKeys.includes(color) ? color : 'primary';
-    return {
-        textColor: `uui-text-${elementColor}`,
-        borderColor: `uui-border-${elementColor}`,
-        bgColor: `uui-bg-${elementColor}`,
-
-        textOnColor: `uui-text-on-${elementColor}`,
-        borderOnColor: `uui-border-on-${elementColor}`,
-        bgOnColor: `uui-bg-on-${elementColor}`,
-
-        textContainer: `uui-text-${elementColor}-container`,
-        borderContainer: `uui-border-${elementColor}-container`,
-        bgContainer: `uui-bg-${elementColor}-container`,
-
-        textOnContainer: `uui-text-on-${elementColor}-container`,
-        borderOnContainer: `uui-border-on-${elementColor}-container`,
-        bgOnContainer: `uui-bg-on-${elementColor}-container`,
-
-        textFixed: `uui-text-${elementColor}-fixed`,
-        borderFixed: `uui-border-${elementColor}-fixed`,
-        bgFixed: `uui-bg-${elementColor}-fixed`,
-
-        textOnFixed: `uui-text-on-${elementColor}-fixed`,
-        borderOnFixed: `uui-border-on-${elementColor}-fixed`,
-        bgOnFixed: `uui-bg-on-${elementColor}-fixed`,
-
-        textFixedDim: `uui-text-${elementColor}-fixed-dim`,
-        borderFixedDim: `uui-border-${elementColor}-fixed-dim`,
-        bgFixedDim: `uui-bg-${elementColor}-fixed-dim`,
-
-        textOnFixedVariant: `uui-text-on-${elementColor}-fixed-variant`,
-        borderOnFixedVariant: `uui-border-on-${elementColor}-fixed-variant`,
-        bgOnFixedVariant: `uui-bg-on-${elementColor}-fixed-variant`,
-    };
-};
-
-/**
- * Bidirectional mapping between theme colors and their “on” counterparts.
- *
- * @remarks
- * Provides both directions — e.g. `'surface' → 'onSurface'` and `'onSurface' → 'surface'` —
- * for all semantic, extended, and surface tokens defined in {@link ThemeColor}.
- * Enables consistent inverse lookups for text/background pairings.
- *
- *
- * @category Color
- */
-export const inverseColorMap = {
-    // SURFACE
-    surface: 'onSurface',
-    surfaceVariant: 'onSurfaceVariant',
-    surfaceContainerLowest: 'onSurface',
-    surfaceContainerLow: 'onSurface',
-    surfaceContainer: 'onSurface',
-    surfaceContainerHigh: 'onSurface',
-    surfaceContainerHighest: 'onSurface',
-    surfaceDim: 'onSurface',
-    surfaceBright: 'onSurface',
-    background: 'onBackground',
-    inverseSurface: 'inverseOnSurface',
-
-    // SEMANTIC
-    primary: 'onPrimary',
-    secondary: 'onSecondary',
-    tertiary: 'onTertiary',
-    warning: 'onWarning',
-    info: 'onInfo',
-    success: 'onSuccess',
-    error: 'onError',
-
-    // EXTENDED
-    primaryContainer: 'onPrimaryContainer',
-    primaryFixed: 'onPrimaryFixed',
-    primaryFixedDim: 'onPrimaryFixedVariant',
-    secondaryContainer: 'onSecondaryContainer',
-    secondaryFixed: 'onSecondaryFixed',
-    secondaryFixedDim: 'onSecondaryFixedVariant',
-    tertiaryContainer: 'onTertiaryContainer',
-    tertiaryFixed: 'onTertiaryFixed',
-    tertiaryFixedDim: 'onTertiaryFixedVariant',
-    warningContainer: 'onWarningContainer',
-    warningFixed: 'onWarningFixed',
-    warningFixedDim: 'onWarningFixedVariant',
-    infoContainer: 'onInfoContainer',
-    infoFixed: 'onInfoFixed',
-    infoFixedDim: 'onInfoFixedVariant',
-    successContainer: 'onSuccessContainer',
-    successFixed: 'onSuccessFixed',
-    successFixedDim: 'onSuccessFixedVariant',
-    errorContainer: 'onErrorContainer',
-    errorFixed: 'onErrorFixed',
-    errorFixedDim: 'onErrorFixedVariant',
-
-    // NEUTRAL / TECHNICAL (for TS completeness)
-    outline: 'surface',
-    outlineVariant: 'inverseSurface',
-    inversePrimary: 'onPrimaryContainer',
-    black: 'white',
-    white: 'black',
-
-    onSurface: 'surface',
-    onSurfaceVariant: 'surfaceVariant',
-    onBackground: 'background',
-    inverseOnSurface: 'inverseSurface',
-
-    onPrimary: 'primary',
-    onSecondary: 'secondary',
-    onTertiary: 'tertiary',
-    onWarning: 'warning',
-    onInfo: 'info',
-    onSuccess: 'success',
-    onError: 'error',
-
-    onPrimaryContainer: 'primaryContainer',
-    onSecondaryContainer: 'secondaryContainer',
-    onTertiaryContainer: 'tertiaryContainer',
-    onWarningContainer: 'warningContainer',
-    onInfoContainer: 'infoContainer',
-    onSuccessContainer: 'successContainer',
-    onErrorContainer: 'errorContainer',
-} as const satisfies Partial<Record<ThemeColor, ThemeColor>>;
 
 /**
  * Represents the available border color options.
