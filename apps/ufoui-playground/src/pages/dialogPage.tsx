@@ -128,9 +128,9 @@ export const DialogPage = () => {
                     <H2>Open</H2>
                     <Flex gap={12}>
                         <Button
-                            color=""
+                            color="myBlue"
                             filled
-                            label="Default Animation"
+                            label="Default"
                             onClick={() => {
                                 setAnimation(undefined);
                                 setMotionStyle(undefined);

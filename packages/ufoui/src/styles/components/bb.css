@@ -98,3 +98,7 @@
   max-width: 100%;
   user-select: none;
 }
+
+.uui-bb .uui-icon {
+  display: flex;
+}

@@ -3,9 +3,6 @@ import { ColorType, getColorRegistry } from './colorRegistry';
 /**
  * Built-in semantic color names available in every theme.
  *
- * @remarks
- * These roles define intent-focused colors such as brand, feedback, and status tones.
- *
  * @category Color
  */
 export type CoreSemanticColor = 'primary' | 'secondary' | 'tertiary' | 'warning' | 'info' | 'success' | 'error';
@@ -31,10 +28,7 @@ export type CoreSurfaceColor =
     | 'surfaceDim';
 
 /**
- * Built-in technical color names that are not intended as direct semantic/surface choices.
- *
- * @remarks
- * Includes `on*` technical tokens and utility values like `scrim`, `shadow`, and `surfaceTint`.
+ * Built-in technical color names not intended for direct usage.
  *
  * @category Color
  */
@@ -50,180 +44,96 @@ export type CoreThemeColor =
     | 'black'
     | 'white';
 
-/**
- * Empty custom-color map used as the default generic parameter.
- *
- * @category Color
- */
+/** * Empty custom-color map used as the default generic parameter. * * @category Color */
 export type EmptyColors = Record<never, never>;
 
 /**
- * Extracts custom semantic color names from the provided color map.
+ * Augmentation point for custom semantic colors.
  *
- * @typeParam CustomColors - Custom color dictionary passed by the consumer.
+ * @example
+ * declare module '@ufoui/core' {
+ *   interface CustomColors {
+ *     myBlue: true;
+ *   }
+ * }
+ *
  * @category Color
  */
-export type UserSemanticColor<CustomColors extends Record<string, string>> = Extract<keyof CustomColors, string>;
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface CustomColors {}
 
 /**
- * Union of built-in semantic names and custom semantic names.
+ * Base semantic color (core + augmented).
  *
- * @typeParam CustomColors - Custom color dictionary passed by the consumer.
  * @category Color
  */
-export type SemanticBaseColor<CustomColors extends Record<string, string>> =
-    | CoreSemanticColor
-    | UserSemanticColor<CustomColors>;
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+export type SemanticBaseColor = CoreSemanticColor | keyof CustomColors;
 
 /**
- * Builds a matching `on*` color name for a given base color name.
+ * Builds `on*` color name.
  *
- * @typeParam T - Base token name.
  * @category Color
  */
 export type OnColor<T extends string> = `on${Capitalize<T>}`;
 
 /**
- * Color names intended for semantic usage in component props.
+ * Semantic color used in component APIs.
  *
- * @typeParam CustomColors - Optional custom semantic color map.
  * @category Color
  */
-export type SemanticColor<CustomColors extends Record<string, string> = EmptyColors> = SemanticBaseColor<CustomColors>;
+export type SemanticColor = SemanticBaseColor;
 
 /**
- * Extended semantic color names (`*Container`, `*Fixed`, `*FixedDim`).
+ * Extended semantic colors.
  *
- * @typeParam CustomColors - Optional custom semantic color map.
  * @category Color
  */
-export type ExtendedColor<CustomColors extends Record<string, string> = EmptyColors> =
-    | `${SemanticBaseColor<CustomColors>}Container`
-    | `${SemanticBaseColor<CustomColors>}Fixed`
-    | `${SemanticBaseColor<CustomColors>}FixedDim`;
+export type ExtendedColor =
+    | `${SemanticBaseColor}Container`
+    | `${SemanticBaseColor}Fixed`
+    | `${SemanticBaseColor}FixedDim`;
 
 /**
- * `on*` counterparts for extended semantic color names.
+ * `on*` counterparts for extended colors.
  *
- * @typeParam CustomColors - Optional custom semantic color map.
  * @category Color
  */
-export type OnExtendedColor<CustomColors extends Record<string, string> = EmptyColors> =
-    | OnColor<`${SemanticBaseColor<CustomColors>}Container`>
-    | OnColor<`${SemanticBaseColor<CustomColors>}Fixed`>
-    | OnColor<`${SemanticBaseColor<CustomColors>}FixedVariant`>;
+export type OnExtendedColor =
+    | OnColor<`${SemanticBaseColor}Container`>
+    | OnColor<`${SemanticBaseColor}Fixed`>
+    | OnColor<`${SemanticBaseColor}FixedVariant`>;
 
 /**
- * Color names intended for surfaces and layered containers.
+ * Surface colors.
  *
- * @remarks
- * Does not include plain semantic roles like `primary` or `error`.
- *
- * @typeParam CustomColors - Optional custom semantic color map.
  * @category Color
  */
-export type SurfaceColor<CustomColors extends Record<string, string> = EmptyColors> =
-    | CoreSurfaceColor
-    | ExtendedColor<CustomColors>;
+export type SurfaceColor = CoreSurfaceColor | ExtendedColor;
 
 /**
- * Color names used directly in visual component APIs.
+ * Colors allowed in component props.
  *
- * @remarks
- * Combines semantic and surface-capable roles while excluding technical-only `on*` and utility tokens.
- *
- * @typeParam CustomColors - Optional custom semantic color map.
  * @category Color
  */
-export type BaseColor<CustomColors extends Record<string, string> = EmptyColors> =
-    | SemanticColor<CustomColors>
-    | SurfaceColor<CustomColors>;
+export type BaseColor = SemanticColor | SurfaceColor;
 
 /**
- * Any valid color name in the theme system (semantic, surface, extended, `on*`, technical).
+ * Full theme color set.
  *
- * @typeParam CustomColors - Optional custom semantic color map.
  * @category Color
  */
-export type ThemeColor<CustomColors extends Record<string, string> = EmptyColors> =
-    | SemanticColor<CustomColors>
-    | SurfaceColor<CustomColors>
-    | OnColor<SemanticBaseColor<CustomColors>>
-    | OnExtendedColor<CustomColors>
-    | CoreThemeColor;
+export type ThemeColor = BaseColor | OnColor<SemanticBaseColor> | OnExtendedColor | CoreThemeColor;
 
 /**
- * Color names allowed for border-related props.
+ * Border color.
  *
- * @remarks
- * Borders can use both semantic and surface-oriented color names.
- *
- * @typeParam CustomColors - Optional custom semantic color map.
  * @category Color
  */
-export type BorderColor<CustomColors extends Record<string, string> = EmptyColors> = BaseColor<CustomColors>;
+export type BorderColor = BaseColor;
 
-type ColorByType<
-    Type extends ColorType,
-    CustomColors extends Record<string, string> = EmptyColors,
-> = Type extends 'semantic'
-    ? SemanticColor<CustomColors>
-    : Type extends 'extended'
-      ? ExtendedColor<CustomColors>
-      : Type extends 'surface'
-        ? SurfaceColor<CustomColors>
-        : ThemeColor<CustomColors>;
-
-type ColorNameType = ColorType | 'base' | 'border';
-
-type ColorByNameType<
-    Type extends ColorNameType,
-    CustomColors extends Record<string, string> = EmptyColors,
-> = Type extends 'base' | 'border' ? BaseColor<CustomColors> : ColorByType<Extract<Type, ColorType>, CustomColors>;
-
-// /**
-//  * Represents a high-level semantic color token (e.g. `primary`, `error`, `success`).
-//  * Based on core semantic keys and optionally extended by custom color names.
-//  * @category Color
-//  */
-// type CoreSemanticColor = (typeof ThemeSemanticColorKeys)[number];
-// export type SemanticColor<TColors extends Record<string, string> = {}> = CoreSemanticColor | Extract<keyof TColors, string>;
-//
-// /**
-//  * Represents tokens extending the {@link SemanticColor} set
-//  * with additional container and fixed variants.
-//  * Derived from {@link ThemeExtendedColorKeys}.
-//  * @category Color
-//  */
-// export type ExtendedColor = (typeof ThemeExtendedColorKeys)[number];
-//
-// /**
-//  * Represents surface-related color tokens extending {@link ExtendedColor},
-//  * including background, outline, and container surface roles.
-//  * Derived from {@link ThemeSurfaceColorKeys}.
-//  * @category Color
-//  */
-// export type SurfaceColor = (typeof ThemeSurfaceColorKeys)[number];
-//
-// /**
-//  * Represents any valid color token defined in the theme,
-//  * including semantic, extended, and surface roles.
-//  * Derived from {@link ThemeSchemeKeys}.
-//  * @category Color
-//  */
-// export type ThemeColor = (typeof ThemeSchemeKeys)[number];
-//
-// /**
-//  * Represents the available border color options.
-//  *
-//  * @category Color
-//  */
-// export type BorderColor = SurfaceColor;
-
-export function getOnColorName<CustomColors extends Record<string, string> = EmptyColors>(
-    colorName: ThemeColor<CustomColors>
-): ThemeColor<CustomColors> | undefined {
-    return getColorRegistry()[colorName]?.onColor as ThemeColor<CustomColors> | undefined;
+export function getOnColorName(colorName: ThemeColor): ThemeColor | undefined {
+    return getColorRegistry()[colorName]?.onColor as ThemeColor | undefined;
 }
 
 /**
@@ -233,16 +143,20 @@ export function getOnColorName<CustomColors extends Record<string, string> = Emp
  * @returns List of color names matching the requested type.
  * @category Theme
  */
-export function getColorNames<Type extends ColorNameType, CustomColors extends Record<string, string> = EmptyColors>(
-    type: Type
-): ColorByNameType<Type, CustomColors>[] {
+export function getColorNames(type: 'semantic'): SemanticColor[];
+export function getColorNames(type: 'extended'): ExtendedColor[];
+export function getColorNames(type: 'surface'): SurfaceColor[];
+export function getColorNames(type: 'theme'): ThemeColor[];
+export function getColorNames(type: 'base'): BaseColor[];
+export function getColorNames(type: 'border'): BorderColor[];
+export function getColorNames(type: ColorType) {
     const allowedTypes: ColorType[] =
         type === 'base' || type === 'border' ? ['semantic', 'surface', 'extended'] : [type];
+
     return Object.entries(getColorRegistry())
         .filter(([_, entry]) => (entry?.type ? allowedTypes.includes(entry.type) : false))
-        .map(([name]) => name as ColorByNameType<Type, CustomColors>);
+        .map(([name]) => name);
 }
-
 /**
  * Returns basic CSS variable references for a **surface color**.
  *

@@ -384,9 +384,6 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
             controlStyle.text.on('surfaceVariant');
             stateStyle.bg.on('surfaceVariant');
         } else {
-            // controlStyle.text(textColor ?? color ?? 'primary');
-            // stateStyle.bg(textColor ?? color ?? 'primary');
-
             controlStyle.text(textColor ?? color);
             stateStyle.bg(textColor ?? color);
         }

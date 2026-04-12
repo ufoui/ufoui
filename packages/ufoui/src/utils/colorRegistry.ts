@@ -1,22 +1,24 @@
 /**
- * Runtime category used by the generated color registry.
+ * Runtime color type used by the generated color registry.
  *
  * @category Theme
  */
-export type ColorCategory = 'semantic' | 'surface' | 'extended' | 'theme';
+export type ColorType = 'semantic' | 'surface' | 'extended' | 'base' | 'border' | 'theme';
 
 /**
- * Metadata entry describing how a color should be used.
+ * Metadata entry describing how a color name should be used.
  *
  * @category Theme
  */
 export interface ColorRegistryEntry {
-    type: ColorCategory;
+    /** Usage type assigned to the color name. */
+    type: ColorType;
+    /** Paired contrast color name (e.g. `primary` -> `onPrimary`). */
     onColor?: string;
 }
 
 /**
- * Global color registry keyed by theme color name.
+ * Global color registry keyed by theme color names.
  *
  * @category Theme
  */
@@ -51,6 +53,3 @@ export function getColorRegistry(): ColorRegistry {
  * @returns Linked `onColor` value if present.
  * @category Theme
  */
-export function getOnColorName(colorName: string): string | undefined {
-    return globalColorRegistry[colorName]?.onColor;
-}

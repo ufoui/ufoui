@@ -212,12 +212,12 @@ export function generateMaterialColors(
     regColor.shadow = { type: 'theme' };
 
     // Apply skin overrides as the final step.
-    Object.entries(customSchemes).forEach(([schemeName, schemeOverrides]) => {
-        if (!schemeOverrides) {
-            return;
-        }
-        schemes[schemeName] = { ...(schemes[schemeName] ?? {}), ...schemeOverrides };
-    });
+    // Object.entries(customSchemes).forEach(([schemeName, schemeOverrides]) => {
+    //     if (!schemeOverrides) {
+    //         return;
+    //     }
+    //     schemes[schemeName] = { ...(schemes[schemeName] ?? {}), ...schemeOverrides };
+    // });
     setColorRegistry(regColor);
 
     return schemes;

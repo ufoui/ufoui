@@ -6,6 +6,13 @@ import { Layout } from './components/layout/layout';
 import { paths } from './paths';
 import { appRoutes } from './routes';
 
+// Example: extending color system
+declare module '@ufoui/core' {
+    interface CustomColors {
+        myBlue: true;
+    }
+}
+
 const App = () => {
     return (
         <ThemeProvider colors={{ myBlue: '#0000ff' }}>

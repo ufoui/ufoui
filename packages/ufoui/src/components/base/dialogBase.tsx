@@ -189,7 +189,7 @@ export interface DialogBaseProps {
     /** Skips portaling and modal body scroll lock; for anchored overlays. */
     anchored?: boolean;
 
-    font: ElementFont;
+    font?: ElementFont;
     titleFont?: ElementFont;
 }
 
