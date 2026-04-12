@@ -30,8 +30,7 @@
  */
 import React, { CSSProperties } from 'react';
 
-import { BaseColor, capitalize, SemanticColor, ThemeColor } from './color';
-import { getOnColorName } from './colorRegistry';
+import { BaseColor, capitalize, getOnColorName, SemanticColor, ThemeColor } from './color';
 
 /**
  * Creates a strictly typed style builder for MD3 color tokens.

@@ -8,7 +8,7 @@ import {
     TonalPalette,
 } from '@material/material-color-utilities';
 
-import { PartialThemeSchemes, ThemeSchemeKeys, ThemeSchemes } from '../types';
+import { PartialThemeSchemes, ThemeSchemes } from '../types';
 import { ColorRegistryEntry, setColorRegistry } from './colorRegistry';
 
 export type UserColors = Record<string, string>;
@@ -72,9 +72,10 @@ export function generateMaterialColors(
     const theme = themeFromSourceColor(sourceColor, customColorsList);
     const baseSchemes: ('light' | 'dark')[] = ['light', 'dark'];
 
+    const themeKeys = Object.keys(theme.schemes.light.toJSON());
     // basic colors
     baseSchemes.forEach(mdScheme => {
-        ThemeSchemeKeys.forEach(key => {
+        themeKeys.forEach(key => {
             if (typeof theme.schemes[mdScheme][key as keyof typeof theme.schemes.light] === 'number') {
                 schemes[mdScheme][key] = hexFromArgb(
                     theme.schemes[mdScheme][key as keyof typeof theme.schemes.light] as number

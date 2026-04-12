@@ -1,8 +1,8 @@
 import { forwardRef, ReactNode, useMemo, useState } from 'react';
 
 import { BoxBaseProps } from '../base';
-import { cn, ElementSize, getSizeClass } from '../../utils';
-import { ThemeExtendedColorKeys } from '../../types';
+import { cn, ElementSize, getColorNames, getSizeClass } from '../../utils';
+// import { ThemeExtendedColorKeys } from '../../types';
 import { Grid } from '../layout';
 import { IS_AVATAR } from './avatar.guards';
 
@@ -28,7 +28,8 @@ export interface AvatarProps extends Omit<BoxBaseProps, 'component' | 'elementCl
     children?: ReactNode;
 }
 
-const AvatarColors = ThemeExtendedColorKeys.filter(c => c !== 'white' && c !== 'black');
+const AvatarColors = getColorNames('extended');
+// ThemeExtendedColorKeys.filter(c => c !== 'white' && c !== 'black');
 
 function stringHash(str: string): number {
     let hash = 0;

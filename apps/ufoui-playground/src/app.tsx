@@ -8,7 +8,7 @@ import { appRoutes } from './routes';
 
 const App = () => {
     return (
-        <ThemeProvider colors={{ warning: '#ff0000', myBlue: '#0000ff' }}>
+        <ThemeProvider colors={{ myBlue: '#0000ff' }}>
             <Router>
                 <Routes>
                     <Route element={<Layout />}>

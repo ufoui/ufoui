@@ -128,6 +128,7 @@ export const DialogPage = () => {
                     <H2>Open</H2>
                     <Flex gap={12}>
                         <Button
+                            color=""
                             filled
                             label="Default Animation"
                             onClick={() => {
@@ -207,7 +208,6 @@ export const DialogPage = () => {
                     icon={<MdInfo />}
                     iconSlot={iconSlot ?? undefined}
                     label={`${animation ?? 'default'} | ${motionStyle ?? 'default'} | ${dialogType ?? 'basic'}`}
-                    showIcon={showIcon}
                     modal={modal}
                     motionStyle={motionStyle}
                     onClose={() => {
@@ -216,6 +216,7 @@ export const DialogPage = () => {
                     open={open}
                     showBack={showBack}
                     showClose={showClose}
+                    showIcon={showIcon}
                     titleAlign={titleAlign ?? undefined}
                     type={dialogType}>
                     <Flex direction="col" gap={8}>

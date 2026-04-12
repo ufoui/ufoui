@@ -8,11 +8,10 @@ import {
     ElementShape,
     ElementSize,
     ElementTextPlacement,
+    getColorNames,
     Grid,
     SemanticColor,
     SurfaceColor,
-    ThemeSemanticColorKeys,
-    ThemeSurfaceColorKeys,
 } from '@ufoui/core';
 
 type ButtonModifiersProps = {
@@ -175,7 +174,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         }}
                         value={color ?? ''}>
                         <option value="">Default</option>
-                        {ThemeSemanticColorKeys.map(c => (
+                        {getColorNames('semantic').map(c => (
                             <option key={c} value={c}>
                                 {c.charAt(0).toUpperCase() + c.slice(1)}
                             </option>
@@ -196,7 +195,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         }}
                         value={uncheckedColor ?? ''}>
                         <option value="">Default</option>
-                        {ThemeSemanticColorKeys.map(c => (
+                        {getColorNames('semantic').map(c => (
                             <option key={c} value={c}>
                                 {c.charAt(0).toUpperCase() + c.slice(1)}
                             </option>
@@ -217,7 +216,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         }}
                         value={selectedColor ?? ''}>
                         <option value="">Default</option>
-                        {ThemeSemanticColorKeys.map(c => (
+                        {getColorNames('semantic').map(c => (
                             <option key={c} value={c}>
                                 {c.charAt(0).toUpperCase() + c.slice(1)}
                             </option>
@@ -238,7 +237,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         }}
                         value={textColor ?? ''}>
                         <option value="">Default</option>
-                        {ThemeSurfaceColorKeys.map(c => (
+                        {getColorNames('base').map(c => (
                             <option key={c} value={c}>
                                 {c}
                             </option>
@@ -259,7 +258,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         }}
                         value={selectedTextColor ?? ''}>
                         <option value="">Default</option>
-                        {ThemeSurfaceColorKeys.map(c => (
+                        {getColorNames('base').map(c => (
                             <option key={c} value={c}>
                                 {c}
                             </option>
@@ -280,7 +279,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         }}
                         value={surfaceColor ?? ''}>
                         <option value="">Default</option>
-                        {ThemeSurfaceColorKeys.map(c => (
+                        {getColorNames('surface').map(c => (
                             <option key={c} value={c}>
                                 {c}
                             </option>
@@ -382,7 +381,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         value={borderColor ?? ''}>
                         <option value="">Default</option>
                         {/* <optgroup span="Surface Colors">*/}
-                        {ThemeSurfaceColorKeys.map(c => (
+                        {getColorNames('border').map(c => (
                             <option key={c} value={c}>
                                 {c}
                             </option>
@@ -405,7 +404,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         value={uncheckedBorderColor ?? ''}>
                         <option value="">Default</option>
                         {/* <optgroup span="Surface Colors">*/}
-                        {ThemeSurfaceColorKeys.map(c => (
+                        {getColorNames('border').map(c => (
                             <option key={c} value={c}>
                                 {c}
                             </option>
@@ -525,7 +524,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         }}
                         value={focusColor ?? ''}>
                         <option value="">Default</option>
-                        {ThemeSurfaceColorKeys.map(c => (
+                        {getColorNames('base').map(c => (
                             <option key={c} value={c}>
                                 {c}
                             </option>

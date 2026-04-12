@@ -1,3 +1,5 @@
+import { ColorType, getColorRegistry } from './colorRegistry';
+
 /**
  * Built-in semantic color names available in every theme.
  *
@@ -161,6 +163,24 @@ export type ThemeColor<CustomColors extends Record<string, string> = EmptyColors
  */
 export type BorderColor<CustomColors extends Record<string, string> = EmptyColors> = BaseColor<CustomColors>;
 
+type ColorByType<
+    Type extends ColorType,
+    CustomColors extends Record<string, string> = EmptyColors,
+> = Type extends 'semantic'
+    ? SemanticColor<CustomColors>
+    : Type extends 'extended'
+      ? ExtendedColor<CustomColors>
+      : Type extends 'surface'
+        ? SurfaceColor<CustomColors>
+        : ThemeColor<CustomColors>;
+
+type ColorNameType = ColorType | 'base' | 'border';
+
+type ColorByNameType<
+    Type extends ColorNameType,
+    CustomColors extends Record<string, string> = EmptyColors,
+> = Type extends 'base' | 'border' ? BaseColor<CustomColors> : ColorByType<Extract<Type, ColorType>, CustomColors>;
+
 // /**
 //  * Represents a high-level semantic color token (e.g. `primary`, `error`, `success`).
 //  * Based on core semantic keys and optionally extended by custom color names.
@@ -199,6 +219,29 @@ export type BorderColor<CustomColors extends Record<string, string> = EmptyColor
 //  * @category Color
 //  */
 // export type BorderColor = SurfaceColor;
+
+export function getOnColorName<CustomColors extends Record<string, string> = EmptyColors>(
+    colorName: ThemeColor<CustomColors>
+): ThemeColor<CustomColors> | undefined {
+    return getColorRegistry()[colorName]?.onColor as ThemeColor<CustomColors> | undefined;
+}
+
+/**
+ * Returns all color names from the global registry for the selected type.
+ *
+ * @param type - Color type to filter by.
+ * @returns List of color names matching the requested type.
+ * @category Theme
+ */
+export function getColorNames<Type extends ColorNameType, CustomColors extends Record<string, string> = EmptyColors>(
+    type: Type
+): ColorByNameType<Type, CustomColors>[] {
+    const allowedTypes: ColorType[] =
+        type === 'base' || type === 'border' ? ['semantic', 'surface', 'extended'] : [type];
+    return Object.entries(getColorRegistry())
+        .filter(([_, entry]) => (entry?.type ? allowedTypes.includes(entry.type) : false))
+        .map(([name]) => name as ColorByNameType<Type, CustomColors>);
+}
 
 /**
  * Returns basic CSS variable references for a **surface color**.
