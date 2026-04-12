@@ -8,6 +8,8 @@ const ColorPage = () => {
     const {
         theme: { schemes },
     } = useTheme();
+
+    console.log(structuredClone(schemes));
     const lcTheme: Record<string, Record<string, string>> = {
         light: {
             ...Object.entries(schemes.light).reduce((a, k) => {
@@ -21,7 +23,7 @@ const ColorPage = () => {
         },
     };
     return (
-        <Grid className="EDEK grid-cols-2 gap-x-2">
+        <Grid className="grid-cols-2 gap-x-2">
             {colors.map(color => {
                 return (
                     <Fragment key={color}>

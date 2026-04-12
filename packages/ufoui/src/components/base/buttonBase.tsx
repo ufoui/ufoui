@@ -1,6 +1,7 @@
 import React, { forwardRef, ReactNode, useRef, useState } from 'react';
 
 import {
+    BaseColor,
     BorderColor,
     ControlStyle,
     createRipple,
@@ -25,7 +26,6 @@ import {
     getSizeClass,
     mergeRefs,
     SemanticColor,
-    SurfaceColor,
     uniqueID,
 } from '../../utils';
 import { InlineTooltipManager } from '../../internal';
@@ -143,7 +143,7 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
     selectedShape?: ElementShape;
 
     /** Text color override when selected. */
-    selectedTextColor?: SurfaceColor;
+    selectedTextColor?: BaseColor;
 
     /** Shape of the button. */
     shape?: ElementShape;
@@ -152,7 +152,7 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
     size?: ElementSize;
 
     /** Text color override. */
-    textColor?: SurfaceColor;
+    textColor?: BaseColor;
 
     /** Tooltip text and accessibility label fallback. */
     title?: string;

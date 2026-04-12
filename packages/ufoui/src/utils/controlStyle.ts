@@ -30,7 +30,7 @@
  */
 import React, { CSSProperties } from 'react';
 
-import { capitalize, SemanticColor, SurfaceColor, ThemeColor } from './color';
+import { BaseColor, capitalize, SemanticColor, ThemeColor } from './color';
 import { getOnColorName } from './colorRegistry';
 
 /**
@@ -63,7 +63,7 @@ export function ControlStyle(initial?: React.CSSProperties) {
                 }
             },
             {
-                on(color?: SurfaceColor) {
+                on(color?: BaseColor) {
                     if (color) {
                         const mapped = getOnColorName(color);
                         if (mapped !== undefined) {

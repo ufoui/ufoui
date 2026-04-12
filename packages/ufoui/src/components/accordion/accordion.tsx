@@ -5,6 +5,7 @@ import { BoxBase, BoxBaseProps } from '../base';
 import { AccordionItemProps } from './accordionItem';
 import { isAccordionItem } from './accordionItem.guards';
 import {
+    BaseColor,
     BorderColor,
     cn,
     ElementBorder,
@@ -13,7 +14,6 @@ import {
     ElementFont,
     ElementShape,
     getDensityClass,
-    SurfaceColor,
 } from '../../utils';
 import { MotionAnimation, MotionStyle } from '../../types';
 import { useSelectionState } from '../../hooks';
@@ -32,7 +32,7 @@ export type AccordionConfig = {
     animation?: MotionAnimation;
     motionStyle?: MotionStyle;
     duration?: number;
-    color?: SurfaceColor;
+    color?: BaseColor;
     disabled?: boolean;
 };
 

@@ -1,6 +1,7 @@
 import { CSSProperties, ElementType, forwardRef, HTMLAttributes, ReactNode } from 'react';
 
 import {
+    BaseColor,
     BorderColor,
     cn,
     ControlStyle,
@@ -13,7 +14,6 @@ import {
     getFontClass,
     getShapeClass,
     getWrapperStyle,
-    SurfaceColor,
     WrapperProps,
 } from '../../utils';
 
@@ -66,7 +66,7 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     col?: boolean;
 
     /** Surface background token. Default: `'surface'`. */
-    color?: SurfaceColor;
+    color?: BaseColor;
 
     /** Grid template columns (`3` → `repeat(3, 1fr)`). */
     cols?: number | string;
