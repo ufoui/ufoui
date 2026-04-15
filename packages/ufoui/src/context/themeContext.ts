@@ -10,45 +10,45 @@ import { ThemeColor } from '../utils';
  * @category Contexts
  */
 export interface ThemeContextValue {
-  /** The current theme configuration including MD3 color schemes and dark mode flag. */
-  theme: Theme;
+    /** The current theme configuration including MD3 color schemes and dark mode flag. */
+    theme: Theme;
 
-  /**
-   * Updates the entire theme object.
-   * Useful for switching theme variants or applying generated color overrides.
-   *
-   * @param theme - A complete Theme object to replace the current one.
-   */
-  setTheme: (theme: Theme) => void;
+    /**
+     * Updates the entire theme object.
+     * Useful for switching theme variants or applying generated color overrides.
+     *
+     * @param theme - A complete Theme object to replace the current one.
+     */
+    setTheme: (theme: Theme) => void;
 
-  /** Shorthand for theme.darkMode */
-  darkMode: boolean;
+    /** Shorthand for theme.darkMode */
+    darkMode: boolean;
 
-  /**
-   * Enables or disables dark mode and toggles `.dark` class on `<body>`.
-   *
-   * @param darkMode - Boolean flag to activate or deactivate dark mode.
-   */
-  setDarkMode: (darkMode: boolean) => void;
+    /**
+     * Enables or disables dark mode and toggles `.dark` class on `<body>`.
+     *
+     * @param darkMode - Boolean flag to activate or deactivate dark mode.
+     */
+    setDarkMode: (darkMode: boolean) => void;
 
-  /**
-   * Returns the current resolved value of a theme token
-   * based on the active color mode (light/dark).
-   *
-   * @param color - A theme token key (e.g. `primary`, `onBackground`, `surfaceContainerLow`).
-   * @returns The corresponding color value as a hex string.
-   */
-  getColorValue: (color: ThemeColor) => string;
+    /**
+     * Returns the current resolved value of a theme token
+     * based on the active color mode (light/dark).
+     *
+     * @param color - A theme token key (e.g. `primary`, `onBackground`, `surfaceContainerLow`).
+     * @returns The corresponding color value as a hex string.
+     */
+    getColorValue: (color: ThemeColor) => string;
 
-  /**
-   * Returns the value of a theme token from a specific scheme (`light` or `dark`),
-   * regardless of the current mode.
-   *
-   * @param scheme - `'light'` or `'dark'`.
-   * @param color - A theme token key.
-   * @returns The resolved color value from the specified scheme.
-   */
-  getThemeColorValue: (scheme: 'light' | 'dark', color: ThemeColor) => string;
+    /**
+     * Returns the value of a theme token from a specific scheme (`light` or `dark`),
+     * regardless of the current mode.
+     *
+     * @param scheme - `'light'` or `'dark'`.
+     * @param color - A theme token key.
+     * @returns The resolved color value from the specified scheme.
+     */
+    getThemeColorValue: (scheme: 'light' | 'dark', color: ThemeColor) => string;
 }
 
 /**
@@ -58,8 +58,17 @@ export interface ThemeContextValue {
  * @category Constants
  */
 export const defaultTheme: Theme = {
-  darkMode: false,
-  schemes: { light: {}, dark: {} },
+    darkMode: false,
+    schemes: { light: {}, dark: {} },
+    breakpoints: {
+        xxs: '0px',
+        xs: '360px',
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+        xxl: '1536px',
+    },
 };
 
 /**

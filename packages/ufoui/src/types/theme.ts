@@ -226,6 +226,27 @@ export interface ThemeSchemes {
 export type PartialThemeSchemes = Partial<ThemeSchemes>;
 
 /**
+ * Defines responsive breakpoints used by the design system.
+ *
+ * @category Theme
+ */
+export type ThemeBreakpointKey = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+
+/**
+ * Defines the canonical responsive breakpoints used by the design system.
+ *
+ * @category Theme
+ */
+export type ThemeBreakpoints = Record<ThemeBreakpointKey, string> & Record<string, string>;
+
+/**
+ * Partial variant of {@link ThemeBreakpoints}, allowing selective overrides.
+ *
+ * @category Theme
+ */
+export type PartialThemeBreakpoints = Partial<Record<ThemeBreakpointKey, string>> & Record<string, string | undefined>;
+
+/**
  * Defines the overall theme configuration, including
  * the active mode and all available color schemes.
  *
@@ -237,4 +258,7 @@ export interface Theme {
 
     /** Collection of all available color schemes. */
     schemes: ThemeSchemes;
+
+    /** Responsive breakpoint tokens. */
+    breakpoints: ThemeBreakpoints;
 }

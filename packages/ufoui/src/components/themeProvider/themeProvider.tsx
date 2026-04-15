@@ -3,7 +3,7 @@ import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import '../../styles/index.css';
 import { defaultTheme, ThemeContext, ThemeContextValue } from '../../context';
 import { applyThemeTokens, generateMaterialColors, ThemeColor } from '../../utils';
-import { Theme } from '../../types';
+import { PartialThemeBreakpoints, Theme, ThemeBreakpoints } from '../../types';
 
 export interface ThemeProviderProps {
     /** React children to render within the theme context. */
@@ -23,7 +23,25 @@ export interface ThemeProviderProps {
 
     /** Optional custom colors map used to define or override generated theme roles. */
     colors?: Record<string, string>;
+
+    /** Optional responsive breakpoints map. */
+    breakpoints?: PartialThemeBreakpoints;
 }
+
+const resolveBreakpoints = (overrides?: PartialThemeBreakpoints): ThemeBreakpoints => {
+    const merged: ThemeBreakpoints = { ...defaultTheme.breakpoints };
+    if (!overrides) {
+        return merged;
+    }
+
+    for (const [key, value] of Object.entries(overrides)) {
+        if (value !== undefined) {
+            merged[key] = value;
+        }
+    }
+
+    return merged;
+};
 
 /**
  * Provides a ThemeContext to all descendant components using Material Design 3 color tokens.
@@ -56,13 +74,14 @@ export interface ThemeProviderProps {
  * @category Components
  * @group Theme
  */
-export const ThemeProvider = ({ children, colorMode, seedColor, colors }: ThemeProviderProps) => {
+export const ThemeProvider = ({ children, colorMode, seedColor, colors, breakpoints }: ThemeProviderProps) => {
     const [theme, setTheme] = useState<Theme>(() => {
         const darkMode = colorMode === 'dark';
         const generatedSchemes = generateMaterialColors(seedColor, colors, defaultTheme.schemes);
         return {
             darkMode,
             schemes: generatedSchemes,
+            breakpoints: resolveBreakpoints(breakpoints),
         };
     });
 
@@ -126,8 +145,9 @@ export const ThemeProvider = ({ children, colorMode, seedColor, colors }: ThemeP
         setTheme(v => ({
             darkMode: v.darkMode,
             schemes: generatedSchemes,
+            breakpoints: resolveBreakpoints(breakpoints),
         }));
-    }, [colors, seedColor]);
+    }, [breakpoints, colors, seedColor]);
 
     useEffect(() => {
         applyThemeTokens(theme.schemes);
