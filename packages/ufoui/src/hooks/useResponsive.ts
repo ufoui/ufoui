@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useSyncExternalStore } from 'react';
 
 import { ThemeBreakpointKey, ThemeBreakpoints } from '../types';
 import { useTheme } from './useTheme';
@@ -8,16 +8,13 @@ type ResponsiveCoreValues<T> = {
     base?: T;
 } & Partial<Record<ThemeBreakpointKey, T>>;
 
-export type ResponsiveValues<T> = ResponsiveCoreValues<T> & {
-    /** Allows additional user-defined breakpoint keys. */
-    [key: string]: T | undefined;
-};
+export type ResponsiveValues<T> = ResponsiveCoreValues<T> & Record<string, T | undefined>;
 
 export interface UseResponsiveResult {
     /** Current viewport width in pixels. */
     width: number;
     /** Current active breakpoint key for the viewport width. */
-    currentBreakpoint: string;
+    breakpoint: string;
     /** Theme breakpoint map. */
     breakpoints: ThemeBreakpoints;
     /**
@@ -57,6 +54,54 @@ const getWindowWidth = (): number => {
     return window.innerWidth;
 };
 
+type ViewportSubscriber = () => void;
+
+const viewportSubscribers = new Set<ViewportSubscriber>();
+let viewportListenerReady = false;
+let viewportWidthSnapshot = 0;
+
+const emitViewportWidth = () => {
+    viewportSubscribers.forEach(listener => {
+        listener();
+    });
+};
+
+const onViewportChange = () => {
+    const nextWidth = getWindowWidth();
+    if (nextWidth === viewportWidthSnapshot) {
+        return;
+    }
+    viewportWidthSnapshot = nextWidth;
+    emitViewportWidth();
+};
+
+const ensureViewportWidth = () => {
+    if (typeof window === 'undefined' || viewportListenerReady) {
+        return;
+    }
+
+    viewportWidthSnapshot = getWindowWidth();
+    window.addEventListener('resize', onViewportChange);
+    window.addEventListener('orientationchange', onViewportChange);
+    viewportListenerReady = true;
+};
+
+const subscribeViewportWidth = (listener: ViewportSubscriber) => {
+    ensureViewportWidth();
+    viewportSubscribers.add(listener);
+
+    return () => {
+        viewportSubscribers.delete(listener);
+    };
+};
+
+const getViewportWidthSnapshot = () => {
+    ensureViewportWidth();
+    return viewportWidthSnapshot;
+};
+
+const getServerViewportWidthSnapshot = () => 0;
+
 /**
  * Returns responsive helpers based on the active theme breakpoints.
  *
@@ -64,7 +109,11 @@ const getWindowWidth = (): number => {
  */
 export const useResponsive = (): UseResponsiveResult => {
     const { theme } = useTheme();
-    const [width, setWidth] = useState<number>(getWindowWidth);
+    const width = useSyncExternalStore(
+        subscribeViewportWidth,
+        getViewportWidthSnapshot,
+        getServerViewportWidthSnapshot
+    );
 
     const orderedBreakpoints = useMemo<BreakpointEntry[]>(() => {
         return Object.entries(theme.breakpoints)
@@ -72,7 +121,7 @@ export const useResponsive = (): UseResponsiveResult => {
             .sort((a, b) => a.minWidth - b.minWidth);
     }, [theme.breakpoints]);
 
-    const currentBreakpoint = useMemo(() => {
+    const breakpoint = useMemo(() => {
         let active = orderedBreakpoints[0]?.key ?? 'base';
         for (const bp of orderedBreakpoints) {
             if (width >= bp.minWidth) {
@@ -97,27 +146,9 @@ export const useResponsive = (): UseResponsiveResult => {
         [orderedBreakpoints, width]
     );
 
-    useEffect(() => {
-        if (typeof window === 'undefined') {
-            return;
-        }
-
-        const onResize = () => {
-            setWidth(window.innerWidth);
-        };
-        onResize();
-
-        window.addEventListener('resize', onResize);
-        window.addEventListener('orientationchange', onResize);
-        return () => {
-            window.removeEventListener('resize', onResize);
-            window.removeEventListener('orientationchange', onResize);
-        };
-    }, []);
-
     return {
         width,
-        currentBreakpoint,
+        breakpoint,
         breakpoints: theme.breakpoints,
         br,
     };

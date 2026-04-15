@@ -15,7 +15,7 @@ declare module '@ufoui/core' {
 
 const App = () => {
     return (
-        <ThemeProvider colors={{ myBlue: '#0000ff' }}>
+        <ThemeProvider breakpoints={{ ufo: '1300px' }} colors={{ myBlue: '#0000ff' }}>
             <Router>
                 <Routes>
                     <Route element={<Layout />}>

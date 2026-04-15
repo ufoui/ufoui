@@ -35,40 +35,39 @@ type ClickOutsideTargets = Array<React.RefObject<HTMLElement>> | string;
  *
  */
 export function useClickOutside(
-  active: boolean,
-  targets: ClickOutsideTargets,
-  onOutside: () => void,
-  extraRef?: RefObject<HTMLElement> | null,
+    active: boolean,
+    targets: ClickOutsideTargets,
+    onOutside: () => void,
+    extraRef?: RefObject<HTMLElement> | null
 ): void {
-  useEffect(() => {
-    if (!active) {
-      return;
-    }
-
-    const handler = (e: MouseEvent) => {
-      const el = e.target as HTMLElement;
-      // Mode A: array of refs
-      if (Array.isArray(targets)) {
-        const insideTargets = targets.some((ref) => ref.current?.contains(el));
-        const insideExtra = extraRef?.current?.contains(el) ?? false;
-        if (!insideTargets && !insideExtra) {
-          onOutside();
+    useEffect(() => {
+        if (!active) {
+            return;
         }
-        return;
-      }
 
-      // Mode B: CSS selector
-      const insideSelector = !!el.closest(targets);
-      const insideExtra = extraRef?.current?.contains(el) ?? false;
+        const handler = (e: MouseEvent) => {
+            const el = e.target as HTMLElement;
+            // Mode A: array of refs
+            if (Array.isArray(targets)) {
+                const insideTargets = targets.some(ref => ref.current?.contains(el));
+                const insideExtra = extraRef?.current?.contains(el) ?? false;
+                if (!insideTargets && !insideExtra) {
+                    onOutside();
+                }
+                return;
+            }
 
-      if (!insideSelector && !insideExtra) {
-        onOutside();
-      }
-    };
+            // Mode B: CSS selector
+            const insideSelector = !!el.closest(targets);
+            const insideExtra = extraRef?.current?.contains(el) ?? false;
 
-    document.addEventListener('mousedown', handler);
-    return () => {
-      document.removeEventListener('mousedown', handler);
-    };
-  }, [active, targets, onOutside, extraRef]);
+            if (!insideSelector && !insideExtra) {
+                onOutside();
+            }
+        };
+        document.addEventListener('mousedown', handler);
+        return () => {
+            document.removeEventListener('mousedown', handler);
+        };
+    }, [active, targets, onOutside, extraRef]);
 }
