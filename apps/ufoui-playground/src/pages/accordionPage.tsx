@@ -19,11 +19,13 @@ import {
     H2,
     Section,
     SurfaceColor,
+    useResponsive,
 } from '@ufoui/core';
 
 import { Modifiers } from '../components/modifiers/modifiers';
 
 export const AccordionPage = () => {
+    const { br } = useResponsive();
     const [color, setColor] = useState<SurfaceColor | null>(null);
     const [shape, setShape] = useState<ElementShape | null>(null);
     const [elevation, setElevation] = useState<ElementElevation | null>(null);
@@ -60,7 +62,7 @@ export const AccordionPage = () => {
                 {/* ───────────────────────── SINGLE ───────────────────────── */}
 
                 <H2>Single Item Accordion</H2>
-                <Grid cols={4} fullWidth gap={20}>
+                <Grid cols={br({ base: 1, lg: 2, xxl: 4 })} fullWidth gap={20}>
                     {['text', 'grouped', 'pills', 'segmented'].map(variant => (
                         <Accordion key={variant} type="multiple" {...shared} variant={variant as AccordionVariant}>
                             <AccordionItem label={faker.lorem.sentence()} value={variant + 'a'}>

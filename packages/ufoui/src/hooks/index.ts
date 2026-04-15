@@ -8,3 +8,4 @@ export * from './useTheme';
 export * from './useSliderKeys';
 export * from './useSelectionState';
 export * from './useFocusTrap';
+export * from './useResponsive';
