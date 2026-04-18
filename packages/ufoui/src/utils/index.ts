@@ -1,18 +1,6 @@
 export * from './color';
-export {
-    coreFonts,
-    getFontNames,
-    getFontClass,
-} from './fonts';
-export type {
-    CoreFont,
-    CustomFonts,
-    CustomFontKey,
-    ThemeFont,
-    ElementFont,
-    ThemeFonts,
-    PartialThemeFonts,
-} from '../types/fonts';
+export { getFontNames, getFontClass, setFontRegistry } from './fontRegistry';
+export type { ElementFont } from '../types/fonts';
 export * from './utils';
 export * from './calculateFloatingPosition';
 export * from './interactionMode';
