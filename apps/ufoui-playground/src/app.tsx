@@ -11,6 +11,9 @@ declare module '@ufoui/core' {
     interface CustomColors {
         myBlue: true;
     }
+    interface CustomBreakpoints {
+        ufo: true;
+    }
 }
 
 const App = () => {

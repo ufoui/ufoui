@@ -4,6 +4,7 @@ export * from './calculateFloatingPosition';
 export * from './interactionMode';
 export * from './generateMaterialColors';
 export * from './applyThemeTokens';
+export * from './breakpoints';
 export * from './toasts';
 export * from './uniqueID';
 export * from './controlStyle';

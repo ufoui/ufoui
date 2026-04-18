@@ -62,7 +62,7 @@ export const AccordionPage = () => {
                 {/* ───────────────────────── SINGLE ───────────────────────── */}
 
                 <H2>Single Item Accordion</H2>
-                <Grid cols={br({ base: 1, lg: 2, xxl: 4 })} fullWidth gap={20}>
+                <Grid cols={br({ base: 1, lg: 2, ufo: 3, xxl: 4 })} fullWidth gap={20}>
                     {['text', 'grouped', 'pills', 'segmented'].map(variant => (
                         <Accordion key={variant} type="multiple" {...shared} variant={variant as AccordionVariant}>
                             <AccordionItem label={faker.lorem.sentence()} value={variant + 'a'}>

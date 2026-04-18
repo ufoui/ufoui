@@ -1,153 +1,100 @@
 import { useCallback, useMemo, useSyncExternalStore } from 'react';
 
-import { ThemeBreakpointKey, ThemeBreakpoints } from '../types';
+import { CustomBreakpointKey, ThemeBreakpointKey, ThemeBreakpoints } from '../types';
+import { breakpointStore, getOrderedBreakpoints, resolveBreakpoint, resolveResponsiveValue } from '../utils';
 import { useTheme } from './useTheme';
 
+type ResponsiveResolvedBreakpoint = ThemeBreakpointKey | CustomBreakpointKey | 'base';
+
 type ResponsiveCoreValues<T> = {
-    /** Base fallback value used when no breakpoint value matches. */
     base?: T;
+    print?: T;
 } & Partial<Record<ThemeBreakpointKey, T>>;
 
-export type ResponsiveValues<T> = ResponsiveCoreValues<T> & Record<string, T | undefined>;
+/**
+ * Responsive value map resolved against the current viewport width.
+ *
+ * `base` acts as the fallback value, matching breakpoint keys override it,
+ * and `print` is used when the browser enters print mode.
+ *
+ * @category Hooks
+ */
+export type ResponsiveValues<T> = ResponsiveCoreValues<T> & Partial<Record<CustomBreakpointKey, T>>;
 
+/**
+ * Result returned by the useResponsive hook.
+ *
+ * @category Hooks
+ */
 export interface UseResponsiveResult {
     /** Current viewport width in pixels. */
     width: number;
-    /** Current active breakpoint key for the viewport width. */
-    breakpoint: string;
-    /** Theme breakpoint map. */
+
+    /** Indicates whether the browser is currently rendering for print media. */
+    isPrint: boolean;
+
+    /** Active breakpoint key for the current viewport width. */
+    breakpoint: ResponsiveResolvedBreakpoint;
+
+    /** Breakpoint map from the active theme. */
     breakpoints: ThemeBreakpoints;
-    /**
-     * Resolves a responsive value map to a single value based on viewport width.
-     *
-     * @example
-     * br({ base: 'gray', sm: 'red', xl: 'blue' })
-     */
+
+    /** Resolves a responsive value map to a single value for the current viewport. */
     br: <T>(values: ResponsiveValues<T>) => T | undefined;
 }
 
-type BreakpointEntry = {
-    key: string;
-    minWidth: number;
-};
-
-const BASE_REM_PX = 16;
-
-const toPx = (value: string): number => {
-    const normalized = value.trim().toLowerCase();
-
-    if (normalized.endsWith('px')) {
-        return Number.parseFloat(normalized);
-    }
-    if (normalized.endsWith('rem') || normalized.endsWith('em')) {
-        return Number.parseFloat(normalized) * BASE_REM_PX;
-    }
-
-    const parsed = Number.parseFloat(normalized);
-    return Number.isNaN(parsed) ? 0 : parsed;
-};
-
-const getWindowWidth = (): number => {
-    if (typeof window === 'undefined') {
-        return 0;
-    }
-    return window.innerWidth;
-};
-
-type ViewportSubscriber = () => void;
-
-const viewportSubscribers = new Set<ViewportSubscriber>();
-let viewportListenerReady = false;
-let viewportWidthSnapshot = 0;
-
-const emitViewportWidth = () => {
-    viewportSubscribers.forEach(listener => {
-        listener();
-    });
-};
-
-const onViewportChange = () => {
-    const nextWidth = getWindowWidth();
-    if (nextWidth === viewportWidthSnapshot) {
-        return;
-    }
-    viewportWidthSnapshot = nextWidth;
-    emitViewportWidth();
-};
-
-const ensureViewportWidth = () => {
-    if (typeof window === 'undefined' || viewportListenerReady) {
-        return;
-    }
-
-    viewportWidthSnapshot = getWindowWidth();
-    window.addEventListener('resize', onViewportChange);
-    window.addEventListener('orientationchange', onViewportChange);
-    viewportListenerReady = true;
-};
-
-const subscribeViewportWidth = (listener: ViewportSubscriber) => {
-    ensureViewportWidth();
-    viewportSubscribers.add(listener);
-
-    return () => {
-        viewportSubscribers.delete(listener);
-    };
-};
-
-const getViewportWidthSnapshot = () => {
-    ensureViewportWidth();
-    return viewportWidthSnapshot;
-};
-
-const getServerViewportWidthSnapshot = () => 0;
-
 /**
- * Returns responsive helpers based on the active theme breakpoints.
+ * Returns the current viewport state and helpers for resolving theme breakpoints.
+ *
+ * The hook exposes:
+ * - `width` for the current viewport width
+ * - `breakpoint` for the active theme breakpoint
+ * - `isPrint` for print media detection
+ * - `br()` to resolve responsive values against the current viewport
+ *
+ * @example
+ * const { breakpoint, br } = useResponsive();
+ * const direction = br({ base: 'column', md: 'row' });
+ *
+ * @example
+ * declare module '@ufoui/core' {
+ *   interface CustomBreakpoints {
+ *     tablet: true;
+ *     desktopWide: true;
+ *   }
+ * }
+ *
+ * const { br } = useResponsive();
+ * const gap = br({ base: 8, tablet: 12, desktopWide: 20 });
  *
  * @category Hooks
  */
 export const useResponsive = (): UseResponsiveResult => {
     const { theme } = useTheme();
-    const width = useSyncExternalStore(
-        subscribeViewportWidth,
-        getViewportWidthSnapshot,
-        getServerViewportWidthSnapshot
+
+    const { width, isPrint } = useSyncExternalStore(
+        breakpointStore.subscribe,
+        breakpointStore.getSnapshot,
+        breakpointStore.getServerSnapshot
     );
 
-    const orderedBreakpoints = useMemo<BreakpointEntry[]>(() => {
-        return Object.entries(theme.breakpoints)
-            .map(([key, minWidth]) => ({ key, minWidth: toPx(minWidth) }))
-            .sort((a, b) => a.minWidth - b.minWidth);
-    }, [theme.breakpoints]);
+    const orderedBreakpoints = useMemo(() => getOrderedBreakpoints(theme.breakpoints), [theme.breakpoints]);
 
-    const breakpoint = useMemo(() => {
-        let active = orderedBreakpoints[0]?.key ?? 'base';
-        for (const bp of orderedBreakpoints) {
-            if (width >= bp.minWidth) {
-                active = bp.key;
-            }
-        }
-        return active;
-    }, [orderedBreakpoints, width]);
+    const breakpoint = useMemo(
+        () => resolveBreakpoint(orderedBreakpoints, width) as ResponsiveResolvedBreakpoint,
+        [orderedBreakpoints, width]
+    );
 
     const br = useCallback(
         <T>(values: ResponsiveValues<T>): T | undefined => {
-            let resolved = values.base;
-
-            for (const bp of orderedBreakpoints) {
-                if (width >= bp.minWidth && values[bp.key] !== undefined) {
-                    resolved = values[bp.key];
-                }
-            }
-
-            return resolved;
+            return resolveResponsiveValue(values, orderedBreakpoints, { width, isPrint });
         },
-        [orderedBreakpoints, width]
+        [isPrint, orderedBreakpoints, width]
     );
 
     return {
         width,
+        isPrint,
         breakpoint,
         breakpoints: theme.breakpoints,
         br,
