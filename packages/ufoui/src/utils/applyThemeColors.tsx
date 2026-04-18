@@ -1,4 +1,4 @@
-import { ThemeSchemes } from '../types';
+import { ThemeColorSchemes } from '../types';
 import { toKebabCase } from './utils';
 
 /**
@@ -9,7 +9,7 @@ import { toKebabCase } from './utils';
  *
  * @category Theme
  */
-export function applyThemeTokens(schemes: ThemeSchemes): ThemeSchemes {
+export function applyThemeColors(schemes: ThemeColorSchemes): ThemeColorSchemes {
     if (typeof document === 'undefined') {
         return schemes;
     }
