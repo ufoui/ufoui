@@ -14,4 +14,5 @@ export * from './getWrapperStyle';
 export * from './flatChildren';
 export * from './renderPortal';
 export * from './colorRegistry';
+export * from './mergeOverrides';
 export { createRipple } from './createRipple';

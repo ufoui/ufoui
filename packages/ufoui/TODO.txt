@@ -50,6 +50,7 @@ DialogTitle
 DialogHeader
 Slot
 Icon
+ThemeProvider
 
 @experimental
 ControlLabel
@@ -86,7 +87,6 @@ Spinner
 Tab
 Tabs
 TextField
-ThemeProvider
 TimeField
 TimeInput
 ToggleButton

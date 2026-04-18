@@ -1,133 +1,22 @@
-import { ColorType, getColorRegistry } from './colorRegistry';
+import type { ColorType } from './colorRegistry';
+import { getColorRegistry } from './colorRegistry';
+import type { BaseColor, BorderColor, ExtendedColor, SemanticColor, SurfaceColor, ThemeColor } from '../types';
 
-/**
- * Built-in semantic color names available in every theme.
- *
- * @category Color
- */
-export type CoreSemanticColor = 'primary' | 'secondary' | 'tertiary' | 'warning' | 'info' | 'success' | 'error';
-
-/**
- * Built-in surface color names intended for backgrounds, layers, and outlines.
- *
- * @category Color
- */
-export type CoreSurfaceColor =
-    | 'surface'
-    | 'surfaceVariant'
-    | 'background'
-    | 'inverseSurface'
-    | 'outline'
-    | 'outlineVariant'
-    | 'surfaceContainerLowest'
-    | 'surfaceContainerLow'
-    | 'surfaceContainer'
-    | 'surfaceContainerHigh'
-    | 'surfaceContainerHighest'
-    | 'surfaceBright'
-    | 'surfaceDim';
-
-/**
- * Built-in technical color names not intended for direct usage.
- *
- * @category Color
- */
-export type CoreThemeColor =
-    | 'onSurface'
-    | 'onSurfaceVariant'
-    | 'onBackground'
-    | 'inverseOnSurface'
-    | 'inversePrimary'
-    | 'surfaceTint'
-    | 'scrim'
-    | 'shadow'
-    | 'black'
-    | 'white';
-
-/**
- * Augmentation point for custom semantic colors.
- *
- * @example
- * declare module '@ufoui/core' {
- *   interface CustomColors {
- *     myBlue: true;
- *   }
- * }
- *
- * @category Color
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface CustomColors {}
-
-/**
- * Base semantic color (core + augmented).
- *
- * @category Color
- */
-
-export type SemanticBaseColor = CoreSemanticColor | keyof CustomColors;
-
-/**
- * Builds `on*` color name.
- *
- * @category Color
- */
-export type OnColor<T extends string> = `on${Capitalize<T>}`;
-
-/**
- * Semantic color used in component APIs.
- *
- * @category Color
- */
-export type SemanticColor = SemanticBaseColor;
-
-/**
- * Extended semantic colors.
- *
- * @category Color
- */
-export type ExtendedColor =
-    | `${SemanticBaseColor}Container`
-    | `${SemanticBaseColor}Fixed`
-    | `${SemanticBaseColor}FixedDim`;
-
-/**
- * `on*` counterparts for extended colors.
- *
- * @category Color
- */
-export type OnExtendedColor =
-    | OnColor<`${SemanticBaseColor}Container`>
-    | OnColor<`${SemanticBaseColor}Fixed`>
-    | OnColor<`${SemanticBaseColor}FixedVariant`>;
-
-/**
- * Surface colors.
- *
- * @category Color
- */
-export type SurfaceColor = CoreSurfaceColor | ExtendedColor;
-
-/**
- * Colors allowed in component props.
- *
- * @category Color
- */
-export type BaseColor = SemanticColor | SurfaceColor;
-
-/**
- * Full theme color set.
- *
- * @category Color
- */
-export type ThemeColor = BaseColor | OnColor<SemanticBaseColor> | OnExtendedColor | CoreThemeColor;
-
-/**
- * Border color.
- *
- * @category Color
- */
-export type BorderColor = BaseColor;
+export type {
+    CoreSemanticColor,
+    CoreSurfaceColor,
+    CoreThemeColor,
+    CustomColors,
+    SemanticBaseColor,
+    OnColor,
+    SemanticColor,
+    ExtendedColor,
+    OnExtendedColor,
+    SurfaceColor,
+    BaseColor,
+    ThemeColor,
+    BorderColor,
+} from '../types';
 
 export function getOnColorName(colorName: ThemeColor): ThemeColor | undefined {
     return getColorRegistry()[colorName]?.onColor as ThemeColor | undefined;

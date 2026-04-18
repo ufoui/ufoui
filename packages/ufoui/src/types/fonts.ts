@@ -48,7 +48,6 @@ export type CustomFontKey = Extract<keyof CustomFonts, string>;
  *
  * @category Theme
  */
-// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 export type ThemeFont = CoreFont | CustomFontKey;
 
 /**

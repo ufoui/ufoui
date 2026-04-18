@@ -2,9 +2,14 @@ import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 import '../../styles/index.css';
 import { defaultTheme, ThemeContext, ThemeContextValue } from '../../context';
-import { applyThemeFonts } from '../../utils/fonts';
-import { applyThemeTokens, generateMaterialColors, ThemeColor } from '../../utils';
-import { PartialThemeBreakpoints, PartialThemeFonts, Theme, ThemeBreakpoints, ThemeFonts } from '../../types';
+import { applyThemeColors, generateMaterialColors, mergeOverrides, setFontRegistry } from '../../utils';
+import {
+    PartialThemeBreakpoints,
+    PartialThemeFonts,
+    Theme,
+    ThemeColor,
+    ThemeCustomColors,
+} from '../../types';
 
 export interface ThemeProviderProps {
     /** React children to render within the theme context. */
@@ -22,8 +27,8 @@ export interface ThemeProviderProps {
      */
     seedColor?: string;
 
-    /** Optional custom colors map used to define or override generated theme roles. */
-    colors?: Record<string, string>;
+    /** Optional semantic seed colors map (core + augmented). */
+    colors?: ThemeCustomColors;
 
     /** Optional responsive breakpoints map. */
     breakpoints?: PartialThemeBreakpoints;
@@ -31,36 +36,6 @@ export interface ThemeProviderProps {
     /** Optional font class map keyed by theme font token name. */
     fonts?: PartialThemeFonts;
 }
-
-const resolveBreakpoints = (overrides?: PartialThemeBreakpoints): ThemeBreakpoints => {
-    const merged: ThemeBreakpoints = { ...defaultTheme.breakpoints };
-    if (!overrides) {
-        return merged;
-    }
-
-    for (const [key, value] of Object.entries(overrides)) {
-        if (value !== undefined) {
-            merged[key] = value;
-        }
-    }
-
-    return merged;
-};
-
-const resolveFonts = (overrides?: PartialThemeFonts): ThemeFonts => {
-    const merged: ThemeFonts = { ...defaultTheme.fonts };
-    if (!overrides) {
-        return merged;
-    }
-
-    for (const [key, value] of Object.entries(overrides)) {
-        if (value !== undefined) {
-            merged[key] = value;
-        }
-    }
-
-    return merged;
-};
 
 /**
  * Provides a ThemeContext to all descendant components using Material Design 3 color tokens.
@@ -81,7 +56,7 @@ const resolveFonts = (overrides?: PartialThemeFonts): ThemeFonts => {
  * @param props.children - React children rendered within the theme context.
  * @param props.colorMode - Optional color mode: `'light'` or `'dark'`. Defaults to `'light'`.
  * @param props.seedColor - Optional base color used to generate the theme. Defaults to `#6750A4`.
- * @param props.colors - Optional custom colors map used to define or override generated theme roles.
+ * @param props.colors - Optional semantic seed colors map (core + augmented via `CustomColors`).
  *
  * @example
  * ```tsx
@@ -89,6 +64,11 @@ const resolveFonts = (overrides?: PartialThemeFonts): ThemeFonts => {
  *   <App />
  * </ThemeProvider>
  * ```
+ *
+ * @privateRemarks
+ * The provider intentionally computes generated schemes during state initialization and once again
+ * in the `[colors, seedColor]` effect. This keeps theme token names available on first render,
+ * including setups without `ColorRegistry`, at the cost of an extra computation.
  *
  * @category Components
  * @group Theme
@@ -100,8 +80,8 @@ export const ThemeProvider = ({ children, colorMode, seedColor, colors, breakpoi
         return {
             darkMode,
             schemes: generatedSchemes,
-            breakpoints: resolveBreakpoints(breakpoints),
-            fonts: resolveFonts(fonts),
+            breakpoints: mergeOverrides(defaultTheme.breakpoints, breakpoints).merged,
+            fonts: mergeOverrides(defaultTheme.fonts, fonts).merged,
         };
     });
 
@@ -163,19 +143,32 @@ export const ThemeProvider = ({ children, colorMode, seedColor, colors, breakpoi
     useEffect(() => {
         const generatedSchemes = generateMaterialColors(seedColor, colors);
         setTheme(v => ({
-            darkMode: v.darkMode,
+            ...v,
             schemes: generatedSchemes,
-            breakpoints: resolveBreakpoints(breakpoints),
-            fonts: resolveFonts(fonts),
         }));
-    }, [breakpoints, colors, fonts, seedColor]);
+    }, [colors, seedColor]);
 
     useEffect(() => {
-        applyThemeTokens(theme.schemes);
+        setTheme(v => ({
+            ...v,
+            breakpoints: mergeOverrides(defaultTheme.breakpoints, breakpoints).merged,
+        }));
+    }, [breakpoints]);
+
+    useEffect(() => {
+        const mergedFonts = mergeOverrides(defaultTheme.fonts, fonts).merged;
+        setTheme(v => ({
+            ...v,
+            fonts: mergedFonts,
+        }));
+    }, [fonts]);
+
+    useEffect(() => {
+        applyThemeColors(theme.schemes);
     }, [theme.schemes]);
 
     useEffect(() => {
-        applyThemeFonts(theme.fonts);
+        setFontRegistry(theme.fonts);
     }, [theme.fonts]);
 
     const value = useMemo<ThemeContextValue>(

@@ -194,10 +194,11 @@ export interface ThemeColorScheme {
  *
  * @remarks
  * Useful when defining incomplete color sets (e.g. custom brand palettes).
+ * Also permits additional custom token keys with optional values.
  *
  * @category Theme
  */
-export type PartialThemeColorScheme = Partial<ThemeColorScheme>;
+export type PartialThemeColorScheme = Partial<ThemeColorScheme> & Record<string, string | undefined>;
 
 /**
  * Collection of named color schemes (e.g. light, dark, high-contrast).
@@ -215,3 +216,148 @@ export interface ThemeColorSchemes {
     /** Additional custom schemes such as high-contrast or sepia. */
     [key: string]: PartialThemeColorScheme;
 }
+
+/**
+ * Built-in semantic color names available in every theme.
+ *
+ * @category Color
+ */
+export type CoreSemanticColor = 'primary' | 'secondary' | 'tertiary' | 'warning' | 'info' | 'success' | 'error';
+
+/**
+ * Built-in surface color names intended for backgrounds, layers, and outlines.
+ *
+ * @category Color
+ */
+export type CoreSurfaceColor =
+    | 'surface'
+    | 'surfaceVariant'
+    | 'background'
+    | 'inverseSurface'
+    | 'outline'
+    | 'outlineVariant'
+    | 'surfaceContainerLowest'
+    | 'surfaceContainerLow'
+    | 'surfaceContainer'
+    | 'surfaceContainerHigh'
+    | 'surfaceContainerHighest'
+    | 'surfaceBright'
+    | 'surfaceDim';
+
+/**
+ * Built-in technical color names not intended for direct usage.
+ *
+ * @category Color
+ */
+export type CoreThemeColor =
+    | 'onSurface'
+    | 'onSurfaceVariant'
+    | 'onBackground'
+    | 'inverseOnSurface'
+    | 'inversePrimary'
+    | 'surfaceTint'
+    | 'scrim'
+    | 'shadow'
+    | 'black'
+    | 'white';
+
+/**
+ * Augmentation point for custom semantic colors.
+ *
+ * @example
+ * declare module '@ufoui/core' {
+ *   interface CustomColors {
+ *     myBlue: true;
+ *   }
+ * }
+ *
+ * @category Color
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface CustomColors {}
+
+/**
+ * Custom semantic color token keys registered via {@link CustomColors}.
+ *
+ * @category Color
+ */
+export type CustomColorKey = Extract<keyof CustomColors, string>;
+
+/**
+ * Base semantic color (core + augmented).
+ *
+ * @category Color
+ */
+export type SemanticBaseColor = CoreSemanticColor | CustomColorKey;
+
+/**
+ * Builds `on*` color name.
+ *
+ * @category Color
+ */
+export type OnColor<T extends string> = `on${Capitalize<T>}`;
+
+/**
+ * Semantic color used in component APIs.
+ *
+ * @category Color
+ */
+export type SemanticColor = SemanticBaseColor;
+
+/**
+ * Extended semantic colors.
+ *
+ * @category Color
+ */
+export type ExtendedColor =
+    | `${SemanticBaseColor}Container`
+    | `${SemanticBaseColor}Fixed`
+    | `${SemanticBaseColor}FixedDim`;
+
+/**
+ * `on*` counterparts for extended colors.
+ *
+ * @category Color
+ */
+export type OnExtendedColor =
+    | OnColor<`${SemanticBaseColor}Container`>
+    | OnColor<`${SemanticBaseColor}Fixed`>
+    | OnColor<`${SemanticBaseColor}FixedVariant`>;
+
+/**
+ * Surface colors.
+ *
+ * @category Color
+ */
+export type SurfaceColor = CoreSurfaceColor | ExtendedColor;
+
+/**
+ * Colors allowed in component props.
+ *
+ * @category Color
+ */
+export type BaseColor = SemanticColor | SurfaceColor;
+
+/**
+ * Full theme color set.
+ *
+ * @category Color
+ */
+export type ThemeColor = BaseColor | OnColor<SemanticBaseColor> | OnExtendedColor | CoreThemeColor;
+
+/**
+ * Border color.
+ *
+ * @category Color
+ */
+export type BorderColor = BaseColor;
+
+/**
+ * Input color map used to seed/generate theme schemes.
+ *
+ * @remarks
+ * Accepts only semantic base color keys (core + augmented via {@link CustomColors}).
+ *
+ * @category Theme
+ */
+export type ThemeCustomColors = Partial<Record<SemanticBaseColor, string>>;

@@ -8,14 +8,13 @@ import {
     TonalPalette,
 } from '@material/material-color-utilities';
 
-import { ThemeSchemes } from '../types';
+import type { ThemeColorSchemes, ThemeCustomColors } from '../types';
 import { ColorRegistryEntry, setColorRegistry } from './colorRegistry';
 
-export type UserColors = Record<string, string>;
 type RegColor = Record<string, ColorRegistryEntry>;
 /**
- * Generates a full ThemeSchemes object (light and dark modes) based on a seed color,
- * optional token overrides, and custom semantic colors (info, warning, success).
+ * Generates a full ThemeColorSchemes object (light and dark modes) based on a seed color,
+ * and optional semantic seed colors.
  *
  * Internally uses the Material Design 3 `themeFromSourceColor()` generator and applies
  * full resolution of all MD3 roles as defined in ThemeSchemeKeys.
@@ -25,27 +24,27 @@ type RegColor = Record<string, ColorRegistryEntry>;
  *
  * @param seedColor - Optional seed color in hex (e.g. "#6200ee"). Used as the base for the primary palette.
  *                    Defaults to `#6750A4` if not provided.
- * @param colors - Optional map of custom base colors. Defaults include `info`, `warning`, and `success`.
- *                 Any key can be provided (e.g. `brand`, `neutralStrong`, `secondary`).
+ * @param colors - Optional map of semantic base colors (core + augmented).
+ *                 Defaults include `info`, `warning`, and `success`.
  *
- * @returns A fully resolved ThemeSchemes object with all required color roles populated for light and dark modes.
+ * @returns A fully resolved ThemeColorSchemes object with all required color roles populated for light and dark modes.
  *          Also updates the global color registry via `setColorRegistry()`.
  *
  * @example
  * ```ts
- * const schemes = generateMaterialColors('#6200ee', { info: '#2196f3' }, {});
+ * const schemes = generateMaterialColors('#6200ee', { info: '#2196f3' });
  * const primary = schemes.light.primary;
  * ```
  *
  * @category Theme
  */
 
-export function generateMaterialColors(seedColor = '#6750A4', colors: UserColors = {}): ThemeSchemes {
+export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCustomColors = {}): ThemeColorSchemes {
     const regColor: RegColor = {};
-    const schemes: ThemeSchemes = { light: {}, dark: {} };
+    const schemes: ThemeColorSchemes = { light: {}, dark: {} };
     const sourceColor = colors.primary ? argbFromHex(colors.primary) : argbFromHex(seedColor);
 
-    const resolvedColors: UserColors = {
+    const resolvedColors: Record<string, string> = {
         ...{
             info: '#03a9f4',
             warning: '#ffd600',
@@ -204,14 +203,6 @@ export function generateMaterialColors(seedColor = '#6750A4', colors: UserColors
     regColor.outlineVariant = { type: 'surface', onColor: 'inverseSurface' };
     regColor.inversePrimary = { type: 'theme', onColor: 'onPrimaryContainer' };
     regColor.shadow = { type: 'theme' };
-
-    // Apply skin overrides as the final step.
-    // Object.entries(customSchemes).forEach(([schemeName, schemeOverrides]) => {
-    //     if (!schemeOverrides) {
-    //         return;
-    //     }
-    //     schemes[schemeName] = { ...(schemes[schemeName] ?? {}), ...schemeOverrides };
-    // });
     setColorRegistry(regColor);
 
     return schemes;
