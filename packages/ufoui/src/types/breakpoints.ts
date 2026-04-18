@@ -41,5 +41,6 @@ export type ThemeBreakpoints = Record<ThemeBreakpointKey, string> &
  *
  * @category Theme
  */
+
 export type PartialThemeBreakpoints = Partial<Record<ThemeBreakpointKey | CustomBreakpointKey, string>> &
     Record<string, string | undefined>;

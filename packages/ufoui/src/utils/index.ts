@@ -1,5 +1,18 @@
 export * from './color';
-export * from './fonts';
+export {
+    coreFonts,
+    getFontNames,
+    getFontClass,
+} from './fonts';
+export type {
+    CoreFont,
+    CustomFonts,
+    CustomFontKey,
+    ThemeFont,
+    ElementFont,
+    ThemeFonts,
+    PartialThemeFonts,
+} from '../types/fonts';
 export * from './utils';
 export * from './calculateFloatingPosition';
 export * from './interactionMode';
@@ -13,3 +26,4 @@ export * from './getWrapperStyle';
 export * from './flatChildren';
 export * from './renderPortal';
 export * from './colorRegistry';
+export { createRipple } from './createRipple';

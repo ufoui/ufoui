@@ -8,7 +8,7 @@ import {
     TonalPalette,
 } from '@material/material-color-utilities';
 
-import { PartialThemeSchemes, ThemeSchemes } from '../types';
+import { ThemeSchemes } from '../types';
 import { ColorRegistryEntry, setColorRegistry } from './colorRegistry';
 
 export type UserColors = Record<string, string>;
@@ -27,8 +27,6 @@ type RegColor = Record<string, ColorRegistryEntry>;
  *                    Defaults to `#6750A4` if not provided.
  * @param colors - Optional map of custom base colors. Defaults include `info`, `warning`, and `success`.
  *                 Any key can be provided (e.g. `brand`, `neutralStrong`, `secondary`).
- * @param customSchemes - Optional skin overrides for schemes (e.g. light/dark/high-contrast).
- *                        Applied as the final merge step.
  *
  * @returns A fully resolved ThemeSchemes object with all required color roles populated for light and dark modes.
  *          Also updates the global color registry via `setColorRegistry()`.
@@ -42,11 +40,7 @@ type RegColor = Record<string, ColorRegistryEntry>;
  * @category Theme
  */
 
-export function generateMaterialColors(
-    seedColor = '#6750A4',
-    colors: UserColors = {},
-    customSchemes: PartialThemeSchemes = {}
-): ThemeSchemes {
+export function generateMaterialColors(seedColor = '#6750A4', colors: UserColors = {}): ThemeSchemes {
     const regColor: RegColor = {};
     const schemes: ThemeSchemes = { light: {}, dark: {} };
     const sourceColor = colors.primary ? argbFromHex(colors.primary) : argbFromHex(seedColor);

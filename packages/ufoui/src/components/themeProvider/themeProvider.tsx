@@ -2,8 +2,9 @@ import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 import '../../styles/index.css';
 import { defaultTheme, ThemeContext, ThemeContextValue } from '../../context';
+import { applyThemeFonts } from '../../utils/fonts';
 import { applyThemeTokens, generateMaterialColors, ThemeColor } from '../../utils';
-import { PartialThemeBreakpoints, Theme, ThemeBreakpoints } from '../../types';
+import { PartialThemeBreakpoints, PartialThemeFonts, Theme, ThemeBreakpoints, ThemeFonts } from '../../types';
 
 export interface ThemeProviderProps {
     /** React children to render within the theme context. */
@@ -26,10 +27,28 @@ export interface ThemeProviderProps {
 
     /** Optional responsive breakpoints map. */
     breakpoints?: PartialThemeBreakpoints;
+
+    /** Optional font class map keyed by theme font token name. */
+    fonts?: PartialThemeFonts;
 }
 
 const resolveBreakpoints = (overrides?: PartialThemeBreakpoints): ThemeBreakpoints => {
     const merged: ThemeBreakpoints = { ...defaultTheme.breakpoints };
+    if (!overrides) {
+        return merged;
+    }
+
+    for (const [key, value] of Object.entries(overrides)) {
+        if (value !== undefined) {
+            merged[key] = value;
+        }
+    }
+
+    return merged;
+};
+
+const resolveFonts = (overrides?: PartialThemeFonts): ThemeFonts => {
+    const merged: ThemeFonts = { ...defaultTheme.fonts };
     if (!overrides) {
         return merged;
     }
@@ -74,14 +93,15 @@ const resolveBreakpoints = (overrides?: PartialThemeBreakpoints): ThemeBreakpoin
  * @category Components
  * @group Theme
  */
-export const ThemeProvider = ({ children, colorMode, seedColor, colors, breakpoints }: ThemeProviderProps) => {
+export const ThemeProvider = ({ children, colorMode, seedColor, colors, breakpoints, fonts }: ThemeProviderProps) => {
     const [theme, setTheme] = useState<Theme>(() => {
         const darkMode = colorMode === 'dark';
-        const generatedSchemes = generateMaterialColors(seedColor, colors, defaultTheme.schemes);
+        const generatedSchemes = generateMaterialColors(seedColor, colors);
         return {
             darkMode,
             schemes: generatedSchemes,
             breakpoints: resolveBreakpoints(breakpoints),
+            fonts: resolveFonts(fonts),
         };
     });
 
@@ -141,17 +161,22 @@ export const ThemeProvider = ({ children, colorMode, seedColor, colors, breakpoi
     }, [colorMode]);
 
     useEffect(() => {
-        const generatedSchemes = generateMaterialColors(seedColor, colors, defaultTheme.schemes);
+        const generatedSchemes = generateMaterialColors(seedColor, colors);
         setTheme(v => ({
             darkMode: v.darkMode,
             schemes: generatedSchemes,
             breakpoints: resolveBreakpoints(breakpoints),
+            fonts: resolveFonts(fonts),
         }));
-    }, [breakpoints, colors, seedColor]);
+    }, [breakpoints, colors, fonts, seedColor]);
 
     useEffect(() => {
         applyThemeTokens(theme.schemes);
     }, [theme.schemes]);
+
+    useEffect(() => {
+        applyThemeFonts(theme.fonts);
+    }, [theme.fonts]);
 
     const value = useMemo<ThemeContextValue>(
         () => ({

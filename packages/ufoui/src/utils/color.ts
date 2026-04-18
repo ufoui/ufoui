@@ -44,9 +44,6 @@ export type CoreThemeColor =
     | 'black'
     | 'white';
 
-/** * Empty custom-color map used as the default generic parameter. * * @category Color */
-export type EmptyColors = Record<never, never>;
-
 /**
  * Augmentation point for custom semantic colors.
  *
@@ -67,7 +64,7 @@ export interface CustomColors {}
  *
  * @category Color
  */
-// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+
 export type SemanticBaseColor = CoreSemanticColor | keyof CustomColors;
 
 /**

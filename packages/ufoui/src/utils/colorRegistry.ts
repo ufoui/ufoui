@@ -45,11 +45,3 @@ export function setColorRegistry(registry: ColorRegistry): void {
 export function getColorRegistry(): ColorRegistry {
     return globalColorRegistry;
 }
-
-/**
- * Resolves the paired contrast color from the global color registry.
- *
- * @param colorName - Base color name from the registry.
- * @returns Linked `onColor` value if present.
- * @category Theme
- */

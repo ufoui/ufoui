@@ -1,4 +1,5 @@
 import { ThemeBreakpoints } from './breakpoints';
+import type { ThemeFonts } from './fonts';
 
 /**
  * Defines all color roles used in a single theme color scheme (e.g. light or dark).
@@ -220,14 +221,6 @@ export interface ThemeSchemes {
 }
 
 /**
- * Partial variant of {@link ThemeSchemes}, allowing selective definition
- * of available color modes.
- *
- * @category Theme
- */
-export type PartialThemeSchemes = Partial<ThemeSchemes>;
-
-/**
  * Defines the overall theme configuration, including
  * the active mode and all available color schemes.
  *
@@ -242,4 +235,7 @@ export interface Theme {
 
     /** Responsive breakpoint tokens. */
     breakpoints: ThemeBreakpoints;
+
+    /** Font class map keyed by theme font token name. */
+    fonts: ThemeFonts;
 }
