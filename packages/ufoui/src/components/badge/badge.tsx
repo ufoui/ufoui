@@ -13,7 +13,7 @@ import {
     getPlacementClass,
     getShapeClass,
     getSizeClass,
-} from '../../utils/utils';
+} from '../../utils';
 import { BorderColor, getBorderColor, SemanticColor } from '../../utils/color';
 import { ControlStyle } from '../../utils/controlStyle';
 

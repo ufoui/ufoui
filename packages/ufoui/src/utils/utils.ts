@@ -93,24 +93,6 @@ export type ElementPressedEffect = 'elevate' | 'overlay' | 'scale';
 export type ElementHoverEffect = 'elevate' | 'overlay' | 'color';
 export type ElementSelectedEffect = 'color' | 'morph' | 'border' | 'overlay';
 export type ElementTouchEffect = 'ripple';
-export type ElementFont =
-    | 'displayLarge'
-    | 'displayMedium'
-    | 'displaySmall'
-    | 'headlineLarge'
-    | 'headlineMedium'
-    | 'headlineSmall'
-    | 'titleLarge'
-    | 'titleMedium'
-    | 'titleSmall'
-    | 'labelLarge'
-    | 'labelMedium'
-    | 'labelSmall'
-    | 'bodyLarge'
-    | 'bodyMedium'
-    | 'bodySmall'
-    | 'caption'
-    | 'overline';
 export type ElementTextPlacement = 'start' | 'end' | 'top' | 'bottom';
 
 /**
@@ -222,14 +204,6 @@ export const getElevationClass = (elevation?: ElementElevation): string => {
 export const getDensityClass = (density?: ElementDensity): string => {
     return density ? `uui-${density}` : '';
 };
-
-/**
- * Returns the CSS class for the given typography token.
- *
- * @param font Typography token.
- * @returns CSS class in the form uui-font-<token>.
- */
-export const getFontClass = (font: ElementFont): string => `uui-font-${toKebabCase(font)}`;
 
 /**
  * Merges multiple React refs into a single ref callback.

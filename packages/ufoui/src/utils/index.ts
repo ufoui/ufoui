@@ -1,4 +1,5 @@
 export * from './color';
+export * from './fonts';
 export * from './utils';
 export * from './calculateFloatingPosition';
 export * from './interactionMode';
