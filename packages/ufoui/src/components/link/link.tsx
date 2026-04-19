@@ -1,6 +1,7 @@
 import React, { ElementType, forwardRef, ReactNode } from 'react';
 
 import {
+    BaseColor,
     cn,
     ControlStyle,
     ElementFocusEffect,
@@ -8,14 +9,14 @@ import {
     ElementHoverEffect,
     ElementPressedEffect,
     getFontClass,
-    SurfaceColor,
 } from '../../utils';
 import { Leading, Trailing } from '../../internal';
 
 /**
- * Props for the Link component.
+ * Props for {@link Link}.
  *
- * Inline link element with optional leading and trailing content and animated underline.
+ * Polymorphic inline link that can render as a native anchor or custom navigation component.
+ * Supports optional leading/trailing visuals, underline behavior, and interaction effects.
  *
  * @category Link
  */
@@ -35,8 +36,8 @@ export type LinkProps<T extends ElementType = 'a'> = {
     /** Trailing visual element. */
     trailing?: ReactNode;
 
-    /** Surface color token applied to text. */
-    color?: SurfaceColor;
+    /** Color token applied to text. */
+    color?: BaseColor;
 
     /** Underline visibility behavior. */
     underline?: 'none' | 'hover' | 'always';
@@ -45,7 +46,7 @@ export type LinkProps<T extends ElementType = 'a'> = {
     font?: ElementFont;
 
     /** Opens link in new tab with security attributes. */
-    isExternal?: boolean;
+    external?: boolean;
 
     /** Accessibility label override. */
     'aria-label'?: string;
@@ -73,107 +74,129 @@ export type LinkProps<T extends ElementType = 'a'> = {
 } & Omit<React.ComponentPropsWithoutRef<T>, 'as' | 'color' | 'children' | 'className'>;
 
 export interface LinkComponent {
+    /**
+     * Renders a polymorphic link element.
+     *
+     * @typeParam T - Element type rendered by the component.
+     * @param props - Link configuration and props for the rendered element type.
+     */
     <T extends ElementType = 'a'>(props: LinkProps<T>): ReactNode;
     displayName?: string;
 }
 
 /**
- * Inline link component with optional leading and trailing content and animated underline.
+ * Interactive text link with optional leading/trailing content and configurable underline animation.
+ *
+ * The component is polymorphic via the `as` prop and forwards remaining props to the rendered element.
+ * When `external` is enabled and a valid `href` is present, secure external-link attributes are applied.
+ * When `disabled` is enabled, click handling is blocked and the element is removed from tab order.
  *
  * @function
- * @param props Component properties.
+ * @param rawProps - Component properties.
+ * @param ref - Forwarded ref to the rendered element.
  *
  * @category Link
+ *
+ * @example
+ * <Link href="/docs" label="Documentation" />
+ *
+ * @example
+ * <Link href="https://example.com" external underline="always">
+ *     External docs
+ * </Link>
+ *
+ * @example
+ * <Link as={RouterLink} to="/settings" leading={<IconSettings />} label="Settings" />
  */
 
-// eslint-disable-next-line react/display-name
-export const Link = forwardRef(
-    <T extends ElementType = 'a'>(
-        {
-            as,
-            children,
-            leading,
-            trailing,
-            color,
-            underline = 'hover',
-            font = 'labelLarge',
-            isExternal,
-            label,
-            className,
-            disabled,
-            hoverEffects = ['overlay'],
-            focusEffects = ['ring', 'overlay'],
-            pressedEffects = ['overlay'],
-            underlineAnimation,
-            underlineOrigin,
-            'aria-label': ariaLabel,
-            ...props
-        }: LinkProps<T>,
-        ref: React.Ref<Element>
-    ) => {
-        const Component = as ?? 'a';
-        const { onClick, ...rest } = props;
+const LinkInner = <T extends ElementType = 'a'>(rawProps: LinkProps<T>, ref: React.Ref<Element>) => {
+    const {
+        as,
+        children,
+        leading,
+        trailing,
+        color,
+        underline = 'hover',
+        font = 'labelLarge',
+        external,
+        label,
+        className,
+        disabled,
+        hoverEffects = ['overlay'],
+        focusEffects = ['ring', 'overlay'],
+        pressedEffects = ['overlay'],
+        underlineAnimation,
+        underlineOrigin,
+        'aria-label': ariaLabel,
+        ...props
+    } = rawProps;
 
-        const stateClasses = cn(
-            ...(focusEffects.includes('overlay') ? ['uui-focus-overlay'] : []),
-            ...(hoverEffects.includes('overlay') ? ['uui-hover-overlay'] : []),
-            ...(pressedEffects.includes('overlay') ? ['uui-pressed-overlay'] : [])
-        );
+    const Component = as ?? 'a';
+    const { onClick, ...rest } = props;
+    const { href } = rest as { href?: unknown };
 
-        const classes = cn(
-            'uui-link',
-            'uui-text-trigger',
-            getFontClass(font),
-            `uui-link-underline-${underline}`,
-            underlineAnimation && `uui-link-anim-${underlineAnimation}`,
-            className,
-            stateClasses,
-            ...(focusEffects.includes('ring') ? ['uui-focus-ring'] : [])
-        );
+    const stateClasses = cn(
+        ...(focusEffects.includes('overlay') ? ['uui-focus-overlay'] : []),
+        ...(hoverEffects.includes('overlay') ? ['uui-hover-overlay'] : []),
+        ...(pressedEffects.includes('overlay') ? ['uui-pressed-overlay'] : [])
+    );
 
-        const finalAriaLabel = ariaLabel ?? label ?? (typeof children === 'string' ? children : undefined);
+    const classes = cn(
+        'uui-link',
+        'uui-text-trigger',
+        getFontClass(font),
+        `uui-link-underline-${underline}`,
+        underlineAnimation && `uui-link-anim-${underlineAnimation}`,
+        className,
+        stateClasses,
+        ...(focusEffects.includes('ring') ? ['uui-focus-ring'] : [])
+    );
 
-        const style = ControlStyle();
-        style.text(color);
+    const finalAriaLabel = ariaLabel ?? label ?? (typeof children === 'string' ? children : undefined);
 
-        if (underlineOrigin) {
-            style.set('--uui-underline-origin', underlineOrigin);
-        }
+    const style = ControlStyle();
+    style.text(color);
 
-        const content = (
-            <span className="uui-link-content">
-                {leading && <Leading content={leading} />}
-                <span className="uui-link-text">{children ?? label}</span>
-                {trailing && <Trailing content={trailing} />}
-            </span>
-        );
-
-        return (
-            <Component
-                aria-disabled={disabled ?? undefined}
-                aria-label={finalAriaLabel}
-                className={classes}
-                onClick={e => {
-                    if (disabled) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        return;
-                    }
-                    onClick?.(e);
-                }}
-                ref={ref as React.Ref<never>}
-                style={style.get()}
-                tabIndex={disabled ? -1 : undefined}
-                {...(isExternal &&
-                    !disabled && {
-                        target: '_blank',
-                        rel: 'noopener noreferrer',
-                    })}
-                {...rest}>
-                {content}
-            </Component>
-        );
+    if (underlineOrigin) {
+        style.set('--uui-underline-origin', underlineOrigin);
     }
-) as unknown as LinkComponent;
+
+    const content = (
+        <span className="uui-link-content">
+            {leading && <Leading content={leading} />}
+            <span className="uui-link-text">{children ?? label}</span>
+            {trailing && <Trailing content={trailing} />}
+        </span>
+    );
+
+    return (
+        <Component
+            aria-disabled={disabled || undefined}
+            aria-label={finalAriaLabel}
+            className={classes}
+            onClick={e => {
+                if (disabled) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return;
+                }
+                onClick?.(e);
+            }}
+            ref={ref as React.Ref<never>}
+            style={style.get()}
+            tabIndex={disabled ? -1 : undefined}
+            {...(external && href && !disabled
+                ? {
+                      target: '_blank',
+                      rel: 'noopener noreferrer',
+                  }
+                : {})}
+            {...rest}>
+            {content}
+        </Component>
+    );
+};
+
+export const Link = forwardRef(LinkInner) as LinkComponent;
 
 Link.displayName = 'Link';

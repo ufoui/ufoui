@@ -5,6 +5,7 @@ import {
     Aside,
     Avatar,
     AvatarGroup,
+    BaseColor,
     BorderColor,
     Content,
     ElementBorder,
@@ -16,13 +17,12 @@ import {
     H2,
     P,
     Section,
-    SurfaceColor,
 } from '@ufoui/core';
 
 import { Modifiers } from '../components/modifiers/modifiers';
 
 export const AvatarPage = () => {
-    const [color, setColor] = useState<SurfaceColor | null>(null);
+    const [color, setColor] = useState<BaseColor | null>(null);
     const [shape, setShape] = useState<ElementShape | null>(null);
     const [elevation, setElevation] = useState<ElementElevation | null>(null);
     const [border, setBorder] = useState<ElementBorder | null>(null);
@@ -174,18 +174,18 @@ export const AvatarPage = () => {
 
             <Aside>
                 <Modifiers
+                    baseColor={color}
                     border={border}
                     borderColor={borderColor}
                     elevation={elevation}
-                    onChange={({ surfaceColor: sc, elevation: el, shape: sp, border: bd, borderColor: bc }) => {
-                        setColor(sc ?? null);
+                    onChange={({ baseColor: bsc, elevation: el, shape: sp, border: bd, borderColor: bc }) => {
+                        setColor(bsc ?? null);
                         setShape(sp ?? null);
                         setElevation(el ?? null);
                         setBorder(bd ?? null);
                         setBorderColor(bc ?? null);
                     }}
                     shape={shape}
-                    surfaceColor={color}
                 />
             </Aside>
         </Article>

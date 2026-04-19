@@ -1,4 +1,5 @@
 import {
+    BaseColor,
     BorderColor,
     Checkbox,
     ElementBorder,
@@ -15,6 +16,7 @@ import {
 } from '@ufoui/core';
 
 type ButtonModifiersProps = {
+    baseColor?: BaseColor | null;
     border?: ElementBorder | null;
     borderColor?: BorderColor | null;
     color?: SemanticColor | null;
@@ -35,6 +37,7 @@ type ButtonModifiersProps = {
     fullColor?: boolean | null;
     labelFont?: ElementFont | null;
     onChange: (mod: {
+        baseColor?: BaseColor | null;
         border?: ElementBorder | null;
         borderColor?: BorderColor | null;
         color?: SemanticColor | null;
@@ -85,6 +88,7 @@ type ButtonModifiersProps = {
 
 export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
     const {
+        baseColor,
         size,
         shape,
         border,
@@ -280,6 +284,26 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         value={surfaceColor ?? ''}>
                         <option value="">Default</option>
                         {getColorNames('surface').map(c => (
+                            <option key={c} value={c}>
+                                {c}
+                            </option>
+                        ))}
+                    </select>
+                </>
+            )}
+            {baseColor !== undefined && (
+                <>
+                    <span>Color (base):</span>
+                    <select
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                baseColor: e.target.value === '' ? undefined : (e.target.value as BaseColor),
+                            });
+                        }}
+                        value={baseColor ?? ''}>
+                        <option value="">Default</option>
+                        {getColorNames('base').map(c => (
                             <option key={c} value={c}>
                                 {c}
                             </option>

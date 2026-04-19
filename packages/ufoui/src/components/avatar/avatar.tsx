@@ -2,7 +2,6 @@ import { forwardRef, ReactNode, useMemo, useState } from 'react';
 
 import { BoxBaseProps } from '../base';
 import { cn, ElementSize, getColorNames, getSizeClass } from '../../utils';
-// import { ThemeExtendedColorKeys } from '../../types';
 import { Grid } from '../layout';
 import { IS_AVATAR } from './avatar.guards';
 
@@ -28,9 +27,6 @@ export interface AvatarProps extends Omit<BoxBaseProps, 'component' | 'elementCl
     children?: ReactNode;
 }
 
-const AvatarColors = getColorNames('extended');
-// ThemeExtendedColorKeys.filter(c => c !== 'white' && c !== 'black');
-
 function stringHash(str: string): number {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
@@ -52,8 +48,8 @@ function getInitials(name?: string): string {
 /**
  * Avatar identity component displaying image, initials, or custom content.
  *
- * Automatically derives a background color from name when no image
- * and no explicit color are provided.
+ * Automatically derives a fallback background color from name when no image
+ * and no explicit color are provided, using semantic and extended color pools.
  *
  * @function
  * @param props Component properties.
@@ -64,18 +60,18 @@ function getInitials(name?: string): string {
 export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
     ({ children, className, shape = 'round', size = 'medium', src, alt, name, color, ...rest }, ref) => {
         const [imgError, setImgError] = useState(false);
-
         const classes = cn('uui-avatar', getSizeClass(size), className);
 
         const showImage = Boolean(src && !imgError);
         const initials = getInitials(name);
 
         const derivedColor = useMemo(() => {
+            const avatarColors = [...getColorNames('semantic'), ...getColorNames('extended')];
             if (!name || showImage || color) {
                 return undefined;
             }
-            const index = stringHash(name) % AvatarColors.length;
-            return AvatarColors[index];
+            const index = stringHash(name) % avatarColors.length;
+            return avatarColors[index];
         }, [name, showImage, color]);
 
         let content: ReactNode;

@@ -1,9 +1,11 @@
 import { useMemo, useState } from 'react';
 import { MdArrowForward, MdHome, MdOpenInNew } from 'react-icons/md';
+import { Link as RouterLink } from 'react-router-dom';
 
 import {
     Article,
     Aside,
+    BaseColor,
     Content,
     Div,
     ElementFont,
@@ -14,7 +16,6 @@ import {
     Radio,
     Section,
     Span,
-    SurfaceColor,
 } from '@ufoui/core';
 
 import { Modifiers } from '../components/modifiers/modifiers';
@@ -23,7 +24,7 @@ export const LinkPage = () => {
     const [disabled, setDisabled] = useState<boolean | null>(false);
     const [underline, setUnderline] = useState<'none' | 'hover' | 'always'>('hover');
     const [font, setFont] = useState<ElementFont | null>(null);
-    const [color, setColor] = useState<SurfaceColor | null>(null);
+    const [color, setColor] = useState<BaseColor | null>(null);
 
     const underlineOptions = useMemo(
         () => [
@@ -41,10 +42,11 @@ export const LinkPage = () => {
                 <Section className="flex w-full flex-col gap-3">
                     <H2>Basic</H2>
                     <Link
+                        as={RouterLink}
                         color={color ?? undefined}
                         disabled={!!disabled}
                         font={font ?? undefined}
-                        href="/components/link"
+                        to="/components/link"
                         underline={underline}>
                         Basic link (internal)
                     </Link>
@@ -53,12 +55,13 @@ export const LinkPage = () => {
                 <Section className="flex w-full flex-col gap-3">
                     <H2>With label + leading/trailing</H2>
                     <Link
+                        as={RouterLink}
                         color={color ?? undefined}
                         disabled={!!disabled}
                         font={font ?? undefined}
-                        href="/components/link"
                         label="Go to home"
                         leading={<MdHome />}
+                        to="/"
                         trailing={<MdArrowForward />}
                         underline={underline}
                     />
@@ -69,20 +72,22 @@ export const LinkPage = () => {
                     <P>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.{' '}
                         <Link
+                            as={RouterLink}
                             color={color ?? undefined}
                             disabled={!!disabled}
                             font={font ?? undefined}
-                            href="/components/link"
+                            to="/components/link"
                             underline={underline}>
                             Link
                         </Link>{' '}
                         sed do eiusmod tempor incididunt ut labore{' '}
                         <Link
+                            as={RouterLink}
                             color={color ?? undefined}
                             disabled={!!disabled}
                             font={font ?? undefined}
-                            href="/components/link"
                             leading={<MdOpenInNew />}
+                            to="/components/link"
                             underline={underline}>
                             another link
                         </Link>{' '}
@@ -95,9 +100,9 @@ export const LinkPage = () => {
                     <Link
                         color={color ?? undefined}
                         disabled={!!disabled}
+                        external
                         font={font ?? undefined}
                         href="https://example.com"
-                        isExternal
                         label="example.com"
                         leading={<MdOpenInNew />}
                         underline={underline}
@@ -108,14 +113,14 @@ export const LinkPage = () => {
 
             <Aside>
                 <Modifiers
+                    baseColor={color}
                     disabled={disabled}
                     font={font}
-                    onChange={({ surfaceColor: sc, disabled: db, font: lf }) => {
-                        setColor(sc ?? null);
+                    onChange={({ baseColor: bc, disabled: db, font: lf }) => {
+                        setColor(bc ?? null);
                         setDisabled(db ?? null);
                         setFont(lf ?? null);
                     }}
-                    surfaceColor={color}
                 />
                 <Div className="flex w-full flex-wrap gap-3">
                     <P>Underline</P>
