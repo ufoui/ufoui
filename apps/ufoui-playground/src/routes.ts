@@ -4,12 +4,14 @@ import {
     LuAppWindow,
     LuBadgeCheck,
     LuBell,
+    LuBringToFront,
     LuBox,
     LuChevronDown,
     LuCircleDot,
     LuCirclePlus,
     LuHouse,
     LuLayers,
+    LuLayoutGrid,
     LuLink,
     LuList,
     LuListCollapse,
@@ -17,6 +19,7 @@ import {
     LuMenu,
     LuMessageSquare,
     LuPalette,
+    LuRepeat,
     LuRectangleHorizontal,
     LuSparkles,
     LuSquareCheck,
@@ -42,6 +45,7 @@ import { FieldPage } from './pages/fieldPage';
 import { FabPage } from './pages/fabPage';
 import { MenuPage } from './pages/menuPage';
 import { BadgePage } from './pages/badgePage';
+import { CardPage } from './pages/cardPage';
 import { TooltipPage } from './pages/tooltipPage';
 import { IconButtonPage } from './pages/iconButtonPage';
 import { ChipPage } from './pages/chipPage';
@@ -77,7 +81,7 @@ export const appRoutes: AppRoute[] = [
     { label: 'Collapse', path: paths.collapse, component: CollapsePage, icon: LuChevronDown, showInNav: true },
 
     { label: 'Button', path: paths.button, component: ButtonPage, icon: LuRectangleHorizontal, showInNav: true },
-    { label: 'Breadcrumbs', path: paths.breadcrumbs, component: BreadcrumbsPage, icon: LuLayers, showInNav: true },
+    { label: 'Breadcrumbs', path: paths.breadcrumbs, component: BreadcrumbsPage, icon: LuRepeat, showInNav: true },
     { label: 'Link', path: paths.link, component: LinkPage, icon: LuLink, showInNav: true },
     { label: 'Icon Button', path: paths.iconButton, component: IconButtonPage, icon: LuSquareCode, showInNav: true },
     { label: 'Fab', path: paths.fab, component: FabPage, icon: LuCirclePlus, showInNav: true },
@@ -94,8 +98,9 @@ export const appRoutes: AppRoute[] = [
     { label: 'Toolbar', path: paths.toolbar, component: ToolbarPage, icon: LuWrench, showInNav: true },
 
     { label: 'Badge', path: paths.badge, component: BadgePage, icon: LuBadgeCheck, showInNav: true },
+    { label: 'Card', path: paths.card, component: CardPage, icon: LuLayoutGrid, showInNav: true },
     { label: 'Tooltip', path: paths.tooltip, component: TooltipPage, icon: LuMessageSquare, showInNav: true },
-    { label: 'Dialog', path: paths.dialog, component: DialogPage, icon: LuLayers, showInNav: true },
+    { label: 'Dialog', path: paths.dialog, component: DialogPage, icon: LuBringToFront, showInNav: true },
 
     { label: 'Box', path: paths.box, component: BoxPage, icon: LuBox, showInNav: true },
     { label: 'Spinner', path: paths.spinner, component: SpinnerPage, icon: LuLoader, showInNav: true },

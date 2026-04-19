@@ -51,12 +51,12 @@ Slot
 Icon
 ThemeProvider
 Link
+ControlLabel
+StateLayer
 
 @experimental
 DialogBase
 AvatarGroup
-ControlLabel
-StateLayer
 Accordion
 AccordionItem
 Breadcrumbs
@@ -64,6 +64,7 @@ Toast
 ToastViewport
 BottomSheet
 Calendar
+Progress
 Card
 Chip
 DateField
@@ -79,7 +80,6 @@ NumberField
 Option
 PasswordField
 PhoneField
-Progress
 Select
 Slider
 Spinner
