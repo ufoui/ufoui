@@ -8,7 +8,7 @@ import { BoxBase, BoxBaseProps } from '../base/boxBase';
  *
  * @category Box
  */
-export type FooterProps = Omit<BoxBaseProps, 'elementClass' | 'component'>;
+export type FooterProps = Omit<BoxBaseProps, 'elementClass' | 'as'>;
 
 /**
  * Semantic layout wrapper for the native `<footer>` element.
@@ -28,18 +28,8 @@ export type FooterProps = Omit<BoxBaseProps, 'elementClass' | 'component'>;
  *
  * @category Box
  */
-export const Footer = forwardRef<HTMLElement, FooterProps>(
-  ({ direction = 'row', ...props }, ref) => {
-    return (
-      <BoxBase
-        ref={ref}
-        {...props}
-        component="footer"
-        direction={direction}
-        elementClass="uui-footer"
-      />
-    );
-  },
-);
+export const Footer = forwardRef<HTMLElement, FooterProps>(({ direction = 'row', ...props }, ref) => {
+    return <BoxBase ref={ref} {...props} as="footer" direction={direction} elementClass="uui-footer" />;
+});
 
 Footer.displayName = 'Footer';

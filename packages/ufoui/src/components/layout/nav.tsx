@@ -8,7 +8,7 @@ import { BoxBase, BoxBaseProps } from '../base/boxBase';
  *
  * @category Box
  */
-export type NavProps = Omit<BoxBaseProps, 'elementClass' | 'component'>;
+export type NavProps = Omit<BoxBaseProps, 'elementClass' | 'as'>;
 
 /**
  * Semantic layout wrapper for the native `<nav>` element.
@@ -28,18 +28,8 @@ export type NavProps = Omit<BoxBaseProps, 'elementClass' | 'component'>;
  *
  * @category Box
  */
-export const Nav = forwardRef<HTMLElement, NavProps>(
-  ({ direction = 'row', ...props }, ref) => {
-    return (
-      <BoxBase
-        ref={ref}
-        {...props}
-        component="nav"
-        direction={direction}
-        elementClass="uui-nav"
-      />
-    );
-  },
-);
+export const Nav = forwardRef<HTMLElement, NavProps>(({ direction = 'row', ...props }, ref) => {
+    return <BoxBase ref={ref} {...props} as="nav" direction={direction} elementClass="uui-nav" />;
+});
 
 Nav.displayName = 'Nav';

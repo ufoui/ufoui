@@ -215,6 +215,7 @@ export const Card = forwardRef<HTMLElement, CardProps>(
 
         return (
             <BoxBase
+                as={component}
                 border={resolvedBorder}
                 borderColor={resolvedBorderColor}
                 className={cn(
@@ -224,7 +225,6 @@ export const Card = forwardRef<HTMLElement, CardProps>(
                     className
                 )}
                 color={resolvedColor}
-                component={component}
                 elementClass="uui-card"
                 elevation={resolvedElevation}
                 ref={ref}

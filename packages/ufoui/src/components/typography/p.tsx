@@ -8,7 +8,7 @@ import { TextBase, TextBaseProps } from '../base/textBase';
  *
  * @category Typography
  */
-export type PProps = Omit<TextBaseProps, 'component'>;
+export type PProps = Omit<TextBaseProps, 'as'>;
 
 /**
  * P semantic paragraph.
@@ -20,7 +20,7 @@ export type PProps = Omit<TextBaseProps, 'component'>;
  * @category Typography
  */
 export const P = forwardRef<HTMLElement, PProps>((props, ref) => (
-  <TextBase ref={ref} {...props} component="p" elementClass="uui-p" />
+    <TextBase ref={ref} {...props} as="p" elementClass="uui-p" />
 ));
 
 P.displayName = 'P';

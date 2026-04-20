@@ -53,6 +53,9 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     /** Maps to `align-items` (cross-axis alignment). */
     alignItems?: CSSProperties['alignItems'];
 
+    /** Custom HTML element/component. Default: `div`. */
+    as?: ElementType;
+
     /** Border width (0–5). */
     border?: ElementBorder;
 
@@ -70,9 +73,6 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
 
     /** Grid template columns (`3` → `repeat(3, 1fr)`). */
     cols?: number | string;
-
-    /** Custom HTML element/component. Default: `div`. */
-    component?: ElementType;
 
     /** Layout direction (`row` or `col`) for flex. Ignored if `row` or `col` is set. */
     direction?: BoxDirection;
@@ -109,6 +109,9 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
 
     /** Enables flex-grow (fills remaining space). */
     grow?: boolean;
+
+    /** Height. */
+    h?: number | string;
 
     /** Renders as `inline-flex`, `inline-grid` or `inline-block`. */
     inline?: boolean;
@@ -152,13 +155,10 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     /** Layout mode (`flex`, `grid`, `block`). Default: `flex`. */
     type?: BoxType;
 
-    /** Enables wrapping (`flex-wrap: wrap`). */
-    wrap?: boolean;
-
     /** Width. */
     w?: number | string;
-    /** Height. */
-    h?: number | string;
+    /** Enables wrapping (`flex-wrap: wrap`). */
+    wrap?: boolean;
 }
 
 /**
@@ -224,14 +224,14 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
         wrap,
         cols,
         rows,
-        component,
+        as,
         row,
         col,
         w,
         h,
         ...other
     } = props;
-    const Tag: ElementType = component ?? 'div';
+    const Tag: ElementType = as ?? 'div';
     const { wrapperStyle, otherProps } = getWrapperStyle(other);
     const controlStyle = ControlStyle(wrapperStyle);
     controlStyle.merge(style);

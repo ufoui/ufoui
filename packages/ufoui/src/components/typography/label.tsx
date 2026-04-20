@@ -8,7 +8,7 @@ import { TextBase, TextBaseProps } from '../base/textBase';
  *
  * @category Typography
  */
-export type LabelProps = Omit<TextBaseProps, 'component'>;
+export type LabelProps = Omit<TextBaseProps, 'as'>;
 
 /**
  * Label semantic text.
@@ -19,16 +19,8 @@ export type LabelProps = Omit<TextBaseProps, 'component'>;
  *
  * @category Typography
  */
-export const Label = forwardRef<HTMLElement, LabelProps>(
-  ({ font = 'labelLarge', ...props }, ref) => (
-    <TextBase
-      ref={ref}
-      {...props}
-      component="label"
-      elementClass="uui-label"
-      font={font}
-    />
-  ),
-);
+export const Label = forwardRef<HTMLElement, LabelProps>(({ font = 'labelLarge', ...props }, ref) => (
+    <TextBase ref={ref} {...props} as="label" elementClass="uui-label" font={font} />
+));
 
 Label.displayName = 'Label';

@@ -10,7 +10,7 @@ import { IS_AVATAR } from './avatar.guards';
  *
  * @category Avatar
  */
-export interface AvatarProps extends Omit<BoxBaseProps, 'component' | 'elementClass'> {
+export interface AvatarProps extends Omit<BoxBaseProps, 'as' | 'elementClass'> {
     /** Size token controlling width and height. */
     size?: ElementSize;
 

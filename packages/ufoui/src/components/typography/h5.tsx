@@ -8,7 +8,7 @@ import { TextBase, TextBaseProps } from '../base/textBase';
  *
  * @category Typography
  */
-export type H5Props = Omit<TextBaseProps, 'component'>;
+export type H5Props = Omit<TextBaseProps, 'as'>;
 
 /**
  * H5 semantic heading.
@@ -19,16 +19,8 @@ export type H5Props = Omit<TextBaseProps, 'component'>;
  *
  * @category Typography
  */
-export const H5 = forwardRef<HTMLElement, H5Props>(
-  ({ font = 'titleMedium', ...props }, ref) => (
-    <TextBase
-      ref={ref}
-      {...props}
-      component="h5"
-      elementClass="uui-h5"
-      font={font}
-    />
-  ),
-);
+export const H5 = forwardRef<HTMLElement, H5Props>(({ font = 'titleMedium', ...props }, ref) => (
+    <TextBase ref={ref} {...props} as="h5" elementClass="uui-h5" font={font} />
+));
 
 H5.displayName = 'H5';

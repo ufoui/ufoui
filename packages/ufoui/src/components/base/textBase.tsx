@@ -25,19 +25,7 @@ import {
  */
 export interface TextBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color'> {
     /** Custom HTML element/component. Default: span. */
-    component?: React.ElementType;
-
-    /** Font token controlling typography (size, weight, line-height). */
-    font?: ElementFont;
-
-    /** Surface background token. */
-    color?: SurfaceColor;
-
-    /** Elevation level (0–5). */
-    elevation?: ElementElevation;
-
-    /** Shape/border-radius token. */
-    shape?: ElementShape;
+    as?: React.ElementType;
 
     /** Border width (0–5). */
     border?: ElementBorder;
@@ -45,11 +33,23 @@ export interface TextBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color'
     /** Border color token. */
     borderColor?: BorderColor;
 
+    /** Text content. */
+    children?: ReactNode;
+
+    /** Surface background token. */
+    color?: SurfaceColor;
+
     /** Semantic UUI element class (e.g. uui-text, uui-heading). */
     elementClass?: string;
 
-    /** Text content. */
-    children?: ReactNode;
+    /** Elevation level (0–5). */
+    elevation?: ElementElevation;
+
+    /** Font token controlling typography (size, weight, line-height). */
+    font?: ElementFont;
+
+    /** Shape/border-radius token. */
+    shape?: ElementShape;
 }
 
 /**
@@ -67,7 +67,7 @@ export interface TextBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color'
  */
 export const TextBase = forwardRef<HTMLElement, TextBaseProps>((props, ref) => {
     const {
-        component,
+        as,
         font,
         color,
         elevation,
@@ -81,7 +81,7 @@ export const TextBase = forwardRef<HTMLElement, TextBaseProps>((props, ref) => {
         ...other
     } = props;
 
-    const Tag: React.ElementType = component ?? 'span';
+    const Tag: React.ElementType = as ?? 'span';
     const controlStyle = ControlStyle(style);
 
     controlStyle.border(borderColor);

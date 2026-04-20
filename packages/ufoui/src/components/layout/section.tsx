@@ -8,7 +8,7 @@ import { BoxBase, BoxBaseProps } from '../base/boxBase';
  *
  * @category Box
  */
-export type SectionProps = Omit<BoxBaseProps, 'elementClass' | 'component'>;
+export type SectionProps = Omit<BoxBaseProps, 'elementClass' | 'as'>;
 
 /**
  * Semantic layout wrapper for the native `<section>` element.
@@ -28,18 +28,8 @@ export type SectionProps = Omit<BoxBaseProps, 'elementClass' | 'component'>;
  *
  * @category Box
  */
-export const Section = forwardRef<HTMLElement, SectionProps>(
-  ({ direction = 'col', ...props }, ref) => {
-    return (
-      <BoxBase
-        ref={ref}
-        {...props}
-        component="section"
-        direction={direction}
-        elementClass="uui-section"
-      />
-    );
-  },
-);
+export const Section = forwardRef<HTMLElement, SectionProps>(({ direction = 'col', ...props }, ref) => {
+    return <BoxBase ref={ref} {...props} as="section" direction={direction} elementClass="uui-section" />;
+});
 
 Section.displayName = 'Section';

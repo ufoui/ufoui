@@ -8,7 +8,7 @@ import { TextBase, TextBaseProps } from '../base/textBase';
  *
  * @category Typography
  */
-export type SpanProps = Omit<TextBaseProps, 'component'>;
+export type SpanProps = Omit<TextBaseProps, 'as'>;
 
 /**
  * Span semantic inline text wrapper.
@@ -20,7 +20,7 @@ export type SpanProps = Omit<TextBaseProps, 'component'>;
  * @category Typography
  */
 export const Span = forwardRef<HTMLElement, SpanProps>((props, ref) => (
-  <TextBase ref={ref} {...props} component="span" elementClass="uui-span" />
+    <TextBase ref={ref} {...props} as="span" elementClass="uui-span" />
 ));
 
 Span.displayName = 'Span';

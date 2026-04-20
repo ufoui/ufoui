@@ -8,7 +8,7 @@ import { TextBase, TextBaseProps } from '../base/textBase';
  *
  * @category Typography
  */
-export type H1Props = Omit<TextBaseProps, 'component'>;
+export type H1Props = Omit<TextBaseProps, 'as'>;
 
 /**
  * H1 semantic heading.
@@ -19,16 +19,8 @@ export type H1Props = Omit<TextBaseProps, 'component'>;
  *
  * @category Typography
  */
-export const H1 = forwardRef<HTMLElement, H1Props>(
-  ({ font = 'headlineLarge', ...props }, ref) => (
-    <TextBase
-      ref={ref}
-      {...props}
-      component="h1"
-      elementClass="uui-h1"
-      font={font}
-    />
-  ),
-);
+export const H1 = forwardRef<HTMLElement, H1Props>(({ font = 'headlineLarge', ...props }, ref) => (
+    <TextBase ref={ref} {...props} as="h1" elementClass="uui-h1" font={font} />
+));
 
 H1.displayName = 'H1';

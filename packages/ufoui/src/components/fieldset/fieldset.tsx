@@ -10,7 +10,7 @@ import { BoxBase, BoxBaseProps } from '../base';
  *
  * @category Fieldset
  */
-export interface FieldsetProps extends Omit<BoxBaseProps, 'component' | 'elementClass'> {
+export interface FieldsetProps extends Omit<BoxBaseProps, 'as' | 'elementClass'> {
     /** Supporting text displayed below the fieldset content. */
     description?: string;
     /** Text color of the description. */
@@ -101,7 +101,7 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
                         ref={ref}
                         {...props}
                         alignItems={alignItems}
-                        component="fieldset"
+                        as="fieldset"
                         direction={direction}
                         disabled={disabled}
                         elementClass="uui-fieldset">

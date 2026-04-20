@@ -8,7 +8,7 @@ import { BoxBase, BoxBaseProps } from '../base/boxBase';
  *
  * @category Box
  */
-export type MainProps = Omit<BoxBaseProps, 'elementClass' | 'component'>;
+export type MainProps = Omit<BoxBaseProps, 'elementClass' | 'as'>;
 
 /**
  * Semantic layout wrapper for the native `<main>` element.
@@ -28,18 +28,8 @@ export type MainProps = Omit<BoxBaseProps, 'elementClass' | 'component'>;
  *
  * @category Box
  */
-export const Main = forwardRef<HTMLElement, MainProps>(
-  ({ direction = 'col', ...props }, ref) => {
-    return (
-      <BoxBase
-        ref={ref}
-        {...props}
-        component="main"
-        direction={direction}
-        elementClass="uui-main"
-      />
-    );
-  },
-);
+export const Main = forwardRef<HTMLElement, MainProps>(({ direction = 'col', ...props }, ref) => {
+    return <BoxBase ref={ref} {...props} as="main" direction={direction} elementClass="uui-main" />;
+});
 
 Main.displayName = 'Main';

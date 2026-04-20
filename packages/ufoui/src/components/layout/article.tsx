@@ -8,7 +8,7 @@ import { BoxBase, BoxBaseProps } from '../base/boxBase';
  *
  * @category Box
  */
-export type ArticleProps = Omit<BoxBaseProps, 'elementClass' | 'component'>;
+export type ArticleProps = Omit<BoxBaseProps, 'elementClass' | 'as'>;
 
 /**
  * Semantic layout wrapper for the native `<article>` element.
@@ -26,18 +26,8 @@ export type ArticleProps = Omit<BoxBaseProps, 'elementClass' | 'component'>;
  *
  * @category Box
  */
-export const Article = forwardRef<HTMLElement, ArticleProps>(
-  ({ direction = 'col', ...props }, ref) => {
-    return (
-      <BoxBase
-        ref={ref}
-        {...props}
-        component="article"
-        direction={direction}
-        elementClass="uui-article"
-      />
-    );
-  },
-);
+export const Article = forwardRef<HTMLElement, ArticleProps>(({ direction = 'col', ...props }, ref) => {
+    return <BoxBase ref={ref} {...props} as="article" direction={direction} elementClass="uui-article" />;
+});
 
 Article.displayName = 'Article';

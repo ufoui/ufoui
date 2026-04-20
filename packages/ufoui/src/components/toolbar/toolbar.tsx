@@ -18,7 +18,7 @@ import { BoxBase, BoxBaseProps } from '../base/boxBase';
  *
  * @category Toolbar
  */
-export interface ToolbarProps extends Omit<BoxBaseProps, 'component' | 'elementClass' | 'direction' | 'row' | 'col'> {
+export interface ToolbarProps extends Omit<BoxBaseProps, 'as' | 'elementClass' | 'direction' | 'row' | 'col'> {
     /** Visual variant of the toolbar. */
     variant?: 'docked' | 'floating';
 
@@ -116,9 +116,9 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
             <BoxBase
                 ref={ref}
                 {...props}
+                as="div"
                 className={classes}
                 color={finalColor}
-                component="div"
                 data-position={placement}
                 direction={orientation === 'horizontal' ? 'row' : 'col'}
                 disabled={disabled}>

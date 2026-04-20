@@ -8,7 +8,7 @@ import { BoxBase, BoxBaseProps } from '../base/boxBase';
  *
  * @category Box
  */
-export type AsideProps = Omit<BoxBaseProps, 'elementClass' | 'component'>;
+export type AsideProps = Omit<BoxBaseProps, 'elementClass' | 'as'>;
 
 /**
  * Semantic layout wrapper for the native `<aside>` element.
@@ -28,18 +28,8 @@ export type AsideProps = Omit<BoxBaseProps, 'elementClass' | 'component'>;
  *
  * @category Box
  */
-export const Aside = forwardRef<HTMLElement, AsideProps>(
-  ({ direction = 'col', ...props }, ref) => {
-    return (
-      <BoxBase
-        ref={ref}
-        {...props}
-        component="aside"
-        direction={direction}
-        elementClass="uui-aside"
-      />
-    );
-  },
-);
+export const Aside = forwardRef<HTMLElement, AsideProps>(({ direction = 'col', ...props }, ref) => {
+    return <BoxBase ref={ref} {...props} as="aside" direction={direction} elementClass="uui-aside" />;
+});
 
 Aside.displayName = 'Aside';

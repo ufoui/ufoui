@@ -39,7 +39,7 @@ export interface BreadcrumbsProps extends BoxBaseProps {
     renderSeparator?: (index: number) => ReactNode;
     renderCollapse?: (items: BreadcrumbItem[]) => ReactNode;
 
-    component?: ElementType;
+    as?: ElementType;
     itemComponent?: ElementType;
 
     density?: ElementDensity;
@@ -69,7 +69,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
             renderItem,
             renderSeparator,
             renderCollapse,
-            component = 'nav',
+            as = 'nav',
             itemComponent = 'a',
             animation = 'fade',
             motionStyle = 'regular',
@@ -101,7 +101,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
             return (
                 <BoxBase
                     aria-current={isCurrent ? 'page' : undefined}
-                    component={itemComponent}
+                    as={itemComponent}
                     disabled={item.disabled}
                     // href={item.href}
                     style={{
@@ -137,7 +137,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
         return (
             <BoxBase
                 aria-label="breadcrumb"
-                component={component}
+                as={as}
                 ref={ref}
                 style={{
                     display: 'flex',

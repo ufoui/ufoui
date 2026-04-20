@@ -8,7 +8,7 @@ import { TextBase, TextBaseProps } from '../base/textBase';
  *
  * @category Typography
  */
-export type H3Props = Omit<TextBaseProps, 'component'>;
+export type H3Props = Omit<TextBaseProps, 'as'>;
 
 /**
  * H3 semantic heading.
@@ -19,16 +19,8 @@ export type H3Props = Omit<TextBaseProps, 'component'>;
  *
  * @category Typography
  */
-export const H3 = forwardRef<HTMLElement, H3Props>(
-  ({ font = 'headlineSmall', ...props }, ref) => (
-    <TextBase
-      ref={ref}
-      {...props}
-      component="h3"
-      elementClass="uui-h3"
-      font={font}
-    />
-  ),
-);
+export const H3 = forwardRef<HTMLElement, H3Props>(({ font = 'headlineSmall', ...props }, ref) => (
+    <TextBase ref={ref} {...props} as="h3" elementClass="uui-h3" font={font} />
+));
 
 H3.displayName = 'H3';

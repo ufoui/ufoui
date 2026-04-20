@@ -8,7 +8,7 @@ import { TextBase, TextBaseProps } from '../base/textBase';
  *
  * @category Typography
  */
-export type H6Props = Omit<TextBaseProps, 'component'>;
+export type H6Props = Omit<TextBaseProps, 'as'>;
 
 /**
  * H6 semantic heading.
@@ -19,16 +19,8 @@ export type H6Props = Omit<TextBaseProps, 'component'>;
  *
  * @category Typography
  */
-export const H6 = forwardRef<HTMLElement, H6Props>(
-  ({ font = 'titleSmall', ...props }, ref) => (
-    <TextBase
-      ref={ref}
-      {...props}
-      component="h6"
-      elementClass="uui-h6"
-      font={font}
-    />
-  ),
-);
+export const H6 = forwardRef<HTMLElement, H6Props>(({ font = 'titleSmall', ...props }, ref) => (
+    <TextBase ref={ref} {...props} as="h6" elementClass="uui-h6" font={font} />
+));
 
 H6.displayName = 'H6';
