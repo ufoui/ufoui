@@ -120,10 +120,10 @@ export const DialogHeader = ({
             <DialogActions
                 actions={actions}
                 align={actionsAlign}
+                className={cn('uui-dialog-actions', 'uui-actions-inline')}
                 maxActions={maxActions}
                 moreIcon={moreIcon}
                 moreLabel={moreLabel}
-                placement="inline"
                 stack={actionsStack}
             />
             <Trailing content={trailing} end={closeButton} />

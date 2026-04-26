@@ -1,14 +1,17 @@
 import { useMemo, useState } from 'react';
 import { faker } from '@faker-js/faker';
-import { MdInfo } from 'react-icons/md';
+import { MdBookmarkBorder, MdShare } from 'react-icons/md';
 
 import {
     Article,
     Aside,
+    Avatar,
     BorderColor,
     Button,
     Card,
     CardActions,
+    CardHeader,
+    CardMedia,
     CardVariant,
     Checkbox,
     DialogIconSlot,
@@ -30,8 +33,17 @@ import { Modifiers } from '../components/modifiers/modifiers';
 
 const variants: CardVariant[] = ['elevated', 'filled', 'outlined'];
 const animations: MotionAnimation[] = ['fade', 'scale', 'slideUp', 'slideRight', 'popup'];
+const cliparts = [
+    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=80',
+];
+const avatars = [
+    'https://i.pravatar.cc/100?img=2',
+    'https://i.pravatar.cc/100?img=5',
+    'https://i.pravatar.cc/100?img=8',
+];
 
-type CardActionsPlacement = 'top' | 'subtitle' | 'bottom' | 'inline';
 type CardActionsAlign = 'start' | 'center' | 'end';
 type CardTitleAlign = 'start' | 'center' | 'end';
 
@@ -47,13 +59,12 @@ export const CardPage = () => {
 
     const [showIcon, setShowIcon] = useState(true);
     const [showClose, setShowClose] = useState(false);
-    const [showBack, setShowBack] = useState(false);
     const [open, setOpen] = useState(true);
+    const [flush, setFlush] = useState(false);
     const [actionsStack, setActionsStack] = useState(false);
 
     const [animation, setAnimation] = useState<MotionAnimation | undefined>(undefined);
     const [motionStyle, setMotionStyle] = useState<MotionStyle | undefined>(undefined);
-    const [actionsPlacement, setActionsPlacement] = useState<CardActionsPlacement | null>(null);
     const [actionsAlign, setActionsAlign] = useState<CardActionsAlign | null>(null);
     const [titleAlign, setTitleAlign] = useState<CardTitleAlign | null>(null);
     const [iconSlot, setIconSlot] = useState<DialogIconSlot | null>(null);
@@ -69,36 +80,11 @@ export const CardPage = () => {
             borderColor: borderColor ?? undefined,
             font: font ?? undefined,
             open,
+            flush,
             animation,
             motionStyle,
-            actionsPlacement: actionsPlacement ?? undefined,
-            actionsAlign: actionsAlign ?? undefined,
-            actionsStack,
-            titleAlign: titleAlign ?? undefined,
-            iconSlot: iconSlot ?? undefined,
-            showIcon,
-            showClose,
-            showBack,
         }),
-        [
-            color,
-            shape,
-            elevation,
-            border,
-            borderColor,
-            font,
-            open,
-            animation,
-            motionStyle,
-            actionsPlacement,
-            actionsAlign,
-            actionsStack,
-            titleAlign,
-            iconSlot,
-            showIcon,
-            showClose,
-            showBack,
-        ]
+        [color, shape, elevation, border, borderColor, font, open, flush, animation, motionStyle]
     );
 
     return (
@@ -109,27 +95,85 @@ export const CardPage = () => {
                 <H2 font="customH2">Variants</H2>
                 <Grid cols={br({ base: 1, lg: 2, xxl: 3 })} fullWidth gap={20}>
                     {variants.map((variant, idx) => (
-                        <Card
-                            {...shared}
-                            icon={<MdInfo />}
-                            key={variant}
-                            label={`${variant} card`}
-                            onBack={() => {
-                                setShowBack(false);
-                            }}
-                            onClose={() => {
-                                setOpen(false);
-                            }}
-                            titleFont="titleLarge"
-                            variant={variant}>
-                            <CardActions
-                                align={actionsAlign ?? undefined}
-                                placement={actionsPlacement ?? undefined}
-                                stack={actionsStack}>
-                                <Button label="Cancel" />
-                                <Button filled label="Save" />
-                            </CardActions>
+                        <Card {...shared} key={variant} variant={variant}>
+                            <CardHeader
+                                actions={
+                                    <>
+                                        <Button icon={<MdShare />} label="Share" />
+                                        <Button icon={<MdBookmarkBorder />} label="Bookmark" />
+                                    </>
+                                }
+                                actionsAlign={actionsAlign ?? undefined}
+                                actionsStack={actionsStack}
+                                label={`${variant} card`}
+                                leading={<Avatar name={`${variant} avatar`} src={avatars[idx % avatars.length]} />}
+                                onClose={() => {
+                                    setOpen(false);
+                                }}
+                                showClose={showClose}
+                                titleAlign={titleAlign ?? undefined}
+                            />
+                            <CardMedia>
+                                <img
+                                    alt={`${variant} clipart`}
+                                    className="block h-[180px] w-full object-cover"
+                                    src={cliparts[idx % cliparts.length]}
+                                />
+                            </CardMedia>
                             {paragraphs[idx % paragraphs.length]}
+                            <CardActions
+                                actions={
+                                    <>
+                                        <Button label="Cancel" />
+                                        <Button filled label="Save" />
+                                    </>
+                                }
+                                align={actionsAlign ?? undefined}
+                                stack={actionsStack}
+                            />
+                        </Card>
+                    ))}
+                </Grid>
+
+                <H2 font="customH2">Image First</H2>
+                <Grid cols={br({ base: 1, lg: 2, xxl: 3 })} fullWidth gap={20}>
+                    {variants.map((variant, idx) => (
+                        <Card {...shared} key={`${variant}-image-first`} variant={variant}>
+                            <CardMedia>
+                                <img
+                                    alt={`${variant} clipart`}
+                                    className="block h-[180px] w-full object-cover"
+                                    src={cliparts[idx % cliparts.length]}
+                                />
+                            </CardMedia>
+                            <CardHeader
+                                actions={
+                                    <>
+                                        <Button icon={<MdShare />} label="Share" />
+                                        <Button icon={<MdBookmarkBorder />} label="Bookmark" />
+                                    </>
+                                }
+                                actionsAlign={actionsAlign ?? undefined}
+                                actionsStack={actionsStack}
+                                label={`${variant} card`}
+                                leading={<Avatar name={`${variant} avatar`} src={avatars[idx % avatars.length]} />}
+                                onClose={() => {
+                                    setOpen(false);
+                                }}
+                                showClose={showClose}
+                                titleAlign={titleAlign ?? undefined}
+                            />
+                            {paragraphs[idx % paragraphs.length]}
+                            <CardActions
+                                actions={
+                                    <>
+                                        <Button label="Cancel" />
+                                        <Button filled label="Save" />
+                                    </>
+                                }
+                                align={actionsAlign ?? undefined}
+                                stack={actionsStack}
+                            />
                         </Card>
                     ))}
                 </Grid>
@@ -176,7 +220,14 @@ export const CardPage = () => {
                     borderColor={borderColor}
                     elevation={elevation}
                     font={font}
-                    onChange={({ surfaceColor: sc, elevation: el, shape: sp, border: bd, borderColor: bc, font: ft }) => {
+                    onChange={({
+                        surfaceColor: sc,
+                        elevation: el,
+                        shape: sp,
+                        border: bd,
+                        borderColor: bc,
+                        font: ft,
+                    }) => {
                         setColor(sc ?? null);
                         setShape(sp ?? null);
                         setElevation(el ?? null);
@@ -189,22 +240,6 @@ export const CardPage = () => {
                 />
 
                 <Grid alignItems="center" cols={2} gapX={16} gapY={4}>
-                    <>
-                        <span>Actions placement:</span>
-                        <select
-                            onChange={e => {
-                                setActionsPlacement(
-                                    e.target.value === '' ? null : (e.target.value as CardActionsPlacement)
-                                );
-                            }}
-                            value={actionsPlacement ?? ''}>
-                            <option value="">Default</option>
-                            <option value="top">top</option>
-                            <option value="subtitle">subtitle</option>
-                            <option value="bottom">bottom</option>
-                            <option value="inline">inline</option>
-                        </select>
-                    </>
                     <>
                         <span>Actions align:</span>
                         <select
@@ -279,17 +314,6 @@ export const CardPage = () => {
                         />
                     </>
                     <>
-                        <span>Show back:</span>
-                        <Checkbox
-                            checked={showBack}
-                            density="dense"
-                            label=" "
-                            onChange={() => {
-                                setShowBack(v => !v);
-                            }}
-                        />
-                    </>
-                    <>
                         <span>Actions stack:</span>
                         <Checkbox
                             checked={actionsStack}
@@ -297,6 +321,17 @@ export const CardPage = () => {
                             label=" "
                             onChange={() => {
                                 setActionsStack(v => !v);
+                            }}
+                        />
+                    </>
+                    <>
+                        <span>Flush:</span>
+                        <Checkbox
+                            checked={flush}
+                            density="dense"
+                            label=" "
+                            onChange={() => {
+                                setFlush(v => !v);
                             }}
                         />
                     </>

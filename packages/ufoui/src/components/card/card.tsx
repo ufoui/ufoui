@@ -1,10 +1,9 @@
-import React, { ElementType, forwardRef, ReactElement, ReactNode, useEffect, useState } from 'react';
+import React, { ElementType, forwardRef, ReactNode, useEffect, useState } from 'react';
 
-import { BorderColor, cn, ControlStyle, ElementElevation, ElementFont, ElementShape, SurfaceColor } from '../../utils';
-import { DialogAnimation, DialogIconSlot, getAnimationClass, getMotionStyleClass, MotionStyle } from '../../types';
+import { BorderColor, cn, ControlStyle, ElementElevation, ElementShape, SurfaceColor } from '../../utils';
+import { DialogAnimation, getAnimationClass, getMotionStyleClass, MotionStyle } from '../../types';
 import { useAnimate } from '../../hooks';
 import { BoxBase, BoxBaseProps } from '../base';
-import { DialogActions, DialogContent, DialogHeader } from '../dialogs';
 
 export type CardVariant = 'elevated' | 'filled' | 'outlined';
 
@@ -17,10 +16,13 @@ export type CardVariant = 'elevated' | 'filled' | 'outlined';
  */
 export interface CardProps extends Omit<BoxBaseProps, 'type' | 'elementClass' | 'color' | 'elevation' | 'borderColor'> {
     /** Underlying element/component. Default: `article`. */
-    component?: ElementType;
+    as?: ElementType;
 
     /** Card content. */
     children?: ReactNode;
+
+    /** Removes default inner spacing from the card content area. */
+    flush?: boolean;
 
     /** Card variant. Default: `elevated`. */
     variant?: CardVariant;
@@ -49,75 +51,14 @@ export interface CardProps extends Omit<BoxBaseProps, 'type' | 'elementClass' | 
     /** Border color override (used by outlined cards). */
     borderColor?: BorderColor;
 
-    /** Visual title text. */
-    label?: string;
-
     /** Accessible label for cards without visible title. */
     'aria-label'?: string;
-
-    /** Card icon. */
-    icon?: ReactElement;
-
-    showIcon?: boolean;
-    iconColor?: SurfaceColor;
-    iconSlot?: DialogIconSlot;
-
-    /** Title alignment. */
-    titleAlign?: 'start' | 'center' | 'end';
-
-    /** Header leading slot content. */
-    leading?: ReactNode;
-
-    /** Header trailing slot content. */
-    trailing?: ReactNode;
-
-    /** Header/content actions. */
-    actions?: ReactNode;
-
-    /** Actions placement. Default: `bottom`. */
-    actionsPlacement?: 'top' | 'subtitle' | 'bottom' | 'inline';
-
-    /** Actions alignment. */
-    actionsAlign?: 'start' | 'center' | 'end';
-
-    /** Stack actions vertically. */
-    actionsStack?: boolean;
-
-    /** Maximum number of visible actions before overflow. */
-    maxActions?: number;
-
-    /** Overflow button label. */
-    moreLabel?: string;
-
-    /** Overflow button icon. */
-    moreIcon?: ReactElement;
-
-    /** Shows close button in header. */
-    showClose?: boolean;
-
-    /** Close button icon override. */
-    closeIcon?: ReactElement;
-
-    /** Shows back button in header. */
-    showBack?: boolean;
-
-    /** Back button icon override. */
-    backIcon?: ReactElement;
-
-    /** Back button handler. Defaults to onClose. */
-    onBack?: () => void;
-
-    /** Close button handler. */
-    onClose?: () => void;
-
-    /** Header title font token. */
-    titleFont?: ElementFont;
 }
 
 export const Card = forwardRef<HTMLElement, CardProps>(
     (
         {
-            component = 'article',
+            as = 'article',
             children,
             className,
             variant = 'elevated',
@@ -130,28 +71,7 @@ export const Card = forwardRef<HTMLElement, CardProps>(
             border,
             borderColor,
             shape = 'rounded',
-            label,
-            icon,
-            showIcon,
-            iconColor,
-            iconSlot = 'leading',
-            titleAlign,
-            leading,
-            trailing,
-            actions,
-            actionsPlacement = 'bottom',
-            actionsAlign,
-            actionsStack,
-            maxActions,
-            moreLabel,
-            moreIcon,
-            showClose,
-            closeIcon,
-            showBack,
-            backIcon,
-            onBack,
-            onClose,
-            titleFont,
+            flush,
             style,
             ...rest
         },
@@ -189,32 +109,10 @@ export const Card = forwardRef<HTMLElement, CardProps>(
         const controlStyle = ControlStyle();
         controlStyle.merge(style);
         controlStyle.merge(animationVars);
-        const cardActions =
-            actionsPlacement !== 'inline' ? (
-                <DialogActions
-                    actions={actions}
-                    align={actionsAlign}
-                    maxActions={maxActions}
-                    moreIcon={moreIcon}
-                    moreLabel={moreLabel}
-                    stack={actionsStack}
-                />
-            ) : null;
-
-        const hasHeader = Boolean(
-            label ||
-                leading ||
-                trailing ||
-                showBack ||
-                showClose ||
-                icon ||
-                showIcon ||
-                (actionsPlacement === 'inline' && actions)
-        );
 
         return (
             <BoxBase
-                as={component}
+                as={as}
                 border={resolvedBorder}
                 borderColor={resolvedBorderColor}
                 className={cn(
@@ -231,40 +129,7 @@ export const Card = forwardRef<HTMLElement, CardProps>(
                 style={controlStyle.get()}
                 type="block"
                 {...rest}>
-                {hasHeader && (
-                    <DialogHeader
-                        actions={actionsPlacement === 'inline' ? actions : undefined}
-                        actionsAlign={actionsAlign}
-                        actionsStack={actionsStack}
-                        backIcon={backIcon}
-                        closeIcon={closeIcon}
-                        font={titleFont}
-                        icon={icon}
-                        iconColor={iconColor}
-                        iconSlot={iconSlot}
-                        label={label}
-                        leading={leading}
-                        maxActions={maxActions}
-                        moreIcon={moreIcon}
-                        moreLabel={moreLabel}
-                        onBack={onBack}
-                        onClose={onClose}
-                        showBack={showBack}
-                        showClose={showClose}
-                        showIcon={showIcon}
-                        titleAlign={titleAlign}
-                        trailing={trailing}
-                    />
-                )}
-                <DialogContent
-                    className="uui-card-content"
-                    icon={icon}
-                    iconColor={iconColor}
-                    iconSlot={iconSlot}
-                    showIcon={showIcon}>
-                    {children}
-                </DialogContent>
-                {cardActions}
+                <div className={cn('uui-card-content', flush && 'uui-flush')}>{children}</div>
             </BoxBase>
         );
     }

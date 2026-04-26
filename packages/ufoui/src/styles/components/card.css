@@ -1,0 +1,88 @@
+.uui-card {
+  --uui-card-padding:16px;
+  --uui-card-padding-neg: calc(var(--uui-card-padding) * -1);
+  display:block;
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.uui-card-filled,
+.uui-card-outlined,
+.uui-card-elevated {
+  isolation: isolate;
+}
+
+/* CONTENT */
+
+.uui-card-content {
+  position: relative;
+  flex-direction: column;
+  gap:16px;
+  display: flex;
+  border-radius: inherit;
+}
+
+.uui-card-content:not(.uui-flush) {
+  padding: var(--uui-card-padding);
+}
+
+.uui-card-content.uui-flush > .uui-card-header,
+.uui-card-content.uui-flush > .uui-actions {
+  padding-inline: var(--uui-card-padding);
+}
+
+.uui-card-content.uui-flush > .uui-card-header:first-child,
+.uui-card-content.uui-flush > .uui-actions:first-child {
+  padding-top: var(--uui-card-padding);
+}
+
+.uui-card-content.uui-flush > .uui-card-header:last-child,
+.uui-card-content.uui-flush > .uui-actions:last-child {
+  padding-bottom: var(--uui-card-padding);
+}
+
+.uui-card-content:not(.uui-flush) .uui-card-media {
+  margin-inline: var(--uui-card-padding-neg);
+}
+
+.uui-card-content:not(.uui-flush) > .uui-card-media:first-child {
+  margin-top: var(--uui-card-padding-neg);
+}
+
+.uui-card-content:not(.uui-flush) > .uui-card-media:last-child {
+  margin-bottom: var(--uui-card-padding-neg);
+}
+
+.uui-card-header {
+  --uui-slot-size: 40px;
+  --uui-icon-size: 40px;
+  --uui-control-color: var(--uui-color-on-surface);
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: start;
+}
+
+.uui-card-header .uui-trailing {
+  margin-left: auto;
+}
+
+.uui-card-title {
+  display: flex;
+  align-items: center;
+  row-gap: 16px;
+  flex-grow: 1;
+}
+
+.uui-card-title .uui-title {
+  flex-grow: 1;
+}
+
+.uui-card-title .uui-title.uui-title-center {
+  text-align: center;
+}
+
+.uui-card-title .uui-title.uui-title-end {
+  text-align: right;
+}

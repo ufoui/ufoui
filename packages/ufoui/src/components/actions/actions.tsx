@@ -31,7 +31,6 @@ export interface ActionProps {
 export interface ActionsProps {
     /** Action elements rendered inside the group. */
     actions?: ReactNode;
-    placement?: 'top' | 'subtitle' | 'bottom' | 'inline';
     /** Alignment of the action group. */
     align?: 'start' | 'center' | 'end';
     /** Stacks actions vertically instead of horizontally. */
@@ -54,12 +53,11 @@ export interface ActionsProps {
  *
  * @category Actions
  */
-const Actions = ({ actions, className, placement, align, stack, maxActions, moreLabel }: ActionsProps) => {
+const Actions = ({ actions, className, align, stack, maxActions, moreLabel }: ActionsProps) => {
     const actionItems = flatChildren(actions).filter(isAction);
     const style = ControlStyle();
     const classes = cn(
-        'uui-dialog-actions',
-        placement && `uui-actions-${placement}`,
+        'uui-actions',
         align && align !== 'end' && `uui-actions-${align}`,
         stack && 'uui-actions-stack',
         className

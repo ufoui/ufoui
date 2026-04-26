@@ -3,6 +3,8 @@ export * from './components/button/button';
 export * from './components/chip/chip';
 export * from './components/badge/badge';
 export * from './components/card/card';
+export * from './components/card/cardHeader';
+export * from './components/card/cardMedia';
 export * from './components/checkbox/checkbox';
 export * from './components/fields';
 export * from './components/fab/fab';
