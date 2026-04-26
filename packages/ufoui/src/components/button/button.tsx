@@ -1,8 +1,8 @@
 import { forwardRef } from 'react';
 
 import { ElementFont, ElementSize } from '../../utils';
-import { ButtonBase, ButtonBaseProps } from '../base/buttonBase';
-import { IS_DIALOG_ACTION } from '../dialogs/dialogActions.guards';
+import { ButtonBase, ButtonBaseProps } from '../base';
+import { IS_ACTION } from '../actions/actions.guards';
 
 /**
  * Props for {@link Button}.
@@ -41,4 +41,4 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = 'Button';
-Object.assign(Button, { [IS_DIALOG_ACTION]: true });
+Object.assign(Button, { [IS_ACTION]: true });

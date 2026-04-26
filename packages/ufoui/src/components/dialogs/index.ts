@@ -1,5 +1,5 @@
 export * from './dialog';
-export * from './dialogActions';
+export * from '../actions/actions';
 export * from './dialogContent';
 export * from './dialogHeader';
 export * from './dialogTitle';

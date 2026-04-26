@@ -370,10 +370,10 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                 <DialogActions
                     actions={actions}
                     align={actionsAlign}
+                    className={cn('uui-dialog-actions', actionsPlacement && `uui-actions-${actionsPlacement}`)}
                     maxActions={maxActions}
                     moreIcon={moreIcon}
                     moreLabel={moreLabel}
-                    placement={actionsPlacement}
                     stack={actionsStack}
                 />
             ) : null;
@@ -432,4 +432,4 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
     }
 );
 
-DialogBase.displayName = 'Dialog';
+DialogBase.displayName = 'DialogBase';

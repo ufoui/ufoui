@@ -1,13 +1,13 @@
 import React, { ReactElement, ReactNode } from 'react';
 
-import type { DialogActionsProps } from './dialogActions';
+import type { DialogActionsProps } from '../actions/actions';
 import { cn, ElementFont, SurfaceColor } from '../../utils';
 import { DialogIconSlot } from '../../types';
 import { DialogTitle } from './dialogTitle';
 import { Leading, Trailing } from '../../internal';
 import { ArrowBackIcon, CloseIcon } from '../../assets';
 import { IconButton } from '../iconButton/iconButton';
-import { DialogActions } from './dialogActions';
+import { DialogActions } from '../actions/actions';
 
 /**
  * Props for {@link DialogHeader}.

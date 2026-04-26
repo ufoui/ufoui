@@ -1,0 +1,32 @@
+.uui-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: var(--uui-actions-space, 0.75rem);
+    padding: 0 24px 20px 24px;
+}
+
+
+.uui-actions.uui-actions-start {
+    justify-content: flex-start;
+}
+
+.uui-actions.uui-actions-center {
+    justify-content: center;
+}
+
+/** actions stack */
+
+.uui-actions.uui-actions-stack {
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.uui-actions.uui-actions-stack.uui-actions-start {
+    align-items: flex-start;
+}
+
+.uui-actions.uui-actions-stack.uui-actions-center {
+    align-items: center;
+}

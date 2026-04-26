@@ -197,7 +197,6 @@ export const Card = forwardRef<HTMLElement, CardProps>(
                     maxActions={maxActions}
                     moreIcon={moreIcon}
                     moreLabel={moreLabel}
-                    placement={actionsPlacement}
                     stack={actionsStack}
                 />
             ) : null;

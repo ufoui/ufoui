@@ -8,6 +8,7 @@ import {
     BorderColor,
     Button,
     Card,
+    CardActions,
     CardVariant,
     Checkbox,
     DialogIconSlot,
@@ -110,12 +111,6 @@ export const CardPage = () => {
                     {variants.map((variant, idx) => (
                         <Card
                             {...shared}
-                            actions={
-                                <>
-                                    <Button label="Cancel" />
-                                    <Button filled label="Save" />
-                                </>
-                            }
                             icon={<MdInfo />}
                             key={variant}
                             label={`${variant} card`}
@@ -127,6 +122,13 @@ export const CardPage = () => {
                             }}
                             titleFont="titleLarge"
                             variant={variant}>
+                            <CardActions
+                                align={actionsAlign ?? undefined}
+                                placement={actionsPlacement ?? undefined}
+                                stack={actionsStack}>
+                                <Button label="Cancel" />
+                                <Button filled label="Save" />
+                            </CardActions>
                             {paragraphs[idx % paragraphs.length]}
                         </Card>
                     ))}
