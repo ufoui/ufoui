@@ -36,8 +36,22 @@ export function getColorNames(type: 'theme'): ThemeColor[];
 export function getColorNames(type: 'base'): BaseColor[];
 export function getColorNames(type: 'border'): BorderColor[];
 export function getColorNames(type: ColorType) {
-    const allowedTypes: ColorType[] =
-        type === 'base' || type === 'border' ? ['semantic', 'surface', 'extended'] : [type];
+    let allowedTypes: ColorType[];
+
+    switch (type) {
+        case 'surface':
+            allowedTypes = ['surface', 'extended'];
+            break;
+        case 'base':
+            allowedTypes = ['semantic', 'surface', 'extended'];
+            break;
+        case 'border':
+            allowedTypes = ['semantic', 'surface', 'extended', 'border'];
+            break;
+        default:
+            allowedTypes = [type];
+            break;
+    }
 
     return Object.entries(getColorRegistry())
         .filter(([_, entry]) => (entry?.type ? allowedTypes.includes(entry.type) : false))

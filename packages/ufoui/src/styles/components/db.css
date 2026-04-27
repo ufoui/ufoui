@@ -12,9 +12,9 @@
     background-color: #00000000;
     transition: background-color var(--uui-duration, 250ms) ease-out;
     pointer-events: none;
-    --uui-default-shape: var(--uui-corner-full);
-    --uui-corner-full: var(--uui-corner-extra-large);
+    --uui-corner-round: var(--uui-corner-extra-large);
     --uui-corner-rounded: var(--uui-corner-large);
+    --uui-default-shape: var(--uui-corner-rounded);
 }
 
 .uui-dlg-backdrop.uui-modal.uui-open {

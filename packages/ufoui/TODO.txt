@@ -55,6 +55,10 @@ ControlLabel
 StateLayer
 
 @experimental
+Card
+CardHeader
+CardMedia
+CardActions
 DialogBase
 AvatarGroup
 Accordion
@@ -65,7 +69,6 @@ ToastViewport
 BottomSheet
 Calendar
 Progress
-Card
 Chip
 DateField
 DateTimeField

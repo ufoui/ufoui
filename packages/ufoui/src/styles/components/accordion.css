@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     --uui-accordion-gap: 0px;
-    --uui-corner-full: var(--uui-corner-large);
+    --uui-corner-round: var(--uui-corner-large);
     --uui-slot-size: 24px;
     --uui-slot-gap: 4px;
     --uui-col-gap: 8px;
@@ -19,7 +19,6 @@
 .uui-accordion.uui-accordion-pills {
     --uui-accordion-gap: 8px;
 }
-
 
 .uui-accordion-segmented .uui-accordion-group.uui-open {
     margin: 8px 0;

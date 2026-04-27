@@ -70,7 +70,7 @@ export const Card = forwardRef<HTMLElement, CardProps>(
             elevation,
             border,
             borderColor,
-            shape = 'rounded',
+            shape,
             flush,
             style,
             ...rest
@@ -95,7 +95,7 @@ export const Card = forwardRef<HTMLElement, CardProps>(
             return null;
         }
 
-        const resolvedColor =
+        const finalColor =
             color ??
             (variant === 'filled'
                 ? 'surfaceContainerHighest'
@@ -103,30 +103,30 @@ export const Card = forwardRef<HTMLElement, CardProps>(
                   ? 'surface'
                   : 'surfaceContainerLow');
 
-        const resolvedElevation = elevation ?? (variant === 'elevated' ? 1 : 0);
-        const resolvedBorder = border ?? (variant === 'outlined' ? 1 : undefined);
-        const resolvedBorderColor = borderColor ?? (variant === 'outlined' ? 'outlineVariant' : undefined);
-        const controlStyle = ControlStyle();
-        controlStyle.merge(style);
-        controlStyle.merge(animationVars);
+        const finalElevation = elevation ?? (variant === 'elevated' ? 1 : 0);
+        const finalBorder = border ?? (variant === 'outlined' ? 1 : undefined);
+        const finalBorderColor = borderColor ?? (variant === 'outlined' ? 'outlineVariant' : undefined);
+        const cardStyle = ControlStyle();
+        cardStyle.merge(style);
+        cardStyle.merge(animationVars);
 
         return (
             <BoxBase
                 as={as}
-                border={resolvedBorder}
-                borderColor={resolvedBorderColor}
+                border={finalBorder}
+                borderColor={finalBorderColor}
                 className={cn(
                     `uui-card-${variant}`,
                     animating && getAnimationClass(animation),
                     getMotionStyleClass(motionStyle),
                     className
                 )}
-                color={resolvedColor}
+                color={finalColor}
                 elementClass="uui-card"
-                elevation={resolvedElevation}
+                elevation={finalElevation}
                 ref={ref}
                 shape={shape}
-                style={controlStyle.get()}
+                style={cardStyle.get()}
                 type="block"
                 {...rest}>
                 <div className={cn('uui-card-content', flush && 'uui-flush')}>{children}</div>

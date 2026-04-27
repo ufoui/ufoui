@@ -6,6 +6,7 @@
   min-width: 48px;
   min-height: 48px;
   --uui-btn-color: var(--uui-control-color, var(--uui-color-primary));
+  --uui-corner-round: var(--uui-corner-full);
   /*--uui-*/
 }
 

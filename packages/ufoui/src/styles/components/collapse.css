@@ -1,6 +1,6 @@
 .uui-collapse {
     --uui-ease: ease-in-out;
-    --uui-corner-full: var(--uui-corner-extra-large);
+    --uui-corner-round: var(--uui-corner-large);
     transition: height var(--uui-duration) var(--uui-ease);
     overflow: hidden;
 }

@@ -4,12 +4,13 @@
     --uui-corner-medium: 12px;
     --uui-corner-large: 16px;
     --uui-corner-extra-large: 28px;
+
     --uui-corner-full: 9999px;
     --uui-corner-none: 0;
 
     --uui-corner-smooth: var(--uui-corner-small);
     --uui-corner-rounded: var(--uui-corner-medium);
-
+    --uui-corner-round: var(--uui-corner-full);
 }
 
 .uui-corner-none,
@@ -43,10 +44,14 @@
     border-radius: var(--uui-corner-extra-large);
 }
 
-.uui-corner-full,
-.uui-round {
+.uui-corner-full{
     --uui-control-shape: var(--uui-corner-full);
     border-radius: var(--uui-corner-full);
+}
+
+.uui-round {
+    --uui-control-shape: var(--uui-corner-round);
+    border-radius: var(--uui-corner-round);
 }
 
 .uui-smooth {

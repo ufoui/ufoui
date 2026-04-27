@@ -1,11 +1,15 @@
 .uui-card {
   --uui-card-padding:16px;
   --uui-card-padding-neg: calc(var(--uui-card-padding) * -1);
+  --uui-default-shape: var(--uui-corner-medium);
+  --uui-corner-round: var(--uui-corner-large);
+  --uui-corner-rounded: var(--uui-corner-medium);
   display:block;
   position: relative;
   overflow: hidden;
   min-width: 0;
   box-sizing: border-box;
+  border-radius: var(--uui-control-shape, var(--uui-default-shape));
 }
 
 .uui-card-filled,

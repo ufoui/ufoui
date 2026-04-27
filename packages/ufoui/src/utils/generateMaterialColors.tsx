@@ -199,8 +199,8 @@ export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCusto
     regColor.onBackground = { type: 'theme', onColor: 'background' };
     regColor.inverseSurface = { type: 'surface', onColor: 'inverseOnSurface' };
     regColor.inverseOnSurface = { type: 'theme', onColor: 'inverseSurface' };
-    regColor.outline = { type: 'surface', onColor: 'surface' };
-    regColor.outlineVariant = { type: 'surface', onColor: 'inverseSurface' };
+    regColor.outline = { type: 'border', onColor: 'surface' };
+    regColor.outlineVariant = { type: 'border', onColor: 'inverseSurface' };
     regColor.inversePrimary = { type: 'theme', onColor: 'onPrimaryContainer' };
     regColor.shadow = { type: 'theme' };
     setColorRegistry(regColor);

@@ -12,15 +12,15 @@
 }
 
 .uui-menu-modern {
-  --uui-corner-full: 24px;
-  --uui-corner-rounded: 16px;
-  --uui-corner-smooth: 8px;
+  --uui-corner-round: var(--uui-corner-extra-large);
+  --uui-corner-rounded: var(--uui-corner-large);
+  --uui-corner-smooth: var(--uui-corner-small);
 }
 
 .uui-menu-classic {
-  --uui-corner-full: 16px;
-  --uui-corner-rounded: 8px;
-  --uui-corner-smooth: 4px;
+  --uui-corner-round: var(--uui-corner-large);
+  --uui-corner-rounded: var(--uui-corner-small);
+  --uui-corner-smooth:  var(--uui-corner-extra-small);
 }
 
 .uui-menu.uui-menu-horizontal {

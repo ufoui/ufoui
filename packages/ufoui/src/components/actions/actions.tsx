@@ -1,6 +1,10 @@
-import { ReactNode } from 'react';
+import { MouseEventHandler, ReactNode, useRef, useState } from 'react';
 
+import { MoreVertIcon } from '../../assets';
 import { cn, ControlStyle, flatChildren } from '../../utils';
+import { IconButton } from '../iconButton/iconButton';
+import { Menu } from '../menu/menu';
+import { MenuItem } from '../menuItem/menuItem';
 import { isAction } from './actions.guards';
 
 /**
@@ -53,8 +57,10 @@ export interface ActionsProps {
  *
  * @category Actions
  */
-const Actions = ({ actions, className, align, stack, maxActions, moreLabel }: ActionsProps) => {
+const Actions = ({ actions, className, align, stack, maxActions, moreLabel, moreIcon }: ActionsProps) => {
     const actionItems = flatChildren(actions).filter(isAction);
+    const overflowButtonRef = useRef<HTMLButtonElement>(null);
+    const [menuOpen, setMenuOpen] = useState(false);
     const style = ControlStyle();
     const classes = cn(
         'uui-actions',
@@ -62,9 +68,67 @@ const Actions = ({ actions, className, align, stack, maxActions, moreLabel }: Ac
         stack && 'uui-actions-stack',
         className
     );
+
+    const hasOverflow = maxActions !== undefined && maxActions >= 0 && actionItems.length > maxActions;
+    const visibleActions = hasOverflow ? actionItems.slice(0, maxActions) : actionItems;
+    const overflowActions = hasOverflow ? actionItems.slice(maxActions) : [];
+
     return actionItems.length ? (
         <div className={classes} style={style.get()}>
-            {actionItems}
+            {visibleActions}
+            {hasOverflow && (
+                <>
+                    <IconButton
+                        aria-label={moreLabel ?? 'More actions'}
+                        icon={moreIcon ?? MoreVertIcon}
+                        onClick={() => {
+                            setMenuOpen(v => !v);
+                        }}
+                        ref={overflowButtonRef}
+                    />
+                    <Menu
+                        anchorRef={overflowButtonRef}
+                        onClose={() => {
+                            setMenuOpen(false);
+                        }}
+                        open={menuOpen}>
+                        {overflowActions.map((action, index) => {
+                            const {
+                                ['aria-label']: ariaLabel,
+                                disabled,
+                                icon,
+                                label,
+                                leading,
+                                onClick,
+                                trailing,
+                            } = action.props as {
+                                'aria-label'?: string;
+                                disabled?: boolean;
+                                icon?: ReactNode;
+                                label?: string;
+                                leading?: ReactNode;
+                                onClick?: MouseEventHandler<HTMLButtonElement>;
+                                trailing?: ReactNode;
+                            };
+
+                            return (
+                                <MenuItem
+                                    disabled={disabled}
+                                    icon={icon}
+                                    key={action.key ?? index}
+                                    label={label ?? ariaLabel}
+                                    leading={leading}
+                                    onClick={e => {
+                                        setMenuOpen(false);
+                                        onClick?.(e as unknown as Parameters<MouseEventHandler<HTMLButtonElement>>[0]);
+                                    }}
+                                    trailing={trailing}
+                                />
+                            );
+                        })}
+                    </Menu>
+                </>
+            )}
         </div>
     ) : null;
 };

@@ -234,15 +234,17 @@ export type CoreSurfaceColor =
     | 'surfaceVariant'
     | 'background'
     | 'inverseSurface'
-    | 'outline'
-    | 'outlineVariant'
     | 'surfaceContainerLowest'
     | 'surfaceContainerLow'
     | 'surfaceContainer'
     | 'surfaceContainerHigh'
     | 'surfaceContainerHighest'
     | 'surfaceBright'
-    | 'surfaceDim';
+    | 'surfaceDim'
+    | 'black'
+    | 'white';
+
+export type CoreBorderColor = 'outline' | 'outlineVariant';
 
 /**
  * Built-in technical color names not intended for direct usage.
@@ -257,9 +259,7 @@ export type CoreThemeColor =
     | 'inversePrimary'
     | 'surfaceTint'
     | 'scrim'
-    | 'shadow'
-    | 'black'
-    | 'white';
+    | 'shadow';
 
 /**
  * Augmentation point for custom semantic colors.
@@ -339,18 +339,18 @@ export type SurfaceColor = CoreSurfaceColor | ExtendedColor;
 export type BaseColor = SemanticColor | SurfaceColor;
 
 /**
+ * Border color.
+ *
+ * @category Color
+ */
+export type BorderColor = BaseColor | CoreBorderColor;
+
+/**
  * Full theme color set.
  *
  * @category Color
  */
 export type ThemeColor = BaseColor | OnColor<SemanticBaseColor> | OnExtendedColor | CoreThemeColor;
-
-/**
- * Border color.
- *
- * @category Color
- */
-export type BorderColor = BaseColor;
 
 /**
  * Input color map used to seed/generate theme schemes.
