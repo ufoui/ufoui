@@ -9,7 +9,6 @@ const ColorPage = () => {
         theme: { schemes },
     } = useTheme();
 
-    console.log(structuredClone(schemes));
     const lcTheme: Record<string, Record<string, string>> = {
         light: {
             ...Object.entries(schemes.light).reduce((a, k) => {

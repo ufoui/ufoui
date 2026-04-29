@@ -62,8 +62,8 @@ export const Card = forwardRef<HTMLElement, CardProps>(
             children,
             className,
             variant = 'elevated',
-            open = true,
-            animation = 'fade',
+            open,
+            animation = 'scale',
             duration = 240,
             motionStyle,
             color,
@@ -77,14 +77,14 @@ export const Card = forwardRef<HTMLElement, CardProps>(
         },
         ref
     ) => {
-        const [visible, setVisible] = useState(open);
+        const [visible, setVisible] = useState(open === undefined);
         const { animationVars, animate, animating, idle, active } = useAnimate({ t1: duration });
 
         useEffect(() => {
             if (open) {
                 animate('open');
                 setVisible(true);
-            } else if (!idle) {
+            } else if (open === false && !idle) {
                 animate('closed');
                 setVisible(false);
             }

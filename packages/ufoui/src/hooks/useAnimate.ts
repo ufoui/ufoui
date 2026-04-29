@@ -31,10 +31,10 @@ export interface UseAnimateResult {
     /** True during the closing phase. */
     closing: boolean;
 
-    /** True when animation is running and not temporarily suppressed. */
+    /** True while animation classes should be applied and not temporarily suppressed. */
     animating: boolean;
 
-    /** True while animation is in progress (opening or closing). */
+    /** True while an opening or closing transition is in progress, useful for keeping a component mounted. */
     active: boolean;
 
     /** True only before any animation has started. */
@@ -56,7 +56,7 @@ type Phase = 'idle' | 'opening' | 'open' | 'closing' | 'closed';
  * - animate('open') → sets phase to "opening" and starts a timer
  * - after t1 → phase becomes "open" and timer is cleared
  * - animate('closed') → sets phase to "closing" and starts a timer
- * - after t2 → phase becomes "closed" and timer is cleared
+ * - after t2 (or the derived closing duration when t2 is omitted) → phase becomes "closed" and timer is cleared
  *
  * Interrupt:
  * - calling animate() during an active transition clears the current timer
@@ -65,13 +65,15 @@ type Phase = 'idle' | 'opening' | 'open' | 'closing' | 'closed';
  *
  * State usage:
  * - opening / closing → current transition phase
- * - active → true while transition is in progress (used for mount/visibility)
- * - animating → same as active, but disabled during reset frame (used for CSS classes)
+ * - active → true while transition is in progress (used to keep a component mounted during enter/exit)
+ * - animating → true while animation classes should be applied; disabled during the reset frame
  * - idle → true only before the first animation
  *
  * Important:
- * - use `active` to control visibility (mount/unmount)
+ * - use external state to decide whether a component should be shown
+ * - use `active` to extend mounting while enter/exit animation is still running
  * - use `animating` to apply or remove animation classes
+ * - do not use `animate` in `useEffect` dependency arrays, as it is an imperative trigger and may disrupt animation flow
  *
  * Timer:
  * - created when transition starts
@@ -114,7 +116,7 @@ export function useAnimate(options: UseAnimateOptions = {}): UseAnimateResult {
             }
 
             const wasAnimating = clearTimer();
-            if (wasAnimating) {
+            if (wasAnimating && phase !== 'idle') {
                 setResetting(true);
             }
 
@@ -159,7 +161,7 @@ export function useAnimate(options: UseAnimateOptions = {}): UseAnimateResult {
                 }
             });
         },
-        [oneShot, t1, closeTime]
+        [oneShot, t1, closeTime, phase]
     );
 
     useEffect(() => {

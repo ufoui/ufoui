@@ -32,6 +32,7 @@ import {
 import { Modifiers } from '../components/modifiers/modifiers';
 
 const variants: CardVariant[] = ['elevated', 'filled', 'outlined'];
+// const variants: CardVariant[] = ['outlined'];
 const animations: MotionAnimation[] = ['fade', 'scale', 'slideUp', 'slideRight', 'popup'];
 const cliparts = [
     'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80',
@@ -59,7 +60,7 @@ export const CardPage = () => {
 
     const [showIcon, setShowIcon] = useState(true);
     const [showClose, setShowClose] = useState(false);
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState<boolean | undefined>(undefined);
     const [flush, setFlush] = useState(false);
     const [actionsStack, setActionsStack] = useState(false);
 
@@ -214,7 +215,7 @@ export const CardPage = () => {
                 </Grid>
             </Section>
 
-            <Aside>
+            <Aside w={240}>
                 <Modifiers
                     border={border}
                     borderColor={borderColor}
@@ -283,7 +284,7 @@ export const CardPage = () => {
                     <>
                         <span>Open:</span>
                         <Checkbox
-                            checked={open}
+                            checked={open ?? true}
                             density="dense"
                             label=" "
                             onChange={() => {
