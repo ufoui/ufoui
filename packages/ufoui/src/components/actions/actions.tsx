@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode, useRef, useState } from 'react';
+import React, { MouseEventHandler, ReactElement, ReactNode, useRef, useState } from 'react';
 
 import { MoreVertIcon } from '../../assets';
 import { cn, ControlStyle, flatChildren } from '../../utils';
@@ -18,7 +18,7 @@ export interface ActionProps {
     /** Accessible label for actions without visible text. */
     'aria-label'?: string;
     /** Leading icon for the action. */
-    icon?: ReactNode;
+    icon?: React.ReactElement;
     /** Custom leading slot content. */
     leading?: ReactNode;
     /** Custom trailing slot content. */
@@ -46,7 +46,7 @@ export interface ActionsProps {
     /** Accessible label for the overflow actions button. Default: "More actions" */
     moreLabel?: string;
     /** Custom icon for the overflow actions button. */
-    moreIcon?: ReactNode;
+    moreIcon?: ReactElement;
 }
 
 /**

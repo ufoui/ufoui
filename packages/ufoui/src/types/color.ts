@@ -350,7 +350,7 @@ export type BorderColor = BaseColor | CoreBorderColor;
  *
  * @category Color
  */
-export type ThemeColor = BaseColor | OnColor<SemanticBaseColor> | OnExtendedColor | CoreThemeColor;
+export type ThemeColor = BorderColor | OnColor<SemanticBaseColor> | OnExtendedColor | CoreThemeColor;
 
 /**
  * Input color map used to seed/generate theme schemes.

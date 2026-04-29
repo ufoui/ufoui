@@ -1,7 +1,7 @@
 import React, { ElementType, forwardRef, ReactNode, useEffect, useState } from 'react';
 
 import { BorderColor, cn, ControlStyle, ElementElevation, ElementShape, SurfaceColor } from '../../utils';
-import { DialogAnimation, getAnimationClass, getMotionStyleClass, MotionStyle } from '../../types';
+import { getAnimationClass, getMotionStyleClass, MotionAnimation, MotionStyle } from '../../types';
 import { useAnimate } from '../../hooks';
 import { BoxBase, BoxBaseProps } from '../base';
 
@@ -31,7 +31,7 @@ export interface CardProps extends Omit<BoxBaseProps, 'type' | 'elementClass' | 
     open?: boolean;
 
     /** Entry/exit animation preset. Use `none` to disable. */
-    animation?: DialogAnimation;
+    animation?: MotionAnimation;
 
     /** Animation duration in ms. */
     duration?: number;

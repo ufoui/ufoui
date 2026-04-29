@@ -16,7 +16,6 @@ import {
     toKebabCase,
 } from '../../utils';
 import {
-    DialogAnimation,
     DialogIconSlot,
     DialogType,
     getAnimationClass,
@@ -37,7 +36,7 @@ const defaultAnimation: Record<DialogType, MotionAnimation> = {
     dockLeft: 'slideLeft',
 };
 
-const resolveAnimation = (type: DialogType, animation?: DialogAnimation) => {
+const resolveAnimation = (type: DialogType, animation?: MotionAnimation) => {
     return animation === 'none' ? undefined : (animation ?? defaultAnimation[type]);
 };
 
@@ -93,7 +92,7 @@ export interface DialogBaseProps {
     detached?: boolean;
 
     /** Animation preset; `'none'` disables motion. */
-    animation?: DialogAnimation;
+    animation?: MotionAnimation;
 
     /** Duration in milliseconds for open and close animations. Default: 500 */
     duration?: number;

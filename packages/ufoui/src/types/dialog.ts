@@ -1,5 +1,3 @@
-import { MotionAnimation } from './motion';
-
 /**
  * Layout mode for the DialogBase component.
  *
@@ -12,17 +10,6 @@ import { MotionAnimation } from './motion';
  * @category Dialog
  */
 export type DialogType = 'basic' | 'fullscreen' | 'dockRight' | 'dockLeft' | 'dockTop' | 'dockBottom';
-
-/**
- * Animation preset for open and close transitions.
- *
- * @remarks
- * Use `'none'` to disable motion. Otherwise uses a {@link MotionAnimation} value.
- * When omitted, a default animation is chosen for the current layout mode.
- *
- * @category Dialog
- */
-export type DialogAnimation = 'none' | MotionAnimation;
 
 /**
  * Icon slot within dialog layout.

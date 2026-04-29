@@ -1,31 +1,4 @@
-export type MotionAnimation =
-    | 'fade'
-    | 'fadeBlur'
-    | 'scale'
-    | 'scaleBlur'
-    | 'popup'
-    | 'slideUp'
-    | 'slideDown'
-    | 'slideLeft'
-    | 'slideRight'
-    | 'slideUpBlur'
-    | 'slideDownBlur'
-    | 'slideLeftBlur'
-    | 'slideRightBlur'
-    | 'rotate'
-    | 'rotateUpRight'
-    | 'rotateUpLeft'
-    | 'rollLeft'
-    | 'rollRight'
-    | 'flipX'
-    | 'flipY'
-    | 'bounce'
-    | 'squish'
-    | 'rubber'
-    | 'popElastic'
-    | 'jelly';
-
-export const motionClassMap: Record<MotionAnimation, string> = {
+export const motionClassMap = {
     fade: 'uui-motion-fade',
     fadeBlur: 'uui-motion-fade-blur',
 
@@ -57,22 +30,25 @@ export const motionClassMap: Record<MotionAnimation, string> = {
     rubber: 'uui-motion-rubber',
     popElastic: 'uui-motion-pop-elastic',
     jelly: 'uui-motion-jelly',
+    none: '',
 };
+
+export type MotionAnimation = keyof typeof motionClassMap;
 
 /**
  * Returns CSS class name for given motion animation.
  * Returns empty string when animation is not defined or set to 'none'.
  */
-export function getAnimationClass(animation?: MotionAnimation | 'none'): string {
+export function getAnimationClass(animation?: MotionAnimation): string {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     return animation && animation !== 'none' ? (motionClassMap[animation] ?? '') : '';
 }
 
 /**
- * Returns list of available motion animation names.
+ * Returns list of available motion animation names, excluding `'none'`.
  */
 export function getAnimationList(): MotionAnimation[] {
-    return Object.keys(motionClassMap) as MotionAnimation[];
+    return Object.keys(motionClassMap).filter(v => v !== 'none') as MotionAnimation[];
 }
 
 export type MotionStyle = 'regular' | 'expressive';

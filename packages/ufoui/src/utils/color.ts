@@ -75,7 +75,7 @@ export function getColorNames(type: ColorType) {
  * ```
  * @category Color
  */
-export const getSurfaceColorVar = (color: BaseColor) => {
+export const getSurfaceColorVar = (color: ThemeColor) => {
     const kebab = color.toLowerCase();
     const p = `--uui-color-${kebab}`;
     const on = `--uui-color-on-${kebab}`;
