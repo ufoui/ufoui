@@ -1,0 +1,343 @@
+/* base */
+.uui-spinner {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  color: currentColor;
+}
+
+.uui-spinner.uui-extra-small {
+  width: 16px;
+  height: 16px;
+}
+
+.uui-spinner.uui-small {
+  width: 24px;
+  height: 24px;
+}
+
+.uui-spinner.uui-medium {
+  width: 32px;
+  height: 32px;
+}
+
+.uui-spinner.uui-large {
+  width: 40px;
+  height: 40px;
+}
+
+.uui-spinner.uui-extra-large {
+  width: 48px;
+  height: 48px;
+}
+
+.uui-spinner-inline {
+  vertical-align: middle;
+}
+
+
+/* ---------------- ring (MD-like) ---------------- */
+
+.uui-spinner-ring {
+  animation: uui-spinner-rotate 1.5s linear infinite;
+}
+
+.uui-spinner-ring-indicator {
+  stroke: currentColor;
+  stroke-linecap: round;
+  animation: uui-spinner-ring-dash 1.5s ease-in infinite;
+}
+
+.uui-spinner-ring-track {
+  opacity: 0;
+  stroke: currentColor;
+  stroke-linecap: round;
+}
+
+@keyframes uui-spinner-rotate {
+  0% { transform: rotate(-90deg)}
+
+  100% {
+    transform: rotate(270deg);
+  }
+}
+
+@keyframes uui-spinner-ring-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  45% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -20;
+  }
+  100% {
+    stroke-dasharray: 100, 200;
+    stroke-dashoffset: -125;
+  }
+}
+
+/* ---------------- dots ---------------- */
+
+.uui-spinner-dots circle {
+  fill: currentColor;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0.3;
+  animation: uui-spinner-dots 1.5s infinite ease-in-out;
+}
+
+.uui-spinner-dots circle:nth-child(1) {
+  animation-delay: 0s;
+}
+.uui-spinner-dots circle:nth-child(2) {
+  animation-delay: 0.5s;
+}
+.uui-spinner-dots circle:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes uui-spinner-dots {
+  0% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  15% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  30% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+}
+
+
+/* ---------------- blade ---------------- */
+
+.uui-spinner-blade {
+  width: 100%;
+  height: 100%;
+}
+
+.uui-spinner-blade rect {
+  fill: currentColor;
+  opacity: 0.1;
+  animation: uui-spinner-blade 1s infinite linear;
+}
+
+.uui-spinner-blade rect:nth-child(1) {
+  animation-delay: 0s;
+}
+.uui-spinner-blade rect:nth-child(2) {
+  animation-delay: 0.125s;
+}
+.uui-spinner-blade rect:nth-child(3) {
+  animation-delay: 0.25s;
+}
+.uui-spinner-blade rect:nth-child(4) {
+  animation-delay: 0.375s;
+}
+.uui-spinner-blade rect:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.uui-spinner-blade rect:nth-child(6) {
+  animation-delay: 0.625s;
+}
+.uui-spinner-blade rect:nth-child(7) {
+  animation-delay: 0.75s;
+}
+.uui-spinner-blade rect:nth-child(8) {
+  animation-delay: 0.875s;
+}
+
+@keyframes uui-spinner-blade {
+  0% {
+    opacity: 1;
+  } /* jeden aktywny */
+  15% {
+    opacity: 0.6;
+  }
+  25% {
+    opacity: 0.3;
+  } /* długi fade-out */
+  100% {
+    opacity: 0.1;
+  }
+}
+
+/* ---------------- bars ---------------- */
+.uui-spinner-bars {
+  width: 100%;
+  height: 100%;
+}
+
+.uui-spinner-bars rect {
+  fill: currentColor;
+  transform-box: fill-box;
+  transform-origin: center center;
+  animation: uui-spinner-bars 0.9s infinite ease-in-out;
+}
+
+.uui-spinner-bars rect:nth-child(1) {
+  animation-delay: 0s;
+}
+.uui-spinner-bars rect:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.uui-spinner-bars rect:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.uui-spinner-bars rect:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+@keyframes uui-spinner-bars {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scaleY(0.45);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+/* ---------------- orbit ---------------- */
+.uui-spinner-orbit {
+  width: 100%;
+  height: 100%;
+}
+
+.uui-spinner-orbit circle {
+  fill: currentColor;
+  opacity: 0.15;
+  animation: uui-orbit 1s infinite linear;
+  scale: 1;
+}
+
+.uui-spinner-orbit circle:nth-child(1) {
+  animation-delay: 0s;
+}
+.uui-spinner-orbit circle:nth-child(2) {
+  animation-delay: 0.125s;
+}
+.uui-spinner-orbit circle:nth-child(3) {
+  animation-delay: 0.25s;
+}
+.uui-spinner-orbit circle:nth-child(4) {
+  animation-delay: 0.375s;
+}
+.uui-spinner-orbit circle:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.uui-spinner-orbit circle:nth-child(6) {
+  animation-delay: 0.625s;
+}
+.uui-spinner-orbit circle:nth-child(7) {
+  animation-delay: 0.75s;
+}
+.uui-spinner-orbit circle:nth-child(8) {
+  animation-delay: 0.875s;
+}
+
+@keyframes uui-orbit {
+  0% {
+    opacity: 1;
+  }
+  12% {
+    opacity: 0.6;
+  }
+  30% {
+    opacity: 0.15;
+  }
+  100% {
+    opacity: 0.15;
+  }
+}
+
+
+/* ---------------- arc ---------------- */
+
+.uui-spinner-arc {
+  width: 100%;
+  height: 100%;
+  animation: uui-spinner-arc 1s cubic-bezier(0.3, 0, 0.5, 1) infinite;
+}
+
+@keyframes uui-spinner-arc {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ---------------- step bar ---------------- */
+
+.uui-spinner-step-bar {
+  width: 100%;
+  height: 100%;
+}
+
+.uui-spinner-step-bar rect {
+  fill: currentColor;
+  animation: uui-spinner-step-bar 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* przesunięcia w czasie */
+.uui-spinner-step-bar rect:nth-child(1) {
+  animation-delay: 0s;
+}
+.uui-spinner-step-bar rect:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.uui-spinner-step-bar rect:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes uui-spinner-step-bar {
+  0%,
+  100% {
+    opacity: 0.1;
+    y: 20px;
+    height: 8px;
+  }
+
+  30% {
+    y: 0px;
+    height: 48px;
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+    y: 0px;
+    height: 48px;
+  }
+}
+
+/* ---------------- dual ring ---------------- */
+.uui-spinner-dual-ring {
+  width: 100%;
+  height: 100%;
+  animation: uui-spinner-arc 1.1s linear infinite;
+}
+
+.uui-spinner-dual-ring circle {
+  stroke: currentColor;
+}
+
+.uui-spinner-dual-ring circle:first-child {
+  opacity: 0.25;
+}
+
+.uui-spinner-dual-ring circle:last-child {
+  stroke-dasharray: 32 78;
+  stroke-linecap: round;
+}
+

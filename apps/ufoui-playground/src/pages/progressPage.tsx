@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import {
     Article,
@@ -23,10 +23,37 @@ export const ProgressPage = () => {
     const [borderColor, setBorderColor] = useState<BorderColor | null>(null);
 
     const [value, setValue] = useState(0);
+    const holdTicks = useRef(0);
+    const direction = useRef<'up' | 'down'>('up');
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setValue(prev => (prev >= 100 ? 0 : prev + 1));
+            setValue(prev => {
+                if (direction.current === 'up') {
+                    if (prev >= 100) {
+                        if (holdTicks.current < 20) {
+                            holdTicks.current += 1;
+                            return 100;
+                        }
+                        holdTicks.current = 0;
+                        direction.current = 'down';
+                        return 99;
+                    }
+                    return prev + 1;
+                }
+
+                if (prev <= 0) {
+                    if (holdTicks.current < 20) {
+                        holdTicks.current += 1;
+                        return 0;
+                    }
+                    holdTicks.current = 0;
+                    direction.current = 'up';
+                    return 1;
+                }
+
+                return prev - 1;
+            });
         }, 50);
 
         return () => {
