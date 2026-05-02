@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-import { Grid, SemanticColor, useTheme } from '@ufoui/core';
+import { getColorNames, getOnColorName, Grid, SemanticColor, ThemeColor, useTheme } from '@ufoui/core';
 
 const colors: SemanticColor[] = ['primary', 'secondary', 'tertiary', 'warning', 'error', 'info', 'success'];
 
@@ -21,6 +21,15 @@ const ColorPage = () => {
             }, {}),
         },
     };
+    const colorGroups = [
+        { name: 'semantic', colors: getColorNames('semantic') },
+        { name: 'extended', colors: getColorNames('extended') },
+        { name: 'surface', colors: getColorNames('surface') },
+        { name: 'base', colors: getColorNames('base') },
+        { name: 'border', colors: getColorNames('border') },
+        { name: 'theme', colors: getColorNames('theme') },
+    ] as const;
+    const toThemeKey = (token: string) => token.toLowerCase();
     return (
         <Grid className="grid-cols-2 gap-x-2">
             {colors.map(color => {
@@ -388,6 +397,36 @@ const ColorPage = () => {
                         </div>
                     </div>
                 </div>
+            ))}
+            <div className="col-span-2 pt-2 font-bold capitalize">Color Groups (Token Lists)</div>
+            {colorGroups.map(group => (
+                <Fragment key={group.name}>
+                    <div className="col-span-2 p-2 font-bold capitalize">{group.name}</div>
+                    {['light', 'dark'].map(scheme => (
+                        <div className={`p-2 ${scheme}`} key={`${group.name}-${scheme}`}>
+                            <div className="flex flex-wrap gap-2">
+                                {group.colors.map(colorName => {
+                                    const token = colorName as ThemeColor;
+                                    const onToken = getOnColorName(token);
+                                    const bg = lcTheme[scheme][toThemeKey(colorName)];
+                                    const fg = onToken ? lcTheme[scheme][toThemeKey(onToken)] : '#000';
+                                    return (
+                                        <div
+                                            className="flex h-[40px] w-[120px] items-center justify-center rounded border border-black/10 px-1 text-center text-[9px] leading-tight"
+                                            key={colorName}
+                                            style={{
+                                                backgroundColor: bg,
+                                                color: fg,
+                                            }}
+                                            title={colorName}>
+                                            {colorName}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    ))}
+                </Fragment>
             ))}
         </Grid>
     );

@@ -173,7 +173,7 @@ export const getShapeClass = (shape?: ElementShape): string => {
  * @param size Size token.
  * @returns CSS class for size variant.
  */
-export const getSizeClass = (size: ElementSize): string => `uui-${toKebabCase(size)}`;
+export const getSizeClass = (size?: ElementSize): string => (size ? `uui-${toKebabCase(size)}` : '');
 
 /**
  * Returns the appropriate CSS class for the given border size.

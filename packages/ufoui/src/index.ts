@@ -40,6 +40,7 @@ export * from './components/avatar';
 export * from './components/rating/rating';
 export * from './components/breadcrumbs/breadcrumbs';
 export * from './components/link/link';
+export * from './assets';
 export * from './utils';
 export * from './types';
 export * from './hooks';

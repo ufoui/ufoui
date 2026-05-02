@@ -32,9 +32,9 @@ export function getOnColorName(colorName: ThemeColor): ThemeColor | undefined {
 export function getColorNames(type: 'semantic'): SemanticColor[];
 export function getColorNames(type: 'extended'): ExtendedColor[];
 export function getColorNames(type: 'surface'): SurfaceColor[];
-export function getColorNames(type: 'theme'): ThemeColor[];
 export function getColorNames(type: 'base'): BaseColor[];
 export function getColorNames(type: 'border'): BorderColor[];
+export function getColorNames(type: 'theme'): ThemeColor[];
 export function getColorNames(type: ColorType) {
     let allowedTypes: ColorType[];
 
@@ -47,6 +47,9 @@ export function getColorNames(type: ColorType) {
             break;
         case 'border':
             allowedTypes = ['semantic', 'surface', 'extended', 'border'];
+            break;
+        case 'theme':
+            allowedTypes = ['semantic', 'surface', 'extended', 'border', 'theme'];
             break;
         default:
             allowedTypes = [type];
