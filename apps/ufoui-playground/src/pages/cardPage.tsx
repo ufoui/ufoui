@@ -121,6 +121,7 @@ export const CardPage = () => {
                                     src={cliparts[idx % cliparts.length]}
                                 />
                             </CardMedia>
+
                             {paragraphs[idx % paragraphs.length]}
                             <CardActions
                                 actions={
