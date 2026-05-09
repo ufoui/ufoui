@@ -18,7 +18,7 @@ import {
     getFontClass,
     SurfaceColor,
 } from '../../utils';
-import { MotionAnimation, MotionStyle } from '../../types';
+import { ElementAnimation } from '../../types';
 
 /**
  * Props for {@link AccordionItem}.
@@ -40,9 +40,7 @@ export interface AccordionItemProps {
     showIcon?: boolean;
     variant?: AccordionVariant;
     font?: ElementFont;
-    animation?: MotionAnimation;
-    motionStyle?: MotionStyle;
-    duration?: number;
+    animation?: ElementAnimation;
     flush?: boolean;
     divided?: boolean;
     onFocus?: React.FocusEventHandler<HTMLButtonElement>;
@@ -82,8 +80,6 @@ export const AccordionItem = ({
     font,
     variant,
     animation,
-    duration,
-    motionStyle,
     flush,
     divided,
     onFocus,
@@ -141,6 +137,13 @@ export const AccordionItem = ({
     stateStyle.bg.on(finalColor);
     controlStyle.bg(finalColor);
     controlStyle.text.on(finalColor);
+    const collapseAnimation: ElementAnimation = {
+        animation: 'fade',
+        duration: 220,
+        style: 'regular',
+        ...(typeof config?.animation === 'string' ? { animation: config.animation } : config?.animation),
+        ...(typeof animation === 'string' ? { animation } : animation),
+    };
 
     return (
         <div className={itemClasses} data-open={isOpen}>
@@ -162,12 +165,7 @@ export const AccordionItem = ({
                 </button>
                 {trailingContent}
             </div>
-
-            <Collapse
-                animation={animation ?? config?.animation}
-                duration={duration ?? config?.duration}
-                motionStyle={motionStyle ?? config?.motionStyle}
-                open={isOpen}>
+            <Collapse animation={collapseAnimation} open={isOpen}>
                 <div aria-labelledby={`${id}-trigger`} id={`${id}-content`} role="region">
                     {children}
                 </div>

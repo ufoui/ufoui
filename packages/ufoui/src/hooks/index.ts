@@ -1,4 +1,6 @@
 export * from './useAnimate';
+export * from './useUpdateEffect';
+export * from './useMotion';
 export * from './useClickOutside';
 export * from './useEscapeHandler';
 export * from './useFocusVisible';

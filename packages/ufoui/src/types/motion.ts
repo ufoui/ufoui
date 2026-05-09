@@ -54,6 +54,32 @@ export function getAnimationList(): MotionAnimation[] {
 export type MotionStyle = 'regular' | 'expressive';
 
 /**
+ * Motion configuration.
+ *
+ * Allows passing either:
+ * - animation preset name (`MotionAnimation`)
+ * - full config object with animation, duration and style
+ */
+export interface MotionConfig {
+    /** Motion animation preset. */
+    animation: MotionAnimation;
+    /** Animation duration in milliseconds. */
+    duration?: number;
+    /** Motion style variant. */
+    style?: MotionStyle;
+    /** First-render behaviour: `'animate'` plays the open transition on mount, `'skip'` shows the final state immediately. Defaults to the component's own UX default when omitted. */
+    initial?: 'animate' | 'skip';
+}
+
+/**
+ * Motion value.
+ *
+ * Can be provided as a shorthand animation preset name
+ * or as a full {@link MotionConfig} object.
+ */
+export type ElementAnimation = MotionAnimation | MotionConfig;
+
+/**
  * Returns CSS class name for motion style.
  * Expressive enables extended motion parameters.
  */

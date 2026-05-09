@@ -32,7 +32,7 @@ export const CollapsePage = () => {
 
     const shared = useMemo(
         () => ({
-            color: color ?? undefined,
+            color: color ?? 'black',
             shape: shape ?? undefined,
             elevation: elevation ?? undefined,
             border: border ?? undefined,
@@ -70,7 +70,7 @@ export const CollapsePage = () => {
                     tonal
                 />
                 <Div className="w-[1250px]">
-                    <Collapse {...shared} animation="slideDown" motionStyle="expressive" open={open2}>
+                    <Collapse {...shared} animation="slideDown" open={open2}>
                         <Span>{text2}</Span>
                     </Collapse>
                 </Div>

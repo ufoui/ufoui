@@ -3,7 +3,7 @@ import React, { forwardRef, ReactNode, useEffect, useRef, useState } from 'react
 import { cn, ControlStyle, ElementElevation, ElementShape, SurfaceColor, ToastStatus } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base';
 import { toastStore } from '../../utils/toasts/toastStore';
-import { MotionAnimation, MotionStyle } from '../../types';
+import { ElementAnimation, MotionConfig } from '../../types';
 import { Collapse } from '../collapse/collapse';
 
 /**
@@ -45,14 +45,8 @@ export interface ToastProps extends Omit<BoxBaseProps, 'children'> {
     /** Shape token. Default: smooth */
     shape?: ElementShape;
 
-    /** Animation preset used by internal motion elements. */
-    animation?: MotionAnimation;
-
-    /** Animation duration in milliseconds. */
-    duration?: number;
-
-    /** Motion style applied to animated elements. */
-    motionStyle?: MotionStyle;
+    /** Motion value (`MotionAnimation` or full motion config). */
+    animation?: ElementAnimation;
 
     leaving?: boolean;
     onExitComplete?: (id: string) => void;
@@ -78,9 +72,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
             icon,
             action,
             content,
-            duration = 400,
-            animation = 'flipY',
-            motionStyle,
+            animation,
             timeout,
             elevation = 3,
             shape = 'smooth',
@@ -101,9 +93,10 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
                 return;
             }
             exitingRef.current = true;
+            const exitDuration = typeof animation === 'object' ? (animation.duration ?? 400) : 400;
             setTimeout(() => {
                 onExitComplete?.(id);
-            }, duration);
+            }, exitDuration);
         };
 
         useEffect(() => {
@@ -156,6 +149,13 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
             </>
         );
 
+        const collapseAnimation: MotionConfig = {
+            animation: 'flipY',
+            duration: 400,
+            style: 'regular',
+            ...(typeof animation === 'string' ? { animation } : animation),
+        };
+
         return (
             <BoxBase
                 className={cn('uui-toast', statusClass, className)}
@@ -165,7 +165,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProps>(
                 shape={shape}
                 style={style.get()}
                 {...rest}>
-                <Collapse animation={animation} duration={duration} motionStyle={motionStyle} open={open}>
+                <Collapse animation={collapseAnimation} open={open}>
                     <div className="uui-toast-region" id={`${id}-content`} role="region">
                         {toast}
                     </div>

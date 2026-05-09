@@ -1,9 +1,9 @@
-import { forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
+import { forwardRef, ReactNode, useRef, useState } from 'react';
 
-import { ControlStyle, getShapeClass } from '../../utils';
+import { cn, ControlStyle, getShapeClass } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base';
-import { ObservedElementSize, useAnimate, useResizeObserver } from '../../hooks';
-import { getAnimationClass, getMotionStyleClass, MotionAnimation, MotionStyle } from '../../types';
+import { ObservedElementSize, useMotion, useResizeObserver, useUpdateEffect } from '../../hooks';
+import { ElementAnimation } from '../../types';
 
 /**
  * Props for the Collapse component.
@@ -11,23 +11,14 @@ import { getAnimationClass, getMotionStyleClass, MotionAnimation, MotionStyle } 
  * @category Collapse
  */
 export interface CollapseProps extends Omit<BoxBaseProps, 'elevation'> {
-    /** Motion animation key. Default: slideDown. */
-    animation?: MotionAnimation;
-
+    /** Motion value (`MotionAnimation` or full motion config). */
+    animation?: ElementAnimation;
     /** Content rendered inside the container. */
     children?: ReactNode;
-
     /** Additional root class name. */
     className?: string;
-
-    /** Animation duration in milliseconds. Default: 220. */
-    duration?: number;
-
-    /** Motion style variant. */
-    motionStyle?: MotionStyle;
-
     /** Controls whether the container is expanded. */
-    open: boolean;
+    open?: boolean;
 }
 
 /**
@@ -41,47 +32,37 @@ export interface CollapseProps extends Omit<BoxBaseProps, 'elevation'> {
  * @category Collapse
  */
 export const Collapse = forwardRef<HTMLDivElement, CollapseProps>((props, ref) => {
-    const {
-        open,
-        animation = 'fade',
-        duration = 220,
-        motionStyle = 'regular',
-        className,
-        children,
-        style,
-        shape,
-        ...other
-    } = props;
-
-    const isFirstRender = useRef(true);
+    const { open, animation, className, children, style, shape, ...other } = props;
+    const isOpen = open !== false;
+    const resolvedInitial = (typeof animation === 'object' ? animation.initial : undefined) ?? 'skip';
     const contentRef = useRef<HTMLDivElement>(null);
     const [size, setSize] = useState<number | undefined>(undefined);
 
-    const { animationVars, animate, animating } = useAnimate({
-        t1: duration,
+    const { animationVars, animate, animating, animationClasses } = useMotion(animation, {
+        animation: 'fade',
+        duration: 2200,
     });
-
+    console.log(animationClasses, animating);
     const handleResize = ({ height }: ObservedElementSize) => {
         setSize(height);
-        isFirstRender.current = false;
     };
 
     useResizeObserver(contentRef, handleResize, !animating, true);
 
-    useEffect(() => {
-        if (isFirstRender.current) {
-            return;
-        }
-        animate(open ? 'open' : 'closed');
-    }, [open]);
+    useUpdateEffect(
+        () => {
+            animate(isOpen ? 'open' : 'closed');
+        },
+        [open],
+        size !== undefined
+    );
 
-    const wrapperClasses = ['uui-collapse', className, ...(shape ? [getShapeClass(shape)] : [])]
-        .filter(Boolean)
-        .join(' ');
+    const wrapperClasses = cn('uui-collapse', className, getShapeClass(shape));
 
     const wrapperStyle = ControlStyle();
     wrapperStyle.merge(animationVars);
-    if (open) {
+
+    if (isOpen) {
         if (size !== undefined) {
             wrapperStyle.set('height', `${size}px`);
         }
@@ -89,21 +70,17 @@ export const Collapse = forwardRef<HTMLDivElement, CollapseProps>((props, ref) =
         wrapperStyle.set('height', '0px');
     }
 
-    const contentClasses = [animating && getAnimationClass(animation), getMotionStyleClass(motionStyle)]
-        .filter(Boolean)
-        .join(' ');
-
     const controlStyle = ControlStyle(style);
     controlStyle.merge(animationVars);
 
     return (
         <div
-            aria-hidden={!open}
+            aria-hidden={!isOpen}
             className={wrapperClasses}
-            {...(!open ? { inert: '' } : {})}
+            {...(!isOpen ? { inert: '' } : {})}
             style={wrapperStyle.get()}>
             <div className="uui-collapse-wrapper" ref={contentRef}>
-                <BoxBase {...other} className={contentClasses} ref={ref} shape={shape} style={controlStyle.get()}>
+                <BoxBase {...other} className={animationClasses} ref={ref} shape={shape} style={controlStyle.get()}>
                     {children}
                 </BoxBase>
             </div>

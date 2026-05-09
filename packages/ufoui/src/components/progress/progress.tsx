@@ -1,22 +1,33 @@
-import React, { forwardRef, useMemo } from 'react';
+import React, { forwardRef, HTMLAttributes } from 'react';
 
 import { SpinnerRingSvg } from '../../assets';
-import { cn, ControlStyle, ElementSize, getSizeClass, SemanticColor } from '../../utils';
-import { BoxBase, BoxBaseProps } from '../base';
+import {
+    cn,
+    ControlStyle,
+    ElementShape,
+    ElementSize,
+    getSizeClass,
+    getWrapperStyle,
+    SemanticColor,
+    SurfaceColor,
+    WrapperProps,
+} from '../../utils';
 
 /**
  * Props for {@link Progress}.
  *
  * @category Progress
  */
-export interface ProgressProps extends Omit<BoxBaseProps, 'children'> {
+export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'>, WrapperProps {
     variant?: 'linear' | 'circular';
     value?: number;
     min?: number;
     max?: number;
     color?: SemanticColor;
+    trackColor?: SurfaceColor;
     size?: ElementSize;
     thickness?: number;
+    shape?: ElementShape;
 }
 
 /**
@@ -36,6 +47,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
             min = 0,
             max = 100,
             color = 'primary',
+            trackColor = 'secondaryContainer',
             size = 'medium',
             thickness,
             className,
@@ -44,21 +56,11 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
         },
         ref
     ) => {
+        const { wrapperStyle, otherProps } = getWrapperStyle(rest);
         const isDeterminate = typeof value === 'number';
 
-        const clampedValue = useMemo(() => {
-            if (!isDeterminate) {
-                return 0;
-            }
-            return Math.min(Math.max(value, min), max);
-        }, [value, min, max, isDeterminate]);
-
-        const percentage = useMemo(() => {
-            if (!isDeterminate) {
-                return 0;
-            }
-            return ((clampedValue - min) / (max - min)) * 100;
-        }, [clampedValue, min, max, isDeterminate]);
+        const clampedValue = isDeterminate ? Math.min(Math.max(value, min), max) : 0;
+        const percentage = isDeterminate ? ((clampedValue - min) / (max - min)) * 100 : 0;
 
         const ariaProps = isDeterminate
             ? {
@@ -73,53 +75,49 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
                   'aria-valuemax': max,
               };
 
-        const wrapperClasses = [
+        const wrapperClasses = cn(
+            className,
             'uui-progress',
             variant === 'circular' ? 'uui-progress-circular' : 'uui-progress-linear',
             !isDeterminate ? 'uui-progress-indeterminate' : '',
-            getSizeClass(size),
-            className,
-        ]
-            .filter(Boolean)
-            .join(' ');
+            getSizeClass(size)
+        );
 
-        const mergedStyle = {
-            ...(style ?? {}),
-            ...(thickness ? { '--uui-progress-thickness': `${thickness}px` } : {}),
-        } as React.CSSProperties;
+        const trackStyle = ControlStyle();
+        const indicatorStyle = ControlStyle();
 
         // ─────────────────────────────
         // CIRCULAR
         // ─────────────────────────────
 
         if (variant === 'circular') {
-            const trackStyle = ControlStyle();
-            const indicatorStyle = ControlStyle();
-
-            trackStyle.stroke.container(color);
+            trackStyle.stroke(trackColor);
             indicatorStyle.stroke(color);
-            const classes = cn('uui-spinner', !isDeterminate && 'uui-spinner-ring', getSizeClass(size), className);
+            const classes = cn('uui-spinner', !isDeterminate && 'uui-spinner-ring', wrapperClasses);
+            const circularStyle = ControlStyle(wrapperStyle);
+            circularStyle.merge(style);
             return (
-                <div className={wrapperClasses} ref={ref} style={mergedStyle} {...ariaProps} {...rest}>
-                    <SpinnerRingSvg
-                        aria-hidden="true"
-                        className={classes}
-                        indicatorProps={{
-                            pathLength: 100,
-                            style: {
-                                ...indicatorStyle.get(),
-                                ...(isDeterminate
-                                    ? {
-                                          animation: 'none',
-                                          strokeDasharray: `${percentage} 100`,
-                                          strokeDashoffset: 0,
-                                      }
-                                    : {}),
-                            },
-                        }}
-                        trackProps={{ style: trackStyle.get() }}
-                    />
-                </div>
+                <SpinnerRingSvg
+                    aria-hidden="true"
+                    className={classes}
+                    indicatorProps={{
+                        pathLength: 100,
+                        style: {
+                            ...indicatorStyle.get(),
+                            ...(isDeterminate
+                                ? {
+                                      animation: 'none',
+                                      strokeDasharray: `${percentage} 100`,
+                                      strokeDashoffset: 0,
+                                      opacity: percentage > 0 ? 1 : 0,
+                                  }
+                                : {}),
+                        },
+                    }}
+                    style={circularStyle.get()}
+                    trackProps={{ style: trackStyle.get() }}
+                    {...otherProps}
+                />
             );
         }
 
@@ -127,14 +125,17 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
         // LINEAR
         // ─────────────────────────────
 
-        const trackStyle = ControlStyle();
-        const indicatorStyle = ControlStyle();
+        const mergedStyle = {
+            ...(wrapperStyle ?? {}),
+            ...(style ?? {}),
+            ...(thickness ? { '--uui-progress-thickness': `${thickness}px` } : {}),
+        } as React.CSSProperties;
 
-        trackStyle.bg.container(color);
+        trackStyle.bg(trackColor);
         indicatorStyle.bg(color);
 
         return (
-            <BoxBase className={wrapperClasses} ref={ref} style={mergedStyle} {...ariaProps} {...rest}>
+            <div className={wrapperClasses} ref={ref} style={mergedStyle} {...ariaProps} {...otherProps}>
                 <div className="uui-progress-track" style={trackStyle.get()}>
                     <div
                         className="uui-progress-indicator"
@@ -144,7 +145,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
                         }}
                     />
                 </div>
-            </BoxBase>
+            </div>
         );
     }
 );

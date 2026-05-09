@@ -46,7 +46,7 @@
    CIRCULAR
    ========================================================= */
 
-.uui-progress-circular svg .uui-spinner-ring-track {
+.uui-progress-circular .uui-spinner-ring-track {
     opacity: 1;
 }
 

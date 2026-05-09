@@ -15,7 +15,7 @@ import {
     ElementShape,
     getDensityClass,
 } from '../../utils';
-import { MotionAnimation, MotionStyle } from '../../types';
+import { ElementAnimation } from '../../types';
 import { useSelectionState } from '../../hooks';
 
 export type AccordionVariant = 'text' | 'pills' | 'grouped' | 'segmented';
@@ -29,9 +29,7 @@ export type AccordionConfig = {
     border?: ElementBorder;
     borderColor?: BorderColor;
     shape?: ElementShape;
-    animation?: MotionAnimation;
-    motionStyle?: MotionStyle;
-    duration?: number;
+    animation?: ElementAnimation;
     color?: BaseColor;
     disabled?: boolean;
 };
@@ -55,9 +53,7 @@ export interface AccordionProps extends Omit<BoxBaseProps, 'type' | 'gap' | 'gap
     border?: ElementBorder;
     borderColor?: BorderColor;
     font?: ElementFont;
-    animation?: MotionAnimation;
-    motionStyle?: MotionStyle;
-    duration?: number;
+    animation?: ElementAnimation;
 }
 
 /**
@@ -82,8 +78,6 @@ export const Accordion = ({
     font,
     shape,
     animation,
-    motionStyle,
-    duration = 250,
     color,
     disabled,
 }: AccordionProps) => {
@@ -107,8 +101,6 @@ export const Accordion = ({
         showIcon: showIcon,
         font: font,
         animation: animation,
-        motionStyle: motionStyle,
-        duration: duration,
         color: color,
         disabled: disabled,
         ...accordionProps,
@@ -145,8 +137,6 @@ export const Accordion = ({
                     const item = group[0];
                     const val = item.props.value;
                     const isOpen = values.includes(val);
-
-                    // Sprawdzamy stan sąsiadów
                     const isFirst = i === 0;
                     const isLast = i === accordionItems.length - 1;
 
@@ -155,43 +145,22 @@ export const Accordion = ({
 
                     const isPrevOpen = prevItem && values.includes(prevItem.props.value);
                     const isNextOpen = nextItem && values.includes(nextItem.props.value);
-
-                    // LOGIKA "SKLEJANIA" (Tylko dla segmented)
                     const isSegmented = variant === 'segmented';
-
-                    // Kleimy górę, jeśli nie jesteśmy pierwsi i nad nami jest zamknięty blok
                     const shouldStickTop = isSegmented && !isFirst && !isOpen && !isPrevOpen;
-
-                    // Kleimy dół, jeśli nie jesteśmy ostatni i pod nami jest zamknięty blok
                     const shouldStickBottom = isSegmented && !isLast && !isOpen && !isNextOpen;
-
-                    const topClip = shouldStickTop ? '0px' : '-100px';
-
-                    // Dla dołu robimy to samo - jeśli pod nami jest zamknięty (shouldStickBottom), tniemy.
-                    const bottomClip = shouldStickBottom ? '0px' : '-100px';
-
                     return (
                         <BoxBase
-                            key={val} // Stabilny klucz to podstawa animacji
+                            key={val}
                             {...accordionProps}
                             className={cn(classes, isOpen && 'uui-open')}
                             direction="col"
                             style={
                                 isSegmented
                                     ? {
-                                          // Nakładanie ramek i odstępy
-                                          // marginTop: shouldStickTop ? '0' : isFirst ? '0' : '12px',
-                                          // Dynamiczne promienie (null/undefined przywraca domyślny z klasy shape)
                                           borderTopLeftRadius: shouldStickTop ? 0 : undefined,
                                           borderTopRightRadius: shouldStickTop ? 0 : undefined,
                                           borderBottomLeftRadius: shouldStickBottom ? 0 : undefined,
                                           borderBottomRightRadius: shouldStickBottom ? 0 : undefined,
-                                          // overflowY: 'hidden',
-                                          // clipPath: isOpen
-                                          //     ? 'inset(-100px -100px -100px -100px)'
-                                          //     : `inset(${topClip} -100px ${bottomClip} -100px)`,
-
-                                          // Żeby cienie i ramki otwartego elementu były na wierzchu
                                           zIndex: isOpen ? 0 : i,
                                           position: 'relative',
                                           transition: 'all 250ms ease',

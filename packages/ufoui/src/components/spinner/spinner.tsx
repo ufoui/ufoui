@@ -10,16 +10,29 @@ import {
     SpinnerRingSvg,
     SpinnerStepBarSvg,
 } from '../../assets';
-import { BaseColor, cn, ControlStyle, ElementSize, getSizeClass, toKebabCase } from '../../utils';
+import {
+    BaseColor,
+    cn,
+    ControlStyle,
+    ElementSize,
+    getSizeClass,
+    getWrapperStyle,
+    toKebabCase,
+    WrapperProps,
+} from '../../utils';
 
 export type SpinnerVariant = 'ring' | 'dots' | 'blade' | 'bars' | 'orbit' | 'arc' | 'stepBar' | 'dualRing';
 
 /**
  * Props for the spinner component.
  *
+ * @remarks
+ * Supports wrapper-level spacing and positioning props from {@link WrapperProps}
+ * such as `m`, `mx`, `my`, `top`, `left`, `position`, and `zIndex`.
+ *
  * @category Spinner
  */
-export interface SpinnerProps {
+export interface SpinnerProps extends Omit<React.ComponentPropsWithoutRef<'svg'>, 'color' | 'children'>, WrapperProps {
     /** Visual spinner variant. */
     variant?: SpinnerVariant;
     /** Semantic color token applied to the spinner. */
@@ -32,6 +45,8 @@ export interface SpinnerProps {
     inline?: boolean;
     /** Accessible label. When provided, spinner is announced as a status. */
     ariaLabel?: string;
+    /** When true, spinner ignores token-based sizing and fills its container (`width/height: 100%`). */
+    fluid?: boolean;
 }
 
 const spinnerVariantMap = {
@@ -53,22 +68,43 @@ const spinnerVariantMap = {
  * @function Spinner
  * @param props Component properties.
  *
+ * @example
+ * <Spinner />
+ *
+ * @example
+ * <Spinner variant="dots" size="medium" color="primary" />
+ *
+ * @example
+ * <Spinner position="absolute" top={8} right={8} />
+ *
  * @category Spinner
  */
-export const Spinner = ({ variant = 'ring', color, size, inline, className, ariaLabel }: SpinnerProps) => {
+export const Spinner = ({
+    variant = 'ring',
+    fluid = false,
+    color,
+    size = 'medium',
+    inline,
+    className,
+    ariaLabel,
+    style,
+    ...rest
+}: SpinnerProps) => {
     const classes = cn(
         className,
         'uui-spinner',
         `uui-spinner-${toKebabCase(variant)}`,
-        getSizeClass(size),
+        !fluid && getSizeClass(size),
         inline && 'uui-spinner-inline'
     );
-    const style = ControlStyle();
-    style.text(color);
+    const { wrapperStyle, otherProps } = getWrapperStyle(rest);
+    const controlStyle = ControlStyle(wrapperStyle);
+    controlStyle.text(color);
+    controlStyle.merge(style);
     const SvgComponent = spinnerVariantMap[variant];
     const accessibilityProps = ariaLabel
         ? ({ role: 'status', 'aria-live': 'polite', 'aria-label': ariaLabel } as const)
         : ({ 'aria-hidden': true } as const);
 
-    return <SvgComponent className={classes} style={style.get()} {...accessibilityProps} />;
+    return <SvgComponent className={classes} style={controlStyle.get()} {...otherProps} {...accessibilityProps} />;
 };

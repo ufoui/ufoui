@@ -3,24 +3,22 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import {
     Article,
     Aside,
-    BorderColor,
     Div,
-    ElementBorder,
-    ElementElevation,
-    ElementShape,
+    ElementSize,
+    Grid,
     Progress,
     Section,
     SemanticColor,
+    SurfaceColor,
 } from '@ufoui/core';
 
 import { Modifiers } from '../components/modifiers/modifiers';
 
 export const ProgressPage = () => {
     const [color, setColor] = useState<SemanticColor | null>(null);
-    const [shape, setShape] = useState<ElementShape | null>(null);
-    const [elevation, setElevation] = useState<ElementElevation | null>(null);
-    const [border, setBorder] = useState<ElementBorder | null>(null);
-    const [borderColor, setBorderColor] = useState<BorderColor | null>(null);
+    const [trackColor, setTrackColor] = useState<SurfaceColor | null>(null);
+    const [size, setSize] = useState<ElementSize | null>(null);
+    const [thickness, setThickness] = useState<number | null>(null);
 
     const [value, setValue] = useState(0);
     const holdTicks = useRef(0);
@@ -64,12 +62,11 @@ export const ProgressPage = () => {
     const shared = useMemo(
         () => ({
             color: color ?? undefined,
-            shape: shape ?? undefined,
-            elevation: elevation ?? undefined,
-            border: border ?? undefined,
-            borderColor: borderColor ?? undefined,
+            trackColor: trackColor ?? undefined,
+            size: size ?? undefined,
+            thickness: thickness ?? undefined,
         }),
-        [color, shape, elevation, border, borderColor]
+        [color, trackColor, size, thickness]
     );
 
     return (
@@ -92,21 +89,37 @@ export const ProgressPage = () => {
                 </Div>
             </Section>
 
-            <Aside>
+            <Aside w={240}>
                 <Modifiers
-                    border={border}
-                    borderColor={borderColor}
                     color={color}
-                    elevation={elevation}
-                    onChange={({ color: c, elevation: el, shape: sp, border: bd, borderColor: bc }) => {
+                    onChange={({ color: c, surfaceColor: sc, size: s }) => {
                         setColor(c ?? null);
-                        setShape(sp ?? null);
-                        setElevation(el ?? null);
-                        setBorder(bd ?? null);
-                        setBorderColor(bc ?? null);
+                        setTrackColor(sc ?? null);
+                        setSize(s ?? null);
                     }}
-                    shape={shape}
+                    size={size}
+                    surfaceColor={trackColor}
                 />
+                <Grid alignItems="center" className="mt-4" cols={2} gapX={16} gapY={4}>
+                    <span>Thickness:</span>
+
+                    <input
+                        className="border-outline bg-surface text-onSurface w-full rounded-sm border px-2 py-1"
+                        id="progress-thickness"
+                        max={16}
+                        min={1}
+                        onChange={e => {
+                            if (e.target.value === '') {
+                                setThickness(null);
+                                return;
+                            }
+                            const next = Number(e.target.value);
+                            setThickness(Number.isNaN(next) ? null : next);
+                        }}
+                        type="number"
+                        value={thickness ?? ''}
+                    />
+                </Grid>
             </Aside>
         </Article>
     );

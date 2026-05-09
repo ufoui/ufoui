@@ -1,8 +1,8 @@
 import React, { ElementType, forwardRef, ReactNode, useEffect, useState } from 'react';
 
 import { BorderColor, cn, ControlStyle, ElementElevation, ElementShape, SurfaceColor } from '../../utils';
-import { getAnimationClass, getMotionStyleClass, MotionAnimation, MotionStyle } from '../../types';
-import { useAnimate } from '../../hooks';
+import { ElementAnimation } from '../../types';
+import { useMotion } from '../../hooks';
 import { BoxBase, BoxBaseProps } from '../base';
 
 export type CardVariant = 'elevated' | 'filled' | 'outlined';
@@ -30,14 +30,8 @@ export interface CardProps extends Omit<BoxBaseProps, 'type' | 'elementClass' | 
     /** Whether the card is visible. */
     open?: boolean;
 
-    /** Entry/exit animation preset. Use `none` to disable. */
-    animation?: MotionAnimation;
-
-    /** Animation duration in ms. */
-    duration?: number;
-
-    /** Motion style helper classes. */
-    motionStyle?: MotionStyle;
+    /** Motion value (`MotionAnimation` or full motion config). */
+    animation?: ElementAnimation;
 
     /** Surface color token override. */
     color?: SurfaceColor;
@@ -63,9 +57,7 @@ export const Card = forwardRef<HTMLElement, CardProps>(
             className,
             variant = 'elevated',
             open,
-            animation = 'scale',
-            duration = 240,
-            motionStyle,
+            animation,
             color,
             elevation,
             border,
@@ -78,7 +70,10 @@ export const Card = forwardRef<HTMLElement, CardProps>(
         ref
     ) => {
         const [visible, setVisible] = useState(open === undefined);
-        const { animationVars, animate, animating, idle, active } = useAnimate({ t1: duration });
+        const { animationVars, animate, idle, active, animationClasses } = useMotion(animation, {
+            animation: 'scale',
+            duration: 240,
+        });
 
         useEffect(() => {
             if (open) {
@@ -115,12 +110,7 @@ export const Card = forwardRef<HTMLElement, CardProps>(
                 as={as}
                 border={finalBorder}
                 borderColor={finalBorderColor}
-                className={cn(
-                    `uui-card-${variant}`,
-                    animating && getAnimationClass(animation),
-                    getMotionStyleClass(motionStyle),
-                    className
-                )}
+                className={cn(`uui-card-${variant}`, animationClasses, className)}
                 color={finalColor}
                 elementClass="uui-card"
                 elevation={finalElevation}

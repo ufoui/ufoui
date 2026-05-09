@@ -15,15 +15,8 @@ import {
     SurfaceColor,
     toKebabCase,
 } from '../../utils';
-import {
-    DialogIconSlot,
-    DialogType,
-    getAnimationClass,
-    getMotionStyleClass,
-    MotionAnimation,
-    MotionStyle,
-} from '../../types';
-import { ObservedElementSize, useAnimate, useEscapeHandler, useFocusTrap, useResizeObserver } from '../../hooks';
+import { DialogIconSlot, DialogType, ElementAnimation, MotionAnimation, MotionConfig } from '../../types';
+import { ObservedElementSize, useEscapeHandler, useFocusTrap, useMotion, useResizeObserver } from '../../hooks';
 import { BoxBase } from './boxBase';
 import { DialogActions, DialogContent, DialogHeader } from '../dialogs';
 
@@ -36,8 +29,9 @@ const defaultAnimation: Record<DialogType, MotionAnimation> = {
     dockLeft: 'slideLeft',
 };
 
-const resolveAnimation = (type: DialogType, animation?: MotionAnimation) => {
-    return animation === 'none' ? undefined : (animation ?? defaultAnimation[type]);
+const resolveAnimation = (type: DialogType, animation?: ElementAnimation): MotionAnimation => {
+    const name = typeof animation === 'string' ? animation : animation?.animation;
+    return name === 'none' ? 'none' : (name ?? defaultAnimation[type]);
 };
 
 /**
@@ -91,11 +85,8 @@ export interface DialogBaseProps {
     /** Renders the panel in detached layout style. */
     detached?: boolean;
 
-    /** Animation preset; `'none'` disables motion. */
-    animation?: MotionAnimation;
-
-    /** Duration in milliseconds for open and close animations. Default: 500 */
-    duration?: number;
+    /** Motion value (`MotionAnimation` or full motion config). */
+    animation?: ElementAnimation;
 
     /** Whether the dialog closes when the backdrop is clicked. Default: true */
     closeOnBackdrop?: boolean;
@@ -170,9 +161,6 @@ export interface DialogBaseProps {
     /** Additional class names for the dialog panel. */
     className?: string;
 
-    /** Motion style helper classes for the panel. */
-    motionStyle?: MotionStyle;
-
     /** Enables modal behaviour, focus trap, aria-modal, and body scroll lock when applicable. */
     modal?: boolean;
 
@@ -229,7 +217,6 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             animation,
             fit,
             detached,
-            duration = 500,
             closeOnBackdrop = true,
             closeOnEsc = true,
             children,
@@ -254,7 +241,6 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             backIcon,
             onBack,
             className,
-            motionStyle,
             modal,
             autoFocus,
             flush,
@@ -273,8 +259,11 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         const [maxW, setMaxW] = useState(false);
         const [maxH, setMaxH] = useState(false);
 
-        const { animationVars, animate, animating, idle, active } = useAnimate({
-            t1: duration,
+        const motion = animation as MotionConfig | undefined;
+        const { animationVars, animate, animating, idle, active, animationClasses } = useMotion({
+            animation: resolveAnimation(type, animation),
+            duration: motion?.duration ?? 500,
+            style: motion?.style,
         });
 
         const vdock = type === 'dockLeft' || type === 'dockRight';
@@ -355,8 +344,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
             flush && 'uui-flush',
             detached && 'uui-detached',
             getSizeClass(finalSize),
-            animating && getAnimationClass(resolveAnimation(type, animation)),
-            getMotionStyleClass(motionStyle),
+            animationClasses,
             className
         );
 

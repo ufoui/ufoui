@@ -2,7 +2,7 @@ import React, { ElementType, forwardRef, Fragment, ReactNode, useMemo, useState 
 
 import { BoxBase, BoxBaseProps } from '../base';
 import { ElementDensity, ElementFont, SurfaceColor } from '../../utils';
-import { MotionAnimation, MotionStyle } from '../../types';
+import { ElementAnimation, MotionConfig } from '../../types';
 import { Collapse } from '../collapse/collapse';
 import { Button } from '../button/button';
 
@@ -46,9 +46,7 @@ export interface BreadcrumbsProps extends BoxBaseProps {
     font?: ElementFont;
     color?: SurfaceColor;
 
-    animation?: MotionAnimation;
-    motionStyle?: MotionStyle;
-    duration?: number;
+    animation?: ElementAnimation;
 }
 
 /**
@@ -71,9 +69,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
             renderCollapse,
             as = 'nav',
             itemComponent = 'a',
-            animation = 'fade',
-            motionStyle = 'regular',
-            duration = 200,
+            animation,
             ...rest
         },
         ref
@@ -134,6 +130,13 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
             </Button>
         );
 
+        const collapseAnimation: MotionConfig = {
+            animation: 'fade',
+            duration: 200,
+            style: 'regular',
+            ...(typeof animation === 'string' ? { animation } : animation),
+        };
+
         return (
             <BoxBase
                 aria-label="breadcrumb"
@@ -177,7 +180,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(
                           );
                       })}
 
-                <Collapse animation={animation} duration={duration} motionStyle={motionStyle} open={open}>
+                <Collapse animation={collapseAnimation} open={open}>
                     <BoxBase
                         style={{
                             marginTop: 4,

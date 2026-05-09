@@ -30,9 +30,9 @@ import {
     SurfaceColor,
     uniqueID,
 } from '../../utils';
-import { getAnimationClass, getMotionStyleClass, MotionAnimation, MotionStyle } from '../../types';
+import { ElementAnimation } from '../../types';
 import { FieldsetContext, RadioGroupContext } from '../../context';
-import { useAnimate, useFocusVisible } from '../../hooks';
+import { useFocusVisible, useMotion } from '../../hooks';
 import { Description, InlineTooltipManager } from '../../internal';
 
 /**
@@ -44,8 +44,8 @@ import { Description, InlineTooltipManager } from '../../internal';
  * @category Base components
  */
 export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'color' | 'size'> {
-    /** Animation preset for check and uncheck transitions. */
-    animation?: MotionAnimation;
+    /** Motion value (`MotionAnimation` or full motion config). */
+    animation?: ElementAnimation;
 
     /** Border style. */
     border?: ElementBorder;
@@ -73,9 +73,6 @@ export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLIn
 
     /** Font applied to the description text. */
     descriptionFont?: ElementFont;
-
-    /** Duration in milliseconds for the check or uncheck animation. */
-    duration?: number;
 
     /** Required root class name for styling. */
     elementClass: string;
@@ -118,9 +115,6 @@ export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLIn
 
     /** Text color override for the label. */
     labelColor?: SurfaceColor;
-
-    /** Motion style applied to animated elements. */
-    motionStyle?: MotionStyle;
 
     /** DOM name attribute. */
     name?: string;
@@ -244,8 +238,6 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         className,
         error,
         animation,
-        duration = 150,
-        motionStyle = 'regular',
         focusColor,
         labelColor,
         textColor,
@@ -256,10 +248,15 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         ...other
     } = props;
 
-    const { animationVars, animate, animating } = useAnimate({
-        t1: duration,
-        oneShot: true,
-    });
+    const { animationVars, animate, animating, animationClasses } = useMotion(
+        animation,
+        {
+            animation: 'none',
+            duration: 150,
+            style: 'regular',
+        },
+        { oneShot: true }
+    );
 
     const group = useContext(RadioGroupContext);
     const resolvedName = type === 'radio' ? (name ?? group?.name) : name;
@@ -387,10 +384,7 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         .join(' ');
 
     const glyphStyle = ControlStyle();
-    const animationClass = getAnimationClass(animation);
-    const iconClasses = ['uui-icon', animating && animationClass, getMotionStyleClass(motionStyle)]
-        .filter(Boolean)
-        .join(' ');
+    const iconClasses = ['uui-icon', animationClasses].filter(Boolean).join(' ');
     const iconStyle = ControlStyle();
     iconStyle.merge(animationVars);
 
