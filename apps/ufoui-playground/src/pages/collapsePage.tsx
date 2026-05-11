@@ -7,7 +7,6 @@ import {
     BorderColor,
     Button,
     Collapse,
-    Div,
     ElementBorder,
     ElementElevation,
     ElementShape,
@@ -62,18 +61,18 @@ export const CollapsePage = () => {
 
                 <h2 className="mt-6">SlideDown Animation</h2>
 
-                <Button
-                    label={open2 ? 'Close' : 'Open'}
-                    onClick={() => {
-                        setOpen2(v => !v);
-                    }}
-                    tonal
-                />
-                <Div className="w-[1250px]">
-                    <Collapse {...shared} animation="slideDown" open={open2}>
-                        <Span>{text2}</Span>
-                    </Collapse>
-                </Div>
+                {/* <Button*/}
+                {/*    label={open2 ? 'Close' : 'Open'}*/}
+                {/*    onClick={() => {*/}
+                {/*        setOpen2(v => !v);*/}
+                {/*    }}*/}
+                {/*    tonal*/}
+                {/* />*/}
+                {/* <Div className="w-[1250px]">*/}
+                {/*    <Collapse {...shared} animation="slideDown" open={open2}>*/}
+                {/*        <Span>{text2}</Span>*/}
+                {/*    </Collapse>*/}
+                {/* </Div>*/}
             </Section>
 
             <Aside>

@@ -39,10 +39,10 @@ export const Collapse = forwardRef<HTMLDivElement, CollapseProps>((props, ref) =
     const [size, setSize] = useState<number | undefined>(undefined);
 
     const { animationVars, animate, animating, animationClasses } = useMotion(animation, {
-        animation: 'fade',
-        duration: 2200,
+        animation: 'slideDown',
+        duration: 15000,
     });
-    console.log(animationClasses, animating);
+
     const handleResize = ({ height }: ObservedElementSize) => {
         setSize(height);
     };
@@ -67,7 +67,10 @@ export const Collapse = forwardRef<HTMLDivElement, CollapseProps>((props, ref) =
             wrapperStyle.set('height', `${size}px`);
         }
     } else {
+        console.log(animating, animationVars);
+        // if (!animating) {
         wrapperStyle.set('height', '0px');
+        // }
     }
 
     const controlStyle = ControlStyle(style);

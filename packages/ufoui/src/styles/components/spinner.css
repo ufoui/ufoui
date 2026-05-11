@@ -1,34 +1,29 @@
 /* base */
 .uui-spinner {
   display: inline-block;
-  width: 100%;
-  height: 100%;
+  width: var(--uui-spinner-size, 100%);
+  height: var(--uui-spinner-size, 100%);
   color: currentColor;
 }
 
 .uui-spinner.uui-extra-small {
-  width: 16px;
-  height: 16px;
+  --uui-spinner-size: 16px;
 }
 
 .uui-spinner.uui-small {
-  width: 24px;
-  height: 24px;
+  --uui-spinner-size: 24px;
 }
 
 .uui-spinner.uui-medium {
-  width: 32px;
-  height: 32px;
+  --uui-spinner-size: 32px;
 }
 
 .uui-spinner.uui-large {
-  width: 40px;
-  height: 40px;
+  --uui-spinner-size: 40px;
 }
 
 .uui-spinner.uui-extra-large {
-  width: 48px;
-  height: 48px;
+  --uui-spinner-size: 48px;
 }
 
 .uui-spinner-inline {
@@ -120,8 +115,6 @@
 /* ---------------- blade ---------------- */
 
 .uui-spinner-blade {
-  width: 100%;
-  height: 100%;
 }
 
 .uui-spinner-blade rect {
@@ -172,8 +165,6 @@
 
 /* ---------------- bars ---------------- */
 .uui-spinner-bars {
-  width: 100%;
-  height: 100%;
 }
 
 .uui-spinner-bars rect {
@@ -210,8 +201,6 @@
 
 /* ---------------- orbit ---------------- */
 .uui-spinner-orbit {
-  width: 100%;
-  height: 100%;
 }
 
 .uui-spinner-orbit circle {
@@ -265,8 +254,6 @@
 /* ---------------- arc ---------------- */
 
 .uui-spinner-arc {
-  width: 100%;
-  height: 100%;
   animation: uui-spinner-arc 1s cubic-bezier(0.3, 0, 0.5, 1) infinite;
 }
 
@@ -280,8 +267,6 @@
 /* ---------------- step bar ---------------- */
 
 .uui-spinner-step-bar {
-  width: 100%;
-  height: 100%;
 }
 
 .uui-spinner-step-bar rect {
@@ -323,8 +308,6 @@
 
 /* ---------------- dual ring ---------------- */
 .uui-spinner-dual-ring {
-  width: 100%;
-  height: 100%;
   animation: uui-spinner-arc 1.1s linear infinite;
 }
 

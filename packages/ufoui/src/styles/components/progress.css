@@ -20,7 +20,27 @@
     width: 100%;
     overflow: hidden;
     border-radius: inherit;
-    height: var(--uui-progress-thickness, 4px);
+    height: var(--uui-progress-size, 4px);
+}
+
+.uui-progress-linear.uui-extra-small {
+    --uui-progress-size: 2px;
+}
+
+.uui-progress-linear.uui-small {
+    --uui-progress-size: 3px;
+}
+
+.uui-progress-linear.uui-medium {
+    --uui-progress-size: 4px;
+}
+
+.uui-progress-linear.uui-large {
+    --uui-progress-size: 8px;
+}
+
+.uui-progress-linear.uui-extra-large {
+    --uui-progress-size: 16px;
 }
 
 .uui-progress-linear .uui-progress-indicator {

@@ -26,7 +26,6 @@ export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'chi
     color?: SemanticColor;
     trackColor?: SurfaceColor;
     size?: ElementSize;
-    thickness?: number;
     shape?: ElementShape;
 }
 
@@ -49,7 +48,6 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
             color = 'primary',
             trackColor = 'secondaryContainer',
             size = 'medium',
-            thickness,
             className,
             style,
             ...rest
@@ -128,7 +126,6 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
         const mergedStyle = {
             ...(wrapperStyle ?? {}),
             ...(style ?? {}),
-            ...(thickness ? { '--uui-progress-thickness': `${thickness}px` } : {}),
         } as React.CSSProperties;
 
         trackStyle.bg(trackColor);
