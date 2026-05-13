@@ -309,10 +309,7 @@ export type SemanticColor = SemanticBaseColor;
  *
  * @category Color
  */
-export type ExtendedColor =
-    | `${SemanticBaseColor}Container`
-    | `${SemanticBaseColor}Fixed`
-    | `${SemanticBaseColor}FixedDim`;
+export type ExtendedColor = `${SemanticBaseColor}Container` | `${SemanticBaseColor}Fixed`;
 
 /**
  * `on*` counterparts for extended colors.
@@ -343,7 +340,7 @@ export type BaseColor = SemanticColor | SurfaceColor;
  *
  * @category Color
  */
-export type BorderColor = BaseColor | CoreBorderColor;
+export type BorderColor = BaseColor | CoreBorderColor | `${SemanticBaseColor}FixedDim`;
 
 /**
  * Full theme color set.

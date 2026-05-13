@@ -115,7 +115,7 @@ export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCusto
             schemes[mdScheme][`${colorName}FixedDim`] = hexFromArgb(
                 theme.palettes[colorName as keyof typeof theme.palettes].tone(80)
             );
-            regColor[`${colorName}FixedDim`] = { type: 'extended', onColor: `on${pascalColorName}FixedVariant` };
+            regColor[`${colorName}FixedDim`] = { type: 'border', onColor: `on${pascalColorName}FixedVariant` };
 
             schemes[mdScheme][`on${pascalColorName}Fixed`] = hexFromArgb(
                 theme.palettes[colorName as keyof typeof theme.palettes].tone(10)
@@ -148,7 +148,7 @@ export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCusto
         const colorName = customColor.color.name;
         const pascalColorName = colorName[0].toUpperCase() + colorName.slice(1);
         regColor[`${colorName}Fixed`] = { type: 'extended', onColor: `on${pascalColorName}Fixed` };
-        regColor[`${colorName}FixedDim`] = { type: 'extended', onColor: `on${pascalColorName}FixedVariant` };
+        regColor[`${colorName}FixedDim`] = { type: 'border', onColor: `on${pascalColorName}FixedVariant` };
         regColor[`on${pascalColorName}Fixed`] = { type: 'theme', onColor: `${colorName}Fixed` };
         regColor[`on${pascalColorName}FixedVariant`] = { type: 'theme', onColor: `${colorName}FixedDim` };
 

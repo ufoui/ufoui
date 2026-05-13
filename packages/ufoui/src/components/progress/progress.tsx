@@ -55,6 +55,8 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
         ref
     ) => {
         const { wrapperStyle, otherProps } = getWrapperStyle(rest);
+        const mergedStyle = ControlStyle(wrapperStyle);
+        mergedStyle.merge(style);
         const isDeterminate = typeof value === 'number';
 
         const clampedValue = isDeterminate ? Math.min(Math.max(value, min), max) : 0;
@@ -84,16 +86,10 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
         const trackStyle = ControlStyle();
         const indicatorStyle = ControlStyle();
 
-        // ─────────────────────────────
-        // CIRCULAR
-        // ─────────────────────────────
-
         if (variant === 'circular') {
             trackStyle.stroke(trackColor);
             indicatorStyle.stroke(color);
             const classes = cn('uui-spinner', !isDeterminate && 'uui-spinner-ring', wrapperClasses);
-            const circularStyle = ControlStyle(wrapperStyle);
-            circularStyle.merge(style);
             return (
                 <SpinnerRingSvg
                     aria-hidden="true"
@@ -112,27 +108,18 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
                                 : {}),
                         },
                     }}
-                    style={circularStyle.get()}
+                    style={mergedStyle.get()}
                     trackProps={{ style: trackStyle.get() }}
                     {...otherProps}
                 />
             );
         }
 
-        // ─────────────────────────────
-        // LINEAR
-        // ─────────────────────────────
-
-        const mergedStyle = {
-            ...(wrapperStyle ?? {}),
-            ...(style ?? {}),
-        } as React.CSSProperties;
-
         trackStyle.bg(trackColor);
         indicatorStyle.bg(color);
 
         return (
-            <div className={wrapperClasses} ref={ref} style={mergedStyle} {...ariaProps} {...otherProps}>
+            <div className={wrapperClasses} ref={ref} style={mergedStyle.get()} {...ariaProps} {...otherProps}>
                 <div className="uui-progress-track" style={trackStyle.get()}>
                     <div
                         className="uui-progress-indicator"
