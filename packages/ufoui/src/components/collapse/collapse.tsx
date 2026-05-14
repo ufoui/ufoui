@@ -34,13 +34,13 @@ export interface CollapseProps extends Omit<BoxBaseProps, 'elevation'> {
 export const Collapse = forwardRef<HTMLDivElement, CollapseProps>((props, ref) => {
     const { open, animation, className, children, style, shape, ...other } = props;
     const isOpen = open !== false;
-    const resolvedInitial = (typeof animation === 'object' ? animation.initial : undefined) ?? 'skip';
+    // const resolvedInitial = (typeof animation === 'object' ? animation.initial : undefined) ?? 'skip';
     const contentRef = useRef<HTMLDivElement>(null);
     const [size, setSize] = useState<number | undefined>(undefined);
 
-    const { animationVars, animate, animating, animationClasses } = useMotion(animation, {
-        animation: 'slideDown',
-        duration: 15000,
+    const { openingVars, closingVars, animate, animating, animationClasses } = useMotion(animation, {
+        animation: 'fade',
+        duration: 220,
     });
 
     const handleResize = ({ height }: ObservedElementSize) => {
@@ -60,21 +60,22 @@ export const Collapse = forwardRef<HTMLDivElement, CollapseProps>((props, ref) =
     const wrapperClasses = cn('uui-collapse', className, getShapeClass(shape));
 
     const wrapperStyle = ControlStyle();
-    wrapperStyle.merge(animationVars);
+    const controlStyle = ControlStyle(style);
 
+    let animationVars;
     if (isOpen) {
         if (size !== undefined) {
             wrapperStyle.set('height', `${size}px`);
         }
+        animationVars = openingVars;
     } else {
-        console.log(animating, animationVars);
-        // if (!animating) {
         wrapperStyle.set('height', '0px');
-        // }
+
+        animationVars = closingVars;
     }
 
-    const controlStyle = ControlStyle(style);
     controlStyle.merge(animationVars);
+    wrapperStyle.merge(animationVars);
 
     return (
         <div

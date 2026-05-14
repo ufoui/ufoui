@@ -7,9 +7,12 @@ import {
     BorderColor,
     Button,
     Collapse,
+    Div,
     ElementBorder,
     ElementElevation,
     ElementShape,
+    H1,
+    H2,
     Section,
     Span,
     SurfaceColor,
@@ -31,7 +34,7 @@ export const CollapsePage = () => {
 
     const shared = useMemo(
         () => ({
-            color: color ?? 'black',
+            color: color ?? undefined,
             shape: shape ?? undefined,
             elevation: elevation ?? undefined,
             border: border ?? undefined,
@@ -45,7 +48,8 @@ export const CollapsePage = () => {
     return (
         <Article direction="row" fullWidth>
             <Section className="items-start gap-6 p-4" grow>
-                <h2>Basic Collapse</h2>
+                <H1>Collapse</H1>
+                <H2>Basic Collapse</H2>
 
                 <Button
                     filled
@@ -59,20 +63,20 @@ export const CollapsePage = () => {
                     <Span>{text1}</Span>
                 </Collapse>
 
-                <h2 className="mt-6">SlideDown Animation</h2>
+                <H2>SlideDown Animation</H2>
 
-                {/* <Button*/}
-                {/*    label={open2 ? 'Close' : 'Open'}*/}
-                {/*    onClick={() => {*/}
-                {/*        setOpen2(v => !v);*/}
-                {/*    }}*/}
-                {/*    tonal*/}
-                {/* />*/}
-                {/* <Div className="w-[1250px]">*/}
-                {/*    <Collapse {...shared} animation="slideDown" open={open2}>*/}
-                {/*        <Span>{text2}</Span>*/}
-                {/*    </Collapse>*/}
-                {/* </Div>*/}
+                <Button
+                    label={open2 ? 'Close' : 'Open'}
+                    onClick={() => {
+                        setOpen2(v => !v);
+                    }}
+                    tonal
+                />
+                <Div className="w-[1250px]">
+                    <Collapse {...shared} animation="slideDown" open={open2}>
+                        <Span>{text2}</Span>
+                    </Collapse>
+                </Div>
             </Section>
 
             <Aside>

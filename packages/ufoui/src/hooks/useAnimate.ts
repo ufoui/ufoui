@@ -42,6 +42,10 @@ export interface UseAnimateResult {
 
     /** CSS variables controlling animation timing and direction. */
     animationVars: Record<string, string>;
+    /** CSS variables for opening timing and direction. */
+    openingVars: Record<string, string>;
+    /** CSS variables for closing timing and direction. */
+    closingVars: Record<string, string>;
 
     /** Triggers animation towards open or closed state. */
     animate(next?: 'open' | 'closed'): void;
@@ -189,6 +193,14 @@ export function useAnimate(options: UseAnimateOptions = {}): UseAnimateResult {
         animationVars: {
             '--uui-duration': `${duration}ms`,
             '--uui-reverse': closing ? 'reverse' : 'normal',
+        },
+        openingVars: {
+            '--uui-duration': `${t1}ms`,
+            '--uui-reverse': 'normal',
+        },
+        closingVars: {
+            '--uui-duration': `${closeTime}ms`,
+            '--uui-reverse': 'reverse',
         },
         animate,
     };
