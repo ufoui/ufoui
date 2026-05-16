@@ -1,12 +1,34 @@
 import React from 'react';
 
+/** Generic SVG props used by spinner assets. */
 type SvgProps = React.ComponentPropsWithoutRef<'svg'>;
+/** Circle-specific SVG props for spinner ring parts. */
 type CircleProps = React.ComponentPropsWithoutRef<'circle'>;
 
+/**
+ * Props for {@link SpinnerRingSvg}.
+ *
+ * @category Assets
+ */
 interface SpinnerRingSvgProps extends SvgProps {
+    /** Props forwarded to the ring track circle element. */
     trackProps?: CircleProps;
+    /** Props forwarded to the ring indicator circle element. */
     indicatorProps?: CircleProps;
 }
+
+/**
+ * Ring spinner SVG asset.
+ *
+ * @category Assets
+ * @function
+ * @param props - SVG props including optional `trackProps` and `indicatorProps`.
+ * @param props.trackProps - Props forwarded to the track `<circle>`.
+ * @param props.indicatorProps - Props forwarded to the indicator `<circle>`.
+ *
+ * @example
+ * <SpinnerRingSvg className="uui-spinner" />
+ */
 
 export const SpinnerRingSvg = ({ trackProps, indicatorProps, ...props }: SpinnerRingSvgProps) => (
     <svg fill="none" viewBox="0 0 40 40" {...props}>
@@ -23,6 +45,13 @@ export const SpinnerRingSvg = ({ trackProps, indicatorProps, ...props }: Spinner
     </svg>
 );
 
+/**
+ * Three-dots spinner SVG asset.
+ *
+ * @category Assets
+ * @function
+ * @param props - Standard SVG props.
+ */
 export const SpinnerDotsSvg = (props: SvgProps) => (
     <svg viewBox="0 0 48 48" {...props}>
         <circle cx="10" cy="24" r="4" />
@@ -31,6 +60,13 @@ export const SpinnerDotsSvg = (props: SvgProps) => (
     </svg>
 );
 
+/**
+ * Blade-style spinner SVG asset.
+ *
+ * @category Assets
+ * @function
+ * @param props - Standard SVG props.
+ */
 export const SpinnerBladeSvg = (props: SvgProps) => (
     <svg viewBox="0 0 48 48" {...props}>
         <rect height="12" rx="2" width="4" x="22" />
@@ -44,6 +80,13 @@ export const SpinnerBladeSvg = (props: SvgProps) => (
     </svg>
 );
 
+/**
+ * Vertical-bars spinner SVG asset.
+ *
+ * @category Assets
+ * @function
+ * @param props - Standard SVG props.
+ */
 export const SpinnerBarsSvg = (props: SvgProps) => (
     <svg viewBox="0 0 48 48" {...props}>
         <rect height="14" rx="2" width="6" x="6" y="17" />
@@ -53,6 +96,13 @@ export const SpinnerBarsSvg = (props: SvgProps) => (
     </svg>
 );
 
+/**
+ * Orbit spinner SVG asset.
+ *
+ * @category Assets
+ * @function
+ * @param props - Standard SVG props.
+ */
 export const SpinnerOrbitSvg = (props: SvgProps) => (
     <svg viewBox="0 0 48 48" {...props}>
         <circle cx="24" cy="4" r="4" />
@@ -66,6 +116,13 @@ export const SpinnerOrbitSvg = (props: SvgProps) => (
     </svg>
 );
 
+/**
+ * Arc spinner SVG asset.
+ *
+ * @category Assets
+ * @function
+ * @param props - Standard SVG props.
+ */
 export const SpinnerArcSvg = (props: SvgProps) => (
     <svg fill="none" viewBox="0 0 56 56" {...props}>
         <circle cx="28" cy="28" fill="none" opacity="0.25" r="22" stroke="currentColor" strokeWidth="6" />
@@ -83,6 +140,13 @@ export const SpinnerArcSvg = (props: SvgProps) => (
     </svg>
 );
 
+/**
+ * Step-bar spinner SVG asset.
+ *
+ * @category Assets
+ * @function
+ * @param props - Standard SVG props.
+ */
 export const SpinnerStepBarSvg = (props: SvgProps) => (
     <svg viewBox="0 0 48 48" {...props}>
         <rect height="8" rx="4" width="8" x="6" y="20" />
@@ -91,6 +155,13 @@ export const SpinnerStepBarSvg = (props: SvgProps) => (
     </svg>
 );
 
+/**
+ * Dual-ring spinner SVG asset.
+ *
+ * @category Assets
+ * @function
+ * @param props - Standard SVG props.
+ */
 export const SpinnerDualRingSvg = (props: SvgProps) => (
     <svg fill="none" viewBox="0 0 56 56" {...props}>
         <circle cx="28" cy="28" fill="none" r="23" strokeWidth="6" />

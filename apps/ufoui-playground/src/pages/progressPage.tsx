@@ -1,16 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import {
-    Article,
-    Aside,
-    Div,
-    ElementSize,
-    Grid,
-    Progress,
-    Section,
-    SemanticColor,
-    SurfaceColor,
-} from '@ufoui/core';
+import { Article, Aside, Div, ElementSize, H1, H2, Progress, Section, SemanticColor, SurfaceColor } from '@ufoui/core';
 
 import { Modifiers } from '../components/modifiers/modifiers';
 
@@ -18,7 +8,6 @@ export const ProgressPage = () => {
     const [color, setColor] = useState<SemanticColor | null>(null);
     const [trackColor, setTrackColor] = useState<SurfaceColor | null>(null);
     const [size, setSize] = useState<ElementSize | null>(null);
-    const [thickness, setThickness] = useState<number | null>(null);
 
     const [value, setValue] = useState(0);
     const holdTicks = useRef(0);
@@ -64,26 +53,26 @@ export const ProgressPage = () => {
             color: color ?? undefined,
             trackColor: trackColor ?? undefined,
             size: size ?? undefined,
-            thickness: thickness ?? undefined,
         }),
-        [color, trackColor, size, thickness]
+        [color, trackColor, size]
     );
 
     return (
         <Article direction="row" fullWidth>
-            <Section className="items-start gap-6 p-4" grow>
-                <h2>Linear – Determinate</h2>
+            <Section gap={24} grow p={16}>
+                <H1>Progress</H1>
+                <H2>Linear – Determinate</H2>
                 <Progress value={value} {...shared} />
 
-                <h2 className="mt-6">Linear – Indeterminate</h2>
+                <H2>Linear – Indeterminate</H2>
                 <Progress {...shared} />
 
-                <h2 className="mt-6">Circular – Determinate</h2>
+                <H2>Circular – Determinate</H2>
                 <Div className="flex items-center gap-4">
                     <Progress value={value} variant="circular" {...shared} />
                 </Div>
 
-                <h2 className="mt-6">Circular – Indeterminate</h2>
+                <H2>Circular – Indeterminate</H2>
                 <Div className="flex items-center gap-4">
                     <Progress variant="circular" {...shared} />
                 </Div>
@@ -100,26 +89,6 @@ export const ProgressPage = () => {
                     size={size}
                     surfaceColor={trackColor}
                 />
-                <Grid alignItems="center" className="mt-4" cols={2} gapX={16} gapY={4}>
-                    <span>Thickness:</span>
-
-                    <input
-                        className="border-outline bg-surface text-onSurface w-full rounded-sm border px-2 py-1"
-                        id="progress-thickness"
-                        max={16}
-                        min={1}
-                        onChange={e => {
-                            if (e.target.value === '') {
-                                setThickness(null);
-                                return;
-                            }
-                            const next = Number(e.target.value);
-                            setThickness(Number.isNaN(next) ? null : next);
-                        }}
-                        type="number"
-                        value={thickness ?? ''}
-                    />
-                </Grid>
             </Aside>
         </Article>
     );
