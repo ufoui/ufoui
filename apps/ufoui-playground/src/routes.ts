@@ -24,6 +24,7 @@ import {
     LuSparkles,
     LuSquareCheck,
     LuSquareCode,
+    LuSlidersHorizontal,
     LuStar,
     LuTag,
     LuTextCursor,
@@ -59,6 +60,7 @@ import { AccordionPage } from './pages/accordionPage';
 import { TabsPage } from './pages/tabsPage';
 import { ToolbarPage } from './pages/toolbarPage';
 import { ProgressPage } from './pages/progressPage';
+import { SliderPage } from './pages/sliderPage';
 import { ToastPage } from './pages/toastPage';
 import { AvatarPage } from './pages/avatarPage';
 import { RatingPage } from './pages/rating';
@@ -107,6 +109,7 @@ export const appRoutes: AppRoute[] = [
     { label: 'Animation', path: paths.animation, component: AnimationPage, icon: LuSparkles, showInNav: true },
 
     { label: 'Progress', path: paths.progress, component: ProgressPage, icon: LuTrendingUp, showInNav: true },
+    { label: 'Slider', path: paths.slider, component: SliderPage, icon: LuSlidersHorizontal, showInNav: true },
     { label: 'Toast', path: paths.toast, component: ToastPage, icon: LuBell, showInNav: true },
 
     { label: 'Avatar', path: paths.avatar, component: AvatarPage, icon: LuUser, showInNav: true },

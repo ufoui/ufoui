@@ -53,6 +53,8 @@ ThemeProvider
 Link
 ControlLabel
 StateLayer
+Spinner
+Progress
 
 @experimental
 Card
@@ -68,7 +70,6 @@ Toast
 ToastViewport
 BottomSheet
 Calendar
-Progress
 Chip
 DateField
 DateTimeField
@@ -85,7 +86,6 @@ PasswordField
 PhoneField
 Select
 Slider
-Spinner
 Tab
 Tabs
 TextField

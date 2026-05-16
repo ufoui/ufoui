@@ -27,6 +27,7 @@ export const paths = {
     animation: '/components/animation',
     list: '/components/list',
     progress: '/components/progress',
+    slider: '/components/slider',
     drawer: '/components/drawer',
     bottomSheet: '/components/bottomsheet',
     fields: '/components/fields',

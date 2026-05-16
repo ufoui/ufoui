@@ -1,0 +1,339 @@
+/* =========================================================
+   UFO UI – Slider (Material Design 3)
+
+   Track thickness per MD3 spec:
+     XS = 16dp | S = 24dp | M = 40dp | L = 56dp | XL = 96dp
+
+   Handle glyph: 4 dp wide, height = max(44dp, track + 12dp)
+   Track corner = MD3 shape token per size.
+
+   Color roles (MD3):
+     Active track / state layer  → primary
+     Inactive track              → secondary-container
+     Stop on active              → on-primary
+     Stop on inactive            → on-secondary-container
+     Handle glyph                → surface
+     Value label                 → inverse-surface / inverse-on-surface
+   ========================================================= */
+
+/* ── Root ────────────────────────────────────────────────── */
+
+.uui-slider {
+    display: block;
+    width: 100%;
+    max-height: max-content;
+
+    --uui-slider-track-size: 40px;
+    --uui-slider-radius: 12px;
+    --uui-slider-stop-size: 6px;
+
+    --uui-slider-active-color: var(--uui-color-primary);
+    --uui-slider-active-on-color: var(--uui-color-on-primary);
+    --uui-slider-inactive-color: var(--uui-color-secondary-container);
+    --uui-slider-inactive-on-color: var(--uui-color-on-secondary-container);
+}
+
+/* ── Size variants ────────────────────────────────────────── */
+
+.uui-slider.uui-extra-small { --uui-slider-track-size: 16px; --uui-slider-radius:  8px; }
+.uui-slider.uui-small       { --uui-slider-track-size: 24px; --uui-slider-radius:  8px; }
+.uui-slider.uui-medium      { --uui-slider-track-size: 40px; --uui-slider-radius: 12px; }
+.uui-slider.uui-large       { --uui-slider-track-size: 56px; --uui-slider-radius: 16px; }
+.uui-slider.uui-extra-large { --uui-slider-track-size: 96px; --uui-slider-radius: 28px; }
+
+/* ── Control wrapper ─────────────────────────────────────── */
+
+.uui-slider-control-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-block: max(6px, calc((44px - var(--uui-slider-track-size)) / 2));
+}
+
+.uui-slider-control-wrapper input[type='range'] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ── Track ───────────────────────────────────────────────── */
+
+.uui-slider-control {
+    position: relative;
+    width: 100%;
+    height: var(--uui-slider-track-size);
+    border-radius: var(--uui-slider-radius);
+    cursor: pointer;
+    touch-action: none;
+    user-select: none;
+    overflow: visible;
+}
+
+.uui-slider-track {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    overflow: hidden;
+    pointer-events: none;
+    -webkit-mask: linear-gradient(to right,
+        black 0,
+        black calc(var(--uui-slider-h0, 50%) - 8px),
+        transparent calc(var(--uui-slider-h0, 50%) - 8px),
+        transparent calc(var(--uui-slider-h0, 50%) + 8px),
+        black calc(var(--uui-slider-h0, 50%) + 8px),
+        black calc(var(--uui-slider-h1, 200%) - 8px),
+        transparent calc(var(--uui-slider-h1, 200%) - 8px),
+        transparent calc(var(--uui-slider-h1, 200%) + 8px),
+        black calc(var(--uui-slider-h1, 200%) + 8px),
+        black 100%
+    );
+    mask: linear-gradient(to right,
+        black 0,
+        black calc(var(--uui-slider-h0, 50%) - 8px),
+        transparent calc(var(--uui-slider-h0, 50%) - 8px),
+        transparent calc(var(--uui-slider-h0, 50%) + 8px),
+        black calc(var(--uui-slider-h0, 50%) + 8px),
+        black calc(var(--uui-slider-h1, 200%) - 8px),
+        transparent calc(var(--uui-slider-h1, 200%) - 8px),
+        transparent calc(var(--uui-slider-h1, 200%) + 8px),
+        black calc(var(--uui-slider-h1, 200%) + 8px),
+        black 100%
+    );
+}
+
+.uui-slider-track-inactive {
+    position: absolute;
+    inset: 0;
+    background-color: var(--uui-slider-inactive-color);
+}
+
+.uui-slider-track-active {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 2px;
+    background-color: var(--uui-slider-active-color);
+}
+
+/* ── Stop indicators ─────────────────────────────────────── */
+
+.uui-slider-stops {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.uui-slider-stop {
+    position: absolute;
+    top: 50%;
+    width: var(--uui-slider-stop-size, 6px);
+    height: var(--uui-slider-stop-size, 6px);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.uui-slider-stop-active   { background-color: var(--uui-slider-active-on-color); }
+.uui-slider-stop-inactive { background-color: var(--uui-slider-inactive-on-color); }
+
+/* ── Handle ──────────────────────────────────────────────── */
+
+.uui-slider-handle {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px;
+    height: max(44px, calc(var(--uui-slider-track-size) + 12px));
+    display: grid;
+    place-items: center;
+    cursor: grab;
+    z-index: 1;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.uui-slider-handle:active { cursor: grabbing; }
+
+.uui-slider-glyph {
+    width: 4px;
+    height: max(44px, calc(var(--uui-slider-track-size) + 12px));
+    border-radius: 2px;
+    background-color: var(--uui-slider-active-color);
+    pointer-events: none;
+    transition: width 200ms cubic-bezier(0.2, 0, 0, 1), height 200ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+.uui-slider-handle:not([aria-disabled='true']):active .uui-slider-glyph {
+    width: 2px;
+}
+
+/* State layer */
+.uui-slider-state {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-color: var(--uui-slider-active-color);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 150ms ease;
+}
+
+.uui-slider-handle:not([aria-disabled='true']):hover  .uui-slider-state { opacity: var(--uui-hover-opacity,   0.08); }
+.uui-slider-handle:focus-visible                      .uui-slider-state { opacity: var(--uui-focus-opacity,   0.12); }
+.uui-slider-handle.uui-focus-visible                  .uui-slider-state { opacity: var(--uui-focus-opacity,   0.12); }
+.uui-slider-handle:not([aria-disabled='true']):active .uui-slider-state { opacity: var(--uui-pressed-opacity, 0.16); }
+
+/* Focus ring — outline-color overridden inline when color ≠ primary */
+.uui-slider-handle.uui-focus-ring {
+    outline: 3px solid var(--uui-slider-active-color);
+    outline-offset: 2px;
+    border-radius: 50%;
+}
+
+.uui-slider-range .uui-slider-handle:focus { z-index: 2; }
+
+/* ── Value indicator ──────────────────────────────────────── */
+
+.uui-slider-value-label {
+    position: absolute;
+    /* 12px above track top: 50% = handle center, + half-track = track top, + 12px gap */
+    bottom: calc(50% + var(--uui-slider-track-size) / 2 + 12px);
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+    transform-origin: bottom center;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 100ms ease, transform 100ms ease;
+}
+
+.uui-slider-handle:not([aria-disabled='true']):hover  .uui-slider-value-label,
+.uui-slider-handle:focus-visible                      .uui-slider-value-label,
+.uui-slider-handle.uui-focus-visible                  .uui-slider-value-label,
+.uui-slider-handle:not([aria-disabled='true']):active .uui-slider-value-label { opacity: 1; transform: translateX(-50%) scale(1); }
+
+.uui-slider-handle.uui-slider-label-always .uui-slider-value-label { opacity: 1; transform: translateX(-50%) scale(1); }
+
+/* ── Disabled ─────────────────────────────────────────────── */
+
+.uui-slider.uui-disabled       .uui-slider-control,
+fieldset[disabled] .uui-slider .uui-slider-control { cursor: not-allowed; pointer-events: none; }
+
+.uui-slider.uui-disabled       .uui-slider-track-active,
+.uui-slider.uui-disabled       .uui-slider-track-inactive,
+.uui-slider.uui-disabled       .uui-slider-glyph,
+fieldset[disabled] .uui-slider .uui-slider-track-active,
+fieldset[disabled] .uui-slider .uui-slider-track-inactive,
+fieldset[disabled] .uui-slider .uui-slider-glyph {
+    background-color: var(--uui-color-on-surface) !important;
+    opacity: var(--uui-disabled-opacity, 0.38);
+}
+
+/* ── Vertical orientation ─────────────────────────────────── */
+
+.uui-slider-vertical {
+    width: auto;
+}
+
+.uui-slider-vertical .uui-slider-control-wrapper {
+    flex-direction: column;
+    padding-block: 0;
+    padding-inline: max(6px, calc((44px - var(--uui-slider-track-size)) / 2));
+}
+
+.uui-slider-vertical .uui-slider-control {
+    width: var(--uui-slider-track-size);
+    height: 200px;
+    min-height: 100px;
+}
+
+.uui-slider-vertical .uui-slider-track {
+    -webkit-mask: linear-gradient(to top,
+        black 0,
+        black calc(var(--uui-slider-h0, 50%) - 8px),
+        transparent calc(var(--uui-slider-h0, 50%) - 8px),
+        transparent calc(var(--uui-slider-h0, 50%) + 8px),
+        black calc(var(--uui-slider-h0, 50%) + 8px),
+        black calc(var(--uui-slider-h1, 200%) - 8px),
+        transparent calc(var(--uui-slider-h1, 200%) - 8px),
+        transparent calc(var(--uui-slider-h1, 200%) + 8px),
+        black calc(var(--uui-slider-h1, 200%) + 8px),
+        black 100%
+    );
+    mask: linear-gradient(to top,
+        black 0,
+        black calc(var(--uui-slider-h0, 50%) - 8px),
+        transparent calc(var(--uui-slider-h0, 50%) - 8px),
+        transparent calc(var(--uui-slider-h0, 50%) + 8px),
+        black calc(var(--uui-slider-h0, 50%) + 8px),
+        black calc(var(--uui-slider-h1, 200%) - 8px),
+        transparent calc(var(--uui-slider-h1, 200%) - 8px),
+        transparent calc(var(--uui-slider-h1, 200%) + 8px),
+        black calc(var(--uui-slider-h1, 200%) + 8px),
+        black 100%
+    );
+}
+
+.uui-slider-vertical .uui-slider-track-active {
+    left: 0;
+    right: 0;
+    top: auto;
+    bottom: 0;
+    width: 100%;
+}
+
+.uui-slider-vertical .uui-slider-handle {
+    top: auto;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    width: max(44px, calc(var(--uui-slider-track-size) + 12px));
+    height: 48px;
+}
+
+.uui-slider-vertical .uui-slider-glyph {
+    width: max(44px, calc(var(--uui-slider-track-size) + 12px));
+    height: 4px;
+    border-radius: 2px;
+}
+
+.uui-slider-vertical .uui-slider-handle:not([aria-disabled='true']):active .uui-slider-glyph {
+    width: max(44px, calc(var(--uui-slider-track-size) + 12px));
+    height: 2px;
+}
+
+.uui-slider-vertical .uui-slider-stop {
+    top: auto;
+    left: 50%;
+    transform: translate(-50%, 50%);
+}
+
+.uui-slider-vertical .uui-slider-value-label {
+    bottom: auto;
+    top: 50%;
+    left: calc(50% + var(--uui-slider-track-size) / 2 + 12px);
+    transform: translateY(-50%) scale(0.8);
+    transform-origin: left center;
+}
+
+
+.uui-slider-vertical .uui-slider-handle:not([aria-disabled='true']):hover  .uui-slider-value-label,
+.uui-slider-vertical .uui-slider-handle:focus-visible                      .uui-slider-value-label,
+.uui-slider-vertical .uui-slider-handle.uui-focus-visible                  .uui-slider-value-label,
+.uui-slider-vertical .uui-slider-handle:not([aria-disabled='true']):active .uui-slider-value-label,
+.uui-slider-vertical .uui-slider-handle.uui-slider-label-always            .uui-slider-value-label { opacity: 1; transform: translateY(-50%) scale(1); }
+
+/* ── Density ─────────────────────────────────────────────── */
+
+.uui-slider.uui-compact .uui-slider-control-wrapper {
+    padding-block: max(6px, calc((40px - var(--uui-slider-track-size)) / 2));
+}
+
+.uui-slider.uui-dense .uui-slider-control-wrapper {
+    padding-block: max(6px, calc((36px - var(--uui-slider-track-size)) / 2));
+}

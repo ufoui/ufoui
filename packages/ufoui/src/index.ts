@@ -34,6 +34,7 @@ export * from './components/accordion';
 export * from './components/tabs';
 export * from './components/toolbar/toolbar';
 export * from './components/progress/progress';
+export * from './components/slider/slider';
 export * from './components/toast';
 export * from './components/calendar/calendar';
 export * from './components/avatar';
