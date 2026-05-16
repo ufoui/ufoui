@@ -125,7 +125,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(
                         className="uui-progress-indicator"
                         style={{
                             ...indicatorStyle.get(),
-                            ...(isDeterminate ? { width: `${percentage}%` } : {}),
+                            ...(isDeterminate ? { transform: `scaleX(${percentage / 100})` } : {}),
                         }}
                     />
                 </div>
