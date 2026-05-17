@@ -26,7 +26,7 @@ import {
     getSizeClass,
     mergeRefs,
     SemanticColor,
-    uniqueID,
+    useUniqueId,
 } from '../../utils';
 import { InlineTooltipManager } from '../../internal';
 import { Spinner } from '../spinner/spinner';
@@ -264,8 +264,8 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     const uploadInputRef = useRef<HTMLInputElement>(null);
     const linkRef = useRef<HTMLElement | null>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
-    const internalIdRef = useRef(uniqueID('button'));
-    const elemId = id || name || internalIdRef.current;
+    const generatedId = useUniqueId('button');
+    const elemId = id || name || generatedId;
     const linkContent = link ? React.cloneElement(link, { ref: linkRef, style: { display: 'none' } }) : null;
 
     const wrapperClasses = [

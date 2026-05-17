@@ -1,0 +1,30 @@
+# useTheme
+
+Read the current ufoui theme and update dark mode from a client component.
+
+## When to use
+
+Use `useTheme` for controls that need theme state, color values, or dark mode toggles.
+
+```tsx
+'use client';
+
+import { IconButton, useTheme } from '@ufoui/core';
+import { MdDarkMode, MdLightMode } from 'react-icons/md';
+
+export function ThemeToggle() {
+    const { theme, setDarkMode } = useTheme();
+
+    return (
+        <IconButton
+            aria-label={theme.darkMode ? 'Light mode' : 'Dark mode'}
+            icon={theme.darkMode ? <MdLightMode /> : <MdDarkMode />}
+            onClick={() => setDarkMode(!theme.darkMode)}
+        />
+    );
+}
+```
+
+## Notes
+
+`useTheme` must run under `ThemeProvider`. In Next.js App Router, place `ThemeProvider` inside a small client boundary such as `app/providers.tsx`.

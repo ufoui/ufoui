@@ -12,7 +12,7 @@ import {
     getDensityClass,
     getSizeClass,
     SurfaceColor,
-    uniqueID,
+    useUniqueId,
 } from '../../utils';
 import { StarFilledIcon, StarIcon } from '../../assets';
 import { ControlGrid, ControlLabel, Description, InlineTooltipManager } from '../../internal';
@@ -142,8 +142,8 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
         },
         ref
     ) => {
-        const internalId = useRef(uniqueID('rating')).current;
-        const elemId = id ?? name ?? internalId;
+        const generatedId = useUniqueId('rating');
+        const elemId = id ?? name ?? generatedId;
         const labelId = label ? `${elemId}_label` : undefined;
         const { isFocused, focusHandlers, focusVisible } = useFocusVisible(onFocus, onBlur);
 

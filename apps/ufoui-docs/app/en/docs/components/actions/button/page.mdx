@@ -1,0 +1,32 @@
+import { ButtonBasicExample, ButtonVariantsExample } from '../../../../../../examples/button/basic';
+
+# Button
+
+Buttons trigger actions.
+
+<CodePreview>
+    <ButtonBasicExample />
+</CodePreview>
+
+```tsx
+import { Button } from '@ufoui/core';
+
+export function Example() {
+    return <Button filled label="Get started" />;
+}
+```
+
+## Variants
+
+<CodePreview>
+    <ButtonVariantsExample />
+</CodePreview>
+
+## API
+
+| Prop       | Type      | Description                     |
+| ---------- | --------- | ------------------------------- |
+| `label`    | `string`  | Text label.                     |
+| `filled`   | `boolean` | Uses filled visual treatment.   |
+| `outlined` | `boolean` | Uses outlined visual treatment. |
+| `tonal`    | `boolean` | Uses tonal visual treatment.    |

@@ -1,0 +1,25 @@
+# useSliderKeys
+
+Add keyboard behavior to slider-like controls.
+
+## When to use
+
+Use it when building a custom slider, rating, or numeric range control.
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+import { useSliderKeys } from '@ufoui/core';
+
+export function CustomSlider() {
+    const [value, setValue] = useState(5);
+    const keys = useSliderKeys({ value, min: 0, max: 10, step: 1, onChange: setValue });
+
+    return <div role="slider" tabIndex={0} onKeyDown={keys.onKeyDown} />;
+}
+```
+
+## Notes
+
+The hook supports Arrow keys, Home, and End. It does not render ARIA attributes for you.

@@ -1,0 +1,28 @@
+# useRovingFocus
+
+Move focus through a group with Arrow, Home, and End keys.
+
+## When to use
+
+Use it for custom composite widgets such as tabs, menu items, listbox options, or accordion headers.
+
+```tsx
+'use client';
+
+import { useRovingFocus } from '@ufoui/core';
+
+export function CustomGroup() {
+    const roving = useRovingFocus('horizontal');
+
+    return (
+        <div onKeyDown={roving.onKeyDown}>
+            <button ref={roving.register}>One</button>
+            <button ref={roving.register}>Two</button>
+        </div>
+    );
+}
+```
+
+## Notes
+
+The hook skips disabled items and computes real DOM order, so it stays stable when items are reordered.

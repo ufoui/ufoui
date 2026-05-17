@@ -15,7 +15,7 @@ import {
     mergeRefs,
     SemanticColor,
     SurfaceColor,
-    uniqueID,
+    useUniqueId,
 } from '../../utils';
 import { useFocusVisible } from '../../hooks';
 
@@ -119,7 +119,8 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
 
     const inputRef = useRef<HTMLInputElement>(null);
     const controlRef = useRef<HTMLDivElement>(null);
-    const elemId = id ?? uniqueID('input');
+    const generatedId = useUniqueId('input');
+    const elemId = id ?? generatedId;
 
     const [labelUpX, setLabelUpX] = useState(0);
     const finalLeading = leading ?? icon;

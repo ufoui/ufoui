@@ -8,7 +8,7 @@ export * from './generateMaterialColors';
 export * from './applyThemeColors';
 export * from './breakpoints';
 export * from './toasts';
-export * from './uniqueID';
+export * from './useUniqueId';
 export * from './controlStyle';
 export * from './getWrapperStyle';
 export * from './flatChildren';

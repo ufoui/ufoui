@@ -1,0 +1,25 @@
+# useUpdateEffect
+
+Run an effect only after the component has initialized.
+
+## When to use
+
+Use it when mount should not trigger behavior, but later dependency changes should.
+
+```tsx
+'use client';
+
+import { useUpdateEffect } from '@ufoui/core';
+
+export function SyncedPanel({ open }: { open: boolean }) {
+    useUpdateEffect(() => {
+        console.log('open changed after mount', open);
+    }, [open]);
+
+    return null;
+}
+```
+
+## Notes
+
+The optional third argument delays initialization until a condition becomes true.

@@ -1,0 +1,32 @@
+# useAnimate
+
+Coordinate open and close animation phases without losing exit transitions.
+
+## When to use
+
+Use `useAnimate` when a component needs to stay mounted while it is closing.
+
+```tsx
+'use client';
+
+import { useEffect } from 'react';
+import { useAnimate } from '@ufoui/core';
+
+export function FadePanel({ open }: { open: boolean }) {
+    const motion = useAnimate({ t1: 180, t2: 120 });
+
+    useEffect(() => {
+        motion.animate(open ? 'open' : 'closed');
+    }, [open]);
+
+    if (!open && !motion.active) {
+        return null;
+    }
+
+    return <div style={motion.animationVars}>Panel</div>;
+}
+```
+
+## Notes
+
+Use `active` to keep a closing component mounted and `animating` to apply animation classes.

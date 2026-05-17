@@ -1,0 +1,23 @@
+# useEscapeHandler
+
+Handle Escape for overlays without closing parent layers accidentally.
+
+## When to use
+
+Use it for dialogs, menus, popovers, and temporary surfaces.
+
+```tsx
+'use client';
+
+import { useEscapeHandler } from '@ufoui/core';
+
+export function CustomDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+    useEscapeHandler(open, onClose);
+
+    return open ? <div role="dialog">...</div> : null;
+}
+```
+
+## Notes
+
+Handlers are stacked. When overlays are nested, only the most recently mounted active handler runs.

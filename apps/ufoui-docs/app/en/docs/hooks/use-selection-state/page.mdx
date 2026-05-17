@@ -1,0 +1,27 @@
+# useSelectionState
+
+Create selection state for single or multiple selection components.
+
+## When to use
+
+Use it in parent components that need selected values, selection helpers, and roving focus behavior.
+
+```tsx
+'use client';
+
+import { useSelectionState } from '@ufoui/core';
+
+export function CustomTabsState() {
+    const selection = useSelectionState('single', 'horizontal');
+
+    return (
+        <button onClick={() => selection.toggle('overview')}>
+            {selection.values.includes('overview') ? 'Selected' : 'Overview'}
+        </button>
+    );
+}
+```
+
+## Notes
+
+For child components that consume a provided selection context, use `useSelection`.

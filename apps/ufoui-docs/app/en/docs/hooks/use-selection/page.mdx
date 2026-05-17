@@ -1,0 +1,28 @@
+# useSelection
+
+Read selection state from a `SelectionContext` provider.
+
+## When to use
+
+Use it inside composed components that share selected values, selection helpers, and keyboard navigation.
+
+```tsx
+'use client';
+
+import { useSelection } from '@ufoui/core';
+
+export function CustomSelectionItem({ value }: { value: string }) {
+    const { values, toggle } = useSelection();
+    const selected = values.includes(value);
+
+    return (
+        <button aria-pressed={selected} onClick={() => toggle(value)}>
+            {value}
+        </button>
+    );
+}
+```
+
+## Notes
+
+Use `useSelectionState` in the parent when you need to create the state object that feeds the context.

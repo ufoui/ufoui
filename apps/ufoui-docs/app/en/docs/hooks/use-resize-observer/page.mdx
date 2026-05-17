@@ -1,0 +1,27 @@
+# useResizeObserver
+
+Observe an element and react when its size changes.
+
+## When to use
+
+Use it for components that need measured geometry, such as floating surfaces, virtual layouts, or adaptive controls.
+
+```tsx
+'use client';
+
+import { useRef, useState } from 'react';
+import { useResizeObserver } from '@ufoui/core';
+
+export function MeasuredBox() {
+    const ref = useRef<HTMLDivElement>(null);
+    const [width, setWidth] = useState(0);
+
+    useResizeObserver(ref, size => setWidth(size.width));
+
+    return <div ref={ref}>Width: {width}</div>;
+}
+```
+
+## Notes
+
+The hook calls your callback directly and does not manage state for you.

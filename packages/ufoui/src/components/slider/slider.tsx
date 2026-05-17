@@ -14,7 +14,7 @@ import {
     mergeRefs,
     SemanticColor,
     SurfaceColor,
-    uniqueID,
+    useUniqueId,
 } from '../../utils';
 import { FieldsetContext } from '../../context';
 import { useFocusVisible, useSliderKeys } from '../../hooks';
@@ -173,8 +173,8 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>((props, ref) => {
     const trackRef = useRef<HTMLDivElement>(null);
     const h0Ref = useRef<HTMLSpanElement>(null);
     const h1Ref = useRef<HTMLSpanElement>(null);
-    const idRef = useRef(uniqueID('slider'));
-    const elemId = id ?? idRef.current;
+    const generatedId = useUniqueId('slider');
+    const elemId = id ?? generatedId;
 
     const dispatch = useCallback(
         (next: number | [number, number]) => {

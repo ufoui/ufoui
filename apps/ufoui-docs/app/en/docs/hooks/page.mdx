@@ -1,0 +1,23 @@
+# Hooks
+
+Hooks expose the behavior layer behind ufoui components. Use them when you build custom components that should feel consistent with the rest of the library.
+
+## Theme and layout
+
+- `useTheme` reads and updates the active ufoui theme.
+- `useResponsive` resolves values against theme breakpoints.
+- `useResizeObserver` reacts to element size changes without forcing layout assumptions.
+
+## Interaction
+
+- `useClickOutside` closes floating UI when the user clicks away.
+- `useEscapeHandler` handles Escape with stack priority for nested overlays.
+- `useFocusTrap` keeps focus inside modal surfaces.
+- `useFocusVisible` shows focus affordances only for keyboard focus.
+
+## Composition
+
+- `useAnimate` and `useMotion` coordinate enter and exit motion.
+- `useSelection`, `useSelectionState`, and `useRovingFocus` power selectable groups.
+- `useSliderKeys` adds keyboard behavior for slider-like controls.
+- `useUpdateEffect` runs effects only after initialization.

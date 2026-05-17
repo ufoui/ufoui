@@ -1,0 +1,26 @@
+# useFocusTrap
+
+Keep keyboard focus inside a modal surface and restore focus when it closes.
+
+## When to use
+
+Use it for dialogs and blocking overlays.
+
+```tsx
+'use client';
+
+import { useRef } from 'react';
+import { useFocusTrap } from '@ufoui/core';
+
+export function ModalSurface({ open }: { open: boolean }) {
+    const ref = useRef<HTMLDivElement>(null);
+
+    useFocusTrap({ ref, enabled: open });
+
+    return <div ref={ref}>...</div>;
+}
+```
+
+## Notes
+
+The hook supports nested traps by keeping only the topmost trap active.

@@ -25,7 +25,7 @@ import {
     getSurfaceColorVar,
     mergeRefs,
     SemanticColor,
-    uniqueID,
+    useUniqueId,
 } from '../../utils';
 import { FieldsetContext } from '../../context';
 import { useFocusVisible } from '../../hooks';
@@ -212,8 +212,8 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
     const inputRef = useRef<HTMLInputElement>(null);
     const controlRef = useRef<HTMLDivElement>(null);
     const stateRef = useRef<HTMLDivElement>(null);
-    const internalIdRef = useRef(uniqueID('check'));
-    const elemId = id ?? internalIdRef.current;
+    const generatedId = useUniqueId('check');
+    const elemId = id ?? generatedId;
 
     const isControlled = checked !== undefined;
     const [internalChecked, setInternalChecked] = useState(defaultChecked ?? false);

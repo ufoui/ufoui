@@ -1,0 +1,30 @@
+{
+    "name": "ufoui-docs",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/ufoui-docs",
+    "projectType": "application",
+    "tags": [],
+    "targets": {
+        "dev": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "node scripts/dev.mjs",
+                "cwd": "{workspaceRoot}/apps/ufoui-docs"
+            }
+        },
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "next build --webpack",
+                "cwd": "{workspaceRoot}/apps/ufoui-docs"
+            }
+        },
+        "start": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "next start --port 4210",
+                "cwd": "{workspaceRoot}/apps/ufoui-docs"
+            }
+        }
+    }
+}

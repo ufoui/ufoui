@@ -1,0 +1,28 @@
+# useClickOutside
+
+Close menus, popovers, and other floating surfaces when the user clicks outside them.
+
+## When to use
+
+Use it when several elements should count as “inside”, such as a trigger button and a floating menu.
+
+```tsx
+'use client';
+
+import { useRef, useState } from 'react';
+import { useClickOutside } from '@ufoui/core';
+
+export function CustomMenu() {
+    const [open, setOpen] = useState(false);
+    const triggerRef = useRef<HTMLButtonElement>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    useClickOutside(open, [triggerRef, menuRef], () => setOpen(false));
+
+    return null;
+}
+```
+
+## Notes
+
+The hook listens on `mousedown`. Keep `onOutside` stable when possible to avoid unnecessary listener churn.

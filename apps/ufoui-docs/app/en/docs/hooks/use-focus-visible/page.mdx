@@ -1,0 +1,27 @@
+# useFocusVisible
+
+Track focus and show focus styling only when focus came from keyboard interaction.
+
+## When to use
+
+Use it in low-level controls that implement their own focus visual.
+
+```tsx
+'use client';
+
+import { useFocusVisible } from '@ufoui/core';
+
+export function CustomButton() {
+    const { isFocused, focusVisible, focusHandlers } = useFocusVisible();
+
+    return (
+        <button data-focus-visible={isFocused && focusVisible} {...focusHandlers}>
+            Action
+        </button>
+    );
+}
+```
+
+## Notes
+
+The hook merges external `onFocus` and `onBlur` handlers when you pass them in.

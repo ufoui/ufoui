@@ -28,7 +28,7 @@ import {
     mergeRefs,
     SemanticColor,
     SurfaceColor,
-    uniqueID,
+    useUniqueId,
 } from '../../utils';
 import { ElementAnimation } from '../../types';
 import { FieldsetContext, RadioGroupContext } from '../../context';
@@ -267,8 +267,8 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
     const inputRef = useRef<HTMLInputElement>(null);
     const controlRef = useRef<HTMLDivElement>(null);
     const stateRef = useRef<HTMLDivElement>(null);
-    const internalIdRef = useRef(uniqueID('check'));
-    const elemId = id ?? internalIdRef.current;
+    const generatedId = useUniqueId('check');
+    const elemId = id ?? generatedId;
 
     const isControlled = checked !== undefined;
     const [internalChecked, setInternalChecked] = useState(defaultChecked ?? false);

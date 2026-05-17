@@ -1,0 +1,23 @@
+# useMotion
+
+Combine ufoui motion config with animation lifecycle state.
+
+## When to use
+
+Use `useMotion` when you want a component to accept ufoui motion names or motion config objects.
+
+```tsx
+'use client';
+
+import { useMotion } from '@ufoui/core';
+
+export function AnimatedSurface() {
+    const motion = useMotion('fade', { duration: 160 });
+
+    return <div className={motion.animationClasses}>Surface</div>;
+}
+```
+
+## Notes
+
+`useMotion` builds on `useAnimate` and returns the same lifecycle flags.

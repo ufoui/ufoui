@@ -1,0 +1,24 @@
+# useResponsive
+
+Resolve responsive values against the breakpoint map from the active theme.
+
+## When to use
+
+Use `useResponsive` when a component needs runtime decisions, not only CSS media queries.
+
+```tsx
+'use client';
+
+import { Flex, useResponsive } from '@ufoui/core';
+
+export function ResponsiveActions() {
+    const { br } = useResponsive();
+    const direction = br({ base: 'column', md: 'row' });
+
+    return <Flex direction={direction}>...</Flex>;
+}
+```
+
+## Notes
+
+Prefer CSS for simple layout changes. Use this hook when JavaScript behavior also changes with the breakpoint.

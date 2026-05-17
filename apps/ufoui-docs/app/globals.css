@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    color-scheme: light;
+}
+
+html {
+    scroll-padding-top: 5rem;
+}
+
+body {
+    margin: 0;
+    background: var(--uui-color-background, #ffffff);
+    color: var(--uui-color-on-background, #191c1d);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+[data-rehype-pretty-code-figure] {
+    margin: 0;
+}
+
+[data-rehype-pretty-code-figure] pre {
+    overflow-x: auto;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    background: var(--shiki-color-background, #24292e);
+    color: var(--shiki-color-text, #e1e4e8);
+    padding: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+[data-rehype-pretty-code-figure] span {
+    color: var(--shiki-color-text);
+}
+
+[data-rehype-pretty-code-figure] code {
+    counter-reset: line;
+}
+
+.docs-content h1 {
+    margin: 0 0 1rem;
+    font-size: 2.75rem;
+    line-height: 1.1;
+    font-weight: 700;
+}
+
+.docs-content h2 {
+    margin: 2.5rem 0 1rem;
+    font-size: 1.5rem;
+    line-height: 1.25;
+    font-weight: 650;
+}
+
+.docs-content p,
+.docs-content li {
+    color: var(--uui-color-on-surface-variant, #3f484a);
+    line-height: 1.75;
+}
+
+.docs-content ul {
+    margin: 1rem 0;
+    padding-left: 1.25rem;
+}
+
+.docs-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.925rem;
+}
+
+.docs-content th,
+.docs-content td {
+    border-bottom: 1px solid var(--uui-color-outline-variant, #dbe4e7);
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.docs-content code:not(pre code) {
+    border-radius: 4px;
+    background: var(--uui-color-surface-container, #eef3f5);
+    padding: 0.125rem 0.3rem;
+    font-size: 0.875em;
+}

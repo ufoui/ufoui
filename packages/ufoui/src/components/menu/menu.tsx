@@ -37,7 +37,7 @@ import {
     mergeRefs,
     renderPortal,
     SurfaceColor,
-    uniqueID,
+    useUniqueId,
 } from '../../utils';
 import { IS_MENU, isMenu } from './menu.guards';
 import { useClickOutside, useFocusVisible } from '../../hooks';
@@ -350,9 +350,10 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
         const [activeIndex, setActiveIndex] = useState<number>(-1);
         const { focusVisible, isFocused, focusHandlers } = useFocusVisible(onFocus, onBlur);
         const level = __level ?? 0;
-        const internalGroup = useRef(id ?? uniqueID('menu')).current;
-        const groupId = __groupId ?? internalGroup;
-        const menuSurfaceId = useRef(uniqueID('uui-menu-surface')).current;
+        const generatedGroupId = useUniqueId('menu');
+        const generatedMenuSurfaceId = useUniqueId('uui-menu-surface');
+        const groupId = __groupId ?? id ?? generatedGroupId;
+        const menuSurfaceId = generatedMenuSurfaceId;
         const menuRef = useRef<HTMLDivElement>(null);
         const activeItemRef = useRef<HTMLDivElement | null>(null);
         const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
