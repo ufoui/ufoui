@@ -343,6 +343,18 @@ export type BaseColor = SemanticColor | SurfaceColor;
 export type BorderColor = BaseColor | CoreBorderColor | `${SemanticBaseColor}FixedDim`;
 
 /**
+ * Colors allowed for plain text content.
+ *
+ * @category Color
+ */
+export type TextColor =
+    | SemanticColor
+    | 'onSurface'
+    | 'onBackground'
+    | 'onSurfaceVariant'
+    | OnColor<`${SemanticBaseColor}Container`>;
+
+/**
  * Full theme color set.
  *
  * @category Color

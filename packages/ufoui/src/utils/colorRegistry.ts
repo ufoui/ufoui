@@ -3,7 +3,7 @@
  *
  * @category Theme
  */
-export type ColorType = 'semantic' | 'surface' | 'extended' | 'base' | 'border' | 'theme';
+export type ColorType = 'semantic' | 'surface' | 'extended' | 'base' | 'border' | 'text' | 'theme';
 
 /**
  * Metadata entry describing how a color name should be used.

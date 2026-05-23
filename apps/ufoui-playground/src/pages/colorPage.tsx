@@ -27,6 +27,7 @@ const ColorPage = () => {
         { name: 'surface', colors: getColorNames('surface') },
         { name: 'base', colors: getColorNames('base') },
         { name: 'border', colors: getColorNames('border') },
+        { name: 'text', colors: getColorNames('text') },
         { name: 'theme', colors: getColorNames('theme') },
     ] as const;
     const toThemeKey = (token: string) => token.toLowerCase();

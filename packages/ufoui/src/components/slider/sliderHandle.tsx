@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { cn, ElementFocusEffect } from '../../utils';
-import { TextBase } from '../base/textBase';
+import { BoxBase } from '../base';
 
 export interface SliderHandleProps {
     ariaLabel?: string;
@@ -86,9 +86,14 @@ export const SliderHandle = ({
             <span className="uui-slider-state" />
             <span className="uui-slider-glyph" />
             {showValue !== 'none' && (
-                <TextBase className="uui-slider-value-label" color="inverseSurface" font="labelLarge" shape="round" style={{ padding: '12px', minWidth: '44px', textAlign: 'center' }}>
+                <BoxBase
+                    className="uui-slider-value-label"
+                    color="inverseSurface"
+                    font="labelLarge"
+                    shape="round"
+                    style={{ padding: '12px', minWidth: '44px', textAlign: 'center' }}>
                     {displayValue}
-                </TextBase>
+                </BoxBase>
             )}
         </span>
     );

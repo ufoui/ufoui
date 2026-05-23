@@ -1,6 +1,14 @@
 import type { ColorType } from './colorRegistry';
 import { getColorRegistry } from './colorRegistry';
-import type { BaseColor, BorderColor, ExtendedColor, SemanticColor, SurfaceColor, ThemeColor } from '../types';
+import type {
+    BaseColor,
+    BorderColor,
+    ExtendedColor,
+    SemanticColor,
+    SurfaceColor,
+    TextColor,
+    ThemeColor,
+} from '../types';
 
 export type {
     CoreSemanticColor,
@@ -16,6 +24,7 @@ export type {
     BaseColor,
     ThemeColor,
     BorderColor,
+    TextColor,
 } from '../types';
 
 export function getOnColorName(colorName: ThemeColor): ThemeColor | undefined {
@@ -34,6 +43,7 @@ export function getColorNames(type: 'extended'): ExtendedColor[];
 export function getColorNames(type: 'surface'): SurfaceColor[];
 export function getColorNames(type: 'base'): BaseColor[];
 export function getColorNames(type: 'border'): BorderColor[];
+export function getColorNames(type: 'text'): TextColor[];
 export function getColorNames(type: 'theme'): ThemeColor[];
 export function getColorNames(type: ColorType) {
     let allowedTypes: ColorType[];
@@ -48,8 +58,11 @@ export function getColorNames(type: ColorType) {
         case 'border':
             allowedTypes = ['semantic', 'surface', 'extended', 'border'];
             break;
+        case 'text':
+            allowedTypes = ['semantic', 'text'];
+            break;
         case 'theme':
-            allowedTypes = ['semantic', 'surface', 'extended', 'border', 'theme'];
+            allowedTypes = ['semantic', 'surface', 'extended', 'border', 'text', 'theme'];
             break;
         default:
             allowedTypes = [type];

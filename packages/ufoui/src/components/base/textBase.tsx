@@ -12,8 +12,8 @@ import {
     getElevationClass,
     getFontClass,
     getShapeClass,
-    SurfaceColor,
 } from '../../utils';
+import { TextColor } from '../../types';
 
 /**
  * Props for {@link TextBase}.
@@ -36,8 +36,8 @@ export interface TextBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color'
     /** Text content. */
     children?: ReactNode;
 
-    /** Surface background token. */
-    color?: SurfaceColor;
+    /** Text color token. */
+    color?: TextColor;
 
     /** Semantic UUI element class (e.g. uui-text, uui-heading). */
     elementClass?: string;
@@ -85,8 +85,7 @@ export const TextBase = forwardRef<HTMLElement, TextBaseProps>((props, ref) => {
     const controlStyle = ControlStyle(style);
 
     controlStyle.border(borderColor);
-    controlStyle.bg(color);
-    controlStyle.text.on(color);
+    controlStyle.text(color);
 
     const classes = cn(
         'uui-inline',

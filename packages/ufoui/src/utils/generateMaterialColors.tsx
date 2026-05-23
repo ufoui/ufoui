@@ -91,7 +91,7 @@ export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCusto
         regColor[colorMap.color] = { type: 'semantic', onColor: colorMap.onColor };
         regColor[colorMap.onColor] = { type: 'theme', onColor: colorMap.color };
         regColor[colorMap.colorContainer] = { type: 'extended', onColor: colorMap.onColorContainer };
-        regColor[colorMap.onColorContainer] = { type: 'theme', onColor: colorMap.colorContainer };
+        regColor[colorMap.onColorContainer] = { type: 'text', onColor: colorMap.colorContainer };
         baseSchemes.forEach(mdScheme => {
             Object.keys(colorMap).forEach(key => {
                 schemes[mdScheme][colorMap[key]] = hexFromArgb(item[mdScheme][key as keyof ColorGroup]);
@@ -105,7 +105,7 @@ export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCusto
         regColor[colorName] = { type: 'semantic', onColor: `on${pascalColorName}` };
         regColor[`on${pascalColorName}`] = { type: 'theme', onColor: colorName };
         regColor[`${colorName}Container`] = { type: 'extended', onColor: `on${pascalColorName}Container` };
-        regColor[`on${pascalColorName}Container`] = { type: 'theme', onColor: `${colorName}Container` };
+        regColor[`on${pascalColorName}Container`] = { type: 'text', onColor: `${colorName}Container` };
         baseSchemes.forEach(mdScheme => {
             schemes[mdScheme][`${colorName}Fixed`] = hexFromArgb(
                 theme.palettes[colorName as keyof typeof theme.palettes].tone(90)
@@ -120,12 +120,12 @@ export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCusto
             schemes[mdScheme][`on${pascalColorName}Fixed`] = hexFromArgb(
                 theme.palettes[colorName as keyof typeof theme.palettes].tone(10)
             );
-            regColor[`on${pascalColorName}Fixed`] = { type: 'theme', onColor: `${colorName}Fixed` };
+            regColor[`on${pascalColorName}Fixed`] = { type: 'text', onColor: `${colorName}Fixed` };
 
             schemes[mdScheme][`on${pascalColorName}FixedVariant`] = hexFromArgb(
                 theme.palettes[colorName as keyof typeof theme.palettes].tone(30)
             );
-            regColor[`on${pascalColorName}FixedVariant`] = { type: 'theme', onColor: `${colorName}FixedDim` };
+            regColor[`on${pascalColorName}FixedVariant`] = { type: 'text', onColor: `${colorName}FixedDim` };
         });
     });
 
@@ -149,8 +149,8 @@ export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCusto
         const pascalColorName = colorName[0].toUpperCase() + colorName.slice(1);
         regColor[`${colorName}Fixed`] = { type: 'extended', onColor: `on${pascalColorName}Fixed` };
         regColor[`${colorName}FixedDim`] = { type: 'border', onColor: `on${pascalColorName}FixedVariant` };
-        regColor[`on${pascalColorName}Fixed`] = { type: 'theme', onColor: `${colorName}Fixed` };
-        regColor[`on${pascalColorName}FixedVariant`] = { type: 'theme', onColor: `${colorName}FixedDim` };
+        regColor[`on${pascalColorName}Fixed`] = { type: 'text', onColor: `${colorName}Fixed` };
+        regColor[`on${pascalColorName}FixedVariant`] = { type: 'text', onColor: `${colorName}FixedDim` };
 
         baseSchemes.forEach(mdScheme => {
             const generatedColor = customColor[mdScheme].color;
@@ -193,10 +193,10 @@ export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCusto
 
     regColor.surfaceVariant = { type: 'surface', onColor: 'onSurfaceVariant' };
     regColor.scrim = { type: 'theme' };
-    regColor.onSurface = { type: 'theme', onColor: 'surface' };
-    regColor.onSurfaceVariant = { type: 'theme', onColor: 'surfaceVariant' };
+    regColor.onSurface = { type: 'text', onColor: 'surface' };
+    regColor.onSurfaceVariant = { type: 'text', onColor: 'surfaceVariant' };
     regColor.background = { type: 'surface', onColor: 'onBackground' };
-    regColor.onBackground = { type: 'theme', onColor: 'background' };
+    regColor.onBackground = { type: 'text', onColor: 'background' };
     regColor.inverseSurface = { type: 'surface', onColor: 'inverseOnSurface' };
     regColor.inverseOnSurface = { type: 'theme', onColor: 'inverseSurface' };
     regColor.outline = { type: 'border', onColor: 'surface' };
