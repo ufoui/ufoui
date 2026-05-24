@@ -27,6 +27,7 @@ export const paths = {
     animation: '/components/animation',
     list: '/components/list',
     listbox: '/components/listbox',
+    select: '/components/select',
     progress: '/components/progress',
     slider: '/components/slider',
     drawer: '/components/drawer',

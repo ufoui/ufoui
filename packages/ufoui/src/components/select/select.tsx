@@ -1,56 +1,145 @@
-import { ReactNode } from 'react';
+import React, { ReactNode, useCallback, useLayoutEffect, useRef, useState } from 'react';
 
-import { FieldBaseProps } from '../base/fieldBase';
+import { ExpandIcon } from '../../assets';
+import { useClickOutside } from '../../hooks';
+import { calculateFloatingPosition, renderPortal } from '../../utils';
+import { FieldBase, FieldBaseProps } from '../base/fieldBase';
+import { List } from '../list/list';
 
 /**
- * Props for {@link Select}.
+ * Props for the {@link Select} component.
  *
  * @category Field
  */
 export interface SelectProps
-  extends Omit<FieldBaseProps, 'elementClass' | 'value' | 'onChange'> {
-  /** Current selected value. */
-  value?: string | string[];
+    extends Omit<FieldBaseProps, 'elementClass' | 'value' | 'onChange' | 'trailing' | 'defaultValue'> {
+    /** Select options — `Item` or `Option` elements. */
+    children?: ReactNode;
 
-  /** Placeholder displayed when no value is selected. */
-  placeholder?: string;
+    /** Change handler called with the new selected value. */
+    onChange?: (value: string | string[] | undefined) => void;
 
-  /** Change handler called with the selected value. */
-  onChange?: (value: string | string[] | undefined) => void;
+    /** Uncontrolled initial selected value. */
+    defaultValue?: string | string[];
 
-  /** Enables multiple value selection. */
-  multiple?: boolean;
+    /** Enables multiple value selection. */
+    multiple?: boolean;
 
-  /** Makes the control read-only. */
-  readOnly?: boolean;
+    /** Placeholder displayed when no value is selected. */
+    placeholder?: string;
 
-  /** Custom renderer for the selected value. */
-  renderValue?: (value: string | string[] | undefined) => ReactNode;
-
-  /** Select options. */
-  children?: ReactNode;
+    /** Controlled selected value. */
+    value?: string | string[];
 }
 
 /**
- * **Select** – form control used to choose one or multiple values
- * from a predefined list of options.
+ * **Select** — field control that opens a listbox dropdown for picking values.
  *
- * @param props
+ * Composes `FieldBase` (trigger) with `List variant="listbox"` (dropdown).
+ * Supports single and multiple selection, controlled and uncontrolled modes.
+ *
+ * @example
+ * ```tsx
+ * <Select label="Fruit" value={fruit} onChange={v => setFruit(v as string)}>
+ *   <Item value="apple" label="Apple" />
+ *   <Item value="banana" label="Banana" />
+ * </Select>
+ * ```
  *
  * @category Field
- * @function
  */
-// export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-//     ({ value, placeholder, renderValue, children, ...props }, ref) => {
-//         const content = value !== undefined ? (renderValue?.(value) ?? value) : placeholder;
-//
-//         return (
-//             <FieldBase ref={ref} {...props} elementClass="uui-field">
-//                 <div className="uui-select-value">{content}</div>
-//                 {children}
-//             </FieldBase>
-//         );
-//     }
-// );
-//
-// Select.displayName = 'Select';
+export const Select = ({
+    value,
+    defaultValue,
+    onChange,
+    multiple,
+    placeholder,
+    children,
+    density,
+    ...props
+}: SelectProps) => {
+    const isControlled = value !== undefined;
+    const [internalValue, setInternalValue] = useState<string | string[] | undefined>(defaultValue);
+    const [open, setOpen] = useState(false);
+    const wrapperRef = useRef<HTMLDivElement>(null);
+    const listRef = useRef<HTMLDivElement>(null);
+    const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({ position: 'fixed', opacity: 0 });
+
+    const currentValue = isControlled ? value : internalValue;
+
+    useClickOutside(open, [wrapperRef, listRef], () => {
+        setOpen(false);
+    });
+
+    useLayoutEffect(() => {
+        if (!open || !wrapperRef.current || !listRef.current) {
+            return;
+        }
+        const pos = calculateFloatingPosition(wrapperRef, listRef, { mode: 'dropdown', placement: 'auto', offset: 4 });
+        const { width } = wrapperRef.current.getBoundingClientRect();
+        setDropdownStyle({
+            position: 'fixed',
+            left: pos?.x ?? 0,
+            top: pos?.y ?? 0,
+            minWidth: width,
+            zIndex: 1000,
+            opacity: 1,
+        });
+    }, [open]);
+
+    const handleChange = useCallback(
+        (values: string[]) => {
+            const newValue = multiple ? values : values[0];
+            if (!isControlled) {
+                setInternalValue(newValue);
+            }
+            onChange?.(newValue);
+            if (!multiple) {
+                setOpen(false);
+            }
+        },
+        [isControlled, multiple, onChange]
+    );
+
+    const displayValue = Array.isArray(currentValue) ? currentValue.join(', ') : (currentValue ?? '');
+
+    return (
+        <div ref={wrapperRef} style={{ display: 'inline-block', width: props.fullWidth ? '100%' : undefined }}>
+            <FieldBase
+                {...props}
+                density={density}
+                elementClass="uui-select"
+                onClick={() => {
+                    setOpen(v => !v);
+                }}
+                placeholder={placeholder}
+                readOnly
+                trailing={ExpandIcon}
+                value={displayValue}
+            />
+            {open &&
+                renderPortal(
+                    'select-root',
+                    <div ref={listRef} style={dropdownStyle}>
+                        <List
+                            className="uui-select-list"
+                            density={density}
+                            onChange={handleChange}
+                            type={multiple ? 'multiple' : 'single'}
+                            value={
+                                Array.isArray(currentValue)
+                                    ? currentValue
+                                    : currentValue !== undefined
+                                      ? [currentValue]
+                                      : []
+                            }
+                            variant="listbox">
+                            {children}
+                        </List>
+                    </div>
+                )}
+        </div>
+    );
+};
+
+Select.displayName = 'Select';

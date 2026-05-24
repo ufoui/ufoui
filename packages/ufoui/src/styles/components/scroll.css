@@ -1,19 +1,23 @@
 /* TYLKO desktop: mouse + hover */
 @media (hover: hover) and (pointer: fine) {
-  .uui-menu-scroll::-webkit-scrollbar {
+  .uui-menu-scroll::-webkit-scrollbar,
+  .uui-list-scroll::-webkit-scrollbar {
     width: 6px;
   }
 
-  .uui-menu-scroll::-webkit-scrollbar-thumb {
+  .uui-menu-scroll::-webkit-scrollbar-thumb,
+  .uui-list-scroll::-webkit-scrollbar-thumb {
     background-color: color-mix(in srgb, currentColor 30%, transparent);
     border-radius: 6px;
   }
 
-  .uui-menu-scroll:hover::-webkit-scrollbar-thumb {
+  .uui-menu-scroll:hover::-webkit-scrollbar-thumb,
+  .uui-list-scroll:hover::-webkit-scrollbar-thumb {
     background: var(--uui-color-outline);
   }
 
-  .uui-menu-scroll::-webkit-scrollbar-track {
+  .uui-menu-scroll::-webkit-scrollbar-track,
+  .uui-list-scroll::-webkit-scrollbar-track {
     background: transparent;
   }
 }
