@@ -23,6 +23,7 @@ export * from './components/fieldset/fieldset';
 export * from './components/radiogroup/radioGroup';
 export * from './components/list/list';
 export * from './components/list/listItem';
+export * from './components/listbox/listBox';
 export * from './components/switch/switch';
 export * from './components/spinner/spinner';
 export * from './components/menuItem/menuItem.guards';

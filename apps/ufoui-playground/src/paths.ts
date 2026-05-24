@@ -26,6 +26,7 @@ export const paths = {
     spinner: '/components/spinner',
     animation: '/components/animation',
     list: '/components/list',
+    listbox: '/components/listbox',
     progress: '/components/progress',
     slider: '/components/slider',
     drawer: '/components/drawer',

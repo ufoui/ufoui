@@ -55,6 +55,7 @@ import { BoxPage } from './pages/boxPage';
 import SpinnerPage from './pages/spinnerPage';
 import AnimationPage from './pages/animationPage';
 import { ListPage } from './pages/listPage';
+import { ListBoxPage } from './pages/listBoxPage';
 import { CollapsePage } from './pages/collapsePage';
 import { AccordionPage } from './pages/accordionPage';
 import { TabsPage } from './pages/tabsPage';
@@ -97,6 +98,7 @@ export const appRoutes: AppRoute[] = [
 
     { label: 'Menu', path: paths.menu, component: MenuPage, icon: LuMenu, showInNav: true },
     { label: 'List', path: paths.list, component: ListPage, icon: LuList, showInNav: true },
+    { label: 'ListBox', path: paths.listbox, component: ListBoxPage, icon: LuList, showInNav: true },
     { label: 'Toolbar', path: paths.toolbar, component: ToolbarPage, icon: LuWrench, showInNav: true },
 
     { label: 'Badge', path: paths.badge, component: BadgePage, icon: LuBadgeCheck, showInNav: true },
