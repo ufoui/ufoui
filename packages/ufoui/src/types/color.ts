@@ -362,6 +362,34 @@ export type TextColor =
 export type ThemeColor = BorderColor | OnColor<SemanticBaseColor> | OnExtendedColor | CoreThemeColor;
 
 /**
+ * Value for a single color role — either a plain hex string or an explicit color/on pair.
+ *
+ * @category Theme
+ */
+export type ColorRoleValue = string | { color: string; on?: string };
+
+/**
+ * Full configuration for a custom semantic color token.
+ *
+ * @remarks
+ * - Plain string: standard MD3 tonal generation from the seed.
+ * - Object: allows `main` overrides per mode and optional `fixed` control.
+ *   - `main.light` / `main.dark` override the primary role token (and optionally its `on*` counterpart).
+ *   - `fixed: "preserve"` keeps original MD3 fixed output.
+ *   - `fixed` object: manual fixed override per mode.
+ *   - `fixed` omitted with `main` present: auto-inherits fixed from `main` per mode.
+ *
+ * @category Theme
+ */
+export type CustomColorConfig =
+    | string
+    | {
+          seed: string;
+          main?: { light: ColorRoleValue; dark?: ColorRoleValue };
+          fixed?: 'preserve' | { light: ColorRoleValue; dark?: ColorRoleValue };
+      };
+
+/**
  * Input color map used to seed/generate theme schemes.
  *
  * @remarks
@@ -369,4 +397,4 @@ export type ThemeColor = BorderColor | OnColor<SemanticBaseColor> | OnExtendedCo
  *
  * @category Theme
  */
-export type ThemeCustomColors = Partial<Record<SemanticBaseColor, string>>;
+export type ThemeCustomColors = Partial<Record<SemanticBaseColor, CustomColorConfig>>;

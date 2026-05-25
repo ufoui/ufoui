@@ -128,7 +128,16 @@ export const DialogPage = () => {
                     <H2>Open</H2>
                     <Flex gap={12}>
                         <Button
-                            color="myBlue"
+                            color="red"
+                            filled
+                            label="Reset"
+                            onClick={() => {
+                                setAnimation(undefined);
+                                setMotionStyle(undefined);
+                            }}
+                        />
+                        <Button
+                            color="blue"
                             filled
                             label="Default"
                             onClick={() => {
@@ -196,7 +205,7 @@ export const DialogPage = () => {
                     actionsPlacement={actionsPlacement ?? undefined}
                     actionsStack={actionsStack}
                     anchored={anchored}
-                    animation={animation}
+                    animation={{ animation: animation, style: motionStyle }}
                     closeOnBackdrop={!disabled}
                     closeOnEsc={!disabled}
                     detached={detached}
@@ -209,7 +218,6 @@ export const DialogPage = () => {
                     iconSlot={iconSlot ?? undefined}
                     label={`${animation ?? 'default'} | ${motionStyle ?? 'default'} | ${dialogType ?? 'basic'}`}
                     modal={modal}
-                    motionStyle={motionStyle}
                     onClose={() => {
                         setOpen(false);
                     }}
