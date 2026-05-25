@@ -31,19 +31,16 @@ const App = () => {
                 blue: '#0057FF',
                 red: '#FF5252',
                 brandBlue: {
-                    seed: '#0057FF',
                     main: { light: '#0057FF', dark: '#0057FF' },
                     fixed: { light: '#0057FF', dark: '#0057FF' },
                 },
                 brandBlueYellow: {
-                    seed: '#0057FF',
                     main: {
                         light: { color: '#0057FF', on: '#FFD600' },
                         dark: { color: '#0057FF', on: '#FFD600' },
                     },
                 },
                 brandRed: {
-                    seed: '#FF5252',
                     main: { light: '#FF5252', dark: '#FF5252' },
                     fixed: { light: '#FF5252', dark: '#FF5252' },
                 },

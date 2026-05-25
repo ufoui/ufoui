@@ -205,7 +205,7 @@ export const DialogPage = () => {
                     actionsPlacement={actionsPlacement ?? undefined}
                     actionsStack={actionsStack}
                     anchored={anchored}
-                    animation={{ animation: animation, style: motionStyle }}
+                    animation={{ animation: animation ?? 'none', style: motionStyle }}
                     closeOnBackdrop={!disabled}
                     closeOnEsc={!disabled}
                     detached={detached}

@@ -372,20 +372,23 @@ export type ColorRoleValue = string | { color: string; on?: string };
  * Full configuration for a custom semantic color token.
  *
  * @remarks
- * - Plain string: standard MD3 tonal generation from the seed.
- * - Object: allows `main` overrides per mode and optional `fixed` control.
- *   - `main.light` / `main.dark` override the primary role token (and optionally its `on*` counterpart).
- *   - `fixed: "preserve"` keeps original MD3 fixed output.
- *   - `fixed` object: manual fixed override per mode.
- *   - `fixed` omitted with `main` present: auto-inherits fixed from `main` per mode.
+ * - **Plain string** — seed hex for standard MD3 tonal generation. All roles are MD3-computed.
+ * - **Object** — exact color overrides per mode:
+ *   - `main.light` / `main.dark` set the primary role token. `dark` defaults to `light` if omitted.
+ *   - Each value is either a plain hex string or `{ color, on? }`. When `on` is omitted,
+ *     the counterpart is derived from the overridden color's luminance (HCT tone < 50 → white, ≥ 50 → near-black).
+ *   - `fixed` controls the `Fixed` / `onFixed` tokens:
+ *     - omitted: inherited from the resolved `main` values
+ *     - `'preserve'`: keeps MD3-generated values unchanged
+ *     - object `{ light, dark? }`: explicit override, same rules as `main`
+ *   - `Container` roles are always MD3-generated and are not affected by this config.
  *
  * @category Theme
  */
 export type CustomColorConfig =
     | string
     | {
-          seed: string;
-          main?: { light: ColorRoleValue; dark?: ColorRoleValue };
+          main: { light: ColorRoleValue; dark?: ColorRoleValue };
           fixed?: 'preserve' | { light: ColorRoleValue; dark?: ColorRoleValue };
       };
 

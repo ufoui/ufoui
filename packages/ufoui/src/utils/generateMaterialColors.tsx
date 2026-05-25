@@ -3,37 +3,76 @@ import {
     ColorGroup,
     CustomColor,
     CustomColorGroup,
+    Hct,
     hexFromArgb,
     themeFromSourceColor,
     TonalPalette,
 } from '@material/material-color-utilities';
 
-import type { ThemeColorSchemes, ThemeCustomColors } from '../types';
+import type { ColorRoleValue, CustomColorConfig, ThemeColorSchemes, ThemeCustomColors } from '../types';
 import { ColorRegistryEntry, setColorRegistry } from './colorRegistry';
 
 type RegColor = Record<string, ColorRegistryEntry>;
+
+function resolveSeed(input: CustomColorConfig): string {
+    if (typeof input === 'string') {
+        return input;
+    }
+    const { light } = input.main;
+    return typeof light === 'string' ? light : light.color;
+}
+
+function resolveRole(value: ColorRoleValue): { color: string; on?: string } {
+    return typeof value === 'string' ? { color: value } : value;
+}
 /**
- * Generates a full ThemeColorSchemes object (light and dark modes) based on a seed color,
- * and optional semantic seed colors.
+ * Generates a full ThemeColorSchemes object (light and dark modes) based on a seed color
+ * and optional custom semantic colors.
  *
- * Internally uses the Material Design 3 `themeFromSourceColor()` generator and applies
- * full resolution of all MD3 roles as defined in ThemeSchemeKeys.
+ * Internally uses the Material Design 3 `themeFromSourceColor()` generator. Each color is blended
+ * toward the source hue and expanded into a full set of roles: main, `on*`, `Container`,
+ * `onContainer`, `Fixed`, `onFixed`, `FixedDim`, and `onFixedVariant`.
  *
- * Custom semantic colors (e.g. `info`, `warning`, `success`) are blended into the palette
- * and expanded to support `Container`, `Fixed`, `Dim`, and `on*` roles.
+ * Built-in defaults (`info`, `warning`, `success`) are always included unless overridden.
  *
- * @param seedColor - Optional seed color in hex (e.g. "#6200ee"). Used as the base for the primary palette.
- *                    Defaults to `#6750A4` if not provided.
- * @param colors - Optional map of semantic base colors (core + augmented).
- *                 Defaults include `info`, `warning`, and `success`.
+ * @remarks
+ * Each entry in `colors` accepts two forms:
  *
- * @returns A fully resolved ThemeColorSchemes object with all required color roles populated for light and dark modes.
+ * - **String** — seed hex used to generate the full MD3 tonal palette. All roles are MD3-computed.
+ *   ```ts
+ *   { info: '#2196f3' }
+ *   ```
+ *
+ * - **Object** — allows exact color overrides per mode:
+ *   - `main.light` / `main.dark` — overrides the primary role token. `dark` defaults to `light` if omitted.
+ *   - `on` color is derived automatically from the overridden color's luminance (HCT tone < 50 → white, ≥ 50 → near-black)
+ *     unless provided explicitly via `{ color, on }`.
+ *   - `fixed` — controls the `Fixed` / `onFixed` tokens:
+ *     - omitted: inherited from `main` override
+ *     - `'preserve'`: keeps the MD3-generated values
+ *     - object `{ light, dark? }`: explicit override, same rules as `main`
+ *   - `Container` roles are always MD3-generated and cannot be overridden here.
+ *   ```ts
+ *   { brandBlue: { main: { light: '#0057FF' }, fixed: 'preserve' } }
+ *   { brandBlue: { main: { light: { color: '#0057FF', on: '#FFD600' } } } }
+ *   ```
+ *
+ * @param seedColor - Hex string used as the MD3 source color for the primary palette. Defaults to `#6750A4`.
+ * @param colors - Optional map of semantic color configs (core + augmented via `CustomColors`).
+ *
+ * @returns A fully resolved `ThemeColorSchemes` object for light and dark modes.
  *          Also updates the global color registry via `setColorRegistry()`.
  *
  * @example
  * ```ts
- * const schemes = generateMaterialColors('#6200ee', { info: '#2196f3' });
+ * const schemes = generateMaterialColors('#6200ee', {
+ *     info: '#2196f3',
+ *     brandBlue: { main: { light: '#0057FF', dark: '#0057FF' } },
+ *     brandBlueYellow: { main: { light: { color: '#0057FF', on: '#FFD600' } } },
+ * });
  * const primary = schemes.light.primary;
+ * const brandBlue = schemes.dark.brandBlue;
+ * const onBrandBlueYellow = schemes.light.onBrandBlueYellow; // '#FFD600'
  * ```
  *
  * @category Theme
@@ -42,31 +81,25 @@ type RegColor = Record<string, ColorRegistryEntry>;
 export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCustomColors = {}): ThemeColorSchemes {
     const regColor: RegColor = {};
     const schemes: ThemeColorSchemes = { light: {}, dark: {} };
-    const sourceColor = colors.primary ? argbFromHex(colors.primary) : argbFromHex(seedColor);
+    const sourceColor = colors.primary ? argbFromHex(resolveSeed(colors.primary)) : argbFromHex(seedColor);
 
-    const resolvedColors: Record<string, string> = {
-        ...{
-            info: '#03a9f4',
-            warning: '#ffd600',
-            success: '#689f38',
-        },
-        ...colors,
-    };
-    const customColorsList: CustomColor[] = [];
-
-    Object.keys(resolvedColors).forEach(colorName => {
-        customColorsList.push({
-            value: argbFromHex(resolvedColors[colorName]),
-            name: colorName,
-            blend: true,
-        });
-    });
+    // Build the list of custom colors passed to themeFromSourceColor.
+    // Defaults (info, warning, success) are included unless the caller overrides them.
+    // Each user color is reduced to a single seed hex via resolveSeed (object form → main.light.color).
+    // blend: true makes material-color-utilities harmonise each color toward the source hue.
+    const customColorsList: CustomColor[] = Object.entries({
+        info: '#03a9f4',
+        warning: '#ffd600',
+        success: '#689f38',
+        ...Object.fromEntries(Object.entries(colors).map(([k, v]) => [k, resolveSeed(v)])),
+    }).map(([name, hex]) => ({ value: argbFromHex(hex), name, blend: true }));
 
     const theme = themeFromSourceColor(sourceColor, customColorsList);
     const baseSchemes: ('light' | 'dark')[] = ['light', 'dark'];
 
     const themeKeys = Object.keys(theme.schemes.light.toJSON());
-    // basic colors
+    // Copy all numeric MD3 scheme tokens (primary, secondary, surface, outline, etc.) into both light and dark schemes.
+    // theme.schemes[mode] exposes keys as numbers (ARGB), so we convert each to hex.
     baseSchemes.forEach(mdScheme => {
         themeKeys.forEach(key => {
             if (typeof theme.schemes[mdScheme][key as keyof typeof theme.schemes.light] === 'number') {
@@ -79,7 +112,8 @@ export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCusto
 
     schemes.light.scrim = '#00000052';
     schemes.dark.scrim = '#00000052';
-    // custom colors
+    // Write the four standard MD3 roles for each blended custom color (color, onColor, colorContainer, onColorContainer)
+    // into both schemes and register each role in regColor so ControlStyle can resolve it.
     theme.customColors.forEach(item => {
         const pascalColorName = item.color.name[0].toUpperCase() + item.color.name.slice(1);
         const colorMap: Record<string, string> = {
@@ -99,7 +133,9 @@ export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCusto
         });
     });
 
-    // derived colors
+    // Generate Fixed/FixedDim/onFixed/onFixedVariant tokens for the four core MD3 roles.
+    // These are not included in the scheme object, so we derive them manually from the tonal palette:
+    // Fixed = tone 90, FixedDim = tone 80, onFixed = tone 10, onFixedVariant = tone 30.
     ['primary', 'secondary', 'tertiary', 'error'].forEach(colorName => {
         const pascalColorName = colorName[0].toUpperCase() + colorName.slice(1);
         regColor[colorName] = { type: 'semantic', onColor: `on${pascalColorName}` };
@@ -138,7 +174,9 @@ export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCusto
     regColor.white = { type: 'surface', onColor: 'black' };
     regColor.black = { type: 'surface', onColor: 'white' };
 
-    // Generate derived colors for custom colors
+    // Same Fixed tokens as above for user-defined custom colors.
+    // Because custom palettes are not in theme.palettes, we rebuild the tonal palette via TonalPalette.fromInt
+    // using the blended ARGB value that material-color-utilities produced for the custom color.
     const getTone = (color: number, toneValue: number) => {
         const p = TonalPalette.fromInt(color);
         return hexFromArgb(p.tone(toneValue));
@@ -159,6 +197,45 @@ export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCusto
             schemes[mdScheme][`on${pascalColorName}Fixed`] = getTone(generatedColor, 10);
             schemes[mdScheme][`on${pascalColorName}FixedVariant`] = getTone(generatedColor, 30);
         });
+    });
+
+    // Override main and on-main tokens for object-form configs only — strings use MD3-generated values as-is.
+    // When on is not provided, derive it from the overridden color's luminance (Hct tone):
+    // dark color (tone < 50) → light on (tone 100), light color (tone >= 50) → dark on (tone 10).
+    const deriveOn = (hex: string) => {
+        const argb = argbFromHex(hex);
+        return hexFromArgb(TonalPalette.fromInt(argb).tone(Hct.fromInt(argb).tone < 50 ? 100 : 10));
+    };
+    Object.entries(colors).forEach(([colorName, config]) => {
+        if (typeof config === 'string') {
+            return;
+        }
+        const pascalName = colorName[0].toUpperCase() + colorName.slice(1);
+        const onKey = `on${pascalName}`;
+
+        const lightRole = resolveRole(config.main.light);
+        schemes.light[colorName] = lightRole.color;
+        schemes.light[onKey] = lightRole.on ?? deriveOn(lightRole.color);
+
+        const darkRole = resolveRole(config.main.dark ?? config.main.light);
+        schemes.dark[colorName] = darkRole.color;
+        schemes.dark[onKey] = darkRole.on ?? deriveOn(darkRole.color);
+
+        // fixed: undefined → inherit from main; 'preserve' → leave MD3 as-is; object → apply override same as main.
+        if (!config.fixed) {
+            schemes.light[`${colorName}Fixed`] = schemes.light[colorName];
+            schemes.light[`on${pascalName}Fixed`] = schemes.light[onKey];
+            schemes.dark[`${colorName}Fixed`] = schemes.dark[colorName];
+            schemes.dark[`on${pascalName}Fixed`] = schemes.dark[onKey];
+        } else if (config.fixed !== 'preserve') {
+            const lightFixed = resolveRole(config.fixed.light);
+            schemes.light[`${colorName}Fixed`] = lightFixed.color;
+            schemes.light[`on${pascalName}Fixed`] = lightFixed.on ?? deriveOn(lightFixed.color);
+
+            const darkFixed = resolveRole(config.fixed.dark ?? config.fixed.light);
+            schemes.dark[`${colorName}Fixed`] = darkFixed.color;
+            schemes.dark[`on${pascalName}Fixed`] = darkFixed.on ?? deriveOn(darkFixed.color);
+        }
     });
 
     schemes.light.surface = hexFromArgb(theme.palettes.neutral.tone(99));
