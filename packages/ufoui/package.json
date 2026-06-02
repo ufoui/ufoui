@@ -1,10 +1,10 @@
 {
   "name": "@ufoui/core",
-  "version": "0.0.124",
+  "version": "0.0.126",
   "description": "Lightweight Material Design 3 UI components for React",
   "type": "module",
-  "main": "./index.mjs",
-  "module": "./index.mjs",
+  "main": "./index.js",
+  "module": "./index.js",
   "types": "./index.d.ts",
   "license": "Apache-2.0",
   "author": "ufoui",
@@ -38,8 +38,9 @@
   ],
   "exports": {
     ".": {
-      "import": "./index.mjs",
-      "types": "./index.d.ts"
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "default": "./index.js"
     },
     "./style.css": "./index.css",
     "./style": "./index.css"
