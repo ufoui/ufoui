@@ -65,9 +65,6 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     /** React children inside the box. */
     children?: ReactNode;
 
-    /** Layout direction shortcut. Same as `direction="col"`. */
-    col?: boolean;
-
     /** Surface background token. Default: `'surface'`. */
     color?: BaseColor;
 
@@ -111,13 +108,25 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     grow?: boolean;
 
     /** Height. */
-    h?: number | string;
+    height?: number | string;
 
     /** Renders as `inline-flex`, `inline-grid` or `inline-block`. */
     inline?: boolean;
 
     /** Maps to `justify-content` (main-axis alignment). */
     justifyContent?: CSSProperties['justifyContent'];
+
+    /** Maximum height. */
+    maxHeight?: number | string;
+
+    /** Maximum width. */
+    maxWidth?: number | string;
+
+    /** Minimum height. */
+    minHeight?: number | string;
+
+    /** Minimum width. */
+    minWidth?: number | string;
 
     /** Padding (all sides). */
     p?: number | string;
@@ -143,9 +152,6 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     /** Vertical padding (`padding-top` + `padding-bottom`). */
     py?: number | string;
 
-    /** Layout direction shortcut. Same as `direction="row"`. */
-    row?: boolean;
-
     /** Grid template rows (`2` → `repeat(2, 1fr)`). */
     rows?: number | string;
 
@@ -156,7 +162,7 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     type?: BoxType;
 
     /** Width. */
-    w?: number | string;
+    width?: number | string;
     /** Enables wrapping (`flex-wrap: wrap`). */
     wrap?: boolean;
 }
@@ -225,10 +231,12 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
         cols,
         rows,
         as,
-        row,
-        col,
-        w,
-        h,
+        width,
+        height,
+        minWidth,
+        maxWidth,
+        minHeight,
+        maxHeight,
         ...other
     } = props;
     const Tag: ElementType = as ?? 'div';
@@ -237,8 +245,12 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
     controlStyle.merge(style);
 
     const layoutProps: CSSProperties = {
-        width: w ?? (fullWidth ? '100%' : undefined),
-        height: h ?? (fullHeight ? '100%' : undefined),
+        width: width ?? (fullWidth ? '100%' : undefined),
+        height: height ?? (fullHeight ? '100%' : undefined),
+        minWidth,
+        maxWidth,
+        minHeight,
+        maxHeight,
         padding: p,
         paddingTop: pt ?? py,
         paddingBottom: pb ?? py,
@@ -262,7 +274,6 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
     controlStyle.bg(color);
     controlStyle.text.on(color);
 
-    const resDir = row ? 'row' : col ? 'col' : direction;
     const classes = cn(
         className,
         'uui-box',
@@ -283,7 +294,7 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
               : inline
                 ? 'uui-inline-block'
                 : 'uui-block',
-        resDir && type === 'flex' && `uui-flex-${resDir}`,
+        direction && type === 'flex' && `uui-flex-${direction}`,
         flow && type === 'grid' && `uui-grid-flow-${flow === 'col' ? 'col' : 'row'}`
     );
 

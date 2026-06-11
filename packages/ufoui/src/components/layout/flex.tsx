@@ -10,10 +10,7 @@ import { BoxBase, BoxBaseProps } from '../base/boxBase';
  *
  * @category Flex
  */
-export type FlexProps = Omit<
-  BoxBaseProps,
-  'elementClass' | 'type' | 'cols' | 'rows' | 'flow'
->;
+export type FlexProps = Omit<BoxBaseProps, 'elementClass' | 'type' | 'cols' | 'rows' | 'flow' | 'placeItems'>;
 
 /**
  * Flex layout container.
@@ -40,10 +37,8 @@ export type FlexProps = Omit<
  *   <Content />
  * </Flex>
  */
-export const Flex = forwardRef<HTMLDivElement, FlexProps>(
-  ({ direction = 'row', ...props }, ref) => {
+export const Flex = forwardRef<HTMLDivElement, FlexProps>(({ direction = 'row', ...props }, ref) => {
     return <BoxBase {...props} direction={direction} ref={ref} type="flex" />;
-  },
-);
+});
 
 Flex.displayName = 'Flex';

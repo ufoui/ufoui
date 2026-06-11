@@ -12,18 +12,20 @@ import {
     getElevationClass,
     getFontClass,
     getShapeClass,
+    getWrapperStyle,
+    WrapperProps,
 } from '../../utils';
 import { TextColor } from '../../types';
 
 /**
  * Props for {@link TextBase}.
  *
- * Defines typography and visual styling for text-level elements
- * without introducing layout behaviour.
+ * Defines typography and visual styling for text-level elements,
+ * plus outer placement (margin, positioning) via {@link WrapperProps}.
  *
  * @category Text
  */
-export interface TextBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color'> {
+export interface TextBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color'>, WrapperProps {
     /** Custom HTML element/component. Default: span. */
     as?: React.ElementType;
 
@@ -82,7 +84,9 @@ export const TextBase = forwardRef<HTMLElement, TextBaseProps>((props, ref) => {
     } = props;
 
     const Tag: React.ElementType = as ?? 'span';
-    const controlStyle = ControlStyle(style);
+    const { wrapperStyle, otherProps } = getWrapperStyle(other);
+    const controlStyle = ControlStyle(wrapperStyle);
+    controlStyle.merge(style);
 
     controlStyle.border(borderColor);
     controlStyle.text(color);
@@ -98,7 +102,7 @@ export const TextBase = forwardRef<HTMLElement, TextBaseProps>((props, ref) => {
     );
 
     return (
-        <Tag className={classes} ref={ref} style={controlStyle.get()} {...other}>
+        <Tag className={classes} ref={ref} style={controlStyle.get()} {...otherProps}>
             {children}
         </Tag>
     );

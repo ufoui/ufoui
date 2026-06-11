@@ -11,8 +11,20 @@ import { BoxBase, BoxBaseProps } from '../base/boxBase';
  * @category Div
  */
 export type DivProps = Omit<
-  BoxBaseProps,
-  'type' | 'direction' | 'flow' | 'cols' | 'rows' | 'wrap'
+    BoxBaseProps,
+    | 'type'
+    | 'direction'
+    | 'flow'
+    | 'cols'
+    | 'rows'
+    | 'wrap'
+    | 'gap'
+    | 'gapX'
+    | 'gapY'
+    | 'justifyContent'
+    | 'alignItems'
+    | 'placeItems'
+    | 'alignContent'
 >;
 
 /**
@@ -34,7 +46,7 @@ export type DivProps = Omit<
  * </Div>
  */
 export const Div = forwardRef<HTMLDivElement, DivProps>((props, ref) => {
-  return <BoxBase {...props} ref={ref} type="block" />;
+    return <BoxBase {...props} ref={ref} type="block" />;
 });
 
 Div.displayName = 'Div';
