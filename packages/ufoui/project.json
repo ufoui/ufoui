@@ -13,6 +13,13 @@
         "passWithNoTests": true
       }
     },
+    "coverage": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/coverage/libs/ufo-ui"],
+      "options": {
+        "command": "nx test @ufoui/core --coverage && node scripts\\render-coverage-html.mjs && start coverage\\libs\\ufo-ui\\index.html"
+      }
+    },
     "docs": {
       "executor": "nx:run-commands",
       "options": {

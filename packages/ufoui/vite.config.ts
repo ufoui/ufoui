@@ -93,8 +93,11 @@ export default defineConfig(({ mode }) => ({
     include: ['{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../coverage/libs/ufo-ui',
       provider: 'v8',
+      reportsDirectory: '../../coverage/libs/ufo-ui',
+      reporter: ['json'],
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: ['src/**/*.{test,spec}.*', 'src/**/index.ts', 'src/**/*.d.ts'],
     },
   },
 }));

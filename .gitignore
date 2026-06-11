@@ -52,5 +52,11 @@ Thumbs.db
 out
 /.vscode/settings.json
 /CLAUDE.md
+/AGENTS.md
+/TODO.md
+/DOCS.md
+/API.md
 /.claude/hooks/post-tool-call.py
 /design/
+/color.md
+/listitem.md
