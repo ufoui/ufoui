@@ -120,20 +120,9 @@ describe('BoxBase — layout type', () => {
 });
 
 describe('BoxBase — direction & flow', () => {
-    it('maps the `row` / `col` shortcuts (flex only)', () => {
-        expect(renderBox({ row: true }).classList.contains('uui-flex-row')).toBe(true);
-        expect(renderBox({ col: true }).classList.contains('uui-flex-col')).toBe(true);
-    });
-
-    it('maps the `direction` prop', () => {
+    it('maps the `direction` prop to the flex direction class', () => {
+        expect(renderBox({ direction: 'row' }).classList.contains('uui-flex-row')).toBe(true);
         expect(renderBox({ direction: 'col' }).classList.contains('uui-flex-col')).toBe(true);
-    });
-
-    it('`row` wins over `col` and `direction`', () => {
-        const el = renderBox({ row: true, col: true, direction: 'col' });
-
-        expect(el.classList.contains('uui-flex-row')).toBe(true);
-        expect(el.classList.contains('uui-flex-col')).toBe(false);
     });
 
     it('direction class is not emitted for non-flex layouts', () => {
@@ -189,11 +178,29 @@ describe('BoxBase — sizing', () => {
         expect(el.style.height).toBe('100%');
     });
 
-    it('explicit w / h override the full-size flags', () => {
-        const el = renderBox({ w: 200, h: 120, fullWidth: true, fullHeight: true });
+    it('explicit width / height override the full-size flags', () => {
+        const el = renderBox({ width: 200, height: 120, fullWidth: true, fullHeight: true });
 
         expect(el.style.width).toBe('200px');
         expect(el.style.height).toBe('120px');
+    });
+
+    it('applies min / max width and height', () => {
+        const el = renderBox({ minWidth: 50, maxWidth: 300, minHeight: 40, maxHeight: 200 });
+
+        expect(el.style.minWidth).toBe('50px');
+        expect(el.style.maxWidth).toBe('300px');
+        expect(el.style.minHeight).toBe('40px');
+        expect(el.style.maxHeight).toBe('200px');
+    });
+
+    it('accepts string dimension values verbatim (number → px, string as-is)', () => {
+        const el = renderBox({ width: '50%', height: '100vh', maxWidth: '60ch', minHeight: 'auto' });
+
+        expect(el.style.width).toBe('50%');
+        expect(el.style.height).toBe('100vh');
+        expect(el.style.maxWidth).toBe('60ch');
+        expect(el.style.minHeight).toBe('auto');
     });
 
     it('grow adds the grow class', () => {

@@ -115,6 +115,27 @@ describe('TextBase — colors', () => {
     });
 });
 
+describe('TextBase — wrapper props', () => {
+    it('applies margin / position / stacking to the element', () => {
+        const el = renderText({ m: 10, position: 'relative', zIndex: 3, top: 12, left: 5 });
+
+        expect(el.style.margin).toBe('10px');
+        expect(el.style.position).toBe('relative');
+        expect(el.style.zIndex).toBe('3');
+        expect(el.style.top).toBe('12px');
+        expect(el.style.left).toBe('5px');
+    });
+
+    it('margin axis and per-side shorthands resolve with the right priority', () => {
+        const el = renderText({ mx: 4, my: 2, mt: 8 });
+
+        expect(el.style.marginLeft).toBe('4px');
+        expect(el.style.marginRight).toBe('4px');
+        expect(el.style.marginTop).toBe('8px');
+        expect(el.style.marginBottom).toBe('2px');
+    });
+});
+
 describe('TextBase — className & style merge', () => {
     it('merges a custom className alongside the base class', () => {
         const el = renderText({ className: 'custom' });
