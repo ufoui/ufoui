@@ -48,9 +48,9 @@ export const FieldPage = () => {
     );
 
     return (
-        <Article className="gap-5" row>
+        <Article className="gap-5" direction="row">
             <div className="flex grow flex-col gap-5">
-                <Fieldset gap={16} legend="Default" row wrap>
+                <Fieldset direction="row" gap={16} legend="Default" wrap>
                     <TextField {...shared} error="Error, label only" label="Label only" name="email" />
                     <TextField
                         {...shared}
@@ -85,7 +85,7 @@ export const FieldPage = () => {
                     />
                 </Fieldset>
 
-                <Fieldset gap={16} legend="Filled" row wrap>
+                <Fieldset direction="row" gap={16} legend="Filled" wrap>
                     <TextField {...shared} description="Label only" filled label="Label only" name="email" />
                     <TextField
                         {...shared}
@@ -118,7 +118,7 @@ export const FieldPage = () => {
                     />
                 </Fieldset>
 
-                <Fieldset gap={16} legend="Outlined" row wrap>
+                <Fieldset direction="row" gap={16} legend="Outlined" wrap>
                     <TextField {...shared} description="Label only" label="Label only" name="email" outlined />
                     <TextField
                         {...shared}
@@ -157,7 +157,7 @@ export const FieldPage = () => {
                     />
                 </Fieldset>
 
-                <Fieldset gap={16} legend="Classic" row wrap>
+                <Fieldset direction="row" gap={16} legend="Classic" wrap>
                     <TextField {...shared} classic description="Label only" label="Label only" name="email" />
                     <TextField
                         {...shared}

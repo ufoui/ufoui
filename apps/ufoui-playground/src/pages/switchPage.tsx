@@ -14,9 +14,9 @@ import {
     ElementSize,
     ElementTextPlacement,
     Fieldset,
-    Flex,
     Section,
     SemanticColor,
+    Stack,
     SurfaceColor,
     Switch,
 } from '@ufoui/core';
@@ -102,10 +102,10 @@ export const SwitchPage = () => {
     };
 
     return (
-        <Article row>
+        <Article direction="row">
             <Content gap={20} grow px={20}>
                 <Section shape="rounded">
-                    <Fieldset disabled={disabled ?? undefined} gap={16} legend="States" row>
+                    <Fieldset direction="row" disabled={disabled ?? undefined} gap={16} legend="States">
                         <Switch defaultChecked {...shared} label="Checked" />
                         <Switch {...shared} label="Unchecked" />
                         <Switch disabled {...shared} checked label="Disabled checked" />
@@ -113,7 +113,7 @@ export const SwitchPage = () => {
                     </Fieldset>
                 </Section>
                 <Section>
-                    <Fieldset disabled={disabled ?? undefined} gap={16} label="Color" row>
+                    <Fieldset direction="row" disabled={disabled ?? undefined} gap={16} label="Color">
                         <Switch {...shared} defaultChecked label="Primary"></Switch>
                         <Switch {...shared} color="secondary" defaultChecked label="Secondary" />
                         <Switch {...shared} color="tertiary" defaultChecked label="Tertiary" />
@@ -124,7 +124,7 @@ export const SwitchPage = () => {
                     </Fieldset>
                 </Section>
                 <Section>
-                    <Fieldset disabled={disabled ?? undefined} gap={16} legend="Shape" row>
+                    <Fieldset direction="row" disabled={disabled ?? undefined} gap={16} legend="Shape">
                         <Switch {...shared} defaultChecked label="Square" shape="square" />
                         <Switch {...shared} label="Smooth" shape="smooth" />
                         <Switch {...shared} label="Rounded" shape="rounded" />
@@ -133,7 +133,12 @@ export const SwitchPage = () => {
                 </Section>
 
                 <Section>
-                    <Fieldset alignItems="center" disabled={disabled ?? undefined} gap={16} legend="Size" row>
+                    <Fieldset
+                        alignItems="center"
+                        direction="row"
+                        disabled={disabled ?? undefined}
+                        gap={16}
+                        legend="Size">
                         <Switch {...shared} defaultChecked label="ExtraSmall" size="extraSmall" />
                         <Switch {...shared} defaultChecked label="Small" size="small" />
                         <Switch {...shared} defaultChecked label="Medium" size="medium" />
@@ -143,7 +148,12 @@ export const SwitchPage = () => {
                 </Section>
 
                 <Section>
-                    <Fieldset alignItems="center" disabled={disabled ?? undefined} gap={16} legend="Size & Icons" row>
+                    <Fieldset
+                        alignItems="center"
+                        direction="row"
+                        disabled={disabled ?? undefined}
+                        gap={16}
+                        legend="Size & Icons">
                         <Switch
                             {...shared}
                             defaultChecked
@@ -195,15 +205,15 @@ export const SwitchPage = () => {
                             label="Parent"
                             onChange={handleIntermediateChange}
                         />
-                        <Flex col pl={24}>
+                        <Stack pl={24}>
                             <Switch {...shared} checked={option1} label="Option 1" onChange={handleChangeOption1} />
                             <Switch {...shared} checked={option2} label="Option 2" onChange={handleChangeOption2} />
-                        </Flex>
+                        </Stack>
                     </Fieldset>
                 </Section>
 
                 <Section>
-                    <Fieldset disabled={disabled ?? undefined} gapX={16} label="Custom icons" row wrap>
+                    <Fieldset direction="row" disabled={disabled ?? undefined} gapX={16} label="Custom icons" wrap>
                         <Switch
                             {...shared}
                             defaultChecked
@@ -233,7 +243,13 @@ export const SwitchPage = () => {
                 </Section>
 
                 <Section>
-                    <Fieldset alignItems="center" disabled={disabled ?? undefined} gap={20} legend="Custom" py={16} row>
+                    <Fieldset
+                        alignItems="center"
+                        direction="row"
+                        disabled={disabled ?? undefined}
+                        gap={20}
+                        legend="Custom"
+                        py={16}>
                         <Switch
                             {...shared}
                             checked={checked1}
@@ -278,9 +294,9 @@ export const SwitchPage = () => {
                 <Section>
                     <Fieldset
                         description="Global fieldset error message."
+                        direction="row"
                         disabled={disabled ?? undefined}
-                        legend="Controlled"
-                        row>
+                        legend="Controlled">
                         <Switch
                             {...shared}
                             checked={checked3}

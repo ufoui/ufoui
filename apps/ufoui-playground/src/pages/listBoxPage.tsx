@@ -16,36 +16,38 @@ export const ListBoxPage = () => {
                 <p>Selected: {selected.join(', ') || '—'}</p>
 
                 <List
-                    className="max-h-[360px] overflow-auto w-72"
+                    className="max-h-[360px] w-72 overflow-auto"
                     color={color ?? undefined}
                     onChange={setSelected}
                     type="single"
                     value={selected}
                     variant="listbox">
-                    <Item leading={<MdInbox />} label="Inbox" description="12 unread" value="inbox" />
-                    <Item leading={<MdStar />} label="Starred" description="Favorites" value="starred" />
-                    <Item leading={<MdSettings />} label="Settings" description="System settings" value="settings" />
-                    <Item label="Archive" description="Archived items" value="archive" />
-                    <Item label="Billing" description="Disabled example" value="billing" disabled />
-                    <Item label="Profile" description="User profile" value="profile" />
+                    <Item description="12 unread" label="Inbox" leading={<MdInbox />} value="inbox" />
+                    <Item description="Favorites" label="Starred" leading={<MdStar />} value="starred" />
+                    <Item description="System settings" label="Settings" leading={<MdSettings />} value="settings" />
+                    <Item description="Archived items" label="Archive" value="archive" />
+                    <Item description="Disabled example" disabled label="Billing" value="billing" />
+                    <Item description="User profile" label="Profile" value="profile" />
                 </List>
 
                 <h2>Multiple selection</h2>
                 <List
-                    className="max-h-[360px] overflow-auto w-72"
+                    className="max-h-[360px] w-72 overflow-auto"
                     onChange={setSelected}
                     type="multiple"
                     variant="listbox">
                     <Item label="Apple" value="apple" />
                     <Item label="Banana" value="banana" />
                     <Item label="Cherry" value="cherry" />
-                    <Item label="Date" value="date" disabled />
+                    <Item disabled label="Date" value="date" />
                 </List>
             </Section>
 
             <Aside>
                 <Modifiers
-                    onChange={({ surfaceColor: sc }) => setColor(sc ?? null)}
+                    onChange={({ surfaceColor: sc }) => {
+                        setColor(sc ?? null);
+                    }}
                     surfaceColor={color}
                 />
             </Aside>

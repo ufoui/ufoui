@@ -86,16 +86,16 @@ export const RadioPage = () => {
     );
 
     return (
-        <Article row>
+        <Article>
             <Content gap={20} grow px={20}>
                 <Section shape="rounded">
                     <RadioGroup
                         defaultValue="checked"
+                        direction="row"
                         disabled={disabled ?? undefined}
                         gap={16}
                         legend="States"
-                        name="states"
-                        row>
+                        name="states">
                         <Radio defaultChecked {...shared} label="Checked" value="checked" />
                         <Radio {...shared} label="Unchecked" value="unchecked" />
                         <Radio disabled {...shared} label="Disabled" value="disabled1" />
@@ -106,11 +106,11 @@ export const RadioPage = () => {
                 <Section>
                     <RadioGroup
                         defaultValue="primary"
+                        direction="row"
                         disabled={disabled ?? undefined}
                         gap={16}
                         label="Color"
-                        name="color"
-                        row>
+                        name="color">
                         <Radio {...shared} defaultChecked label="Primary" value="primary" />
                         <Radio {...shared} color="secondary" defaultChecked label="Secondary" value="secondary" />
                         <Radio {...shared} color="tertiary" defaultChecked label="Tertiary" value="tertiary" />
@@ -121,7 +121,7 @@ export const RadioPage = () => {
                     </RadioGroup>
                 </Section>
                 <Section>
-                    <RadioGroup disabled={disabled ?? undefined} gap={16} legend="Shape" name="shape" row>
+                    <RadioGroup direction="row" disabled={disabled ?? undefined} gap={16} legend="Shape" name="shape">
                         <Radio {...shared} defaultChecked label="Square" shape="square" value="square" />
                         <Radio {...shared} label="Smooth" shape="smooth" value="smooth" />
                         <Radio {...shared} label="Rounded" shape="rounded" value="rounded" />
@@ -133,11 +133,11 @@ export const RadioPage = () => {
                     <RadioGroup
                         alignItems="center"
                         defaultValue="extraSmall"
+                        direction="row"
                         disabled={disabled ?? undefined}
                         gap={16}
                         legend="Size"
-                        name="size"
-                        row>
+                        name="size">
                         <Radio {...shared} defaultChecked label="ExtraSmall" size="extraSmall" value="extraSmall" />
                         <Radio {...shared} defaultChecked label="Small" size="small" value="small" />
                         <Radio {...shared} defaultChecked label="Medium" size="medium" value="medium" />
@@ -147,7 +147,13 @@ export const RadioPage = () => {
                 </Section>
 
                 <Section>
-                    <RadioGroup disabled={disabled ?? undefined} gap={16} label="Custom icons" name="icons" row wrap>
+                    <RadioGroup
+                        direction="row"
+                        disabled={disabled ?? undefined}
+                        gap={16}
+                        label="Custom icons"
+                        name="icons"
+                        wrap>
                         <Radio
                             {...shared}
                             icon={<MdFavorite offset={4} />}
@@ -190,12 +196,12 @@ export const RadioPage = () => {
                     <RadioGroup
                         alignItems="center"
                         defaultValue={value}
+                        direction="row"
                         disabled={disabled ?? undefined}
                         gap={20}
                         legend="Custom"
                         name="custom"
-                        py={16}
-                        row>
+                        py={16}>
                         <Radio
                             {...shared}
                             label="Image"

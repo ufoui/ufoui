@@ -216,7 +216,7 @@ export const CardPage = () => {
                 </Grid>
             </Section>
 
-            <Aside w={240}>
+            <Aside width={240}>
                 <Modifiers
                     border={border}
                     borderColor={borderColor}

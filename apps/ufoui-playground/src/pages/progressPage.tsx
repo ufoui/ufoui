@@ -78,7 +78,7 @@ export const ProgressPage = () => {
                 </Div>
             </Section>
 
-            <Aside w={240}>
+            <Aside width={240}>
                 <Modifiers
                     color={color}
                     onChange={({ color: c, surfaceColor: sc, size: s }) => {

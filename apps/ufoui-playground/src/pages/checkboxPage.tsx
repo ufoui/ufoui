@@ -15,9 +15,9 @@ import {
     ElementSize,
     ElementTextPlacement,
     Fieldset,
-    Flex,
     Section,
     SemanticColor,
+    Stack,
     SurfaceColor,
 } from '@ufoui/core';
 
@@ -105,10 +105,10 @@ export const CheckboxPage = () => {
     };
 
     return (
-        <Article row>
+        <Article direction="row">
             <Content gap={20} grow px={20}>
                 <Section shape="rounded">
-                    <Fieldset disabled={disabled ?? undefined} gap={16} legend="States" row>
+                    <Fieldset direction="row" disabled={disabled ?? undefined} gap={16} legend="States">
                         <Checkbox defaultChecked {...shared} label="Checked" />
                         <Checkbox {...shared} label="Unchecked" />
                         <Checkbox {...shared} indeterminate label="Indeterminate" />
@@ -117,7 +117,7 @@ export const CheckboxPage = () => {
                     </Fieldset>
                 </Section>
                 <Section>
-                    <Fieldset disabled={disabled ?? undefined} gap={16} label="Color" row>
+                    <Fieldset direction="row" disabled={disabled ?? undefined} gap={16} label="Color">
                         <Checkbox {...shared} defaultChecked label="Primary"></Checkbox>
                         <Checkbox {...shared} color="secondary" defaultChecked label="Secondary" />
                         <Checkbox {...shared} color="tertiary" defaultChecked label="Tertiary" />
@@ -128,7 +128,7 @@ export const CheckboxPage = () => {
                     </Fieldset>
                 </Section>
                 <Section>
-                    <Fieldset disabled={disabled ?? undefined} gap={16} legend="Shape" row>
+                    <Fieldset direction="row" disabled={disabled ?? undefined} gap={16} legend="Shape">
                         <Checkbox {...shared} defaultChecked label="Square" shape="square" />
                         <Checkbox {...shared} label="Smooth" shape="smooth" />
                         <Checkbox {...shared} label="Rounded" shape="rounded" />
@@ -137,7 +137,12 @@ export const CheckboxPage = () => {
                 </Section>
 
                 <Section>
-                    <Fieldset alignItems="center" disabled={disabled ?? undefined} gap={16} legend="Size" row>
+                    <Fieldset
+                        alignItems="center"
+                        direction="row"
+                        disabled={disabled ?? undefined}
+                        gap={16}
+                        legend="Size">
                         <Checkbox {...shared} defaultChecked label="ExtraSmall" size="extraSmall" />
                         <Checkbox {...shared} defaultChecked label="Small" size="small" />
                         <Checkbox {...shared} defaultChecked label="Medium" size="medium" />
@@ -155,15 +160,15 @@ export const CheckboxPage = () => {
                             label="Parent"
                             onChange={handleIntermediateChange}
                         />
-                        <Flex col pl={24}>
+                        <Stack pl={24}>
                             <Checkbox {...shared} checked={option1} label="Option 1" onChange={handleChangeOption1} />
                             <Checkbox {...shared} checked={option2} label="Option 2" onChange={handleChangeOption2} />
-                        </Flex>
+                        </Stack>
                     </Fieldset>
                 </Section>
 
                 <Section>
-                    <Fieldset disabled={disabled ?? undefined} gapX={16} label="Custom icons" row wrap>
+                    <Fieldset direction="row" disabled={disabled ?? undefined} gapX={16} label="Custom icons" wrap>
                         <Checkbox
                             {...shared}
                             defaultChecked
@@ -214,7 +219,13 @@ export const CheckboxPage = () => {
                 </Section>
 
                 <Section>
-                    <Fieldset alignItems="center" disabled={disabled ?? undefined} gap={20} legend="Custom" py={16} row>
+                    <Fieldset
+                        alignItems="center"
+                        direction="row"
+                        disabled={disabled ?? undefined}
+                        gap={20}
+                        legend="Custom"
+                        py={16}>
                         <Checkbox
                             {...shared}
                             checked={checked1}

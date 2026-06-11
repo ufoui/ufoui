@@ -14,10 +14,10 @@ import {
     getShapeClass,
     mergeRefs,
     SemanticColor,
-    SurfaceColor,
     useUniqueId,
 } from '../../utils';
 import { useFocusVisible } from '../../hooks';
+import { Description } from '../../internal';
 
 type FieldVariant = 'filled' | 'outlined' | 'classic';
 
@@ -33,12 +33,6 @@ export interface FieldBaseProps extends Omit<React.InputHTMLAttributes<HTMLInput
     error?: string;
     /** Supporting text displayed below control. */
     description?: string;
-
-    /** Text color override for the description. */
-    descriptionColor?: SurfaceColor;
-
-    /** Font style applied to the description text. */
-    descriptionFont?: ElementFont;
     variant?: FieldVariant;
     outlined?: boolean;
     filled?: boolean;
@@ -46,11 +40,6 @@ export interface FieldBaseProps extends Omit<React.InputHTMLAttributes<HTMLInput
     fullWidth?: boolean;
     /** Control shape variant. */
     shape?: ElementShape;
-    /** Text color override for the label. */
-    labelColor?: SurfaceColor;
-    /** Text color override for the placeholder. */
-    placeholderColor?: SurfaceColor;
-
     border?: ElementBorder;
     borderColor?: BorderColor;
     placeholder?: string;
@@ -62,11 +51,8 @@ export interface FieldBaseProps extends Omit<React.InputHTMLAttributes<HTMLInput
     defaultValue?: string;
     /** Font style applied to the label. */
     font?: ElementFont;
-    placeholderFont?: ElementFont;
     /** Marks the control as required (visual indicator only). */
     required?: boolean;
-    /** Text color override for label and content. */
-    textColor?: SurfaceColor;
 }
 
 export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: FieldBaseProps, ref) => {
@@ -75,7 +61,6 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         color,
         density,
         label,
-        labelColor,
         labelFont,
         id,
         outlined,
@@ -83,8 +68,6 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         classic,
         disabled,
         font,
-        placeholderFont,
-        placeholderColor,
         onFocus,
         onBlur,
         border,
@@ -93,8 +76,6 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         required,
         title,
         description,
-        descriptionColor,
-        descriptionFont,
         name,
         error,
         className,
@@ -106,7 +87,6 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         endIcon,
         variant,
         value,
-        textColor,
         defaultValue,
         ...other
     } = props;
@@ -308,29 +288,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const stateClasses = ['uui-field-state'].filter(Boolean).join(' ');
     const stateStyle = ControlStyle();
 
-    // Description & Error
-    const descriptionStyle = ControlStyle();
-    if (error) {
-        descriptionStyle.text('error');
-    } else if (descriptionColor) {
-        descriptionStyle.text(descriptionColor);
-    } else {
-        descriptionStyle.text.on('surfaceVariant');
-    }
-
-    const descriptionClasses = [
-        getFontClass(descriptionFont ?? 'bodySmall'),
-        error && 'uui-error uui-support-text',
-        description && !error && 'uui-description uui-support-text',
-    ]
-        .filter(Boolean)
-        .join(' ');
-
-    const descriptionText = (description ?? error) && (
-        <div className={descriptionClasses} style={descriptionStyle.get()}>
-            {error ?? description}
-        </div>
-    );
+    const descriptionText = <Description description={description} error={error} />;
 
     // Input
     const inputClasses = 'uui-field-input';
