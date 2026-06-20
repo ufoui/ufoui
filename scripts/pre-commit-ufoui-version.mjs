@@ -15,11 +15,19 @@ const staged = execSync('git diff --cached --name-only --diff-filter=ACM', {
   .filter(Boolean);
 
 const norm = (f) => f.replace(/\\/g, '/');
-const touchesLib = staged.some((f) => norm(f).startsWith('packages/ufoui/'));
+const touchesLib = staged.some((f) => norm(f).startsWith('packages/ufoui/') && !norm(f).startsWith('packages/ufoui-extra/'));
+const touchesExtra = staged.some((f) => norm(f).startsWith('packages/ufoui-extra/'));
 
-if (!touchesLib) {
-  process.exit(0);
+if (touchesLib) {
+  execSync('node scripts/bump-ufoui-patch.mjs', { stdio: 'inherit', cwd: root });
+  execSync('git add packages/ufoui/package.json', { stdio: 'inherit', cwd: root });
 }
 
-execSync('node scripts/bump-ufoui-patch.mjs', { stdio: 'inherit', cwd: root });
-execSync('git add packages/ufoui/package.json', { stdio: 'inherit', cwd: root });
+if (touchesExtra) {
+  execSync('node scripts/bump-ufoui-extra-patch.mjs', { stdio: 'inherit', cwd: root });
+  execSync('git add packages/ufoui-extra/package.json', { stdio: 'inherit', cwd: root });
+}
+
+if (!touchesLib && !touchesExtra) {
+  process.exit(0);
+}

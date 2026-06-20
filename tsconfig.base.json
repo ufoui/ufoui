@@ -18,7 +18,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ufoui/core": ["packages/ufoui/src/index.ts"]
+      "@ufoui/core": ["packages/ufoui/src/index.ts"],
+      "@ufoui/extra": ["packages/ufoui-extra/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,0 +1,41 @@
+{
+  "name": "@ufoui/extra",
+  "version": "0.0.2",
+  "description": "Experimental extras for @ufoui/core — wrappers, integrations, work-in-progress",
+  "type": "module",
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "license": "Apache-2.0",
+  "author": "ufoui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ufoui/ufoui.git"
+  },
+  "keywords": [
+    "react",
+    "material-design",
+    "material-design-3",
+    "md3",
+    "ufoui",
+    "ufo-ui"
+  ],
+  "peerDependencies": {
+    "@ufoui/core": "*",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "default": "./index.js"
+    },
+    "./index.css": "./index.css",
+    "./style.css": "./index.css",
+    "./style": "./index.css"
+  }
+}

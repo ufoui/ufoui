@@ -12,7 +12,8 @@
         "nx:format": "nx format:write",
         "nx:format:check": "nx format:check",
         "bump:ufoui": "node scripts/bump-ufoui-patch.mjs",
-        "publish:ufoui": "nx run @ufoui/core:build && npm publish dist/packages/ufoui --access public"
+        "publish:ufoui": "nx run @ufoui/core:build && npm publish dist/packages/ufoui --access public",
+        "publish:extra": "nx run @ufoui/extra:build && npm publish dist/packages/ufoui-extra --access public"
     },
     "dependencies": {
         "@faker-js/faker": "10.3.0",
