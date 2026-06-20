@@ -1,1 +1,3 @@
-// @ufoui/extra — experimental components and integrations
+import './styles/index.css';
+
+export * from './components/dataTable';

@@ -56,6 +56,7 @@ export default defineConfig({
         'react/jsx-runtime',
         'react/jsx-dev-runtime',
         '@ufoui/core',
+        '@tanstack/react-table',
       ],
     },
   },

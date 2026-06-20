@@ -16,6 +16,12 @@ export default defineConfig(() => ({
     host: 'localhost',
   },
   plugins: [react(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  optimizeDeps: {
+    include: [
+      '@tanstack/react-table',
+      '@tanstack/react-table > @tanstack/table-core',
+    ],
+  },
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [ nxViteTsPaths() ],
