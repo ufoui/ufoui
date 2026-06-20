@@ -172,3 +172,23 @@
 /*  -webkit-box-shadow: 0 0 0 1000px transparent inset;*/
 /*}*/
 
+
+/* domyślny backdrop = realne tło kontrolki; nadpisywany per wariant */
+.uui-field-control {
+  --uui-field-autofill-bg: var(--uui-color-surface);
+}
+
+.uui-field.uui-filled .uui-field-control {
+  --uui-field-autofill-bg: var(--uui-color-surface-container-highest);
+}
+
+.uui-field-input:-webkit-autofill,
+.uui-field-input:-webkit-autofill:hover,
+.uui-field-input:-webkit-autofill:focus,
+.uui-field-input:-webkit-autofill:active {
+  box-shadow: 0 0 0 1000px var(--uui-field-autofill-bg) inset !important;
+  -webkit-text-fill-color: var(--uui-control-color, var(--uui-color-on-surface)) !important;
+  caret-color: var(--uui-control-color, var(--uui-color-on-surface));
+  transition: background-color 9999s ease-in-out 0s;
+}
+
