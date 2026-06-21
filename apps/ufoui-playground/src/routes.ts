@@ -68,6 +68,7 @@ import { RatingPage } from './pages/rating';
 import { CalendarPage } from './pages/calendarPage';
 import ColorPage from './pages/colorPage';
 import { DataTablePage } from './pages/dataTablePage';
+import { StatusPage } from './pages/statusPage';
 
 export interface AppRoute {
     label: string;
@@ -106,6 +107,7 @@ export const appRoutes: AppRoute[] = [
     { label: 'Toolbar', path: paths.toolbar, component: ToolbarPage, icon: LuWrench, showInNav: true },
 
     { label: 'Badge', path: paths.badge, component: BadgePage, icon: LuBadgeCheck, showInNav: true },
+    { label: 'Status', path: paths.status, component: StatusPage, icon: LuTag, showInNav: true },
     { label: 'Tooltip', path: paths.tooltip, component: TooltipPage, icon: LuMessageSquare, showInNav: true },
     { label: 'Dialog', path: paths.dialog, component: DialogPage, icon: LuBringToFront, showInNav: true },
 

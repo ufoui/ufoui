@@ -2,6 +2,7 @@ export * from './components/base';
 export * from './components/button/button';
 export * from './components/chip/chip';
 export * from './components/badge/badge';
+export * from './components/status/status';
 export * from './components/card/card';
 export * from './components/card/cardHeader';
 export * from './components/card/cardMedia';

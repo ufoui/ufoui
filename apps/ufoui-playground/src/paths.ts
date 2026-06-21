@@ -37,6 +37,7 @@ export const paths = {
     toast: '/components/toast',
     avatar: '/components/avatar',
     rating: '/components/rating',
+    status: '/components/status',
     dataTable: '/extra/datatable',
     catchAll: '*',
 };

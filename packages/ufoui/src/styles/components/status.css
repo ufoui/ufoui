@@ -1,0 +1,61 @@
+.uui-status {
+  --uui-status-height: 20px;
+  --uui-status-padding: 8px;
+  --uui-status-gap: 4px;
+  --uui-slot-size: 16px;
+  --uui-icon-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  border-radius: var(--uui-corner-full);
+  white-space: nowrap;
+  height: var(--uui-status-height);
+  padding: 0 var(--uui-status-padding);
+  gap: var(--uui-status-gap);
+  background-color: var(--uui-color-surface-variant);
+  color: var(--uui-color-on-surface-variant);
+}
+
+.uui-status.uui-extra-small {
+  --uui-status-height: 16px;
+  --uui-status-padding: 4px;
+  --uui-status-gap: 4px;
+  --uui-slot-size: 12px;
+  --uui-icon-size: 12px;
+}
+
+.uui-status.uui-small {
+  --uui-status-height: 20px;
+  --uui-status-padding: 8px;
+  --uui-status-gap: 4px;
+  --uui-slot-size: 16px;
+  --uui-icon-size: 16px;
+}
+
+.uui-status.uui-medium {
+  --uui-status-height: 24px;
+  --uui-status-padding: 12px;
+  --uui-status-gap: 4px;
+  --uui-slot-size: 16px;
+  --uui-icon-size: 16px;
+}
+
+.uui-status.uui-large {
+  --uui-status-height: 32px;
+  --uui-status-padding: 12px;
+  --uui-status-gap: 8px;
+  --uui-slot-size: 20px;
+  --uui-icon-size: 20px;
+}
+
+.uui-status.uui-extra-large {
+  --uui-status-height: 40px;
+  --uui-status-padding: 16px;
+  --uui-status-gap: 8px;
+  --uui-slot-size: 24px;
+  --uui-icon-size: 24px;
+}
+
+.uui-status-label {
+  line-height: 1;
+}
