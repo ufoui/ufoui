@@ -2,6 +2,7 @@ import React, { forwardRef, ReactNode, useContext, useRef, useState } from 'reac
 
 import {
     BorderColor,
+    cn,
     ControlStyle,
     createRipple,
     ElementDensity,
@@ -257,32 +258,28 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
 
     // render
 
-    const wrapperClasses = [
+    const wrapperClasses = cn(
         'uui-switch',
         getDensityClass(density),
         className,
         error && 'uui-error',
         resolvedDisabled && 'uui-disabled',
-        ...(!children ? [getSizeClass(size)] : []),
-    ]
-        .filter(Boolean)
-        .join(' ');
+        !children && getSizeClass(size)
+    );
 
     // Control
-    const controlClasses = [
+    const controlClasses = cn(
         'uui-switch-control',
         isChecked && 'uui-checked',
-        uncheckedIcon && 'uui-symmetric-thumb',
-        ...(hoverEffects.includes('overlay') && !readOnly ? ['uui-hover-overlay'] : []),
-        ...(focusEffects.includes('overlay') && focusVisible && isFocused ? ['uui-focus-overlay'] : []),
-        ...(selectedEffects.includes('overlay') ? ['uui-selected-overlay'] : []),
-        ...(pressedEffects.includes('overlay') && !readOnly ? ['uui-pressed-overlay'] : []),
-        ...(pressedEffects.includes('scale') && !readOnly ? ['uui-pressed-scale'] : []),
+        !!uncheckedIcon && 'uui-symmetric-thumb',
+        hoverEffects.includes('overlay') && !readOnly && 'uui-hover-overlay',
+        focusEffects.includes('overlay') && focusVisible && isFocused && 'uui-focus-overlay',
+        selectedEffects.includes('overlay') && 'uui-selected-overlay',
+        pressedEffects.includes('overlay') && !readOnly && 'uui-pressed-overlay',
+        pressedEffects.includes('scale') && !readOnly && 'uui-pressed-scale',
         getShapeClass(shape),
-        focusEffects.includes('ring') && focusVisible && isFocused && 'uui-focus-visible uui-focus-ring',
-    ]
-        .filter(Boolean)
-        .join(' ');
+        focusEffects.includes('ring') && focusVisible && isFocused && 'uui-focus-visible uui-focus-ring'
+    );
 
     const controlStyle = ControlStyle();
     if (focusColor && focusVisible && isFocused) {
@@ -291,33 +288,31 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
     controlStyle.set('--uui-switch-duration', `${duration}ms`);
 
     // Input
-    const inputClasses = ['uui-input'].filter(Boolean).join(' ');
+    const inputClasses = cn('uui-input');
 
     // State
-    const stateClasses = ['uui-state', getShapeClass('round')].filter(Boolean).join(' ');
+    const stateClasses = cn('uui-state', getShapeClass('round'));
     const stateStyle = ControlStyle();
 
     // Track
     const finalBorder = isChecked ? border : (uncheckedBorder ?? border ?? 2);
-    const trackClasses = [
+    const trackClasses = cn(
         'uui-switch-track',
         getBorderClass(finalBorder),
         getShapeClass(shape),
-        getElevationClass(elevation),
-    ]
-        .filter(Boolean)
-        .join(' ');
+        getElevationClass(elevation)
+    );
 
     const trackStyle = ControlStyle();
     // Thumb
-    const thumbClasses = ['uui-switch-thumb', getShapeClass(shape)].filter(Boolean).join(' ');
+    const thumbClasses = cn('uui-switch-thumb', getShapeClass(shape));
 
     // Icon
-    const iconClasses = ['uui-icon'].filter(Boolean).join(' ');
+    const iconClasses = cn('uui-icon');
     const iconStyle = ControlStyle();
 
     // Glyph
-    const glyphClasses = ['uui-switch-glyph'].filter(Boolean).join(' ');
+    const glyphClasses = cn('uui-switch-glyph');
     const glyphStyle = ControlStyle();
 
     // Color
@@ -350,14 +345,12 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
 
     let content;
     if (children) {
-        const contentClasses = [
+        const contentClasses = cn(
             'uui-switch-content uui-overflow-hidden',
             getShapeClass(shape),
             getBorderClass(border),
-            getElevationClass(elevation),
-        ]
-            .filter(Boolean)
-            .join(' ');
+            getElevationClass(elevation)
+        );
         content = (
             <div className={contentClasses} style={contentStyle.get()}>
                 {children}

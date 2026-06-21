@@ -2,6 +2,7 @@ import React, { forwardRef, ReactNode, useContext, useEffect, useRef, useState }
 
 import {
     BorderColor,
+    cn,
     ControlStyle,
     createRipple,
     ElementBorder,
@@ -331,31 +332,27 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
     // render
     const wrapperStyle = ControlStyle();
 
-    const wrapperClasses = [
+    const wrapperClasses = cn(
         elementClass,
         'uui-cb',
         getDensityClass(density),
         className,
         resolvedDisabled && 'uui-disabled',
-        ...(!children ? [getSizeClass(size)] : []),
-    ]
-        .filter(Boolean)
-        .join(' ');
+        !children && getSizeClass(size)
+    );
 
-    const controlClasses = [
+    const controlClasses = cn(
         'uui-cb-control',
 
         isChecked && 'uui-checked',
         indeterminate && 'uui-indeterminate',
         filled && 'uui-filled',
-        ...(hoverEffects.includes('overlay') && !readOnly ? ['uui-hover-overlay'] : []),
-        ...(focusEffects.includes('overlay') && focusVisible && isFocused ? ['uui-focus-overlay'] : []),
-        ...(selectedEffects.includes('overlay') ? ['uui-selected-overlay'] : []),
-        ...(pressedEffects.includes('overlay') && !readOnly ? ['uui-pressed-overlay'] : []),
-        ...(children ? [getShapeClass(shape)] : ['uui-round']),
-    ]
-        .filter(Boolean)
-        .join(' ');
+        hoverEffects.includes('overlay') && !readOnly && 'uui-hover-overlay',
+        focusEffects.includes('overlay') && focusVisible && isFocused && 'uui-focus-overlay',
+        selectedEffects.includes('overlay') && 'uui-selected-overlay',
+        pressedEffects.includes('overlay') && !readOnly && 'uui-pressed-overlay',
+        children ? getShapeClass(shape) : 'uui-round'
+    );
 
     const controlStyle = ControlStyle();
 
@@ -363,28 +360,24 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         controlStyle.set('--uui-focus-color', getSurfaceColorVar(focusColor).color);
     }
 
-    const inputClasses = [
+    const inputClasses = cn(
         'uui-input',
-        focusEffects.includes('ring') && focusVisible && isFocused && 'uui-focus-visible uui-focus-ring',
-    ]
-        .filter(Boolean)
-        .join(' ');
-    const stateClasses = ['uui-state'].filter(Boolean).join(' ');
+        focusEffects.includes('ring') && focusVisible && isFocused && 'uui-focus-visible uui-focus-ring'
+    );
+    const stateClasses = cn('uui-state');
 
     const stateStyle = ControlStyle();
     stateStyle.bg(finalColor);
 
-    const glyphClasses = [
+    const glyphClasses = cn(
         'uui-cb-glyph',
         getElevationClass(elevation),
         getShapeClass(shape),
-        getBorderClass(isChecked ? border : uncheckedBorder),
-    ]
-        .filter(Boolean)
-        .join(' ');
+        getBorderClass(isChecked ? border : uncheckedBorder)
+    );
 
     const glyphStyle = ControlStyle();
-    const iconClasses = ['uui-icon', animationClasses].filter(Boolean).join(' ');
+    const iconClasses = cn('uui-icon', animationClasses);
     const iconStyle = ControlStyle();
     iconStyle.merge(animationVars);
 
@@ -410,9 +403,7 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
     }
     let content;
     if (children) {
-        const contentClasses = ['uui-cb-content uui-overflow-hidden', getShapeClass(shape), getBorderClass(border)]
-            .filter(Boolean)
-            .join(' ');
+        const contentClasses = cn('uui-cb-content uui-overflow-hidden', getShapeClass(shape), getBorderClass(border));
         content = <div className={contentClasses}>{children}</div>;
     } else {
         const displayedIcon =

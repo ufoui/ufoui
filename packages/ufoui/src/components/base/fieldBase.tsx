@@ -3,6 +3,7 @@ import React, { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 
 import {
     BorderColor,
     clampInt,
+    cn,
     ControlStyle,
     ElementBorder,
     ElementDensity,
@@ -257,7 +258,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     // Fieldset
     let fieldsetContent;
     if (fieldVariant === 'outlined') {
-        const fieldsetClasses = ['uui-field-fieldset', getShapeClass(shape ?? 'rounded')].filter(Boolean).join(' ');
+        const fieldsetClasses = cn('uui-field-fieldset', getShapeClass(shape ?? 'rounded'));
         const fieldsetStyle = ControlStyle();
 
         const borderWidth = clampInt(0, 4, border, 1);
@@ -285,7 +286,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     }
 
     // State
-    const stateClasses = ['uui-field-state'].filter(Boolean).join(' ');
+    const stateClasses = cn('uui-field-state');
     const stateStyle = ControlStyle();
 
     const descriptionText = <Description description={description} error={error} />;
@@ -299,7 +300,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     }
 
     // Input Wrapper
-    const inputWrapperClasses = ['uui-field-input-wrapper'].filter(Boolean).join(' ');
+    const inputWrapperClasses = cn('uui-field-input-wrapper');
 
     const wrapperClass = wrapperClasses.filter(Boolean).join(' ');
     const controlClass = controlClasses.filter(Boolean).join(' ');

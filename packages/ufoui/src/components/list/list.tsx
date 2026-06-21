@@ -2,7 +2,7 @@ import React, { ReactNode, useCallback, useState } from 'react';
 
 import { SelectionContext } from '../../context/selectionContext';
 import { useRovingFocus } from '../../hooks/useRovingFocus';
-import { ElementDensity } from '../../utils';
+import { cn, ElementDensity } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base/boxBase';
 
 /** @category List */
@@ -43,7 +43,9 @@ export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange'> {
 }
 
 function toArray(v?: string | string[]): string[] {
-    if (!v) return [];
+    if (!v) {
+        return [];
+    }
     return Array.isArray(v) ? v : [v];
 }
 
@@ -93,7 +95,9 @@ export const List = ({
                       ? currentValues.filter(x => x !== v)
                       : [...currentValues, v];
 
-            if (!isControlled) setInternalValues(newValues);
+            if (!isControlled) {
+                setInternalValues(newValues);
+            }
             onChange?.(newValues);
         },
         [currentValues, type, isControlled, onChange]
@@ -102,14 +106,18 @@ export const List = ({
     const set = useCallback(
         (v: string) => {
             const newValues = [v];
-            if (!isControlled) setInternalValues(newValues);
+            if (!isControlled) {
+                setInternalValues(newValues);
+            }
             onChange?.(newValues);
         },
         [isControlled, onChange]
     );
 
     const clear = useCallback(() => {
-        if (!isControlled) setInternalValues([]);
+        if (!isControlled) {
+            setInternalValues([]);
+        }
         onChange?.([]);
     }, [isControlled, onChange]);
 
@@ -123,9 +131,9 @@ export const List = ({
         <SelectionContext.Provider value={{ values: currentValues, toggle, set, clear, type, roving, config }}>
             <BoxBase
                 {...props}
-                as="div"
                 aria-orientation="vertical"
-                className={['uui-list', className].filter(Boolean).join(' ')}
+                as="div"
+                className={cn('uui-list', className)}
                 role={variant === 'listbox' ? 'listbox' : 'list'}>
                 <div className="uui-list-scroll uui-flex uui-flex-col">{children}</div>
             </BoxBase>

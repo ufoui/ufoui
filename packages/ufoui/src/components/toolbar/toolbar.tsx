@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 
 import {
+    cn,
     ElementDensity,
     ElementElevation,
     ElementOrientation,
@@ -10,7 +11,7 @@ import {
     getShapeClass,
     SurfaceColor,
 } from '../../utils';
-import { BoxBase, BoxBaseProps } from '../base/boxBase';
+import { BoxBase, BoxBaseProps } from '../base';
 
 /**
  * Props for {@link Toolbar}.
@@ -96,7 +97,7 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
         const finalShape = shape ?? (isFloating ? 'round' : undefined);
         const finalColor = color ?? (variant === 'floating' ? 'surfaceContainerHigh' : 'surfaceContainer');
 
-        const classes = [
+        const classes = cn(
             'uui-toolbar',
             `uui-toolbar-${variant}`,
             disabled && 'uui-disabled',
@@ -104,13 +105,11 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
             fullWidth && 'uui-toolbar-full',
             fixed && 'uui-toolbar-fixed',
             divider && 'uui-toolbar-divider',
-            finalElevation && getElevationClass(finalElevation),
+            !!finalElevation && getElevationClass(finalElevation),
             finalShape && getShapeClass(finalShape),
             density && getDensityClass(density),
-            orientation === 'horizontal' ? 'uui-horizontal' : 'uui-vertical',
-        ]
-            .filter(Boolean)
-            .join(' ');
+            orientation === 'horizontal' ? 'uui-horizontal' : 'uui-vertical'
+        );
 
         return (
             <BoxBase

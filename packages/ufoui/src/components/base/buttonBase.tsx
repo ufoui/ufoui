@@ -3,6 +3,7 @@ import React, { forwardRef, ReactNode, useRef, useState } from 'react';
 import {
     BaseColor,
     BorderColor,
+    cn,
     ControlStyle,
     createRipple,
     ElementDensity,
@@ -268,15 +269,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     const elemId = id || name || generatedId;
     const linkContent = link ? React.cloneElement(link, { ref: linkRef, style: { display: 'none' } }) : null;
 
-    const wrapperClasses = [
-        elementClass,
-        className,
-        'uui-bb',
-        getDensityClass(density),
-        ...(fullWidth ? ['uui-w-full'] : []),
-    ]
-        .filter(Boolean)
-        .join(' ');
+    const wrapperClasses = cn(elementClass, className, 'uui-bb', getDensityClass(density), fullWidth && 'uui-w-full');
 
     const controlClasses: string[] = [
         'uui-btn-control',
@@ -295,6 +288,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         ...(!children ? [getSizeClass(size)] : []),
         ...(isSelected ? ['uui-selected'] : []),
     ];
+
     const stateClasses: string[] = ['uui-state'];
 
     const shapeClass =
@@ -318,9 +312,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
 
     let content;
     if (children) {
-        const contentClass = ['uui-btn-content uui-overflow-hidden', shapeClass, getFontClass(font)]
-            .filter(Boolean)
-            .join(' ');
+        const contentClass = cn('uui-btn-content uui-overflow-hidden', shapeClass, getFontClass(font));
         content = <div className={contentClass}>{children}</div>;
     } else {
         content = (

@@ -1,6 +1,8 @@
 import { HTMLAttributes } from 'react';
 
 import {
+    cn,
+    ControlStyle,
     ElementBorder,
     ElementElevation,
     ElementFont,
@@ -15,7 +17,6 @@ import {
     getSizeClass,
 } from '../../utils';
 import { BorderColor, getBorderColor, SemanticColor } from '../../utils/color';
-import { ControlStyle } from '../../utils/controlStyle';
 
 /**
  * Props for the Badge component.
@@ -104,7 +105,7 @@ export const Badge = (props: BadgeProps) => {
         getSizeClass(size),
         getFontClass(finalFont),
     ];
-    const slotClass: string = ['uui-badge-slot', getPlacementClass(align)].filter(Boolean).join(' ');
+    const slotClass: string = cn('uui-badge-slot', getPlacementClass(align));
 
     const controlStyle = ControlStyle();
     controlStyle.bg(color);

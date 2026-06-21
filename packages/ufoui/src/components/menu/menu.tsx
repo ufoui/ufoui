@@ -17,6 +17,7 @@ import { MotionAnimation, motionClassMap, MotionStyle } from '../../types';
 import {
     BorderColor,
     calculateFloatingPosition,
+    cn,
     ControlStyle,
     ElementBorder,
     ElementDensity,
@@ -958,7 +959,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
             ctrlStyle.border(getBorderColor(borderColor));
         }
 
-        const classes = [
+        const classes = cn(
             'uui-menu',
             `uui-menu-level-${String(level)}`,
             horizontal && 'uui-menu-horizontal',
@@ -970,10 +971,8 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
             getShapeClass(shape ?? (variant === 'modern' ? 'rounded' : 'smooth')),
             getElevationClass(containerElevation),
             border !== undefined ? getBorderClass(border) : null,
-            className,
-        ]
-            .filter(Boolean)
-            .join(' ');
+            className
+        );
 
         const ariaActiveDescendant =
             isFocused && activeIndex >= 0 && open && visible

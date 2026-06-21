@@ -7,6 +7,7 @@ import { Leading, Trailing } from '../../internal';
 import { ExpandIcon } from '../../assets';
 import { AccordionConfig, AccordionVariant } from './accordion';
 import {
+    cn,
     ControlStyle,
     createRipple,
     ElementFocusEffect,
@@ -106,16 +107,14 @@ export const AccordionItem = ({
     const leadingContent = leading && <Leading content={leading} />;
     const trailingContent = (trailing ?? finalShowIcon) && <Trailing content={trailing} end={expandIcon} />;
 
-    const triggerClasses = [
+    const triggerClasses = cn(
         'uui-accordion-trigger',
         getFontClass(font ?? config?.font ?? 'labelLarge'),
-        ...(focusEffects.includes('ring') && focusVisible ? ['uui-focus-ring'] : []),
-        ...(focusEffects.includes('overlay') ? ['uui-focus-overlay'] : []),
-        ...(hoverEffects.includes('overlay') ? ['uui-hover-overlay'] : []),
-        ...(pressedEffects.includes('overlay') ? ['uui-pressed-overlay'] : []),
-    ]
-        .filter(Boolean)
-        .join(' ');
+        focusEffects.includes('ring') && focusVisible && 'uui-focus-ring',
+        focusEffects.includes('overlay') && 'uui-focus-overlay',
+        hoverEffects.includes('overlay') && 'uui-hover-overlay',
+        pressedEffects.includes('overlay') && 'uui-pressed-overlay'
+    );
 
     function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
         toggle(value);
@@ -124,13 +123,11 @@ export const AccordionItem = ({
         }
     }
 
-    const itemClasses = [
+    const itemClasses = cn(
         `uui-accordion-item uui-accordion-item-${finalVariant}`,
         flush && 'uui-flush',
-        divided && 'uui-divided',
-    ]
-        .filter(Boolean)
-        .join(' ');
+        divided && 'uui-divided'
+    );
 
     const controlStyle = ControlStyle();
     const stateStyle = ControlStyle();

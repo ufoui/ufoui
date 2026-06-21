@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 
-import { ControlStyle, ElementFont, getFontClass, SurfaceColor } from '../../utils';
+import { cn, ControlStyle, ElementFont, getFontClass, SurfaceColor } from '../../utils';
 import { FieldsetContext } from '../../context';
 import { BoxBase, BoxBaseProps } from '../base';
 
@@ -67,7 +67,7 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
         ref
     ) => {
         const legendText = legend ?? label;
-        const legendClasses = ['uui-fieldset-legend', getFontClass(font ?? 'labelLarge')].filter(Boolean).join(' ');
+        const legendClasses = cn('uui-fieldset-legend', getFontClass(font ?? 'labelLarge'));
 
         const descriptionStyle = ControlStyle();
         if (error) {
@@ -78,14 +78,12 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
             descriptionStyle.text.on('surfaceVariant');
         }
 
-        const descriptionClasses = [
+        const descriptionClasses = cn(
             'uui-support-text',
             getFontClass(descriptionFont ?? 'bodySmall'),
             error && 'uui-error',
             description && !error && 'uui-description',
-        ]
-            .filter(Boolean)
-            .join(' ');
+        );
 
         const descriptionText = (description ?? error) && (
             <div className={descriptionClasses} style={descriptionStyle.get()}>

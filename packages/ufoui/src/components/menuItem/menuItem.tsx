@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 
 import {
+    cn,
     ControlStyle,
     createRipple,
     ElementDensity,
@@ -415,27 +416,23 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
             controlStyle.text.on(resolvedColor);
         }
 
-        const itemClasses = [
+        const itemClasses = cn(
             'uui-menu-item',
             className,
             getDensityClass(density),
             disabled && 'uui-disabled',
-            variant === 'modern' ? 'uui-menu-item-modern' : 'uui-menu-item-classic',
-        ]
-            .filter(Boolean)
-            .join(' ');
+            variant === 'modern' ? 'uui-menu-item-modern' : 'uui-menu-item-classic'
+        );
 
         const resolvedShape = getShapeClass(shape ?? (variant === 'modern' ? 'rounded' : 'smooth'));
-        const contentClasses = [
+        const contentClasses = cn(
             'uui-menu-item-content',
             resolvedShape,
-            ...(focusEffects.includes('ring') && active ? ['uui-focus-ring-in'] : []),
-            ...(focusEffects.includes('overlay') && active ? ['uui-focus-overlay'] : []),
+            focusEffects.includes('ring') && active && 'uui-focus-ring-in',
+            focusEffects.includes('overlay') && active && 'uui-focus-overlay',
             active && 'uui-active',
-            active && focusVisible && 'uui-focus-visible',
-        ]
-            .filter(Boolean)
-            .join(' ');
+            active && focusVisible && 'uui-focus-visible'
+        );
 
         const content = (
             <div className={contentClasses} style={controlStyle.get()}>

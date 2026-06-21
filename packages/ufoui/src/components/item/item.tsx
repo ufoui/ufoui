@@ -9,7 +9,7 @@ import React, {
 
 import { SelectionContext } from '../../context/selectionContext';
 import { Leading, Trailing } from '../../internal/slots/slot';
-import { createRipple, ElementDensity, getDensityClass, mergeRefs } from '../../utils';
+import { cn, createRipple, ElementDensity, getDensityClass, mergeRefs } from '../../utils';
 import { IS_ITEM } from './item.guards';
 
 interface ItemCtxConfig {
@@ -102,15 +102,13 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                 aria-selected={selected}
                 aria-disabled={disabled || undefined}
                 tabIndex={disabled ? -1 : 0}
-                className={[
+                className={cn(
                     'uui-item',
                     getDensityClass(config?.density),
                     selected && 'uui-selected',
                     disabled && 'uui-disabled',
                     className,
-                ]
-                    .filter(Boolean)
-                    .join(' ')}
+                )}
                 onClick={handleClick}
                 onKeyDown={handleKeyDown}
             >
