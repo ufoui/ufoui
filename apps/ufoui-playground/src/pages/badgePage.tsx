@@ -82,7 +82,7 @@ export const BadgePage = () => {
         <Article direction="row" gap={20} grow>
             <Section gap={20}>
                 <Fieldset legend="Standalone">
-                    <Flex className="gap-2">
+                    <Flex gap={8}>
                         <Badge {...shared} value={5} />
                         <Flex direction="col" grow>
                             <Badge {...shared} size="small" value={5} />
@@ -133,7 +133,7 @@ export const BadgePage = () => {
                         </>
                     ))}
                 </Fieldset>
-                <Fieldset className="grid-cols-4" gap={8} legend="Badge variations" type="grid">
+                <Fieldset cols={4} gap={8} legend="Badge variations" type="grid">
                     {badgeVariations.map(s => (
                         <Badge key={`${s.size}2`} {...s}>
                             <Button filled icon={<MdAdd />} label={s.label} />

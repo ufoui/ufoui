@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 
 import {
     Article,
+    cn,
     Content,
     ControlStyle,
     Div,
@@ -45,16 +46,24 @@ const AnimationPage = () => {
                         return (
                             <Grid color="surfaceDim" key={key} placeItems="center">
                                 {key}
-                                <div className="flex h-36 w-36 items-center justify-center overflow-hidden">
+                                {/* TODO[tailwind]: brak propsa overflow w BoxBase — overflow przez style */}
+                                <Flex
+                                    alignItems="center"
+                                    height={144}
+                                    justifyContent="center"
+                                    style={{ overflow: 'hidden' }}
+                                    width={144}>
                                     {animating && (
                                         <Grid
-                                            className={'h-32 w-32 bg-black ' + animationClass}
+                                            className={animationClass}
+                                            height={128}
                                             placeItems="center"
-                                            style={style.get()}>
+                                            style={style.get()}
+                                            width={128}>
                                             {closing ? 'Closing' : 'Opening'}
                                         </Grid>
                                     )}
-                                </div>
+                                </Flex>
                             </Grid>
                         );
                     })}
@@ -67,21 +76,25 @@ const AnimationPage = () => {
                         return (
                             <Grid color="surfaceDim" key={key + 'exp'} placeItems="center">
                                 {key}
-                                <div className="flex h-36 w-36 items-center justify-center overflow-hidden">
+                                {/* TODO[tailwind]: brak propsa overflow w BoxBase — overflow przez style */}
+                                <Flex
+                                    alignItems="center"
+                                    height={144}
+                                    justifyContent="center"
+                                    style={{ overflow: 'hidden' }}
+                                    width={144}>
                                     {animating && (
                                         <Grid
-                                            className={[
-                                                'h-32 w-32 bg-black',
-                                                animationClass,
-                                                getMotionStyleClass('expressive'),
-                                            ].join(' ')}
+                                            className={cn(animationClass, getMotionStyleClass('expressive'))}
+                                            height={128}
                                             placeItems="center"
                                             shape="round"
-                                            style={style.get()}>
+                                            style={style.get()}
+                                            width={128}>
                                             {closing ? 'Closing' : 'Opening'}
                                         </Grid>
                                     )}
-                                </div>
+                                </Flex>
                             </Grid>
                         );
                     })}

@@ -47,7 +47,7 @@ export const CollapsePage = () => {
 
     return (
         <Article direction="row" fullWidth>
-            <Section className="items-start gap-6 p-4" grow>
+            <Section alignItems="start" gap={24} grow p={16}>
                 <H1>Collapse</H1>
                 <H2>Basic Collapse</H2>
 
@@ -72,7 +72,7 @@ export const CollapsePage = () => {
                     }}
                     tonal
                 />
-                <Div className="w-[1250px]">
+                <Div width={1250}>
                     <Collapse {...shared} animation="slideDown" open={open2}>
                         <Span>{text2}</Span>
                     </Collapse>

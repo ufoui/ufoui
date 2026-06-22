@@ -25,6 +25,7 @@ import {
     MotionAnimation,
     MotionStyle,
     Section,
+    Span,
     SurfaceColor,
     useResponsive,
 } from '@ufoui/core';
@@ -90,7 +91,7 @@ export const CardPage = () => {
 
     return (
         <Article direction="row" fullWidth>
-            <Section className="items-start gap-6 p-4" grow>
+            <Section alignItems="start" gap={24} grow p={16}>
                 <H1>Card</H1>
 
                 <H2 font="customH2">Variants</H2>
@@ -115,10 +116,11 @@ export const CardPage = () => {
                                 titleAlign={titleAlign ?? undefined}
                             />
                             <CardMedia>
+                                {/* TODO[html]: brak komponentu Image w bibliotece — surowy <img> */}
                                 <img
                                     alt={`${variant} clipart`}
-                                    className="block h-[180px] w-full object-cover"
                                     src={cliparts[idx % cliparts.length]}
+                                    style={{ display: 'block', height: 180, objectFit: 'cover', width: '100%' }}
                                 />
                             </CardMedia>
 
@@ -142,10 +144,11 @@ export const CardPage = () => {
                     {variants.map((variant, idx) => (
                         <Card {...shared} key={`${variant}-image-first`} variant={variant}>
                             <CardMedia>
+                                {/* TODO[html]: brak komponentu Image w bibliotece — surowy <img> */}
                                 <img
                                     alt={`${variant} clipart`}
-                                    className="block h-[180px] w-full object-cover"
                                     src={cliparts[idx % cliparts.length]}
+                                    style={{ display: 'block', height: 180, objectFit: 'cover', width: '100%' }}
                                 />
                             </CardMedia>
                             <CardHeader
@@ -241,9 +244,10 @@ export const CardPage = () => {
                     surfaceColor={color}
                 />
 
+                {/* TODO[html]: surowe <select>/<option> — do zamiany na ufoui Select (inny onChange/value, osobno) */}
                 <Grid alignItems="center" cols={2} gapX={16} gapY={4}>
                     <>
-                        <span>Actions align:</span>
+                        <Span>Actions align:</Span>
                         <select
                             onChange={e => {
                                 setActionsAlign(e.target.value === '' ? null : (e.target.value as CardActionsAlign));
@@ -256,7 +260,7 @@ export const CardPage = () => {
                         </select>
                     </>
                     <>
-                        <span>Title align:</span>
+                        <Span>Title align:</Span>
                         <select
                             onChange={e => {
                                 setTitleAlign(e.target.value === '' ? null : (e.target.value as CardTitleAlign));
@@ -269,7 +273,7 @@ export const CardPage = () => {
                         </select>
                     </>
                     <>
-                        <span>Icon slot:</span>
+                        <Span>Icon slot:</Span>
                         <select
                             onChange={e => {
                                 setIconSlot(e.target.value === '' ? null : (e.target.value as DialogIconSlot));
@@ -283,7 +287,7 @@ export const CardPage = () => {
                         </select>
                     </>
                     <>
-                        <span>Open:</span>
+                        <Span>Open:</Span>
                         <Checkbox
                             checked={open ?? true}
                             density="dense"
@@ -294,7 +298,7 @@ export const CardPage = () => {
                         />
                     </>
                     <>
-                        <span>Show icon:</span>
+                        <Span>Show icon:</Span>
                         <Checkbox
                             checked={showIcon}
                             density="dense"
@@ -305,7 +309,7 @@ export const CardPage = () => {
                         />
                     </>
                     <>
-                        <span>Show close:</span>
+                        <Span>Show close:</Span>
                         <Checkbox
                             checked={showClose}
                             density="dense"
@@ -316,7 +320,7 @@ export const CardPage = () => {
                         />
                     </>
                     <>
-                        <span>Actions stack:</span>
+                        <Span>Actions stack:</Span>
                         <Checkbox
                             checked={actionsStack}
                             density="dense"
@@ -327,7 +331,7 @@ export const CardPage = () => {
                         />
                     </>
                     <>
-                        <span>Flush:</span>
+                        <Span>Flush:</Span>
                         <Checkbox
                             checked={flush}
                             density="dense"

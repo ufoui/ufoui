@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Article, Aside, Calendar, Content, H1, H2, P, Section } from '@ufoui/core';
+import { Article, Aside, Calendar, Content, Flex, H1, H2, P, Section } from '@ufoui/core';
 
 export const CalendarPage = () => {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -18,10 +18,10 @@ export const CalendarPage = () => {
                 <Section gap={16}>
                     <H2>Variants</H2>
 
-                    <div className="flex flex-wrap gap-4">
+                    <Flex gap={16} wrap>
                         <Calendar border={1} />
                         <Calendar color="secondaryContainer" elevation={1} shape="square" />
-                    </div>
+                    </Flex>
                 </Section>
             </Content>
 
