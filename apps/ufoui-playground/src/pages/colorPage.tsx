@@ -453,16 +453,25 @@ const ColorPage = () => {
                                         const bg = lcTheme[scheme][toThemeKey(colorName)];
                                         const fg = onToken ? lcTheme[scheme][toThemeKey(onToken)] : '#000';
                                         return (
-                                            <div
-                                                className="flex h-[40px] w-[120px] items-center justify-center rounded border border-black/10 px-1 text-center text-[9px] leading-tight"
+                                            <Flex
+                                                alignItems="center"
+                                                border={1}
+                                                borderColor="outlineVariant"
+                                                height={40}
+                                                justifyContent="center"
                                                 key={colorName}
+                                                px={1}
+                                                shape="smooth"
                                                 style={{
                                                     backgroundColor: bg,
                                                     color: fg,
+                                                    fontSize: '9px',
+                                                    lineHeight: 1.25,
                                                 }}
-                                                title={colorName}>
+                                                title={colorName}
+                                                width={120}>
                                                 {colorName}
-                                            </div>
+                                            </Flex>
                                         );
                                     })}
                                 </Flex>
