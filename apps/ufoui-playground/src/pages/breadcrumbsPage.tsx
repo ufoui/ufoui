@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { MdFolder, MdHome } from 'react-icons/md';
 
-import { Article, Aside, BreadcrumbItem, Breadcrumbs, Div, H1, H2, Section, SurfaceColor } from '@ufoui/core';
+import { Article, Aside, BreadcrumbItem, Breadcrumbs, H1, H2, Section, Stack, SurfaceColor } from '@ufoui/core';
 
 import { Modifiers } from '../components/modifiers/modifiers';
 
@@ -61,20 +61,20 @@ export const BreadcrumbsPage = () => {
 
     return (
         <Article direction="row" fullWidth>
-            <Section className="items-start gap-6 p-4" grow>
+            <Section alignItems="start" gap={24} grow p={16}>
                 <H1>Breadcrumbs</H1>
 
-                <Div className="flex w-full flex-col gap-3">
+                <Stack fullWidth gap={12}>
                     <H2>Basic</H2>
                     <Breadcrumbs color={sharedColor} items={basicItemsWithDisabled} />
-                </Div>
+                </Stack>
 
-                <Div className="flex w-full flex-col gap-3">
+                <Stack fullWidth gap={12}>
                     <H2>Custom separator</H2>
                     <Breadcrumbs color={sharedColor} items={basicItemsWithDisabled} separator="›" />
-                </Div>
+                </Stack>
 
-                <Div className="flex w-full flex-col gap-3">
+                <Stack fullWidth gap={12}>
                     <H2>Collapse</H2>
                     <Breadcrumbs
                         color={sharedColor}
@@ -83,12 +83,12 @@ export const BreadcrumbsPage = () => {
                         itemsBeforeCollapse={1}
                         maxItems={4}
                     />
-                </Div>
+                </Stack>
 
-                <Div className="flex w-full flex-col gap-3">
+                <Stack fullWidth gap={12}>
                     <H2>Disabled item</H2>
                     <Breadcrumbs color={sharedColor} items={disabledItemsWithDisabled} />
-                </Div>
+                </Stack>
             </Section>
 
             <Aside>

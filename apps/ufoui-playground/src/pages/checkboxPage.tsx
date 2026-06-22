@@ -17,6 +17,7 @@ import {
     Fieldset,
     Section,
     SemanticColor,
+    Span,
     Stack,
     SurfaceColor,
 } from '@ufoui/core';
@@ -233,20 +234,15 @@ export const CheckboxPage = () => {
                             onChange={() => {
                                 setChecked1(v => !v);
                             }}>
+                            {/* TODO[html]: brak komponentu Image w bibliotece — surowy <img> */}
                             {checked1 ? (
-                                <img
-                                    alt=""
-                                    className="rotate-0 transition-all duration-200"
-                                    height={64}
-                                    src={tree}
-                                    width={64}
-                                />
+                                <img alt="" height={64} src={tree} style={{ transition: 'all 200ms' }} width={64} />
                             ) : (
                                 <img
                                     alt=""
-                                    className="rotate-90 transition-all duration-200"
                                     height={64}
                                     src={tree}
+                                    style={{ transform: 'rotate(90deg)', transition: 'all 200ms' }}
                                     width={64}
                                 />
                             )}
@@ -259,9 +255,9 @@ export const CheckboxPage = () => {
                             }}
                             title="Text">
                             {checked2 ? (
-                                <span className="px-2 font-bold">Checked</span>
+                                <Span style={{ fontWeight: 'bold', paddingInline: 8 }}>Checked</Span>
                             ) : (
-                                <span className="px-2">Unchecked</span>
+                                <Span style={{ paddingInline: 8 }}>Unchecked</Span>
                             )}
                         </Checkbox>
                     </Fieldset>

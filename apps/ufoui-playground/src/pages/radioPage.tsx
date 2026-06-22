@@ -19,6 +19,7 @@ import {
     RadioGroup,
     Section,
     SemanticColor,
+    Span,
     SurfaceColor,
 } from '@ufoui/core';
 
@@ -86,7 +87,7 @@ export const RadioPage = () => {
     );
 
     return (
-        <Article>
+        <Article direction="row">
             <Content gap={20} grow px={20}>
                 <Section shape="rounded">
                     <RadioGroup
@@ -210,20 +211,15 @@ export const RadioPage = () => {
                                 setCustomValue(e.currentTarget.value);
                             }}
                             value="image">
+                            {/* TODO[html]: brak komponentu Image w bibliotece — surowy <img> */}
                             {customValue === 'image' ? (
-                                <img
-                                    alt=""
-                                    className="rotate-0 transition-all duration-200"
-                                    height={64}
-                                    src={tree}
-                                    width={64}
-                                />
+                                <img alt="" height={64} src={tree} style={{ transition: 'all 200ms' }} width={64} />
                             ) : (
                                 <img
                                     alt=""
-                                    className="rotate-90 transition-all duration-200"
                                     height={64}
                                     src={tree}
+                                    style={{ transform: 'rotate(90deg)', transition: 'all 200ms' }}
                                     width={64}
                                 />
                             )}
@@ -237,16 +233,16 @@ export const RadioPage = () => {
                             }}
                             value="text">
                             {customValue === 'text' ? (
-                                <span className="px-2 font-bold">Checked</span>
+                                <Span style={{ fontWeight: 'bold', paddingInline: 8 }}>Checked</Span>
                             ) : (
-                                <span className="px-2">Unchecked</span>
+                                <Span style={{ paddingInline: 8 }}>Unchecked</Span>
                             )}
                         </Radio>
                     </RadioGroup>
                 </Section>
 
                 <Section>
-                    <Fieldset className="flex w-full" disabled={disabled ?? undefined} legend="Controlled">
+                    <Fieldset disabled={disabled ?? undefined} fullWidth legend="Controlled">
                         <Radio
                             {...shared}
                             checked={value === 'option1'}
@@ -268,9 +264,9 @@ export const RadioPage = () => {
 
                 <Section>
                     <RadioGroup
-                        className="flex w-full"
                         description="Controlled by RadioGroup component."
                         disabled={disabled ?? undefined}
+                        fullWidth
                         legend="Controlled by RadioGroup"
                         name="rgControl"
                         onChange={v => {
@@ -285,8 +281,8 @@ export const RadioPage = () => {
 
                 <Section>
                     <RadioGroup
-                        className="flex w-full"
                         disabled={disabled ?? undefined}
+                        fullWidth
                         legend="Error State"
                         name="errors">
                         <Radio {...shared} error="Error message" label="Error" value="error" />

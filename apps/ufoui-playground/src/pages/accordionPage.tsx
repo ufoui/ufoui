@@ -56,7 +56,7 @@ export const AccordionPage = () => {
 
     return (
         <Article direction="row" fullWidth>
-            <Section className="items-start gap-6 p-4" grow>
+            <Section alignItems="start" gap={24} grow p={16}>
                 <H1>Accordion</H1>
 
                 {/* ───────────────────────── SINGLE ───────────────────────── */}

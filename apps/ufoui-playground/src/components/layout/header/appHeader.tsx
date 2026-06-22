@@ -4,8 +4,8 @@ import LightModeButton from '../lightModeButton';
 
 const AppHeader = () => {
     return (
-        <Header alignItems="center" className="fixed z-20" color="surfaceContainer" elevation={1} fullWidth>
-            <Nav alignItems="center" className="h-14" fullWidth justifyContent="right" px={20}>
+        <Header alignItems="center" color="surfaceContainer" elevation={1} fullWidth position="fixed" zIndex={20}>
+            <Nav alignItems="center" fullWidth height={56} justifyContent="right" px={20}>
                 <LightModeButton />
             </Nav>
         </Header>

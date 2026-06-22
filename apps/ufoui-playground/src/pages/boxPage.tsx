@@ -11,7 +11,9 @@ import {
     ElementShape,
     Flex,
     Grid,
+    H2,
     Section,
+    Span,
     SurfaceColor,
 } from '@ufoui/core';
 
@@ -40,8 +42,8 @@ export const BoxPage = () => {
 
     return (
         <Article direction="row" fullWidth>
-            <Section className="items-start gap-4 p-4" color="surface" grow>
-                <h2>Basic Flex</h2>
+            <Section alignItems="start" color="surface" gap={16} grow p={16}>
+                <H2>Basic Flex</H2>
                 <Flex {...shared}>
                     <Flex>Simple Flex Line 1</Flex>
                     <Flex>Simple Flex Line 2</Flex>
@@ -56,110 +58,110 @@ export const BoxPage = () => {
                         <Flex>Default Flex 2 in the Flex Line 2</Flex>
                     </Flex>
                 </Flex>
-                <h2>Flex Grow Example</h2>
+                <H2>Flex Grow Example</H2>
                 <Flex {...shared} fullWidth>
                     <Flex color="primary" grow>
-                        <div>Growing Flex 1</div>
+                        <Div>Growing Flex 1</Div>
                     </Flex>
                     <Flex>
-                        <div>Simple Flex 2</div>
+                        <Div>Simple Flex 2</Div>
                     </Flex>
                 </Flex>
-                <h2>Full Width Flex Example</h2>
+                <H2>Full Width Flex Example</H2>
                 <Flex {...shared} fullWidth>
                     <Flex color="primary" fullWidth>
-                        <div>Full Width Flex 1</div>
+                        <Div>Full Width Flex 1</Div>
                     </Flex>
                     <Flex>
-                        <div>Simple Flex 2</div>
+                        <Div>Simple Flex 2</Div>
                     </Flex>
                 </Flex>
-                <h2>Inline Flex Example</h2>
+                <H2>Inline Flex Example</H2>
                 <Flex {...shared}>
-                    <div>
-                        <span>Before Flex</span>
+                    <Div>
+                        <Span>Before Flex</Span>
                         <Flex color="primary" inline>
                             Inline Flex Box
                         </Flex>
-                        <span>After Flex</span>
-                    </div>
-                    <div>
-                        <span>Before Flex</span>
+                        <Span>After Flex</Span>
+                    </Div>
+                    <Div>
+                        <Span>Before Flex</Span>
                         <Flex color="primary">Simple Flex Box</Flex>
-                        <span>After Flex</span>
-                    </div>
+                        <Span>After Flex</Span>
+                    </Div>
                 </Flex>
 
-                <h2>Flex Direction Example</h2>
+                <H2>Flex Direction Example</H2>
                 <Flex {...shared} inline>
                     <Flex>
-                        <div>Row 1</div>
-                        <div>Row 2</div>
-                        <div>Row 3</div>
-                        <div>Row 4</div>
+                        <Div>Row 1</Div>
+                        <Div>Row 2</Div>
+                        <Div>Row 3</Div>
+                        <Div>Row 4</Div>
                     </Flex>
                     <Flex direction="col">
-                        <div>Col 1</div>
-                        <div>Col 2</div>
-                        <div>Col 3</div>
-                        <div>Col 4</div>
+                        <Div>Col 1</Div>
+                        <Div>Col 2</Div>
+                        <Div>Col 3</Div>
+                        <Div>Col 4</Div>
                     </Flex>
                 </Flex>
 
-                <h2>Grid Example</h2>
+                <H2>Grid Example</H2>
                 <Grid {...shared}>
-                    <div>Grid Line 1</div>
-                    <div>Grid Line 2</div>
-                    <div>Grid Line 3</div>
-                    <div>Grid Line 4</div>
+                    <Div>Grid Line 1</Div>
+                    <Div>Grid Line 2</Div>
+                    <Div>Grid Line 3</Div>
+                    <Div>Grid Line 4</Div>
                 </Grid>
-                <h2 className="mt-6">Article</h2>
+                <H2 mt={24}>Article</H2>
                 <Article {...shared}>
-                    <div>Simple Article Line 1</div>
-                    <div>Simple Article Line 2</div>
+                    <Div>Simple Article Line 1</Div>
+                    <Div>Simple Article Line 2</Div>
                 </Article>
-                <h2 className="mt-6">Dividers</h2>
+                <H2 mt={24}>Dividers</H2>
                 <Div fullWidth>
-                    <div>Horizontal in block</div>
+                    <Div>Horizontal in block</Div>
                     <Divider border={4} inset="middle" />
-                    <div>Line 2</div>
+                    <Div>Line 2</Div>
                 </Div>
                 <Div fullWidth>
-                    <span>Vertical in block</span>
-                    <Divider border={4} className="" height="24px" inset="middle" vertical />
-                    <span>Text after</span>
-                    <span>
+                    <Span>Vertical in block</Span>
+                    <Divider border={4} height="24px" inset="middle" vertical />
+                    <Span>Text after</Span>
+                    <Span>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus
                         tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.
                         Maecenas ligula massa, varius a, semper congue, euismod non, mi.
-                    </span>
+                    </Span>
                 </Div>
                 <Divider />
                 <Flex fullWidth wrap>
-                    <div>Horizontal in flex row wrap</div>
+                    <Div>Horizontal in flex row wrap</Div>
                     <Divider border={4} inset="middle" />
-                    <div>Line 2</div>
+                    <Div>Line 2</Div>
                 </Flex>
                 <Flex fullWidth>
-                    <div>Horizontal in in flex row</div>
+                    <Div>Horizontal in in flex row</Div>
                     <Divider border={4} inset="middle" />
-                    <div>Line 2</div>
+                    <Div>Line 2</Div>
                 </Flex>
                 <Flex alignItems="center" fullWidth>
-                    <div>Vertical in in flex row</div>
+                    <Div>Vertical in in flex row</Div>
                     <Divider border={4} inset="middle" insetSize={2} vertical />
-                    <div>Line 2</div>
+                    <Div>Line 2</Div>
                 </Flex>
                 <Divider />
                 <Flex direction="col" fullWidth>
-                    <div>Horizontal in flex col</div>
+                    <Div>Horizontal in flex col</Div>
                     <Divider border={4} inset="middle" />
-                    <div>Line 2</div>
+                    <Div>Line 2</Div>
                 </Flex>
                 <Flex direction="col" fullWidth>
-                    <div>Vertical in in flex col</div>
+                    <Div>Vertical in in flex col</Div>
                     <Divider border={4} height="20px" inset="middle" vertical />
-                    <div>Line 2</div>
+                    <Div>Line 2</Div>
                 </Flex>
             </Section>
 
