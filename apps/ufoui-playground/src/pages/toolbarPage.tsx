@@ -13,6 +13,8 @@ import {
     ElementElevation,
     ElementFont,
     ElementShape,
+    Flex,
+    H2,
     IconButton,
     Section,
     SurfaceColor,
@@ -52,7 +54,7 @@ export const ToolbarPage = () => {
         <Article direction="row" fullWidth>
             <Content gap={24} grow px={24} py={24}>
                 <Section gap={12}>
-                    <h2>Docked</h2>
+                    <H2>Docked</H2>
                     <Toolbar {...shared} variant="docked">
                         <IconButton icon={<MdSearch />} />
                         <Div grow>Toolbar content</Div>
@@ -62,7 +64,7 @@ export const ToolbarPage = () => {
                 </Section>
 
                 <Section gap={12}>
-                    <h2>Floating</h2>
+                    <H2>Floating</H2>
                     <Toolbar {...shared} elevation={elevation ?? 3} variant="floating">
                         <IconButton icon={<MdSearch />} />
                         <Divider inset="middle" insetSize={8} vertical />
@@ -73,7 +75,7 @@ export const ToolbarPage = () => {
                 </Section>
 
                 <Section gap={12}>
-                    <h2>Dense</h2>
+                    <H2>Dense</H2>
                     <Toolbar {...shared} density="dense">
                         <IconButton icon={<MdSearch />} />
                         <IconButton icon={<MdDelete />} />
@@ -82,44 +84,44 @@ export const ToolbarPage = () => {
                 </Section>
 
                 <Section gap={12}>
-                    <h2>Disabled</h2>
+                    <H2>Disabled</H2>
                     <Toolbar {...shared} disabled>
                         <IconButton icon={<MdSearch />} />
                         <Div grow>Disabled toolbar</Div>
                         <IconButton icon={<MdMoreVert />} />
                     </Toolbar>
                 </Section>
+                <Flex gap={16}>
+                    <Section gap={12}>
+                        <H2>Vertical Docked </H2>
+                        <Toolbar {...shared} orientation="vertical" variant="docked">
+                            <IconButton icon={<MdSearch />} />
+                            <Div grow>Toolbar content</Div>
+                            <IconButton icon={<MdDelete />} />
+                            <IconButton icon={<MdMoreVert />} />
+                        </Toolbar>
+                    </Section>
+
+                    <Section gap={12}>
+                        <H2>Vertical Floating</H2>
+                        <Toolbar {...shared} elevation={elevation ?? 3} orientation="vertical" variant="floating">
+                            <IconButton icon={<MdSearch />} />
+                            <Divider vertical={false} />
+                            <IconButton icon={<MdDelete />} />
+                            <IconButton icon={<MdMoreVert />} />
+                        </Toolbar>
+                    </Section>
+
+                    <Section gap={12}>
+                        <H2>Vertical Dense</H2>
+                        <Toolbar {...shared} density="dense" orientation="vertical">
+                            <IconButton icon={<MdSearch />} />
+                            <IconButton icon={<MdDelete />} />
+                            <IconButton icon={<MdMoreVert />} />
+                        </Toolbar>
+                    </Section>
+                </Flex>
             </Content>
-
-            <Section gap={12}>
-                <h2>Vertical Docked </h2>
-                <Toolbar {...shared} orientation="vertical" variant="docked">
-                    <IconButton icon={<MdSearch />} />
-                    <Div grow>Toolbar content</Div>
-                    <IconButton icon={<MdDelete />} />
-                    <IconButton icon={<MdMoreVert />} />
-                </Toolbar>
-            </Section>
-
-            <Section gap={12}>
-                <h2>Vertical Floating</h2>
-                <Toolbar {...shared} elevation={elevation ?? 3} orientation="vertical" variant="floating">
-                    <IconButton icon={<MdSearch />} />
-                    <Divider vertical={false} />
-                    <IconButton icon={<MdDelete />} />
-                    <IconButton icon={<MdMoreVert />} />
-                </Toolbar>
-            </Section>
-
-            <Section gap={12}>
-                <h2>Vertical Dense</h2>
-                <Toolbar {...shared} density="dense" orientation="vertical">
-                    <IconButton icon={<MdSearch />} />
-                    <IconButton icon={<MdDelete />} />
-                    <IconButton icon={<MdMoreVert />} />
-                </Toolbar>
-            </Section>
-
             <Aside px={20}>
                 <Modifiers
                     border={border}

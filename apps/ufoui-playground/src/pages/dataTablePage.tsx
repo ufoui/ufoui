@@ -22,6 +22,7 @@ import {
     H2,
     P,
     Section,
+    Span,
 } from '@ufoui/core';
 import { DataTable, DataTableBody, DataTableHeader, DataTablePagination } from '@ufoui/extra';
 
@@ -92,7 +93,7 @@ export const DataTablePage = () => {
 
     return (
         <Article direction="row" fullWidth>
-            <Section className="gap-4 p-4" grow>
+            <Section gap={16} grow p={16}>
                 <H2>DataTable — @ufoui/extra</H2>
 
                 {selected && (
@@ -137,7 +138,7 @@ export const DataTablePage = () => {
                 />
                 <Grid alignItems="center" cols={2} gapX={16} gapY={4}>
                     <>
-                        <span>Sticky header:</span>
+                        <Span>Sticky header:</Span>
                         <Checkbox
                             checked={stickyHeader}
                             density="dense"

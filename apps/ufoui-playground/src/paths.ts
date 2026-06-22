@@ -15,7 +15,6 @@ export const paths = {
     fab: '/components/fab',
     iconButton: '/components/iconbutton',
     chip: '/components/chip',
-    flex: '/components/flex',
     testButton: '/test/button',
     color: '/colors',
     collapse: '/components/collapse',

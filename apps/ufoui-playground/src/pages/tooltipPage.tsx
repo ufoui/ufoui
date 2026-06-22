@@ -1,6 +1,6 @@
 import { MdAdd } from 'react-icons/md';
 
-import { Button, Tooltip, TooltipProps } from '@ufoui/core';
+import { Article, Button, Content, Grid, H1, H2, Section, Tooltip, TooltipProps } from '@ufoui/core';
 
 interface TooltipStyle extends Omit<TooltipProps, 'title' | 'size'> {
     label?: string;
@@ -29,18 +29,21 @@ const badgeSizeConst: TooltipStyle[] = [
 
 export const TooltipPage = () => {
     return (
-        <div className="flex">
-            <div className="mt-10">
-                <h2 className="font-bold">Tooltip position</h2>
-                <div className="grid grid-cols-3 gap-2">
-                    {badgePosition.map(s => (
-                        <Tooltip align={s.align} key={s.align} title={`Tooltip ${s.align?.toString()}`}>
-                            <Button filled icon={<MdAdd />} />
-                        </Tooltip>
-                    ))}
-                </div>
-            </div>
-        </div>
+        <Article direction="row" fullWidth>
+            <Content alignItems="start" gap={24} p={16}>
+                <H1>Tooltip</H1>
+                <Section alignItems="start" gap={12}>
+                    <H2>Tooltip position</H2>
+                    <Grid cols={3} gap={8}>
+                        {badgePosition.map(s => (
+                            <Tooltip align={s.align} key={s.align} title={`Tooltip ${s.align?.toString()}`}>
+                                <Button filled icon={<MdAdd />} />
+                            </Tooltip>
+                        ))}
+                    </Grid>
+                </Section>
+            </Content>
+        </Article>
     );
 };
 

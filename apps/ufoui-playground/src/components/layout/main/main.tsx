@@ -1,16 +1,18 @@
 import { Outlet } from 'react-router-dom';
 
+import { Div, Flex, Main as UiMain } from '@ufoui/core';
+
 import { Navigation } from '../../../navigation';
 
 export const Main = () => {
     return (
-        <main className="flex w-full grow flex-col overflow-auto pt-14">
-            <div className="flex min-h-full">
+        <UiMain fullWidth grow pt={56} style={{ overflow: 'auto' }}>
+            <Flex minHeight="100%">
                 <Navigation />
-                <div className="ml-[180px] max-h-full grow p-5">
+                <Div grow maxHeight="100%" ml={180} p={20}>
                     <Outlet />
-                </div>
-            </div>
-        </main>
+                </Div>
+            </Flex>
+        </UiMain>
     );
 };

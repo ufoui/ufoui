@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { Article, Aside, Div, ElementSize, H1, H2, Progress, Section, SemanticColor, SurfaceColor } from '@ufoui/core';
+import { Article, Aside, ElementSize, Flex, H1, H2, Progress, Section, SemanticColor, SurfaceColor } from '@ufoui/core';
 
 import { Modifiers } from '../components/modifiers/modifiers';
 
@@ -68,14 +68,14 @@ export const ProgressPage = () => {
                 <Progress {...shared} />
 
                 <H2>Circular – Determinate</H2>
-                <Div className="flex items-center gap-4">
+                <Flex alignItems="center" gap={16}>
                     <Progress value={value} variant="circular" {...shared} />
-                </Div>
+                </Flex>
 
                 <H2>Circular – Indeterminate</H2>
-                <Div className="flex items-center gap-4">
+                <Flex alignItems="center" gap={16}>
                     <Progress variant="circular" {...shared} />
-                </Div>
+                </Flex>
             </Section>
 
             <Aside width={240}>

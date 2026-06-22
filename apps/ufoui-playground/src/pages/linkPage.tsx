@@ -7,7 +7,6 @@ import {
     Aside,
     BaseColor,
     Content,
-    Div,
     ElementFont,
     H1,
     H2,
@@ -16,6 +15,7 @@ import {
     Radio,
     Section,
     Span,
+    Stack,
 } from '@ufoui/core';
 
 import { Modifiers } from '../components/modifiers/modifiers';
@@ -37,9 +37,9 @@ export const LinkPage = () => {
 
     return (
         <Article direction="row" fullWidth>
-            <Content className="items-start gap-6 p-4" grow>
+            <Content alignItems="start" gap={24} grow p={16}>
                 <H1>Link</H1>
-                <Section className="flex w-full flex-col gap-3">
+                <Section fullWidth gap={12}>
                     <H2>Basic</H2>
                     <Link
                         as={RouterLink}
@@ -52,7 +52,7 @@ export const LinkPage = () => {
                     </Link>
                 </Section>
 
-                <Section className="flex w-full flex-col gap-3">
+                <Section fullWidth gap={12}>
                     <H2>With label + leading/trailing</H2>
                     <Link
                         as={RouterLink}
@@ -67,7 +67,7 @@ export const LinkPage = () => {
                     />
                 </Section>
 
-                <Section className="flex w-full flex-col gap-3">
+                <Section fullWidth gap={12}>
                     <H2>Inline in text</H2>
                     <P>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.{' '}
@@ -95,7 +95,7 @@ export const LinkPage = () => {
                     </P>
                 </Section>
 
-                <Section className="flex w-full flex-col gap-3">
+                <Section fullWidth gap={12}>
                     <H2>External</H2>
                     <Link
                         color={color ?? undefined}
@@ -107,7 +107,7 @@ export const LinkPage = () => {
                         leading={<MdOpenInNew />}
                         underline={underline}
                     />
-                    <Span className="opacity-70">Opens new tab + sets rel=&quot;noopener noreferrer&quot;.</Span>
+                    <Span style={{ opacity: 0.7 }}>Opens new tab + sets rel=&quot;noopener noreferrer&quot;.</Span>
                 </Section>
             </Content>
 
@@ -122,7 +122,7 @@ export const LinkPage = () => {
                         setFont(lf ?? null);
                     }}
                 />
-                <Div className="flex w-full flex-wrap gap-3">
+                <Stack fullWidth>
                     <P>Underline</P>
                     {underlineOptions.map(opt => (
                         <Radio
@@ -135,7 +135,7 @@ export const LinkPage = () => {
                             value={opt.value}
                         />
                     ))}
-                </Div>
+                </Stack>
             </Aside>
         </Article>
     );

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Article, Item, Section, Select } from '@ufoui/core';
+import { Article, H2, Item, P, Section, Select } from '@ufoui/core';
 
 export const SelectPage = () => {
     const [fruit, setFruit] = useState<string | undefined>(undefined);
@@ -8,9 +8,9 @@ export const SelectPage = () => {
 
     return (
         <Article direction="row" fullWidth>
-            <Section className="items-start gap-6 p-4" grow>
-                <h2>Select — single</h2>
-                <p>Value: {fruit ?? '—'}</p>
+            <Section alignItems="start" gap={24} grow p={16}>
+                <H2>Select — single</H2>
+                <P>Value: {fruit ?? '—'}</P>
                 <Select
                     label="Fruit"
                     placeholder="Pick a fruit..."
@@ -23,8 +23,8 @@ export const SelectPage = () => {
                     <Item value="elderberry" label="Elderberry" />
                 </Select>
 
-                <h2>Select — multiple</h2>
-                <p>Values: {fruits.length ? fruits.join(', ') : '—'}</p>
+                <H2>Select — multiple</H2>
+                <P>Values: {fruits.length ? fruits.join(', ') : '—'}</P>
                 <Select
                     label="Fruits"
                     placeholder="Pick fruits..."
@@ -37,7 +37,7 @@ export const SelectPage = () => {
                     <Item value="date" label="Date" disabled />
                 </Select>
 
-                <h2>Select — outlined</h2>
+                <H2>Select — outlined</H2>
                 <Select
                     label="Country"
                     placeholder="Select country..."

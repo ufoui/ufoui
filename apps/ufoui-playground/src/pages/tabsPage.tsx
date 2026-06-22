@@ -4,10 +4,13 @@ import {
     Article,
     Aside,
     BorderColor,
+    Content,
     Div,
     ElementBorder,
     ElementElevation,
     ElementShape,
+    H1,
+    H2,
     Section,
     SurfaceColor,
     Tab,
@@ -39,23 +42,26 @@ export const TabsPage = () => {
 
     return (
         <Article direction="row" fullWidth>
-            <Section className="items-start gap-6 p-4" grow>
-                <h2>Basic Tabs</h2>
+            <Content alignItems="start" gap={24} grow p={16}>
+                <H1>Tabs</H1>
+                <Section alignItems="start" gap={12}>
+                    <H2>Basic Tabs</H2>
 
-                <Tabs defaultValue="a" {...shared}>
-                    <Tab label="First Tab" value="a">
-                        <Div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Div>
-                    </Tab>
+                    <Tabs defaultValue="a" {...shared}>
+                        <Tab label="First Tab" value="a">
+                            <Div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Div>
+                        </Tab>
 
-                    <Tab label="Second Tab" value="b">
-                        <Div>Sed non risus. Suspendisse lectus tortor.</Div>
-                    </Tab>
-                    <Tab label="Third Tab" value="c">
-                        <div>Not supposed to be here.</div>
-                        <Div>Cras elementum ultrices diam. Maecenas ligula massa.</Div>
-                    </Tab>
-                </Tabs>
-            </Section>
+                        <Tab label="Second Tab" value="b">
+                            <Div>Sed non risus. Suspendisse lectus tortor.</Div>
+                        </Tab>
+                        <Tab label="Third Tab" value="c">
+                            <Div>Not supposed to be here.</Div>
+                            <Div>Cras elementum ultrices diam. Maecenas ligula massa.</Div>
+                        </Tab>
+                    </Tabs>
+                </Section>
+            </Content>
 
             <Aside>
                 <Modifiers

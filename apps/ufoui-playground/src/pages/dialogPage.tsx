@@ -28,6 +28,7 @@ import {
     Radio,
     RadioGroup,
     Section,
+    Span,
     SurfaceColor,
 } from '@ufoui/core';
 
@@ -343,8 +344,9 @@ export const DialogPage = () => {
                     surfaceColor={color}
                 />
                 <Grid alignItems="center" cols={2} gapX={16} gapY={4}>
+                    {/* TODO[html]: natywne <select> — panel deweloperski jak w Modifiers; ufoui Select ma inny onChange */}
                     <>
-                        <span>Actions placement:</span>
+                        <Span>Actions placement:</Span>
                         <select
                             onChange={e => {
                                 setActionsPlacement(
@@ -360,7 +362,7 @@ export const DialogPage = () => {
                         </select>
                     </>
                     <>
-                        <span>Actions align:</span>
+                        <Span>Actions align:</Span>
                         <select
                             onChange={e => {
                                 setActionsAlign(e.target.value === '' ? null : (e.target.value as DialogActionsAlign));
@@ -373,7 +375,7 @@ export const DialogPage = () => {
                         </select>
                     </>
                     <>
-                        <span>Actions stack:</span>
+                        <Span>Actions stack:</Span>
                         <Checkbox
                             checked={actionsStack}
                             density="dense"
@@ -384,7 +386,7 @@ export const DialogPage = () => {
                         />
                     </>
                     <>
-                        <span>Title align:</span>
+                        <Span>Title align:</Span>
                         <select
                             onChange={e => {
                                 setTitleAlign(e.target.value === '' ? null : (e.target.value as DialogTitleAlign));
@@ -397,7 +399,7 @@ export const DialogPage = () => {
                         </select>
                     </>
                     <>
-                        <span>Icon slot:</span>
+                        <Span>Icon slot:</Span>
                         <select
                             onChange={e => {
                                 setIconSlot(e.target.value === '' ? null : (e.target.value as DialogIconSlot));
@@ -411,7 +413,7 @@ export const DialogPage = () => {
                         </select>
                     </>
                     <>
-                        <span>Show icon:</span>
+                        <Span>Show icon:</Span>
                         <Checkbox
                             checked={showIcon}
                             density="dense"
@@ -422,7 +424,7 @@ export const DialogPage = () => {
                         />
                     </>
                     <>
-                        <span>Show close:</span>
+                        <Span>Show close:</Span>
                         <Checkbox
                             checked={showClose}
                             density="dense"
@@ -433,7 +435,7 @@ export const DialogPage = () => {
                         />
                     </>
                     <>
-                        <span>Show back:</span>
+                        <Span>Show back:</Span>
                         <Checkbox
                             checked={showBack}
                             density="dense"
@@ -444,7 +446,7 @@ export const DialogPage = () => {
                         />
                     </>
                     <>
-                        <span>Type:</span>
+                        <Span>Type:</Span>
                         <RadioGroup
                             name="dialogType"
                             onChange={v => {
@@ -458,7 +460,7 @@ export const DialogPage = () => {
                         </RadioGroup>
                     </>
                     <>
-                        <span>Modal:</span>
+                        <Span>Modal:</Span>
                         <Checkbox
                             checked={modal}
                             density="dense"
@@ -469,7 +471,7 @@ export const DialogPage = () => {
                         />
                     </>
                     <>
-                        <span>FullWidth:</span>
+                        <Span>FullWidth:</Span>
                         <Checkbox
                             checked={fullWidth}
                             density="dense"
@@ -480,7 +482,7 @@ export const DialogPage = () => {
                         />
                     </>
                     <>
-                        <span>FullHeight:</span>
+                        <Span>FullHeight:</Span>
                         <Checkbox
                             checked={fullHeight}
                             density="dense"

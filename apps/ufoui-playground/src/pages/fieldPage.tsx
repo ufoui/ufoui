@@ -5,11 +5,13 @@ import {
     Article,
     Aside,
     BorderColor,
+    Content,
     ElementBorder,
     ElementDensity,
     ElementFont,
     ElementShape,
     Fieldset,
+    H1,
     IconButton,
     SemanticColor,
     SurfaceColor,
@@ -48,8 +50,9 @@ export const FieldPage = () => {
     );
 
     return (
-        <Article className="gap-5" direction="row">
-            <div className="flex grow flex-col gap-5">
+        <Article direction="row" gap={20}>
+            <Content gap={20} grow>
+                <H1>TextField</H1>
                 <Fieldset direction="row" gap={16} legend="Default" wrap>
                     <TextField {...shared} error="Error, label only" label="Label only" name="email" />
                     <TextField
@@ -195,7 +198,7 @@ export const FieldPage = () => {
                         placeholder="Placeholder"
                     />
                 </Fieldset>
-            </div>
+            </Content>
 
             <Aside px={20}>
                 <Modifiers

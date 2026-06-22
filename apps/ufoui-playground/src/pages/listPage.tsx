@@ -5,9 +5,12 @@ import {
     Article,
     Aside,
     BorderColor,
+    Content,
     ElementBorder,
     ElementElevation,
     ElementShape,
+    H1,
+    H2,
     List,
     ListItem,
     Section,
@@ -32,7 +35,8 @@ export const ListPage = () => {
             elevation: elevation ?? undefined,
             border: border ?? undefined,
             borderColor: borderColor ?? undefined,
-            className: 'max-h-[500px] overflow-auto',
+            maxHeight: 500,
+            style: { overflow: 'auto' },
         }),
         [color, shape, elevation, border, borderColor]
     );
@@ -91,13 +95,16 @@ export const ListPage = () => {
 
     return (
         <Article direction="row" fullWidth>
-            <Section className="items-start gap-6 p-4" grow>
-                <h2>List Demo (Icons + Checkbox + Radio)</h2>
+            <Content alignItems="start" gap={24} grow p={16}>
+                <H1>List</H1>
+                <Section alignItems="start" gap={12}>
+                    <H2>List Demo (Icons + Checkbox + Radio)</H2>
 
-                <List defaultValue="item-20" type="single" {...shared}>
-                    {items}
-                </List>
-            </Section>
+                    <List defaultValue="item-20" type="single" {...shared}>
+                        {items}
+                    </List>
+                </Section>
+            </Content>
 
             <Aside>
                 <Modifiers

@@ -2,7 +2,7 @@ import { Article, H1, H2, P } from '@ufoui/core';
 
 export const StartPage = () => {
     return (
-        <Article className="max-w-[640px]" font="bodyLarge" gap={16}>
+        <Article font="bodyLarge" gap={16} maxWidth={640}>
             <H1>UFO UI Playground</H1>
 
             <P>

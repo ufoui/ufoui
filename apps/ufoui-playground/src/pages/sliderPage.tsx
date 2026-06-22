@@ -11,9 +11,11 @@ import {
     Fieldset,
     Grid,
     H2,
+    P,
     Section,
     SemanticColor,
     Slider,
+    Span,
     SurfaceColor,
 } from '@ufoui/core';
 
@@ -435,7 +437,7 @@ export const SliderPage = () => {
                                 showValue="always"
                                 value={controlled}
                             />
-                            <p className="text-sm text-gray-500">Value: {controlled}</p>
+                            <P color="onSurfaceVariant" font="bodySmall">Value: {controlled}</P>
                         </Fieldset>
                         <Fieldset disabled={disabled ?? undefined} gap={24} legend="Range">
                             <Slider
@@ -451,9 +453,9 @@ export const SliderPage = () => {
                                 type="range"
                                 value={controlledRange}
                             />
-                            <p className="text-sm text-gray-500">
+                            <P color="onSurfaceVariant" font="bodySmall">
                                 Range: {controlledRange[0]} – {controlledRange[1]}
-                            </p>
+                            </P>
                         </Fieldset>
                     </Grid>
                 </Section>
@@ -515,8 +517,9 @@ export const SliderPage = () => {
                     textPlacement={textPlacement}
                 />
                 <Grid alignItems="center" cols={2} gapX={16} gapY={4}>
+                    {/* TODO[html]: natywny <select> — panel deweloperski jak w Modifiers; ufoui Select ma inny onChange */}
                     <>
-                        <span>ShowValue:</span>
+                        <Span>ShowValue:</Span>
                         <select
                             onChange={e => {
                                 const v = e.target.value;
@@ -529,7 +532,7 @@ export const SliderPage = () => {
                         </select>
                     </>
                     <>
-                        <span>Stops:</span>
+                        <Span>Stops:</Span>
                         <Checkbox
                             checked={stops}
                             density="dense"
@@ -540,7 +543,7 @@ export const SliderPage = () => {
                         />
                     </>
                     <>
-                        <span>Required:</span>
+                        <Span>Required:</Span>
                         <Checkbox
                             checked={required}
                             density="dense"
