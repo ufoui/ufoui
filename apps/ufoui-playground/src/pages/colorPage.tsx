@@ -4,11 +4,13 @@ import {
     Article,
     Content,
     Div,
+    Flex,
     getColorNames,
     getOnColorName,
     Grid,
     H1,
     H2,
+    H3,
     SemanticColor,
     Stack,
     ThemeColor,
@@ -51,11 +53,11 @@ const ColorPage = () => {
                 {colors.map(color => {
                     return (
                         <Fragment key={color}>
-                            <H2 className="col-span-2 capitalize" mt={8}>
+                            <H2 mt={8} style={{ gridColumn: 'span 2', textTransform: 'capitalize' }}>
                                 {color}
                             </H2>
                             {['light', 'dark'].map(scheme => (
-                                <div className={scheme}>
+                                <Div className={scheme} key={scheme}>
                                     <Grid cols={2}>
                                         <Stack
                                             p={8}
@@ -158,14 +160,16 @@ const ColorPage = () => {
                                             </Div>
                                         </Stack>
                                     </Grid>
-                                </div>
+                                </Div>
                             ))}
                         </Fragment>
                     );
                 })}
-                <div className="col-span-2 pt-2 font-bold capitalize">Surface</div>
+                <H2 mt={8} style={{ gridColumn: 'span 2', textTransform: 'capitalize' }}>
+                    Surface
+                </H2>
                 {['light', 'dark'].map(scheme => (
-                    <div className={`flex justify-between ${scheme}`} key={scheme}>
+                    <Flex className={scheme} justifyContent="space-between" key={scheme}>
                         <Stack
                             grow
                             p={8}
@@ -214,11 +218,13 @@ const ColorPage = () => {
                                 {lcTheme[scheme].surfacebright} / {lcTheme[scheme].onsurface}
                             </Div>
                         </Stack>
-                    </div>
+                    </Flex>
                 ))}
-                <div className="col-span-2 pt-2 font-bold capitalize">Surface Container</div>
+                <H2 mt={8} style={{ gridColumn: 'span 2', textTransform: 'capitalize' }}>
+                    Surface Container
+                </H2>
                 {['light', 'dark'].map(scheme => (
-                    <div className={`flex justify-between ${scheme}`} key={scheme}>
+                    <Flex className={scheme} justifyContent="space-between" key={scheme}>
                         <Stack
                             grow
                             p={8}
@@ -244,7 +250,6 @@ const ColorPage = () => {
                             </Div>
                         </Stack>
                         <Stack
-                            className="flex grow flex-col p-2"
                             grow
                             p={8}
                             style={{
@@ -280,11 +285,13 @@ const ColorPage = () => {
                                 {lcTheme[scheme].surfacecontainerhighest} / {lcTheme[scheme].onsurface}
                             </Div>
                         </Stack>
-                    </div>
+                    </Flex>
                 ))}
-                <div className="col-span-2 pt-2 font-bold capitalize">Surface Extras</div>
+                <H2 mt={8} style={{ gridColumn: 'span 2', textTransform: 'capitalize' }}>
+                    Surface Extras
+                </H2>
                 {['light', 'dark'].map(scheme => (
-                    <div className={`flex justify-between ${scheme}`} key={scheme}>
+                    <Flex className={scheme} justifyContent="space-between" key={scheme}>
                         <Stack
                             grow
                             p={8}
@@ -292,10 +299,10 @@ const ColorPage = () => {
                                 color: lcTheme[scheme].surface,
                                 backgroundColor: lcTheme[scheme].onsurface,
                             }}>
-                            <div>on surface / surface</div>
-                            <div>
+                            <Div>on surface / surface</Div>
+                            <Div>
                                 {lcTheme[scheme].onsurface} / {lcTheme[scheme].surface}
-                            </div>
+                            </Div>
                         </Stack>
                         <Stack
                             grow
@@ -333,11 +340,13 @@ const ColorPage = () => {
                                 {lcTheme[scheme].inverseonsurface} / {lcTheme[scheme].inversesurface}
                             </Div>
                         </Stack>
-                    </div>
+                    </Flex>
                 ))}
-                <div className="col-span-2 pt-2 font-bold capitalize">Outline</div>
+                <H2 mt={8} style={{ gridColumn: 'span 2', textTransform: 'capitalize' }}>
+                    Outline
+                </H2>
                 {['light', 'dark'].map(scheme => (
-                    <div className={`flex justify-between ${scheme}`} key={scheme}>
+                    <Flex className={scheme} justifyContent="space-between" key={scheme}>
                         <Stack
                             grow
                             p={8}
@@ -362,11 +371,13 @@ const ColorPage = () => {
                                 {lcTheme[scheme].outlinevariant} / {lcTheme[scheme].inversesurface}
                             </Div>
                         </Stack>
-                    </div>
+                    </Flex>
                 ))}
-                <div className="col-span-2 pt-2 font-bold capitalize">Other</div>
+                <H2 mt={8} style={{ gridColumn: 'span 2', textTransform: 'capitalize' }}>
+                    Other
+                </H2>
                 {['light', 'dark'].map(scheme => (
-                    <div className={`flex justify-between ${scheme}`} key={scheme}>
+                    <Flex className={scheme} justifyContent="space-between" key={scheme}>
                         <Stack
                             grow
                             p={8}
@@ -403,12 +414,14 @@ const ColorPage = () => {
                                 {lcTheme[scheme].shadow} / {lcTheme[scheme].onsurface}
                             </Div>
                         </Stack>
-                    </div>
+                    </Flex>
                 ))}
 
-                <div className="col-span-2 pt-2 font-bold capitalize">Surface Tint</div>
+                <H2 mt={8} style={{ gridColumn: 'span 2', textTransform: 'capitalize' }}>
+                    Surface Tint
+                </H2>
                 {['light', 'dark'].map(scheme => (
-                    <div className={`flex justify-between ${scheme}`} key={scheme}>
+                    <Flex className={scheme} justifyContent="space-between" key={scheme}>
                         <Stack
                             grow
                             p={8}
@@ -421,15 +434,19 @@ const ColorPage = () => {
                                 {lcTheme[scheme].surfacetint} / {lcTheme[scheme].onprimary}
                             </Div>
                         </Stack>
-                    </div>
+                    </Flex>
                 ))}
-                <div className="col-span-2 pt-2 font-bold capitalize">Color Groups (Token Lists)</div>
+                <H2 mt={8} style={{ gridColumn: 'span 2', textTransform: 'capitalize' }}>
+                    Color Groups (Token Lists)
+                </H2>
                 {colorGroups.map(group => (
                     <Fragment key={group.name}>
-                        <div className="col-span-2 p-2 font-bold capitalize">{group.name}</div>
+                        <H3 mt={8} style={{ gridColumn: 'span 2', textTransform: 'capitalize' }}>
+                            {group.name}
+                        </H3>
                         {['light', 'dark'].map(scheme => (
-                            <div className={`p-2 ${scheme}`} key={`${group.name}-${scheme}`}>
-                                <div className="flex flex-wrap gap-2">
+                            <Div className={scheme} key={`${group.name}-${scheme}`} p={8}>
+                                <Flex gap={8} wrap>
                                     {group.colors.map(colorName => {
                                         const token = colorName as ThemeColor;
                                         const onToken = getOnColorName(token);
@@ -448,8 +465,8 @@ const ColorPage = () => {
                                             </div>
                                         );
                                     })}
-                                </div>
-                            </div>
+                                </Flex>
+                            </Div>
                         ))}
                     </Fragment>
                 ))}
