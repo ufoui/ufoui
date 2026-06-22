@@ -8,6 +8,7 @@ import {
     LuBringToFront,
     LuChevronDown,
     LuCircleDot,
+    LuGroup,
     LuCirclePlus,
     LuHouse,
     LuLayoutGrid,
@@ -42,6 +43,7 @@ import { ButtonPage } from './pages/buttonPage';
 import { BreadcrumbsPage } from './pages/breadcrumbsPage';
 import { LinkPage } from './pages/linkPage';
 import { FieldPage } from './pages/fieldPage';
+import { FieldsetPage } from './pages/fieldsetPage';
 import { FabPage } from './pages/fabPage';
 import { MenuPage } from './pages/menuPage';
 import { BadgePage } from './pages/badgePage';
@@ -91,6 +93,7 @@ export const appRoutes: AppRoute[] = [
     { label: 'Slider', path: paths.slider, component: SliderPage, icon: LuSlidersHorizontal, showInNav: true },
 
     { label: 'TextField', path: paths.textField, component: FieldPage, icon: LuTextCursor, showInNav: true },
+    { label: 'Fieldset', path: paths.fieldset, component: FieldsetPage, icon: LuGroup, showInNav: true },
     { label: 'Collapse', path: paths.collapse, component: CollapsePage, icon: LuChevronDown, showInNav: true },
     { label: 'Breadcrumbs', path: paths.breadcrumbs, component: BreadcrumbsPage, icon: LuRepeat, showInNav: true },
 

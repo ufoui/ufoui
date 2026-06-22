@@ -10,7 +10,9 @@ import { BoxBase, BoxBaseProps } from '../base';
  *
  * @category Fieldset
  */
-export interface FieldsetProps extends Omit<BoxBaseProps, 'as' | 'elementClass'> {
+export interface FieldsetProps extends Omit<BoxBaseProps, 'as' | 'elementClass' | 'color'> {
+    /** Surface background token. */
+    color?: SurfaceColor;
     /** Supporting text displayed below the fieldset content. */
     description?: string;
     /** Text color of the description. */

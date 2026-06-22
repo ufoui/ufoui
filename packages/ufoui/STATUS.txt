@@ -23,6 +23,9 @@ Stack
 Content
 Label
 
+@internal
+Description
+
 @alpha
 Menu
 MenuItem
@@ -44,7 +47,6 @@ Rating
 ControlGrid
 Leading
 Trailing
-Description
 Collapse
 Dialog
 DialogActions

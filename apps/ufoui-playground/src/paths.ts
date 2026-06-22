@@ -33,6 +33,7 @@ export const paths = {
     drawer: '/components/drawer',
     bottomSheet: '/components/bottomsheet',
     fields: '/components/fields',
+    fieldset: '/components/fieldset',
     calendar: '/components/calendar',
     toast: '/components/toast',
     avatar: '/components/avatar',

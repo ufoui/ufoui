@@ -71,7 +71,7 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     /** Grid template columns (`3` → `repeat(3, 1fr)`). */
     cols?: number | string;
 
-    /** Layout direction (`row` or `col`) for flex. Ignored if `row` or `col` is set. */
+    /** Layout direction (`row` or `col`) for flex. */
     direction?: BoxDirection;
 
     /** Native disabled attribute. Applied when supported by the rendered element. */
@@ -163,13 +163,14 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
 
     /** Width. */
     width?: number | string;
+
     /** Enables wrapping (`flex-wrap: wrap`). */
     wrap?: boolean;
 }
 
 /**
- * `BoxBase` — core layout primitive powering all semantic containers
- * (`Box`, `Section`, `Article`, `Aside`, `Header`, `Footer`, `Nav`).
+ * `BoxBase` — core layout primitive powering semantic containers
+ * (`Box`, `Flex`, `Grid`, `Section`, `Article`, `Aside`, `Header`, `Footer`, `Nav`, …).
  *
  * Provides low-level control over layout (flex, grid, block),
  * spacing, alignment, wrapping, elevation, borders, shape, and surface color.
