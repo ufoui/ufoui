@@ -6,6 +6,7 @@ export const paths = {
     checkbox: '/components/checkbox',
     switch: '/components/switch',
     radio: '/components/radio',
+    radioGroup: '/components/radiogroup',
     badge: '/components/badge',
     card: '/components/card',
     tooltip: '/components/tooltip',

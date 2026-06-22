@@ -9,6 +9,7 @@ import {
     LuChevronDown,
     LuCircleDot,
     LuGroup,
+    LuListChecks,
     LuCirclePlus,
     LuHouse,
     LuLayoutGrid,
@@ -39,6 +40,7 @@ import { StartPage } from './pages/startPage';
 import { CheckboxPage } from './pages/checkboxPage';
 import { SwitchPage } from './pages/switchPage';
 import { RadioPage } from './pages/radioPage';
+import { RadioGroupPage } from './pages/radioGroupPage';
 import { ButtonPage } from './pages/buttonPage';
 import { BreadcrumbsPage } from './pages/breadcrumbsPage';
 import { LinkPage } from './pages/linkPage';
@@ -104,6 +106,7 @@ export const appRoutes: AppRoute[] = [
 
     { label: 'Checkbox', path: paths.checkbox, component: CheckboxPage, icon: LuSquareCheck, showInNav: true },
     { label: 'Radio', path: paths.radio, component: RadioPage, icon: LuCircleDot, showInNav: true },
+    { label: 'RadioGroup', path: paths.radioGroup, component: RadioGroupPage, icon: LuListChecks, showInNav: true },
     { label: 'Switch', path: paths.switch, component: SwitchPage, icon: LuToggleLeft, showInNav: true },
 
     { label: 'Menu', path: paths.menu, component: MenuPage, icon: LuMenu, showInNav: true },
