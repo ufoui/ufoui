@@ -1,5 +1,8 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
+import { defineConfig, transformWithEsbuild } from 'vite';
+import { gzipSync } from 'zlib';
+import postcss from 'postcss';
+import autoprefixer from 'autoprefixer';
 import react from '@vitejs/plugin-react-swc';
 import dts from 'vite-plugin-dts';
 import * as path from 'path';
@@ -9,6 +12,31 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 import fs from 'fs';
 
 const packageJsonPath = path.join(__dirname, 'package.json');
+const distDir = path.resolve(__dirname, '../../dist/packages/ufoui');
+const stylesDir = path.resolve(__dirname, 'src/styles');
+const cssLayers = ['reset', 'styles', 'index'] as const;
+
+function readCss(file: string): string {
+  const dir = path.dirname(file);
+  return fs.readFileSync(file, 'utf8').replace(
+    /@import\s+(?:url\()?['"]([^'")]+)['"]\)?;?/g,
+    (_match, rel) => readCss(path.resolve(dir, rel)),
+  );
+}
+
+async function buildCssLayer(name: (typeof cssLayers)[number]): Promise<void> {
+  const { css } = await postcss([autoprefixer]).process(
+    readCss(path.join(stylesDir, `${name}.css`)),
+    { from: undefined },
+  );
+  const output = (await transformWithEsbuild(css, `${name}.css`, { loader: 'css', minify: true }))
+    .code;
+
+  fs.writeFileSync(path.join(distDir, `${name}.css`), output);
+  console.log(`${name}.css  ${(output.length / 1024).toFixed(2)} kB │ gzip: ${(
+    gzipSync(output).length / 1024
+  ).toFixed(2)} kB`);
+}
 
 export default defineConfig(({ mode }) => ({
   root: __dirname,
@@ -18,20 +46,17 @@ export default defineConfig(({ mode }) => ({
     react(),
     nxViteTsPaths(),
 
-    // kopiuje README / LICENSE do dist
     nxCopyAssetsPlugin([
       '../../README.md',
       '../../TRADEMARK.md',
       '../../LICENSE',
     ]),
 
-    // generuje index.d.ts
     dts({
       entryRoot: 'src',
       tsconfigPath: path.join(__dirname, 'tsconfig.lib.json'),
     }),
 
-    // kopiuje package.json do dist (manifest publikacji — źródło: packages/ufoui/package.json)
     {
       name: 'write-package-json',
       closeBundle() {
@@ -41,9 +66,18 @@ export default defineConfig(({ mode }) => ({
         >;
 
         fs.writeFileSync(
-          path.resolve(__dirname, '../../dist/packages/ufoui/package.json'),
+          path.join(distDir, 'package.json'),
           `${JSON.stringify(pkg, null, 2)}\n`,
         );
+      },
+    },
+
+    {
+      name: 'write-css-layers',
+      async closeBundle() {
+        for (const name of cssLayers) {
+          await buildCssLayer(name);
+        }
       },
     },
   ],

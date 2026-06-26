@@ -1,6 +1,6 @@
 {
   "name": "@ufoui/core",
-  "version": "0.0.144",
+  "version": "0.0.145",
   "description": "Lightweight Material Design 3 UI components for React",
   "type": "module",
   "main": "./index.js",
@@ -45,7 +45,7 @@
       "default": "./index.js"
     },
     "./index.css": "./index.css",
-    "./style.css": "./index.css",
-    "./style": "./index.css"
+    "./reset.css": "./reset.css",
+    "./styles.css": "./styles.css"
   }
 }

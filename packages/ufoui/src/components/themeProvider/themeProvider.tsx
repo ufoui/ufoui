@@ -1,15 +1,8 @@
 import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
-import '../../styles/index.css';
 import { defaultTheme, ThemeContext, ThemeContextValue } from '../../context';
 import { applyThemeColors, generateMaterialColors, mergeOverrides, setFontRegistry } from '../../utils';
-import {
-    PartialThemeBreakpoints,
-    PartialThemeFonts,
-    Theme,
-    ThemeColor,
-    ThemeCustomColors,
-} from '../../types';
+import { PartialThemeBreakpoints, PartialThemeFonts, Theme, ThemeColor, ThemeCustomColors } from '../../types';
 
 export interface ThemeProviderProps {
     /** React children to render within the theme context. */

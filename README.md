@@ -28,10 +28,28 @@ pnpm add @ufoui/core
 
 ## Usage
 
-Import the global styles **once** at your application entry point:
+Import the global styles **once**, in a single controlled place at your
+application entry point (e.g. `main.tsx`, or `app/layout.tsx` / `pages/_app.tsx`
+in Next.js). The simplest path is the full stylesheet — reset plus components:
 
 ```ts
-import '@ufoui/core/style.css';
+import '@ufoui/core/index.css';
+```
+
+For full control over the cascade, import the layers separately and keep your
+own CSS **last**, so your overrides win at equal specificity:
+
+```ts
+import '@ufoui/core/reset.css';   // global reset / base
+import '@ufoui/core/styles.css';  // components + utilities (no reset)
+import './app.css';               // your overrides — last
+```
+
+If your app already ships its own reset, skip ours and import only the components:
+
+```ts
+import '@ufoui/core/styles.css';
+import './app.css';
 ```
 
 Wrap your application with `ThemeProvider` and use components:
@@ -48,8 +66,10 @@ function App() {
 }
 ```
 
-`ThemeProvider` is responsible for providing theme tokens and color schemes.
-All components rely on CSS variables defined in the global stylesheet.
+`ThemeProvider` is responsible only for the **dynamic** layer — theme tokens,
+color schemes, and font registry generated at runtime. The **static** CSS
+(reset, components, utilities) is the explicit import above, so your app stays
+in control of the cascade order.
 
 ### Theming
 
