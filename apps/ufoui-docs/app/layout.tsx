@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
-import '../../../packages/ufoui/src/styles/index.css';
+import '@ufoui/core/index.css';
 import './globals.css';
 
 import { Providers } from './providers';

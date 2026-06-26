@@ -1,6 +1,7 @@
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 import { ThemeProvider } from '@ufoui/core';
+import '@ufoui/core/index.css';
 
 import { Layout } from './components/layout/layout';
 import { paths } from './paths';
@@ -43,6 +44,14 @@ const App = () => {
                 brandRed: {
                     main: { light: '#FF5252', dark: '#FF5252' },
                     fixed: { light: '#FF5252', dark: '#FF5252' },
+                },
+            }}
+            container={{
+                center: true,
+                padding: {
+                    base: '16px',
+                    md: '24px',
+                    lg: '32px',
                 },
             }}
             fonts={{ customH2: 'uui-font-headline-medium' }}>

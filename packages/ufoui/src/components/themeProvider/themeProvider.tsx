@@ -1,23 +1,26 @@
-import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useInsertionEffect, useMemo, useState } from 'react';
 
 import { defaultTheme, ThemeContext, ThemeContextValue } from '../../context';
-import { applyThemeColors, generateMaterialColors, mergeOverrides, setFontRegistry } from '../../utils';
-import { PartialThemeBreakpoints, PartialThemeFonts, Theme, ThemeColor, ThemeCustomColors } from '../../types';
+import { generateMaterialColors, mergeOverrides, setFontRegistry } from '../../utils';
+import { applyContainer } from '../../utils/applyContainer';
+import { applyThemeColors } from '../../utils/applyThemeColors';
+import {
+    ContainerConfig,
+    PartialThemeBreakpoints,
+    PartialThemeFonts,
+    Theme,
+    ThemeColor,
+    ThemeCustomColors,
+} from '../../types';
 
 export interface ThemeProviderProps {
     /** React children to render within the theme context. */
     children: ReactNode;
 
-    /**
-     * Optional color mode: 'light' or 'dark'.
-     * If not provided, defaults to 'light'.
-     */
+    /** Optional color mode: 'light' or 'dark'. If not provided, defaults to 'light'. */
     colorMode?: 'light' | 'dark';
 
-    /**
-     * Optional seed color used to generate MD3 theme.
-     * Defaults to #6750A4 if omitted.
-     */
+    /** Optional seed color used to generate MD3 theme. Defaults to #6750A4 if omitted.     */
     seedColor?: string;
 
     /** Optional semantic seed colors map (core + augmented). */
@@ -25,6 +28,9 @@ export interface ThemeProviderProps {
 
     /** Optional responsive breakpoints map. */
     breakpoints?: PartialThemeBreakpoints;
+
+    /** Optional page container configuration (centering and responsive padding). */
+    container?: ContainerConfig;
 
     /** Optional font class map keyed by theme font token name. */
     fonts?: PartialThemeFonts;
@@ -66,7 +72,16 @@ export interface ThemeProviderProps {
  * @category Components
  * @group Theme
  */
-export const ThemeProvider = ({ children, colorMode, seedColor, colors, breakpoints, fonts }: ThemeProviderProps) => {
+
+export const ThemeProvider = ({
+    children,
+    colorMode,
+    seedColor,
+    colors,
+    breakpoints,
+    container,
+    fonts,
+}: ThemeProviderProps) => {
     const [theme, setTheme] = useState<Theme>(() => {
         const darkMode = colorMode === 'dark';
         const generatedSchemes = generateMaterialColors(seedColor, colors);
@@ -159,6 +174,10 @@ export const ThemeProvider = ({ children, colorMode, seedColor, colors, breakpoi
     useEffect(() => {
         applyThemeColors(theme.schemes);
     }, [theme.schemes]);
+
+    useInsertionEffect(() => {
+        applyContainer(theme.breakpoints, container);
+    }, [theme.breakpoints, container]);
 
     useEffect(() => {
         setFontRegistry(theme.fonts);

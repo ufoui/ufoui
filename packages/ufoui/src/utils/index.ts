@@ -5,7 +5,6 @@ export * from './utils';
 export * from './calculateFloatingPosition';
 export * from './interactionMode';
 export * from './generateMaterialColors';
-export * from './applyThemeColors';
 export * from './breakpoints';
 export * from './toasts';
 export * from './useUniqueId';

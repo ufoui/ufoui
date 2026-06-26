@@ -19,6 +19,9 @@
     "baseUrl": ".",
     "paths": {
       "@ufoui/core": ["packages/ufoui/src/index.ts"],
+      "@ufoui/core/index.css": ["packages/ufoui/src/styles/index.css"],
+      "@ufoui/core/reset.css": ["packages/ufoui/src/styles/reset.css"],
+      "@ufoui/core/styles.css": ["packages/ufoui/src/styles/styles.css"],
       "@ufoui/extra": ["packages/ufoui-extra/src/index.ts"]
     }
   },

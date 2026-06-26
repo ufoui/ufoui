@@ -71,6 +71,9 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     /** Grid template columns (`3` → `repeat(3, 1fr)`). */
     cols?: number | string;
 
+    /** Constrains content to a centered page container (`.uui-container`). */
+    container?: boolean;
+
     /** Layout direction (`row` or `col`) for flex. */
     direction?: BoxDirection;
 
@@ -203,6 +206,7 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
         elevation,
         shape,
         border,
+        container,
         direction,
         flow,
         borderColor,
@@ -283,6 +287,7 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
         shape && getShapeClass(shape),
         elevation !== undefined && getElevationClass(elevation),
         border !== undefined && getBorderClass(border),
+        container && 'uui-container',
         grow && 'uui-grow',
         type === 'flex'
             ? inline
