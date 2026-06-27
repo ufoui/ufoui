@@ -36,7 +36,7 @@ export const ListPage = () => {
             border: border ?? undefined,
             borderColor: borderColor ?? undefined,
             maxHeight: 500,
-            style: { overflow: 'auto' },
+            overflow: 'auto' as const,
         }),
         [color, shape, elevation, border, borderColor]
     );

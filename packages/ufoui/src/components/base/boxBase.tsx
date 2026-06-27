@@ -128,6 +128,15 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
     /** Minimum width. */
     minWidth?: number | string;
 
+    /** Maps to `overflow`. */
+    overflow?: CSSProperties['overflow'];
+
+    /** Maps to `overflow-x`. */
+    overflowX?: CSSProperties['overflowX'];
+
+    /** Maps to `overflow-y`. */
+    overflowY?: CSSProperties['overflowY'];
+
     /** Padding (all sides). */
     p?: number | string;
 
@@ -238,6 +247,9 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
         maxWidth,
         minHeight,
         maxHeight,
+        overflow,
+        overflowX,
+        overflowY,
         ...other
     } = props;
     const Tag: ElementType = as ?? 'div';
@@ -252,6 +264,9 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
         maxWidth,
         minHeight,
         maxHeight,
+        overflow,
+        overflowX,
+        overflowY,
         padding: p,
         paddingTop: pt ?? py,
         paddingBottom: pb ?? py,

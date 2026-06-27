@@ -11,7 +11,7 @@ import { Flex } from '../layout';
  *
  * @category Avatar
  */
-export interface AvatarGroupProps extends Omit<BoxBaseProps, 'type'> {
+export interface AvatarGroupProps extends Omit<BoxBaseProps, 'type' | 'overflow'> {
     max?: number;
     overlap?: number;
 

@@ -21,7 +21,7 @@ export const ListBoxPage = () => {
                         color={color ?? undefined}
                         maxHeight={360}
                         onChange={setSelected}
-                        style={{ overflow: 'auto' }}
+                        overflow="auto"
                         type="single"
                         value={selected}
                         variant="listbox"
@@ -40,7 +40,7 @@ export const ListBoxPage = () => {
                     <List
                         maxHeight={360}
                         onChange={setSelected}
-                        style={{ overflow: 'auto' }}
+                        overflow="auto"
                         type="multiple"
                         variant="listbox"
                         width={288}>

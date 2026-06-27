@@ -46,12 +46,11 @@ const AnimationPage = () => {
                         return (
                             <Grid color="surfaceDim" key={key} placeItems="center">
                                 {key}
-                                {/* TODO[tailwind]: brak propsa overflow w BoxBase — overflow przez style */}
                                 <Flex
                                     alignItems="center"
                                     height={144}
                                     justifyContent="center"
-                                    style={{ overflow: 'hidden' }}
+                                    overflow="hidden"
                                     width={144}>
                                     {animating && (
                                         <Grid
@@ -76,12 +75,11 @@ const AnimationPage = () => {
                         return (
                             <Grid color="surfaceDim" key={key + 'exp'} placeItems="center">
                                 {key}
-                                {/* TODO[tailwind]: brak propsa overflow w BoxBase — overflow przez style */}
                                 <Flex
                                     alignItems="center"
                                     height={144}
                                     justifyContent="center"
-                                    style={{ overflow: 'hidden' }}
+                                    overflow="hidden"
                                     width={144}>
                                     {animating && (
                                         <Grid
