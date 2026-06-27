@@ -10,10 +10,6 @@
   flex-grow: 1;
 }
 
-.uui-container {
-  width: 100%;
-}
-
 .uui-overflow-hidden {
   overflow: hidden;
 }

@@ -46,14 +46,6 @@ const App = () => {
                     fixed: { light: '#FF5252', dark: '#FF5252' },
                 },
             }}
-            container={{
-                center: true,
-                padding: {
-                    base: '16px',
-                    md: '24px',
-                    lg: '32px',
-                },
-            }}
             fonts={{ customH2: 'uui-font-headline-medium' }}>
             <Router>
                 <Routes>

@@ -1,17 +1,9 @@
-import { ReactNode, useCallback, useEffect, useInsertionEffect, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { defaultTheme, ThemeContext, ThemeContextValue } from '../../context';
 import { generateMaterialColors, mergeOverrides, setFontRegistry } from '../../utils';
-import { applyContainer } from '../../utils/applyContainer';
 import { applyThemeColors } from '../../utils/applyThemeColors';
-import {
-    ContainerConfig,
-    PartialThemeBreakpoints,
-    PartialThemeFonts,
-    Theme,
-    ThemeColor,
-    ThemeCustomColors,
-} from '../../types';
+import { PartialThemeBreakpoints, PartialThemeFonts, Theme, ThemeColor, ThemeCustomColors } from '../../types';
 
 export interface ThemeProviderProps {
     /** React children to render within the theme context. */
@@ -28,9 +20,6 @@ export interface ThemeProviderProps {
 
     /** Optional responsive breakpoints map. */
     breakpoints?: PartialThemeBreakpoints;
-
-    /** Optional page container configuration (centering and responsive padding). */
-    container?: ContainerConfig;
 
     /** Optional font class map keyed by theme font token name. */
     fonts?: PartialThemeFonts;
@@ -79,7 +68,6 @@ export const ThemeProvider = ({
     seedColor,
     colors,
     breakpoints,
-    container,
     fonts,
 }: ThemeProviderProps) => {
     const [theme, setTheme] = useState<Theme>(() => {
@@ -174,10 +162,6 @@ export const ThemeProvider = ({
     useEffect(() => {
         applyThemeColors(theme.schemes);
     }, [theme.schemes]);
-
-    useInsertionEffect(() => {
-        applyContainer(theme.breakpoints, container);
-    }, [theme.breakpoints, container]);
 
     useEffect(() => {
         setFontRegistry(theme.fonts);
