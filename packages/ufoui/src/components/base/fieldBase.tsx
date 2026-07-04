@@ -18,7 +18,7 @@ import {
     useUniqueId,
 } from '../../utils';
 import { useFocusVisible } from '../../hooks';
-import { Description } from '../../internal';
+import { Description, Leading, Trailing } from '../../internal';
 
 type FieldVariant = 'filled' | 'outlined' | 'classic';
 
@@ -26,7 +26,7 @@ export interface FieldBaseProps extends Omit<React.InputHTMLAttributes<HTMLInput
     color?: SemanticColor;
     /** Required root class name. */
     elementClass: string;
-    /** Visual density of the button. */
+    /** Visual density of the field. */
     density?: ElementDensity;
     /** Text label for the field. */
     label?: string;
@@ -34,9 +34,13 @@ export interface FieldBaseProps extends Omit<React.InputHTMLAttributes<HTMLInput
     error?: string;
     /** Supporting text displayed below control. */
     description?: string;
+    /** Visual field variant. Takes precedence over boolean variant shortcuts. */
     variant?: FieldVariant;
+    /** Shortcut for `variant="outlined"`. */
     outlined?: boolean;
+    /** Shortcut for `variant="filled"`. */
     filled?: boolean;
+    /** Shortcut for `variant="classic"`. */
     classic?: boolean;
     fullWidth?: boolean;
     /** Control shape variant. */
@@ -94,7 +98,6 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
 
     const [internalValue, setInternalValue] = useState(defaultValue ?? '');
     const isControlled = value !== undefined;
-
     const fieldValue = isControlled ? value : internalValue;
     const isEmpty = fieldValue.length === 0;
 
@@ -104,10 +107,8 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const elemId = id ?? generatedId;
 
     const [labelUpX, setLabelUpX] = useState(0);
-    const finalLeading = leading ?? icon;
 
-    const fieldVariant =
-        variant ?? (filled && 'filled') ?? (outlined && 'outlined') ?? (classic && 'classic') ?? 'filled';
+    const fieldVariant = variant ?? (filled ? 'filled' : outlined ? 'outlined' : classic ? 'classic' : 'filled');
 
     const { isFocused, focusHandlers } = useFocusVisible(onFocus, onBlur);
 
@@ -135,6 +136,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         }
     }, []);
 
+    const finalLeading = leading ?? icon;
     useLayoutEffect(() => {
         const control = controlRef.current;
         const input = inputRef.current;
@@ -147,50 +149,14 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     }, [finalLeading]);
 
     // Wrapper
-    const wrapperClasses = [
-        elementClass,
-        className,
-        'uui-field uui-field-wrapper',
-        `uui-${fieldVariant}`,
-        getDensityClass(density),
-    ];
+    const wrapperClasses = [elementClass, className, 'uui-field', `uui-${fieldVariant}`, getDensityClass(density)];
 
     // Leading
 
-    const leadingContent = finalLeading && (
-        <div className="uui-leading">
-            {React.Children.map(finalLeading, child =>
-                child ? (
-                    <span
-                        className="uui-slot"
-                        onClick={e => {
-                            e.stopPropagation();
-                        }}>
-                        {child}
-                    </span>
-                ) : null
-            )}
-        </div>
-    );
-
+    const leadingContent = <Leading content={finalLeading} />;
     // Trailing
     const finalTrailing = trailing ?? endIcon;
-    const trailingContent = finalTrailing && (
-        <div className="uui-trailing">
-            {React.Children.map(finalTrailing, child =>
-                child ? (
-                    <span
-                        className="uui-slot"
-                        onClick={e => {
-                            e.stopPropagation();
-                        }}>
-                        {child}
-                    </span>
-                ) : null
-            )}
-        </div>
-    );
-
+    const trailingContent = <Trailing content={finalTrailing} />;
     // Label
     const labelText = label && (
         <>
@@ -207,13 +173,13 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const controlClasses = [
         'uui-field-control',
         getFontClass(font ?? 'bodyLarge'),
-        getShapeClass(shape ?? 'rounded'),
+        getShapeClass(shape ?? 'smooth'),
         fieldVariant !== 'outlined' && getBorderClass(resolvedBorder),
         error && 'uui-error',
         isFocused && 'uui-active',
         disabled && 'uui-disabled',
-        leadingContent && 'uui-has-leading',
-        trailingContent && 'uui-has-trailing',
+        finalLeading && 'uui-has-leading',
+        finalTrailing && 'uui-has-trailing',
     ];
 
     // Label & Legend
@@ -329,7 +295,6 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
                         type={type}
                     />
                 </div>
-                {/* {fieldVariant === 'filled' && labelContent}*/}
                 {trailingContent}
                 {fieldVariant === 'filled' && <div className={stateClasses} style={stateStyle.get()} />}
                 {fieldsetContent}

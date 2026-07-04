@@ -1,4 +1,4 @@
-import { MdOutlineCancel, MdSearch } from 'react-icons/md';
+import { MdInfo, MdOutlineCancel, MdSearch, MdTune, MdVisibility } from 'react-icons/md';
 import { useMemo, useState } from 'react';
 
 import {
@@ -13,8 +13,8 @@ import {
     Fieldset,
     H1,
     IconButton,
+    P,
     SemanticColor,
-    SurfaceColor,
     TextField,
 } from '@ufoui/core';
 
@@ -29,7 +29,6 @@ export const FieldPage = () => {
     const [density, setDensity] = useState<ElementDensity | null>(null);
     const [font, setFont] = useState<ElementFont | null>(null);
     const [labelFont, setLabelFont] = useState<ElementFont | null>(null);
-    const [textColor, setTextColor] = useState<SurfaceColor | null>(null);
     const [disabled, setDisabled] = useState<boolean | null>(false);
 
     const shared = useMemo(
@@ -42,11 +41,10 @@ export const FieldPage = () => {
             density: density ?? undefined,
             font: font ?? undefined,
             labelFont: labelFont ?? undefined,
-            textColor: textColor ?? undefined,
             disabled: disabled ?? undefined,
             autocomplete: true,
         }),
-        [labelFont, shape, border, borderColor, color, density, font, textColor, disabled]
+        [labelFont, shape, border, borderColor, color, density, font, disabled]
     );
 
     return (
@@ -85,6 +83,71 @@ export const FieldPage = () => {
                         label="Label"
                         name="email"
                         placeholder="Placeholder"
+                    />
+                </Fieldset>
+
+                <Fieldset direction="row" gap={16} legend="Slots" wrap>
+                    <TextField
+                        {...shared}
+                        description="Leading: one icon"
+                        label="One icon"
+                        leading={<MdSearch />}
+                        name="email"
+                        placeholder="Placeholder"
+                    />
+                    <TextField
+                        {...shared}
+                        description="Trailing: one icon button"
+                        label="Icon button"
+                        name="email"
+                        placeholder="Placeholder"
+                        trailing={<IconButton icon={<MdOutlineCancel />} />}
+                    />
+                    <TextField
+                        {...shared}
+                        description="Leading: icon + icon button"
+                        label="Mixed leading"
+                        leading={
+                            <>
+                                <MdSearch />
+                                <IconButton icon={<MdTune />} />
+                            </>
+                        }
+                        name="email"
+                        placeholder="Placeholder"
+                    />
+                    <TextField
+                        {...shared}
+                        description="Trailing: two icons"
+                        label="Two trailing icons"
+                        name="email"
+                        placeholder="Placeholder"
+                        trailing={
+                            <>
+                                <P>Long Text</P>
+                                <MdInfo />
+                                <MdVisibility />
+                            </>
+                        }
+                    />
+                    <TextField
+                        {...shared}
+                        description="Both slots: icon + button + two icons"
+                        label="Both slots"
+                        leading={
+                            <>
+                                <MdSearch />
+                                <IconButton icon={<MdTune />} />
+                            </>
+                        }
+                        name="email"
+                        placeholder="Placeholder"
+                        trailing={
+                            <>
+                                <MdInfo />
+                                <IconButton icon={<MdOutlineCancel />} />
+                            </>
+                        }
                     />
                 </Fieldset>
 
@@ -219,7 +282,6 @@ export const FieldPage = () => {
                         font: ft,
                         labelFont: lf,
                         disabled: db,
-                        textColor: tc,
                     }) => {
                         // setSize(sz ?? null);
                         setShape(sp ?? null);
@@ -230,11 +292,9 @@ export const FieldPage = () => {
                         setFont(ft ?? null);
                         setLabelFont(lf ?? null);
                         setDisabled(db ?? null);
-                        setTextColor(tc ?? null);
                     }}
                     shape={shape}
                     // size={size}
-                    textColor={textColor}
                 />
             </Aside>
         </Article>

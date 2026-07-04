@@ -5,9 +5,14 @@
 }
 
 .uui-slot > * {
-    height: var(--uui-slot-size);
-    width: var(--uui-slot-size);
+    /*height: var(--uui-slot-size);*/
+    /*width: var(--uui-slot-size);*/
     min-width: var(--uui-slot-size);
     flex-shrink: 0;
+}
+
+.uui-slot svg {
+    width: var(--uui-icon-size, 24px);
+    height: var(--uui-icon-size, 24px);
 }
 

@@ -22,6 +22,10 @@ interface SlotProps {
 /**
  * Layout helper that renders start, content, and end regions.
  *
+ * @remarks
+ * Components using this helper must define `--uui-slot-size` in their CSS.
+ * `--uui-slot-gap` is optional and falls back to `8px`.
+ *
  * @function
  * @param props Component properties.
  *

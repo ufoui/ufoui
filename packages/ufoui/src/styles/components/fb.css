@@ -1,34 +1,46 @@
-.uui-field-wrapper {
+.uui-field {
   --uui-field-padding-l: 16px;
   --uui-field-padding-r: 16px;
   --uui-field-padding-y: 4px;
   --uui-slot-size: 48px;
+  --uui-slot-gap: 0px;
   --uui-control-color: var(--uui-color-on-surface);
   display: flex;
   flex-direction: column;
 }
 
 .uui-field-control {
+  /*--uui-corner-full:*/
   --uui-corner-round: var(--uui-corner-full);
-  --uui-corner-smooth: 2px;
-  --uui-corner-rounded: 4px;
+  --uui-corner-smooth: 4px;
+  --uui-corner-rounded: 8px;
   display: flex;
   align-items: center;
   position: relative;
-  padding: var(--uui-field-padding-y) var(--uui-field-padding-r)
-    var(--uui-field-padding-y) var(--uui-field-padding-l);
+  padding-block: var(--uui-field-padding-y);
   cursor: text;
 }
 
-.uui-field-control.uui-has-leading {
-  padding-left: 0;
+.uui-field-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  min-height: 48px;
+  flex: 1 1 0;
+  margin-inline: 16px;
 }
 
-.uui-field-control.uui-has-trailing {
-  padding-right: 0;
+.uui-field-control.uui-has-leading .uui-field-input-wrapper {
+  margin-left: 4px;
+}
+
+.uui-field-control.uui-has-trailing .uui-field-input-wrapper {
+  margin-right: 4px;
 }
 
 .uui-field.uui-filled .uui-field-control {
+  --uui-corner-round: 16px;
   background-color: var(--uui-color-surface-container-highest);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -40,29 +52,16 @@
   align-items: center;
 }
 
-.uui-field-control .uui-slot {
-  width: var(--uui-slot-size);
-  height: var(--uui-slot-size);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 48px;
-}
 
-.uui-field-control .uui-slot svg {
-  width: var(--uui-icon-size);
-  height: var(--uui-icon-size);
-}
 
-.uui-field-input-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  padding: var(--uui-field-padding-y) 0;
-  min-height: 48px;
-  flex: 1 1 0;
-}
+
+
+
+
+
+
+
+
 
 .uui-field-float-label {
   position: absolute;
@@ -116,27 +115,7 @@
 }
 
 
-/*.uui-fb-input-content {*/
-/*  position: absolute;*/
-/*  left: auto;*/
-/*  pointer-events: none;*/
-/*  width: 100%;*/
-/*  height: 100%;*/
-/*  display:inline-flex;*/
-/*  !*display: flex;*!*/
-/*  !*flex-direction: column;*!*/
-/*  !*justify-content: center;*!*/
-/*  !*top:0;*!*/
-/*}*/
 
-/*.uui-field-input-wrapper.uui-labeled .uui-fb-input-content {*/
-/*  justify-content: end;*/
-/*}*/
-
-/*.uui-field-placeholder {*/
-/*  position: absolute;*/
-/*  pointer-events: none;*/
-/*}*/
 
 .uui-field .uui-support-text {
   padding: 4px var(--uui-field-padding-l);
