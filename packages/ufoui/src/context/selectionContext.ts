@@ -1,11 +1,13 @@
 import { createContext } from 'react';
 
-import { useRovingFocus } from '../hooks/useRovingFocus';
-
 /**
  * Context value shared by components that rely on selection behavior.
  *
  * @typeParam T - Optional configuration object provided by the parent component.
+ *
+ * @remarks
+ * Selection only. Keyboard focus is family-specific — components that need it
+ * expose their own controller through {@link SelectionContextValue.config}.
  *
  * @category Contexts
  */
@@ -18,9 +20,6 @@ export interface SelectionContextValue<T = unknown> {
 
     /** Selection type: single or multiple. */
     type: 'single' | 'multiple';
-
-    /** Optional roving focus controller for keyboard navigation between items. */
-    roving?: ReturnType<typeof useRovingFocus>;
 
     /** Sets a value directly. */
     set: (value: string) => void;

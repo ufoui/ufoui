@@ -1,13 +1,3 @@
-.uui-list {
-    overflow: hidden;
-}
-
-.uui-list-scroll {
-    overflow-y: auto;
-    overflow-x: hidden;
-    position: relative;
-}
-
 .uui-item {
     user-select: none;
     position: relative;

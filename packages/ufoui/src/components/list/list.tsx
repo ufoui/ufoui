@@ -1,7 +1,7 @@
 import React, { ReactNode, useCallback, useState } from 'react';
 
 import { SelectionContext } from '../../context/selectionContext';
-import { useRovingFocus } from '../../hooks/useRovingFocus';
+import { useFocusNavigation } from '../../hooks/useFocusNavigation';
 import { cn, ElementDensity } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base/boxBase';
 
@@ -12,6 +12,9 @@ export type ListVariant = 'list' | 'listbox';
 export interface ListConfig {
     density?: ElementDensity;
     itemRole: 'listitem' | 'option';
+
+    /** Keyboard focus controller shared with the child items. */
+    nav?: ReturnType<typeof useFocusNavigation>;
     variant: ListVariant;
 }
 
@@ -81,7 +84,7 @@ export const List = ({
     const [internalValues, setInternalValues] = useState<string[]>(() => toArray(defaultValue));
     const currentValues = isControlled ? toArray(value) : internalValues;
 
-    const roving = useRovingFocus('vertical');
+    const nav = useFocusNavigation('vertical');
 
     const toggle = useCallback(
         (v: string) => {
@@ -124,11 +127,12 @@ export const List = ({
     const config: ListConfig = {
         itemRole: variant === 'listbox' ? 'option' : 'listitem',
         density,
+        nav,
         variant,
     };
 
     return (
-        <SelectionContext.Provider value={{ values: currentValues, toggle, set, clear, type, roving, config }}>
+        <SelectionContext.Provider value={{ values: currentValues, toggle, set, clear, type, config }}>
             <BoxBase
                 {...props}
                 aria-orientation="vertical"

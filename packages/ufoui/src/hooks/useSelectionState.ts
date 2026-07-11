@@ -1,57 +1,105 @@
-import { useCallback, useState } from 'react';
-
-import { useRovingFocus } from './useRovingFocus';
+import { useCallback, useMemo, useState } from 'react';
 
 /**
- * Hook that provides shared selection state logic for components
- * such as Accordion, Tabs or List.
- *
- * Manages selected values, exposes selection helpers and optionally
- * enables roving focus for keyboard navigation.
- *
- * @function
- *
- * @param type Selection type controlling whether one or multiple values can be active.
- * @param orientation Orientation used by roving focus navigation.
- *
- * @returns Object containing selection state, helper functions and roving focus controller.
+ * Options for {@link useSelectionState}.
  *
  * @category Hooks
  */
-export function useSelectionState(type: 'single' | 'multiple', orientation: 'vertical' | 'horizontal' = 'vertical') {
-    const [values, setValues] = useState<string[]>([]);
-    const roving = useRovingFocus(orientation);
+export interface SelectionStateOptions {
+    /** Selection type controlling whether one or multiple values can be active. Default: 'single'. */
+    type?: 'single' | 'multiple';
 
-    const toggle = useCallback(
-        (value: string) => {
-            setValues(prev => {
-                const isSelected = prev.includes(value);
+    /** Controlled selected value(s). */
+    value?: string | string[];
 
-                if (type === 'single') {
-                    return isSelected ? [] : [value];
-                }
+    /** Initial selected value(s) for uncontrolled usage. */
+    defaultValue?: string | string[];
 
-                return isSelected ? prev.filter(v => v !== value) : [...prev, value];
-            });
+    /** Called whenever the selection changes. */
+    onChange?: (values: string[]) => void;
+
+    /** Whether the active value can be unselected in `single` mode. Default: true. */
+    deselectable?: boolean;
+}
+
+const toValues = (value?: string | string[]) => (value === undefined ? [] : Array.isArray(value) ? value : [value]);
+
+/**
+ * Hook that provides shared selection state for components
+ * such as Accordion, Tabs or List.
+ *
+ * Manages selected values and exposes selection helpers. Supports both
+ * controlled (`value` + `onChange`) and uncontrolled (`defaultValue`) usage.
+ *
+ * @function
+ *
+ * @remarks
+ * Selection only — keyboard focus is a separate concern, handled by
+ * {@link useFocusNavigation} where the component needs it.
+ *
+ * @param options Selection configuration.
+ *
+ * @returns Object containing selection state and helper functions.
+ *
+ * @example
+ * const { values, toggle } = useSelectionState({ type: 'multiple', defaultValue: 'a' });
+ *
+ * @category Hooks
+ */
+export function useSelectionState({
+    type = 'single',
+    value,
+    defaultValue,
+    onChange,
+    deselectable = true,
+}: SelectionStateOptions = {}) {
+    const [internal, setInternal] = useState(() => toValues(defaultValue));
+    const values = useMemo(() => (value === undefined ? internal : toValues(value)), [internal, value]);
+
+    const commit = useCallback(
+        (next: string[]) => {
+            if (value === undefined) {
+                setInternal(next);
+            }
+            onChange?.(next);
         },
-        [type]
+        [onChange, value]
     );
 
-    const set = useCallback((value: string) => {
-        setValues([value]);
-    }, []);
+    const toggle = useCallback(
+        (v: string) => {
+            const isSelected = values.includes(v);
+
+            if (type === 'single') {
+                if (isSelected && !deselectable) {
+                    return;
+                }
+
+                commit(isSelected ? [] : [v]);
+                return;
+            }
+
+            commit(isSelected ? values.filter(x => x !== v) : [...values, v]);
+        },
+        [commit, deselectable, type, values]
+    );
+
+    const set = useCallback(
+        (v: string) => {
+            commit([v]);
+        },
+        [commit]
+    );
 
     const clear = useCallback(() => {
-        setValues([]);
-    }, []);
+        commit([]);
+    }, [commit]);
 
     return {
         values,
         toggle,
         set,
         clear,
-        roving,
         type,
-        orientation,
     };
 }

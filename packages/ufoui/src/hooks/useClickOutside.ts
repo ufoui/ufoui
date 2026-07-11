@@ -14,6 +14,9 @@ type ClickOutsideTargets = Array<React.RefObject<HTMLElement>> | string;
  * - **extraRef:** a single additional element treated as inside
  *   (useful for anchor buttons that open menus)
  *
+ * @remarks
+ * Listens on `pointerdown`, not `mousedown`
+ *
  * @param active - Enables or disables the listener
  * @param targets - Array of refs **or** a CSS selector string
  * @param onOutside - Called when the click occurs outside all targets
@@ -45,7 +48,7 @@ export function useClickOutside(
             return;
         }
 
-        const handler = (e: MouseEvent) => {
+        const handler = (e: PointerEvent) => {
             const el = e.target as HTMLElement;
             // Mode A: array of refs
             if (Array.isArray(targets)) {
@@ -65,9 +68,9 @@ export function useClickOutside(
                 onOutside();
             }
         };
-        document.addEventListener('mousedown', handler);
+        document.addEventListener('pointerdown', handler);
         return () => {
-            document.removeEventListener('mousedown', handler);
+            document.removeEventListener('pointerdown', handler);
         };
     }, [active, targets, onOutside, extraRef]);
 }

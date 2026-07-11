@@ -1,0 +1,8 @@
+.uui-select .uui-field-control,
+.uui-select .uui-field-input {
+   cursor: pointer;
+}
+
+.uui-select .uui-field-input {
+    pointer-events: none;
+}

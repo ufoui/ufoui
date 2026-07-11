@@ -1,9 +1,10 @@
-import React, { ReactNode, useCallback, useLayoutEffect, useRef, useState } from 'react';
+import React, { Children, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { ExpandIcon } from '../../assets';
 import { useClickOutside } from '../../hooks';
 import { calculateFloatingPosition, renderPortal } from '../../utils';
 import { FieldBase, FieldBaseProps } from '../base/fieldBase';
+import { isItem } from '../item/item.guards';
 import { List } from '../list/list';
 
 /**
@@ -63,7 +64,12 @@ export const Select = ({
     const [open, setOpen] = useState(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
-    const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({ position: 'fixed', opacity: 0 });
+    const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({
+        position: 'fixed',
+        opacity: 0,
+        width: '100%',
+        left: '0',
+    });
 
     const currentValue = isControlled ? value : internalValue;
 
@@ -71,7 +77,7 @@ export const Select = ({
         setOpen(false);
     });
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (!open || !wrapperRef.current || !listRef.current) {
             return;
         }
@@ -101,10 +107,26 @@ export const Select = ({
         [isControlled, multiple, onChange]
     );
 
-    const displayValue = Array.isArray(currentValue) ? currentValue.join(', ') : (currentValue ?? '');
+    const currentValues = Array.isArray(currentValue) ? currentValue : currentValue !== undefined ? [currentValue] : [];
+
+    const labels = useMemo(() => {
+        const map = new Map<string, string>();
+        Children.forEach(children, child => {
+            if (isItem(child) && child.props.value) {
+                map.set(child.props.value, child.props.label ?? child.props.value);
+            }
+        });
+        return map;
+    }, [children]);
+
+    const displayValue = currentValues.map(v => labels.get(v) ?? v).join(', ');
 
     return (
-        <div ref={wrapperRef} style={{ display: 'inline-block', width: props.fullWidth ? '100%' : undefined }}>
+        <div
+            onClick={() => {
+                setOpen(v => !v);
+            }}
+            ref={wrapperRef}>
             <FieldBase
                 {...props}
                 density={density}
@@ -120,19 +142,15 @@ export const Select = ({
             {open &&
                 renderPortal(
                     'select-root',
-                    <div ref={listRef} style={dropdownStyle}>
+                    <div className="uui-popup-list" ref={listRef} style={dropdownStyle}>
                         <List
                             className="uui-select-list"
+                            color="surfaceContainer"
                             density={density}
+                            elevation={3}
                             onChange={handleChange}
                             type={multiple ? 'multiple' : 'single'}
-                            value={
-                                Array.isArray(currentValue)
-                                    ? currentValue
-                                    : currentValue !== undefined
-                                      ? [currentValue]
-                                      : []
-                            }
+                            value={currentValues}
                             variant="listbox">
                             {children}
                         </List>

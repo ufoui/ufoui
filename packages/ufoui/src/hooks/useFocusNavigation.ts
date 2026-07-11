@@ -1,17 +1,21 @@
 import React, { useCallback, useRef } from 'react';
 
 /**
- * Defines the directional axis used for roving focus navigation.
+ * Defines the directional axis used for keyboard focus navigation.
  *
  * @category Hooks
  */
-export type RovingOrientation = 'vertical' | 'horizontal';
+export type FocusOrientation = 'vertical' | 'horizontal';
 
 /**
- * Provides roving focus keyboard navigation for a group of elements.
+ * Moves DOM focus between registered elements of a group.
  *
  * Enables Arrow, Home, and End key navigation across registered items
- * using vertical or horizontal orientation.
+ * using vertical or horizontal orientation. Skips disabled items and
+ * follows the real DOM order.
+ *
+ * @remarks
+ * Does not manage `tabIndex` — the consuming component owns it.
  *
  * @param orientation Navigation direction. Default: 'vertical'.
  * @param loop Whether focus should wrap around. Default: true.
@@ -19,13 +23,13 @@ export type RovingOrientation = 'vertical' | 'horizontal';
  * @returns Object containing register, unregister, and onKeyDown handlers.
  *
  * @example
- * const roving = useRovingFocus('vertical');
+ * const nav = useFocusNavigation('vertical');
  *
- * <button ref={roving.register} onKeyDown={roving.onKeyDown} />
+ * <button ref={nav.register} onKeyDown={nav.onKeyDown} />
  *
  * @category Hooks
  */
-export function useRovingFocus(orientation: RovingOrientation = 'vertical', loop = true) {
+export function useFocusNavigation(orientation: FocusOrientation = 'vertical', loop = true) {
     const itemsRef = useRef<HTMLElement[]>([]);
 
     const register = useCallback((el: HTMLElement | null) => {

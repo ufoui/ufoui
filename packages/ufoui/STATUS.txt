@@ -25,8 +25,12 @@ Label
 
 @internal
 Description
+Slot
+Leading
+Trailing
 
 @alpha
+ControlLabel
 Menu
 MenuItem
 Divider
@@ -45,19 +49,15 @@ CheckboxBase
 Avatar
 Rating
 ControlGrid
-Leading
-Trailing
 Collapse
 Dialog
 DialogActions
 DialogContent
 DialogTitle
 DialogHeader
-Slot
 Icon
 ThemeProvider
 Link
-ControlLabel
 StateLayer
 Spinner
 Progress

@@ -94,7 +94,7 @@ export const AccordionItem = ({
     selectedEffects = ['color'],
 }: AccordionItemProps) => {
     const headerRef = useRef<HTMLDivElement>(null);
-    const { values, toggle, roving, config } = useSelection<AccordionConfig>();
+    const { values, toggle, config } = useSelection<AccordionConfig>();
     const isOpen = values.includes(value);
     const { focusVisible, focusHandlers } = useFocusVisible(onFocus, onBlur);
     const id = `accordion-${value}`;
@@ -154,8 +154,8 @@ export const AccordionItem = ({
                     disabled={finalDisabled}
                     id={`${id}-trigger`}
                     onClick={handleClick}
-                    onKeyDown={roving?.onKeyDown}
-                    ref={roving?.register}
+                    onKeyDown={config?.nav?.onKeyDown}
+                    ref={config?.nav?.register}
                     type="button">
                     {label}
                     <div className="uui-state" style={stateStyle.get()} />

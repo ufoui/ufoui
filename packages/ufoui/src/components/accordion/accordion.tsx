@@ -17,10 +17,13 @@ import {
 } from '../../utils';
 import { ElementAnimation } from '../../types';
 import { useSelectionState } from '../../hooks';
+import { useFocusNavigation } from '../../hooks/useFocusNavigation';
 
 export type AccordionVariant = 'text' | 'pills' | 'grouped' | 'segmented';
 
 export type AccordionConfig = {
+    /** Keyboard focus controller shared with the item headers. */
+    nav?: ReturnType<typeof useFocusNavigation>;
     variant?: AccordionVariant;
     density?: ElementDensity;
     elevation?: ElementElevation;
@@ -39,9 +42,18 @@ export type AccordionConfig = {
  *
  * @category Accordion
  */
-export interface AccordionProps extends Omit<BoxBaseProps, 'type' | 'gap' | 'gapY' | 'gapX'> {
+export interface AccordionProps extends Omit<BoxBaseProps, 'type' | 'gap' | 'gapY' | 'gapX' | 'onChange'> {
     /** Accordion behavior mode. Default: 'single'. */
     type?: 'single' | 'multiple';
+
+    /** Controlled value(s) of the expanded items. */
+    value?: string | string[];
+
+    /** Initially expanded value(s) for uncontrolled usage. */
+    defaultValue?: string | string[];
+
+    /** Called whenever the expanded items change. */
+    onChange?: (values: string[]) => void;
 
     /** Accordion items. */
     children: ReactNode;
@@ -68,6 +80,9 @@ export interface AccordionProps extends Omit<BoxBaseProps, 'type' | 'gap' | 'gap
  */
 export const Accordion = ({
     type = 'single',
+    value,
+    defaultValue,
+    onChange,
     variant = 'segmented',
     children,
     density,
@@ -81,7 +96,8 @@ export const Accordion = ({
     color,
     disabled,
 }: AccordionProps) => {
-    const ss = useSelectionState(type, 'vertical');
+    const ss = useSelectionState({ type, value, defaultValue, onChange });
+    const nav = useFocusNavigation('vertical');
     const { values } = ss;
     const accordionItems: ReactElement<AccordionItemProps>[] = React.Children.toArray(children).filter(isAccordionItem);
 
@@ -96,6 +112,7 @@ export const Accordion = ({
     };
 
     const config = {
+        nav: nav,
         density: density,
         variant: variant,
         showIcon: showIcon,

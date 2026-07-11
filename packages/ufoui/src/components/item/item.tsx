@@ -1,13 +1,7 @@
-import React, {
-    forwardRef,
-    ForwardRefExoticComponent,
-    RefAttributes,
-    useContext,
-    useEffect,
-    useRef,
-} from 'react';
+import React, { forwardRef, ForwardRefExoticComponent, RefAttributes, useContext, useEffect, useRef } from 'react';
 
 import { SelectionContext } from '../../context/selectionContext';
+import { useFocusNavigation } from '../../hooks/useFocusNavigation';
 import { Leading, Trailing } from '../../internal/slots/slot';
 import { cn, createRipple, ElementDensity, getDensityClass, mergeRefs } from '../../utils';
 import { IS_ITEM } from './item.guards';
@@ -15,6 +9,7 @@ import { IS_ITEM } from './item.guards';
 interface ItemCtxConfig {
     itemRole?: string;
     density?: ElementDensity;
+    nav?: ReturnType<typeof useFocusNavigation>;
 }
 
 /**
@@ -46,7 +41,7 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
  * **Item** — dumb renderer for list, listbox and menu contexts.
  *
  * Reads ARIA role and density from {@link SelectionContext}. Registers
- * itself with the roving focus controller provided by the parent `List`.
+ * itself with the focus controller provided by the parent `List`.
  *
  * @remarks
  * Export aliases: `ListItem`, `Option`.
@@ -73,20 +68,28 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
 
         useEffect(() => {
             const el = itemRef.current;
-            if (!el || !ctx?.roving) return;
-            ctx.roving.register(el);
-            return () => ctx.roving?.unregister(el);
-        }, [ctx?.roving]);
+            if (!el || !config?.nav) {
+                return;
+            }
+            config.nav.register(el);
+            return () => config.nav?.unregister(el);
+        }, [config?.nav]);
 
         const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-            if (disabled) return;
-            if (value && ctx) ctx.toggle(value);
+            if (disabled) {
+                return;
+            }
+            if (value && ctx) {
+                ctx.toggle(value);
+            }
             onClick?.(e);
-            if (itemRef.current) createRipple(itemRef.current, e);
+            if (itemRef.current) {
+                createRipple(itemRef.current, e);
+            }
         };
 
         const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-            ctx?.roving?.onKeyDown(e);
+            config?.nav?.onKeyDown(e);
             if ((e.key === 'Enter' || e.key === ' ') && !disabled && value && ctx) {
                 e.preventDefault();
                 ctx.toggle(value);
@@ -97,21 +100,20 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
         return (
             <div
                 {...props}
-                ref={mergeRefs(itemRef, ref)}
-                role={itemRole}
-                aria-selected={selected}
                 aria-disabled={disabled || undefined}
-                tabIndex={disabled ? -1 : 0}
+                aria-selected={selected}
                 className={cn(
                     'uui-item',
                     getDensityClass(config?.density),
                     selected && 'uui-selected',
                     disabled && 'uui-disabled',
-                    className,
+                    className
                 )}
                 onClick={handleClick}
                 onKeyDown={handleKeyDown}
-            >
+                ref={mergeRefs(itemRef, ref)}
+                role={itemRole}
+                tabIndex={disabled ? -1 : 0}>
                 <Leading content={leading} />
                 <div className="uui-item-text">
                     {label && <div className="uui-item-label">{label}</div>}

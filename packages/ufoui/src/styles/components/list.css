@@ -1,0 +1,10 @@
+.uui-list {
+    overflow: hidden;
+}
+
+.uui-list-scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+}
