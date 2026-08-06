@@ -1,3 +1,10 @@
+:root {
+  --uui-z-dialog: 9000;
+  --uui-z-popup: 9500;
+  --uui-z-tooltip: 9800;
+  --uui-z-toast: 9900;
+}
+
 .uui-absolute {
   position: absolute;
 }

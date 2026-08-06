@@ -22,12 +22,14 @@ import {
     Grid,
     H1,
     H2,
+    Item,
     MotionAnimation,
     MotionStyle,
     P,
     Radio,
     RadioGroup,
     Section,
+    Select,
     Span,
     SurfaceColor,
 } from '@ufoui/core';
@@ -102,6 +104,7 @@ export const DialogPage = () => {
     const [showIcon, setShowIcon] = useState(true);
     const [showClose, setShowClose] = useState(false);
     const [showBack, setShowBack] = useState(false);
+    const [country, setCountry] = useState<string | undefined>(undefined);
 
     const paragraphs = useMemo(() => Array.from({ length: 7 }, () => faker.lorem.sentence()), []);
     const nestedParagraphs = useMemo(() => Array.from({ length: 3 }, () => faker.lorem.paragraph()), []);
@@ -232,6 +235,18 @@ export const DialogPage = () => {
                         {paragraphs.map((text, i) => (
                             <P key={i}>{text}</P>
                         ))}
+                        <Select
+                            disabled={!!disabled}
+                            label="Country"
+                            onChange={v => {
+                                setCountry(v as string | undefined);
+                            }}
+                            placeholder="Select country..."
+                            value={country}>
+                            <Item label="Poland" value="pl" />
+                            <Item label="Germany" value="de" />
+                            <Item label="France" value="fr" />
+                        </Select>
                     </Flex>
                 </Dialog>
 

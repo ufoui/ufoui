@@ -9,6 +9,7 @@
 .uui-menu {
   overflow: hidden;
   position: relative;
+  z-index: var(--uui-z-popup);
 }
 
 .uui-menu-modern {

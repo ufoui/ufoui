@@ -1,6 +1,6 @@
 .uui-tooltip {
     pointer-events: none;
-    z-index: 1000;
+    z-index: var(--uui-z-tooltip);
     position: absolute;
     color: var(--uui-color-inverse-on-surface);
     background-color: var(--uui-color-inverse-surface);

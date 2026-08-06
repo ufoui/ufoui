@@ -2,7 +2,7 @@
     position: fixed;
     display: flex;
     flex-direction: column;
-    z-index: var(--uui-toast-viewport-zindex, 1000);
+    z-index: var(--uui-toast-viewport-zindex, var(--uui-z-toast));
     gap: var(--uui-column-gap, 12px);
     max-height: 80vh;
     max-width: min(568px, calc(100vw - 32px));

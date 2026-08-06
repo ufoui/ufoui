@@ -6,3 +6,7 @@
 .uui-select .uui-field-input {
     pointer-events: none;
 }
+
+.uui-popup-list {
+    z-index: var(--uui-z-popup);
+}

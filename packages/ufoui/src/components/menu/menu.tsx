@@ -994,7 +994,6 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                     position: docked ? 'relative' : 'fixed',
                     left: position?.x ?? 0,
                     top: position?.y ?? 0,
-                    zIndex: 9999,
                     visibility: position ? 'visible' : 'hidden',
                     ...ctrlStyle.get(),
                 }}

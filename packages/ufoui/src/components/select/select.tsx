@@ -88,7 +88,6 @@ export const Select = ({
             left: pos?.x ?? 0,
             top: pos?.y ?? 0,
             minWidth: width,
-            zIndex: 1000,
             opacity: 1,
         });
     }, [open]);
