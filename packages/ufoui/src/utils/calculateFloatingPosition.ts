@@ -8,7 +8,7 @@ import { ElementPlacement } from './utils';
  * @remarks
  * Each mode defines its own fallback placement list:
  * - **tooltip** – top/bottom center.
- * - **dropdown** – bottom → top.
+ * - **dropdown** – bottom/top aligned to the anchor edge, never centered nor sideways.
  * - **menu** – bottomLeft/Right → top.
  * - **submenu** – right/left of parent item.
  *
@@ -81,7 +81,7 @@ export function calculateFloatingPosition(
 
     const modeFallbacks: Record<ElementFloatingMode, ElementPlacement[]> = {
         tooltip: ['topCenter', 'bottomCenter', 'centerRight', 'centerLeft'],
-        dropdown: ['bottomCenter', 'topCenter', 'centerRight', 'centerLeft'],
+        dropdown: ['bottomLeft', 'topLeft', 'bottomRight', 'topRight'],
         menu: ['bottomLeft', 'bottomRight', 'topLeft', 'topRight', 'centerRight', 'centerLeft'],
         submenu: ['topRightOut', 'topLeftOut', 'centerRight', 'centerLeft', 'bottomCenter', 'topCenter'],
     };
@@ -188,7 +188,7 @@ export function calculateFloatingPosition(
     }
 
     // Fallback — clamp with edge padding
-    const fallback = tryPlacement(placement);
+    const fallback = tryPlacement(fallbackPlacements[0]);
 
     fallback.x = Math.max(EDGE_PAD, Math.min(fallback.x, viewportWidth - floatRect.width - EDGE_PAD));
     fallback.y = Math.max(EDGE_PAD, Math.min(fallback.y, viewportHeight - floatRect.height - EDGE_PAD));

@@ -33,7 +33,7 @@ async function buildCssLayer(name: (typeof cssLayers)[number]): Promise<void> {
     .code;
 
   fs.writeFileSync(path.join(distDir, `${name}.css`), output);
-  console.log(`${name}.css  ${(output.length / 1024).toFixed(2)} kB │ gzip: ${(
+  console.info(`${name}.css  ${(output.length / 1024).toFixed(2)} kB │ gzip: ${(
     gzipSync(output).length / 1024
   ).toFixed(2)} kB`);
 }

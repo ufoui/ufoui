@@ -1,9 +1,9 @@
-import React, { Children, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { Children, CSSProperties, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { ExpandIcon } from '../../assets';
 import { useClickOutside } from '../../hooks';
 import { calculateFloatingPosition, renderPortal } from '../../utils';
-import { FieldBase, FieldBaseProps } from '../base/fieldBase';
+import { FieldBase, FieldBaseProps } from '../base';
 import { isItem } from '../item/item.guards';
 import { List } from '../list/list';
 
@@ -64,12 +64,8 @@ export const Select = ({
     const [open, setOpen] = useState(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
-    const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({
-        position: 'fixed',
-        opacity: 0,
-        width: '100%',
-        left: '0',
-    });
+    const [position, setPosition] = useState<{ x: number; y: number; width: number } | null>(null);
+    const [popupVisible, setPopupVisible] = useState(false);
 
     const currentValue = isControlled ? value : internalValue;
 
@@ -78,19 +74,26 @@ export const Select = ({
     });
 
     useEffect(() => {
-        if (!open || !wrapperRef.current || !listRef.current) {
+        setPopupVisible(open);
+    }, [open]);
+
+    useEffect(() => {
+        if (!popupVisible || !wrapperRef.current || !listRef.current) {
+            setPosition(null);
             return;
         }
-        const pos = calculateFloatingPosition(wrapperRef, listRef, { mode: 'dropdown', placement: 'auto', offset: 4 });
-        const { width } = wrapperRef.current.getBoundingClientRect();
-        setDropdownStyle({
-            position: 'fixed',
-            left: pos?.x ?? 0,
-            top: pos?.y ?? 0,
-            minWidth: width,
-            opacity: 1,
+        const pos = calculateFloatingPosition(wrapperRef, listRef, {
+            mode: 'dropdown',
+            placement: 'bottomLeft',
+            offset: 4,
         });
-    }, [open]);
+        const { width } = wrapperRef.current.getBoundingClientRect();
+        if (pos && width) {
+            setPosition({ x: pos.x, y: pos.y, width: width });
+        }
+
+        setPopupVisible(open);
+    }, [open, popupVisible]);
 
     const handleChange = useCallback(
         (values: string[]) => {
@@ -99,9 +102,7 @@ export const Select = ({
                 setInternalValue(newValue);
             }
             onChange?.(newValue);
-            if (!multiple) {
-                setOpen(false);
-            }
+            setPopupVisible(false);
         },
         [isControlled, multiple, onChange]
     );
@@ -120,6 +121,13 @@ export const Select = ({
 
     const displayValue = currentValues.map(v => labels.get(v) ?? v).join(', ');
 
+    const popupStyle: CSSProperties = {
+        position: 'fixed',
+        left: position?.x ?? 0,
+        top: position?.y ?? 0,
+        width: position?.width,
+        opacity: position ? 1 : 0,
+    };
     return (
         <div
             onClick={() => {
@@ -141,7 +149,7 @@ export const Select = ({
             {open &&
                 renderPortal(
                     'select-root',
-                    <div className="uui-popup-list" ref={listRef} style={dropdownStyle}>
+                    <div className="uui-popup-list" ref={listRef} style={popupStyle}>
                         <List
                             className="uui-select-list"
                             color="surfaceContainer"
