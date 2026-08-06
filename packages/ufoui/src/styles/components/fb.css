@@ -19,6 +19,7 @@
   position: relative;
   padding-block: var(--uui-field-padding-y);
   cursor: text;
+  --uui-active-color: var(--uui-current-color,var(--uui-color-primary));
 }
 
 .uui-field-input-wrapper {
@@ -52,13 +53,57 @@
   align-items: center;
 }
 
+.uui-field-fieldset {
+  border: 1px solid var(--uui-color-outline);
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.uui-field-fieldset > legend {
+  line-height: 0;
+  margin-left: 10px;
+  opacity: 0;
+  max-width: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.uui-field-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--uui-color-on-surface-variant);
+  z-index: 1;
+}
+
+/* filled State*/
+.uui-field-state {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  pointer-events: none;
+  background-color: var(--uui-color-on-surface);
+  opacity: 0;
+  border-radius: inherit;
+}
 
 
+.uui-field.uui-filled .uui-field-control:not(.uui-active):hover .uui-field-state{
+  opacity: var(--uui-focus-opacity);
+}
 
-
-
-
-
+.uui-field-control.uui-active .uui-field-indicator {
+  background-color: var(--uui-active-color);
+  height: 2px;
+}
 
 
 
@@ -89,18 +134,7 @@
   transform: translateX(var(--uui-label-up-x)) translateY(-50%);
 }
 
-/*.uui-field-input-wrapper.uui-labeled {*/
-/*  !*align-items: end;*!*/
-/*}*/
 
-.uui-field-state {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  pointer-events: none;
-}
 
 .uui-field-input {
   appearance: none;
@@ -116,40 +150,16 @@
 
 
 
-
 .uui-field .uui-support-text {
   padding: 4px var(--uui-field-padding-l);
 }
 
-.uui-field-fieldset {
-  border: 1px solid var(--uui-color-outline);
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  top: 0;
-}
 
-.uui-field-fieldset > legend {
-  line-height: 0;
-  margin-left: 10px;
-  opacity: 0;
-  max-width: 0;
-  padding: 0;
-  overflow: hidden;
-}
 
 .uui-outlined .uui-fb-label-up .uui-field-fieldset > legend {
   max-width: 100%;
   padding: 0 4px;
 }
-
-/*.uui-field-input:-webkit-autofill,*/
-/*.uui-field-input:-webkit-autofill:hover,*/
-/*.uui-field-input:-webkit-autofill:focus {*/
-/*  -webkit-text-fill-color: currentColor;*/
-/*  -webkit-box-shadow: 0 0 0 1000px transparent inset;*/
-/*}*/
 
 
 /* domyślny backdrop = realne tło kontrolki; nadpisywany per wariant */

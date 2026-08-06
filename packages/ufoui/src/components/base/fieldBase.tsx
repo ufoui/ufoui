@@ -20,46 +20,106 @@ import {
 import { useFocusVisible } from '../../hooks';
 import { Description, Leading, Trailing } from '../../internal';
 
+/** Visual variant of the field control. */
 type FieldVariant = 'filled' | 'outlined' | 'classic';
 
+/**
+ * Props for the FieldBase component.
+ *
+ * Supports controlled and uncontrolled usage, floating and static labels,
+ * leading and trailing slots, and validation messaging.
+ *
+ * @category Base components
+ */
 export interface FieldBaseProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'color' | 'children'> {
+    /** Semantic color used as the control accent when active. Default: primary */
     color?: SemanticColor;
+
     /** Required root class name. */
     elementClass: string;
+
     /** Visual density of the field. */
     density?: ElementDensity;
+
     /** Text label for the field. */
     label?: string;
+
+    /** Font style applied to the label in its floating position. Default: bodySmall */
     labelFont?: ElementFont;
+
+    /** Validation message. Marks the control invalid and replaces the description. */
     error?: string;
+
     /** Supporting text displayed below control. */
     description?: string;
+
     /** Visual field variant. Takes precedence over boolean variant shortcuts. */
     variant?: FieldVariant;
+
     /** Shortcut for `variant="outlined"`. */
     outlined?: boolean;
+
     /** Shortcut for `variant="filled"`. */
     filled?: boolean;
+
     /** Shortcut for `variant="classic"`. */
     classic?: boolean;
+
     fullWidth?: boolean;
-    /** Control shape variant. */
+
+    /** Control shape variant. Default: smooth */
     shape?: ElementShape;
+
+    /** Border width of the control. Default: 1 for outlined and classic */
     border?: ElementBorder;
+
+    /** Border color override. Default: onSurfaceVariant, outline for classic */
     borderColor?: BorderColor;
+
+    /** Placeholder text shown while the field is empty. */
     placeholder?: string;
+
+    /** Content rendered before the input. */
     leading?: React.ReactNode;
+
+    /** Content rendered after the input. */
     trailing?: React.ReactNode;
+
+    /** Icon rendered before the leading content. */
     icon?: React.ReactNode;
+
+    /** Icon rendered after the trailing content. */
     endIcon?: React.ReactNode;
+
+    /** Controlled value of the input. */
     value?: string;
+
+    /** Initial value for uncontrolled usage. */
     defaultValue?: string;
-    /** Font style applied to the label. */
+
+    /** Font style applied to the control and to the resting label. Default: bodyLarge */
     font?: ElementFont;
+
     /** Marks the control as required (visual indicator only). */
     required?: boolean;
 }
 
+/**
+ * Base input control shared by all field components.
+ *
+ * @remarks
+ * The `filled` and `outlined` variants float the label above the input once it is
+ * focused or filled, while `classic` renders it as a static label above the control.
+ * The value is uncontrolled unless `value` is provided.
+ *
+ * @example
+ * <FieldBase elementClass="uui-text-field" label="Label" />
+ *
+ * @example
+ * <FieldBase elementClass="uui-text-field" label="Email" outlined error="Required" />
+ *
+ * @category Base components
+ */
 export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: FieldBaseProps, ref) => {
     const {
         elementClass,
@@ -130,20 +190,19 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         if (!el) {
             return;
         }
-
         if (el.value) {
             setInternalValue(el.value);
         }
     }, []);
 
     const finalLeading = leading ?? icon;
+
     useLayoutEffect(() => {
         const control = controlRef.current;
         const input = inputRef.current;
         if (!control || !input) {
             return;
         }
-
         const next = control.getBoundingClientRect().left - input.getBoundingClientRect().left + 16;
         setLabelUpX(prev => (prev === next ? prev : next));
     }, [finalLeading]);
@@ -153,10 +212,10 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
 
     // Leading
 
-    const leadingContent = <Leading content={finalLeading} />;
+    const leadingContent = <Leading content={leading} start={icon} />;
     // Trailing
     const finalTrailing = trailing ?? endIcon;
-    const trailingContent = <Trailing content={finalTrailing} />;
+    const trailingContent = <Trailing content={trailing} end={endIcon} />;
     // Label
     const labelText = label && (
         <>
@@ -242,13 +301,16 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
 
     const controlStyle = ControlStyle();
     controlStyle.set('--uui-label-up-x', `${labelUpX}px`);
+    controlStyle.current(color);
 
     if (fieldVariant === 'classic') {
         controlStyle.border(borderColor ?? 'outline');
     }
 
+    let indicator;
     if (fieldVariant === 'filled') {
         controlStyle.border(borderColor ?? 'onSurfaceVariant');
+        indicator = <div className="uui-field-indicator"></div>;
     }
 
     // State
@@ -298,6 +360,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
                 {trailingContent}
                 {fieldVariant === 'filled' && <div className={stateClasses} style={stateStyle.get()} />}
                 {fieldsetContent}
+                {indicator}
             </div>
             {descriptionText}
         </div>
