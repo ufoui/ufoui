@@ -81,7 +81,7 @@ export const Collapse = forwardRef<HTMLDivElement, CollapseProps>((props, ref) =
         <div
             aria-hidden={!isOpen}
             className={wrapperClasses}
-            {...(!isOpen ? { inert: '' } : {})}
+            {...(!isOpen ? { inert: 'true' } : {})}
             style={wrapperStyle.get()}>
             <div className="uui-collapse-wrapper" ref={contentRef}>
                 <BoxBase {...other} className={animationClasses} ref={ref} shape={shape} style={controlStyle.get()}>
