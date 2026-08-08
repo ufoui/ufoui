@@ -13,7 +13,10 @@ import { List } from '../list/list';
  * @category Field
  */
 export interface SelectProps
-    extends Omit<FieldBaseProps, 'elementClass' | 'value' | 'onChange' | 'trailing' | 'defaultValue'> {
+    extends Omit<
+        FieldBaseProps,
+        'elementClass' | 'value' | 'onChange' | 'trailing' | 'defaultValue' | 'multiline' | 'lines'
+    > {
     /** Select options — `Item` or `Option` elements. */
     children?: ReactNode;
 

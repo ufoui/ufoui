@@ -8,7 +8,7 @@ import { FieldBase, FieldBaseProps } from '../base/fieldBase';
  *
  * @category PhoneField
  */
-export type PhoneFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type'>;
+export type PhoneFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines'>;
 
 /**
  * Phone field component used to enter telephone numbers.

@@ -8,7 +8,7 @@ import { FieldBase, FieldBaseProps } from '../base/fieldBase';
  *
  * @category DateField
  */
-export type DateFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type'>;
+export type DateFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines'>;
 
 /**
  * Date field component used to enter date values.

@@ -79,6 +79,12 @@ export interface FieldBaseProps extends Omit<React.InputHTMLAttributes<HTMLInput
     /** Placeholder text shown while the field is empty. */
     placeholder?: string;
 
+    /** Renders the control as a multi-line text area. */
+    multiline?: boolean;
+
+    /** Number of visible text lines when `multiline` is set. Default: 3 */
+    lines?: number;
+
     /** Content rendered before the input. */
     leading?: React.ReactNode;
 
@@ -145,6 +151,8 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         error,
         className,
         placeholder,
+        multiline,
+        lines,
         type = 'text',
         icon,
         leading,
@@ -210,20 +218,25 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const trailingContent = <Trailing content={trailing} end={endIcon} />;
 
     // Wrapper
-    const wrapperClasses = [elementClass, className, 'uui-field', `uui-${fieldVariant}`, getDensityClass(density)];
+    const wrapperClasses = [
+        elementClass,
+        className,
+        'uui-field',
+        `uui-${fieldVariant}`,
+        disabled && 'uui-disabled',
+        getDensityClass(density),
+    ];
 
     // Label
     const labelText = label && <LabelText label={label} required={required} />;
-
-    const resolvedBorder = border ?? (fieldVariant !== 'filled' ? 1 : undefined);
+    const borderWidth = clampInt(0, 4, border, fieldVariant !== 'filled' ? 1 : 0);
     const controlClasses = [
         'uui-field-control',
         getFontClass(font ?? 'bodyLarge'),
         getShapeClass(shape ?? 'smooth'),
-        fieldVariant !== 'outlined' && getBorderClass(resolvedBorder),
+        fieldVariant !== 'outlined' && getBorderClass(borderWidth as ElementBorder),
         error && 'uui-error',
         isFocused && 'uui-active',
-        disabled && 'uui-disabled',
         finalLeading && 'uui-has-leading',
         finalTrailing && 'uui-has-trailing',
     ];
@@ -234,14 +247,14 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     let legendContent;
     let externalLabelContent;
     const labelStyle = ControlStyle();
-    const labelClasses = ['uui-fb-label'];
+    const labelClasses = ['uui-field-label'];
 
     if (labelText) {
         if (fieldVariant !== 'classic') {
             if (isFocused || !isEmpty) {
                 labelStyle.text((error ? 'error' : undefined) ?? color ?? 'primary');
                 labelClasses.push(getFontClass(labelFont ?? 'bodySmall'));
-                controlClasses.push('uui-fb-label-up');
+                controlClasses.push('uui-field-label-up');
             } else {
                 labelStyle.text((error ? 'error' : undefined) ?? 'onSurfaceVariant');
                 labelClasses.push(getFontClass(font ?? 'bodyLarge'));
@@ -272,10 +285,8 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     if (fieldVariant === 'outlined') {
         const fieldsetClasses = cn('uui-field-fieldset', getShapeClass(shape ?? 'rounded'));
         const fieldsetStyle = ControlStyle();
-
-        const borderWidth = clampInt(0, 4, border, 1);
         fieldsetStyle.set('borderWidth', `${borderWidth}px`);
-        fieldsetStyle.border(borderColor ?? 'onSurfaceVariant');
+        // fieldsetStyle.border(borderColor ?? 'onSurfaceVariant');
 
         fieldsetContent = (
             <fieldset className={fieldsetClasses} style={fieldsetStyle.get()}>

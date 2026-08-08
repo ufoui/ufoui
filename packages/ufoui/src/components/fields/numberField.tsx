@@ -8,7 +8,7 @@ import { FieldBase, FieldBaseProps } from '../base/fieldBase';
  *
  * @category NumberField
  */
-export type NumberFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type'>;
+export type NumberFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines'>;
 
 /**
  * Number field component used to enter numeric values.

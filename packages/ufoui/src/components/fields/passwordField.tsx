@@ -10,7 +10,7 @@ import { VisibilityIcon, VisibilityOffIcon } from '../../assets';
  *
  * @category PasswordField
  */
-export interface PasswordFieldProps extends Omit<FieldBaseProps, 'elementClass' | 'type'> {
+export interface PasswordFieldProps extends Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines'> {
     /** When true, renders the control that reveals the password. */
     showReveal?: boolean;
 

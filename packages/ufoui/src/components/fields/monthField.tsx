@@ -7,7 +7,7 @@ import { FieldBase, FieldBaseProps } from '../base/fieldBase';
  *
  * @category MonthField
  */
-export type MonthFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type'>;
+export type MonthFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines'>;
 
 /**
  * Month field component used to enter month and year values.

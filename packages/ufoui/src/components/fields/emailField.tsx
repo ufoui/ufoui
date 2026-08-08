@@ -8,7 +8,7 @@ import { FieldBase, FieldBaseProps } from '../base/fieldBase';
  *
  * @category EmailField
  */
-export type EmailFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type'>;
+export type EmailFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines'>;
 
 /**
  * Email field component used to enter email addresses.

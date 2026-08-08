@@ -8,7 +8,7 @@ import { FieldBase, FieldBaseProps } from '../base/fieldBase';
  *
  * @category UrlField
  */
-export type UrlFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type'>;
+export type UrlFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines'>;
 
 /**
  * URL field component used to enter web addresses.

@@ -8,7 +8,7 @@ import { FieldBase, FieldBaseProps } from '../base/fieldBase';
  *
  * @category TimeField
  */
-export type TimeFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type'>;
+export type TimeFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines'>;
 
 /**
  * Time field component used to enter time values.

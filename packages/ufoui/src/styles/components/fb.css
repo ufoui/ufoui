@@ -22,6 +22,7 @@
   --uui-active-color: var(--uui-current-color,var(--uui-color-primary));
   --uui-field-active-indicator-height: 2px;
   --uui-field-indicator-height: 1px;
+  /*background-color: var(--uui-color-surface-container-highest);*/
 }
 
 .uui-field-input-wrapper {
@@ -41,6 +42,7 @@
 .uui-field-control.uui-has-trailing .uui-field-input-wrapper {
   margin-right: 4px;
 }
+
 
 .uui-field.uui-filled .uui-field-control {
   --uui-corner-round: 16px;
@@ -63,6 +65,8 @@
   left: 0;
   top: 0;
   pointer-events: none;
+  transition: border-color 150ms cubic-bezier(0.2, 0, 0.4, 1);
+
 }
 
 .uui-field-fieldset > legend {
@@ -95,6 +99,7 @@
   background-color: var(--uui-color-on-surface);
   opacity: 0;
   border-radius: inherit;
+  transition: opacity 150ms cubic-bezier(0.2, 0, 0, 1);;
 }
 
 .uui-field.uui-filled .uui-field-control:not(.uui-active):hover .uui-field-state{
@@ -106,31 +111,34 @@
   height: var(--uui-field-active-indicator-height, 2px);
 }
 
-.uui-field-control.uui-disabled .uui-field-state {
-  background-color: var(--uui-color-surface);
-  opacity: 0.58;
-  z-index: 5;
+.uui-field-control.uui-active.uui-error .uui-field-indicator {
+  background-color: var(--uui-color-error);
 }
 
+/* outlined State*/
 .uui-field-control.uui-active .uui-field-fieldset {
   border-color: var(--uui-active-color) !important;
 }
 
+.uui-field-control:not(.uui-active):hover .uui-field-fieldset {
+  border-color: var(--uui-color-on-surface) !important;
+}
+
+/* classic State*/
+.uui-field.uui-classic .uui-field-control.uui-active {
+  border-color: var(--uui-active-color) !important;
+}
+
+.uui-field-control:not(.uui-active):hover  {
+  border-color: var(--uui-color-on-surface) !important;
+}
+
+.uui-field .uui-support-text {
+  padding: 4px var(--uui-field-padding-l);
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*label*/
 .uui-field-float-label {
   position: absolute;
   top: 50%;
@@ -146,17 +154,22 @@
   text-overflow: ellipsis;
 }
 
-.uui-filled .uui-fb-label-up .uui-field-float-label {
+.uui-filled .uui-field-label-up .uui-field-float-label {
   top: var(--uui-field-padding-y);
   transform: translateY(0);
 }
 
-.uui-outlined .uui-fb-label-up .uui-field-float-label {
+.uui-outlined .uui-field-label-up .uui-field-float-label {
   top: calc(var(--uui-field-padding-y) * -1);
   /*top: 0;*/
   transform: translateX(var(--uui-label-up-x)) translateY(-50%);
 }
 
+
+.uui-field.uui-classic .uui-field-label{
+  margin-bottom: 4px;
+  margin-left: 16px;
+}
 
 
 .uui-field-input {
@@ -173,13 +186,11 @@
 
 
 
-.uui-field .uui-support-text {
-  padding: 4px var(--uui-field-padding-l);
-}
 
 
 
-.uui-outlined .uui-fb-label-up .uui-field-fieldset > legend {
+
+.uui-outlined .uui-field-label-up .uui-field-fieldset > legend {
   max-width: 100%;
   padding: 0 4px;
 }
@@ -204,3 +215,16 @@
   transition: background-color 9999s ease-in-out 0s;
 }
 
+
+/*disabled*/
+
+.uui-field.uui-disabled .uui-field-control {
+  --uui-control-color: var(--uui-color-on-surface-variant);
+  color: var(--uui-color-on-surface-variant);
+  opacity: var(--uui-disabled-opacity);
+}
+
+.uui-field.uui-disabled.uui-classic .uui-field-label{
+  color: var(--uui-color-on-surface-variant);
+  opacity: var(--uui-disabled-opacity);
+}

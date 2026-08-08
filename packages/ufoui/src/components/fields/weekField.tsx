@@ -7,7 +7,7 @@ import { FieldBase, FieldBaseProps } from '../base/fieldBase';
  *
  * @category WeekField
  */
-export type WeekFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type'>;
+export type WeekFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines'>;
 
 /**
  * Week field component used to enter week and year values.
