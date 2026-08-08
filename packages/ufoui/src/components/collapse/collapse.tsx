@@ -34,7 +34,6 @@ export interface CollapseProps extends Omit<BoxBaseProps, 'elevation'> {
 export const Collapse = forwardRef<HTMLDivElement, CollapseProps>((props, ref) => {
     const { open, animation, className, children, style, shape, ...other } = props;
     const isOpen = open !== false;
-    // const resolvedInitial = (typeof animation === 'object' ? animation.initial : undefined) ?? 'skip';
     const contentRef = useRef<HTMLDivElement>(null);
     const [size, setSize] = useState<number | undefined>(undefined);
 

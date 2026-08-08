@@ -302,6 +302,10 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const controlStyle = ControlStyle();
     controlStyle.set('--uui-label-up-x', `${labelUpX}px`);
     controlStyle.current(color);
+    if (border && border > 2) {
+        controlStyle.set('--uui-field-indicator-height', `${border}px`);
+        controlStyle.set('--uui-field-active-indicator-height', `${border}px`);
+    }
 
     if (fieldVariant === 'classic') {
         controlStyle.border(borderColor ?? 'outline');
@@ -335,7 +339,13 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     return (
         <div className={wrapperClass} title={title}>
             {externalLabelContent}
-            <div className={controlClass} onPointerDown={focusInput} ref={controlRef} style={controlStyle.get()}>
+            <div
+                aria-disabled={disabled}
+                {...(disabled ? { inert: 'true' } : {})}
+                className={controlClass}
+                onPointerDown={focusInput}
+                ref={controlRef}
+                style={controlStyle.get()}>
                 {leadingContent}
                 <div className={inputWrapperClasses}>
                     {labelPlaceholder}

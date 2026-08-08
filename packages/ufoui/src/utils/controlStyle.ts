@@ -3,29 +3,41 @@
  *
  * @remarks
  * The builder provides typed functions for applying theme color tokens
- * to background, text, border, and outline properties using CSS variables.
+ * to background, text, border, outline, SVG and CSS-variable targets.
  *
- * - `bg(color)` — sets background from any ThemeColor
- * - `bg.on(surfaceColor)` — sets background from corresponding `on-*` surface color
- * - `bg.container(semanticColor)` — sets semantic `*-container` background
- * - `bg.onContainer(semanticColor)` — sets semantic `on-*-container` background
- * - `bg.fixed(semanticColor)` — semantic `*-fixed` background
- * - `bg.fixedDim(semanticColor)` — semantic `*-fixed-dim` background
+ * Every target is callable and shares the same token variants:
  *
- * - `text(color)` — sets text color from any ThemeColor
- * - `text.on(surfaceColor)` — sets text from `on-*` surface colors
- * - `text.onContainer(semanticColor)` — sets text from semantic `on-*-container`
+ * - `target(color)` — any ThemeColor
+ * - `target.on(surfaceColor)` — corresponding `on-*` surface color
+ * - `target.container(semanticColor)` — semantic `*-container`
+ * - `target.onContainer(semanticColor)` — semantic `on-*-container`
+ * - `target.fixed(semanticColor)` — semantic `*-fixed`
+ * - `target.fixedDim(semanticColor)` — semantic `*-fixed-dim`
  *
- * - `border(color)` — sets border-color from any ThemeColor
- * - `outline(color)` — sets outline-color from any ThemeColor
+ * Available targets:
+ *
+ * - `bg` — `background-color`
+ * - `text` — `color`
+ * - `border` — `border-color`
+ * - `outline` — `outline-color`
+ * - `current` — the `--uui-current-color` variable, inherited by descendants
+ * - `stroke` — SVG `stroke`
+ * - `fill` — SVG `fill`
+ *
+ * Outside the targets:
+ *
+ * - `token(cssVar, color)` — resolves a ThemeColor into any custom CSS variable
+ * - `set(key, value)` — writes any CSS property or CSS variable verbatim
+ * - `merge(styles)` — merges caller styles over the builder output, skipping nullish values
  *
  * The builder accumulates all style operations internally
  * and exposes them via `.get()` as a final React.CSSProperties object.
  *
  * @example
- * const style = ColorStyle();
+ * const style = ControlStyle();
  * style.bg('surfaceContainerLow');
  * style.text.on('surface');
+ * style.token('--uui-icon-color', 'primary');
  * return <button style={style.get()}>Press</button>;
  */
 import React, { CSSProperties } from 'react';
@@ -117,6 +129,12 @@ export function ControlStyle(initial?: React.CSSProperties) {
         set('fill', v);
     });
 
+    const token = (key: CSSVar, color?: ThemeColor) => {
+        if (color) {
+            set(key, toVar(color));
+        }
+    };
+
     return {
         bg,
         text,
@@ -125,6 +143,7 @@ export function ControlStyle(initial?: React.CSSProperties) {
         current,
         stroke,
         fill,
+        token,
         set,
         get() {
             return bag;
@@ -134,6 +153,7 @@ export function ControlStyle(initial?: React.CSSProperties) {
             if (!styles) {
                 return;
             }
+            // eslint-disable-next-line eqeqeq
             const newStyles = Object.fromEntries(Object.entries(styles).filter(([_, v]) => v != null)) as CSSProperties;
             Object.assign(bag, newStyles);
         },
