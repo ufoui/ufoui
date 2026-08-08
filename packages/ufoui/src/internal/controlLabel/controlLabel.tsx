@@ -2,6 +2,32 @@ import { ElementType, ReactNode, RefObject } from 'react';
 
 import { cn, ElementFont, getFontClass } from '../../utils';
 
+export interface LabelTextProps {
+    /** Label content. */
+    label?: ReactNode;
+    /** Displays a required indicator next to the label. */
+    required?: boolean;
+}
+
+/**
+ * Renders label content followed by the required indicator.
+ *
+ * @function
+ * @param props Component properties.
+ *
+ * @category Slot
+ */
+export const LabelText = ({ label, required }: LabelTextProps) => (
+    <>
+        {label}
+        {required && (
+            <span aria-hidden="true" className="uui-required">
+                *
+            </span>
+        )}
+    </>
+);
+
 export interface ControlLabelProps {
     /** Label content. */
     label?: ReactNode;
@@ -53,12 +79,7 @@ export const ControlLabel = ({
             id={id}
             {...labelProps}
             onClick={focusRef ? () => focusRef.current?.focus() : undefined}>
-            {label}
-            {required && (
-                <span aria-hidden="true" className="uui-required">
-                    *
-                </span>
-            )}
+            <LabelText label={label} required={required} />
         </Tag>
     );
 };

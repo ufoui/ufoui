@@ -34,7 +34,7 @@ import {
 import { ElementAnimation } from '../../types';
 import { FieldsetContext, RadioGroupContext } from '../../context';
 import { useFocusVisible, useMotion } from '../../hooks';
-import { Description, InlineTooltipManager } from '../../internal';
+import { Description, InlineTooltipManager, LabelText } from '../../internal';
 
 /**
  * Props for the CheckboxBase component.
@@ -422,12 +422,7 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
     const labelClasses = [getFontClass(font ?? 'bodyMedium'), 'uui-cb-label'].join(' ');
     const labelText = label && (
         <label className={labelClasses} htmlFor={elemId} style={labelStyle.get()}>
-            {label}
-            {required && (
-                <span aria-hidden="true" className="uui-required">
-                    *
-                </span>
-            )}
+            <LabelText label={label} required={required} />
         </label>
     );
 

@@ -3,6 +3,7 @@ import React, { forwardRef } from 'react';
 import { cn, ControlStyle, ElementFont, getFontClass, SurfaceColor } from '../../utils';
 import { FieldsetContext } from '../../context';
 import { BoxBase, BoxBaseProps } from '../base';
+import { LabelText } from '../../internal';
 
 /**
  * Props for {@link Fieldset}.
@@ -84,7 +85,7 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
             'uui-support-text',
             getFontClass(descriptionFont ?? 'bodySmall'),
             error && 'uui-error',
-            description && !error && 'uui-description',
+            description && !error && 'uui-description'
         );
 
         const descriptionText = (description ?? error) && (
@@ -107,12 +108,7 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
                         elementClass="uui-fieldset">
                         {legendText && (
                             <legend className={legendClasses}>
-                                {legendText}
-                                {required && (
-                                    <span aria-hidden="true" className="uui-required">
-                                        *
-                                    </span>
-                                )}
+                                <LabelText label={legendText} required={required} />
                             </legend>
                         )}
                         {children}

@@ -18,7 +18,7 @@ import {
     useUniqueId,
 } from '../../utils';
 import { useFocusVisible } from '../../hooks';
-import { Description, Leading, Trailing } from '../../internal';
+import { Description, LabelText, Leading, Trailing } from '../../internal';
 
 /** Visual variant of the field control. */
 type FieldVariant = 'filled' | 'outlined' | 'classic';
@@ -160,16 +160,13 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const isControlled = value !== undefined;
     const fieldValue = isControlled ? value : internalValue;
     const isEmpty = fieldValue.length === 0;
-
     const inputRef = useRef<HTMLInputElement>(null);
     const controlRef = useRef<HTMLDivElement>(null);
     const generatedId = useUniqueId('input');
     const elemId = id ?? generatedId;
-
-    const [labelUpX, setLabelUpX] = useState(0);
-
     const fieldVariant = variant ?? (filled ? 'filled' : outlined ? 'outlined' : classic ? 'classic' : 'filled');
 
+    const [labelUpX, setLabelUpX] = useState(0);
     const { isFocused, focusHandlers } = useFocusVisible(onFocus, onBlur);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -195,8 +192,8 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         }
     }, []);
 
+    // Leading
     const finalLeading = leading ?? icon;
-
     useLayoutEffect(() => {
         const control = controlRef.current;
         const input = inputRef.current;
@@ -206,27 +203,17 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         const next = control.getBoundingClientRect().left - input.getBoundingClientRect().left + 16;
         setLabelUpX(prev => (prev === next ? prev : next));
     }, [finalLeading]);
+    const leadingContent = <Leading content={leading} start={icon} />;
+
+    // Trailing
+    const finalTrailing = trailing ?? endIcon;
+    const trailingContent = <Trailing content={trailing} end={endIcon} />;
 
     // Wrapper
     const wrapperClasses = [elementClass, className, 'uui-field', `uui-${fieldVariant}`, getDensityClass(density)];
 
-    // Leading
-
-    const leadingContent = <Leading content={leading} start={icon} />;
-    // Trailing
-    const finalTrailing = trailing ?? endIcon;
-    const trailingContent = <Trailing content={trailing} end={endIcon} />;
     // Label
-    const labelText = label && (
-        <>
-            {label}
-            {required && (
-                <span aria-hidden="true" className="uui-required">
-                    *
-                </span>
-            )}
-        </>
-    );
+    const labelText = label && <LabelText label={label} required={required} />;
 
     const resolvedBorder = border ?? (fieldVariant !== 'filled' ? 1 : undefined);
     const controlClasses = [
