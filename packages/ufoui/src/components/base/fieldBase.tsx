@@ -286,8 +286,6 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         const fieldsetClasses = cn('uui-field-fieldset', getShapeClass(shape ?? 'rounded'));
         const fieldsetStyle = ControlStyle();
         fieldsetStyle.set('borderWidth', `${borderWidth}px`);
-        // fieldsetStyle.border(borderColor ?? 'onSurfaceVariant');
-
         fieldsetContent = (
             <fieldset className={fieldsetClasses} style={fieldsetStyle.get()}>
                 {legendContent}
@@ -334,12 +332,13 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
 
     const wrapperClass = wrapperClasses.filter(Boolean).join(' ');
     const controlClass = controlClasses.filter(Boolean).join(' ');
+    const InputTag = !multiline ? 'textarea' : 'input';
+    // {...(disabled ? { inert: 'true' } : {})}
     return (
         <div className={wrapperClass} title={title}>
             {externalLabelContent}
             <div
                 aria-disabled={disabled}
-                {...(disabled ? { inert: 'true' } : {})}
                 className={controlClass}
                 onPointerDown={focusInput}
                 ref={controlRef}
@@ -348,7 +347,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
                 <div className={inputWrapperClasses}>
                     {labelPlaceholder}
                     {labelContent}
-                    <input
+                    <InputTag
                         {...focusHandlers}
                         {...other}
                         {...(isControlled ? { value } : { defaultValue })}

@@ -228,3 +228,7 @@
   color: var(--uui-color-on-surface-variant);
   opacity: var(--uui-disabled-opacity);
 }
+
+.uui-field.uui-disabled .uui-field-control {
+  pointer-events: none;
+}
