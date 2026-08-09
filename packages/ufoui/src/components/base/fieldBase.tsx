@@ -19,6 +19,7 @@ import {
 } from '../../utils';
 import { useFocusVisible } from '../../hooks';
 import { Description, LabelText, Leading, Trailing } from '../../internal';
+import { useDisableFocusWithin } from '../../hooks/useDisableFocusWithin';
 
 /** Visual variant of the field control. */
 type FieldVariant = 'filled' | 'outlined' | 'classic';
@@ -177,6 +178,8 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const [labelUpX, setLabelUpX] = useState(0);
     const { isFocused, focusHandlers } = useFocusVisible(onFocus, onBlur);
 
+    useDisableFocusWithin(controlRef, disabled);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!isControlled) {
             setInternalValue(e.target.value);
@@ -332,7 +335,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
 
     const wrapperClass = wrapperClasses.filter(Boolean).join(' ');
     const controlClass = controlClasses.filter(Boolean).join(' ');
-    const InputTag = !multiline ? 'textarea' : 'input';
+    const InputTag = (multiline ? 'textarea' : 'input') as 'input';
     // {...(disabled ? { inert: 'true' } : {})}
     return (
         <div className={wrapperClass} title={title}>
@@ -342,6 +345,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
                 className={controlClass}
                 onPointerDown={focusInput}
                 ref={controlRef}
+                {...(disabled ? { inert: 'true' } : {})}
                 style={controlStyle.get()}>
                 {leadingContent}
                 <div className={inputWrapperClasses}>
