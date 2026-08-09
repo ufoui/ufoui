@@ -32,7 +32,8 @@ type FieldVariant = 'filled' | 'outlined' | 'classic';
  *
  * @category Base components
  */
-export interface FieldBaseProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'color' | 'children'> {
+export interface FieldBaseProps
+    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'color' | 'children' | 'rows'> {
     /** Semantic color used as the control accent when active. Default: primary */
     color?: SemanticColor;
 
@@ -83,8 +84,11 @@ export interface FieldBaseProps extends Omit<React.InputHTMLAttributes<HTMLInput
     /** Renders the control as a multi-line text area. */
     multiline?: boolean;
 
-    /** Number of visible text lines when `multiline` is set. Default: 3 */
+    /** Minimum number of visible text lines the area grows from when `multiline` is set. Default: 3 */
     lines?: number;
+
+    /** Maximum number of visible text lines the area grows to when `multiline` is set. Default: unlimited */
+    maxLines?: number;
 
     /** Content rendered before the input. */
     leading?: React.ReactNode;
@@ -154,6 +158,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         placeholder,
         multiline,
         lines,
+        maxLines,
         type = 'text',
         icon,
         leading,
@@ -203,6 +208,17 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         }
     }, []);
 
+    // Autosize the text area: `rows` holds the minimum height, maxLines caps the growth.
+    useLayoutEffect(() => {
+        const el = inputRef.current;
+        if (!multiline || !el) {
+            return;
+        }
+        el.style.height = 'auto';
+        const max = (maxLines ?? 0) * parseFloat(getComputedStyle(el).lineHeight) || Infinity;
+        el.style.height = `${Math.min(Math.max(el.scrollHeight, el.offsetHeight), max)}px`;
+    }, [multiline, maxLines, fieldValue]);
+
     // Leading
     const finalLeading = leading ?? icon;
     useLayoutEffect(() => {
@@ -221,14 +237,14 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const trailingContent = <Trailing content={trailing} end={endIcon} />;
 
     // Wrapper
-    const wrapperClasses = [
+    const wrapperClasses = cn(
         elementClass,
         className,
         'uui-field',
         `uui-${fieldVariant}`,
         disabled && 'uui-disabled',
-        getDensityClass(density),
-    ];
+        getDensityClass(density)
+    );
 
     // Label
     const labelText = label && <LabelText label={label} required={required} />;
@@ -242,6 +258,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         isFocused && 'uui-active',
         finalLeading && 'uui-has-leading',
         finalTrailing && 'uui-has-trailing',
+        multiline && 'uui-multiline',
     ];
 
     // Label & Legend
@@ -332,17 +349,13 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
 
     // Input Wrapper
     const inputWrapperClasses = cn('uui-field-input-wrapper');
-
-    const wrapperClass = wrapperClasses.filter(Boolean).join(' ');
-    const controlClass = controlClasses.filter(Boolean).join(' ');
     const InputTag = (multiline ? 'textarea' : 'input') as 'input';
-    // {...(disabled ? { inert: 'true' } : {})}
     return (
-        <div className={wrapperClass} title={title}>
+        <div className={wrapperClasses} title={title}>
             {externalLabelContent}
             <div
                 aria-disabled={disabled}
-                className={controlClass}
+                className={cn(controlClasses)}
                 onPointerDown={focusInput}
                 ref={controlRef}
                 {...(disabled ? { inert: 'true' } : {})}
@@ -354,6 +367,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
                     <InputTag
                         {...focusHandlers}
                         {...other}
+                        {...(multiline ? { rows: lines ?? 3 } : {})}
                         {...(isControlled ? { value } : { defaultValue })}
                         aria-invalid={!!error}
                         autoComplete="email"

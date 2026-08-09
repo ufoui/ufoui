@@ -239,15 +239,26 @@ export function mergeRefs<T>(...refs: React.Ref<T>[]): React.RefCallback<T> {
 }
 
 /**
+ * Single class name entry accepted by {@link cn}.
+ *
+ * @remarks
+ * Falsy values are allowed so conditional expressions
+ * (`condition && 'uui-active'`) can be passed directly.
+ *
+ * @category Utils
+ */
+export type ClassName = string | number | boolean | null | undefined;
+
+/**
  * Joins class names into a single string.
  *
- * Accepts strings or arrays of strings and filters out falsy values.
+ * Accepts class names or arrays of class names and filters out falsy values.
  *
  * @function
  * @param classes Class names to combine.
  *
  * @category Utils
  */
-export function cn(...classes: (string | false | null | undefined | string[])[]): string {
+export function cn(...classes: (ClassName | ClassName[])[]): string {
     return classes.flat().filter(Boolean).join(' ');
 }

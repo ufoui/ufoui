@@ -177,6 +177,8 @@
   background-color: transparent;
   outline: 0;
   width: 100%;
+  resize: none;
+  font: inherit;
 }
 
 .uui-field-input:-webkit-autofill {
@@ -231,4 +233,14 @@
 
 .uui-field.uui-disabled .uui-field-control {
   pointer-events: none;
+}
+
+/*multiline*/
+/*.uui-field-control.uui-multiline {*/
+/*  align-items: stretch;*/
+/*}*/
+.uui-field-control.uui-multiline .uui-leading,
+.uui-field-control.uui-multiline .uui-trailing {
+  align-self: flex-start;
+  height: var(--uui-slot-size);
 }

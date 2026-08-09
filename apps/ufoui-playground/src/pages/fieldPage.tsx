@@ -11,6 +11,7 @@ import {
     ElementFont,
     ElementShape,
     Fieldset,
+    Flex,
     H1,
     IconButton,
     P,
@@ -86,7 +87,7 @@ export const FieldPage = () => {
                     />
                 </Fieldset>
 
-                <Fieldset direction="row" gap={16} legend="Slots" wrap>
+                <Fieldset alignItems="end" direction="row" gap={16} legend="Slots" wrap>
                     <TextField
                         {...shared}
                         description="Leading: one icon"
@@ -223,7 +224,7 @@ export const FieldPage = () => {
                     />
                 </Fieldset>
 
-                <Fieldset direction="row" gap={16} legend="Classic" wrap>
+                <Fieldset alignItems="end" direction="row" gap={16} legend="Classic" wrap>
                     <TextField {...shared} classic description="Label only" label="Label only" name="email" />
                     <TextField
                         {...shared}
@@ -260,6 +261,89 @@ export const FieldPage = () => {
                         name="email"
                         placeholder="Placeholder"
                     />
+                </Fieldset>
+
+                <Fieldset direction="col" gap={16} legend="Multiline">
+                    <Flex alignItems="end" gap={16}>
+                        <TextField
+                            {...shared}
+                            description="Filled, three lines"
+                            filled
+                            label="Message"
+                            maxLines={6}
+                            multiline
+                            name="message"
+                            placeholder="Placeholder"
+                        />
+                        <TextField
+                            {...shared}
+                            description="Outlined, five lines"
+                            label="Message"
+                            maxLines={6}
+                            multiline
+                            name="message"
+                            outlined
+                            placeholder="Placeholder"
+                        />
+                        <TextField
+                            {...shared}
+                            classic
+                            description="Classic, default lines"
+                            label="Message"
+                            maxLines={6}
+                            multiline
+                            name="message"
+                            placeholder="Placeholder"
+                        />
+                    </Flex>
+                    <Flex alignItems="end" gap={16}>
+                        <TextField
+                            {...shared}
+                            description="Filled, icon and icon button"
+                            endIcon={<IconButton icon={<MdOutlineCancel />} />}
+                            filled
+                            icon={<MdSearch />}
+                            label="Message"
+                            maxLines={6}
+                            multiline
+                            name="message"
+                            placeholder="Placeholder"
+                        />
+                        <TextField
+                            {...shared}
+                            description="Outlined, icon on both sides"
+                            endIcon={<MdVisibility />}
+                            icon={<MdTune />}
+                            label="Message"
+                            maxLines={6}
+                            multiline
+                            name="message"
+                            outlined
+                            placeholder="Placeholder"
+                        />
+                        <TextField
+                            {...shared}
+                            classic
+                            description="Classic, mixed slots"
+                            label="Message"
+                            leading={
+                                <>
+                                    <MdSearch />
+                                    <IconButton icon={<MdTune />} />
+                                </>
+                            }
+                            maxLines={6}
+                            multiline
+                            name="message"
+                            placeholder="Placeholder"
+                            trailing={
+                                <>
+                                    <MdInfo />
+                                    <IconButton icon={<MdOutlineCancel />} />
+                                </>
+                            }
+                        />
+                    </Flex>
                 </Fieldset>
             </Content>
 
