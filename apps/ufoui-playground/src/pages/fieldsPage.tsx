@@ -54,6 +54,7 @@ export const FieldsPage = () => {
     const [color, setColor] = useState<SemanticColor | null>(null);
     const [density, setDensity] = useState<ElementDensity | null>(null);
     const [disabled, setDisabled] = useState<boolean | null>(false);
+    const [error, setError] = useState<boolean | null>(false);
 
     const shared = useMemo(
         () => ({
@@ -63,8 +64,9 @@ export const FieldsPage = () => {
             color: color ?? undefined,
             density: density ?? undefined,
             disabled: disabled ?? undefined,
+            error: error ? 'Error, supporting text' : undefined,
         }),
-        [shape, border, borderColor, color, density, disabled]
+        [shape, border, borderColor, color, density, disabled, error]
     );
 
     return (
@@ -111,13 +113,23 @@ export const FieldsPage = () => {
                     color={color}
                     density={density}
                     disabled={disabled}
-                    onChange={({ shape: sp, border: bd, borderColor: bc, color: cl, density: ds, disabled: db }) => {
+                    error={error}
+                    onChange={({
+                        shape: sp,
+                        border: bd,
+                        borderColor: bc,
+                        color: cl,
+                        density: ds,
+                        disabled: db,
+                        error: er,
+                    }) => {
                         setShape(sp ?? null);
                         setBorder(bd ?? null);
                         setBorderColor(bc ?? null);
                         setColor(cl ?? null);
                         setDensity(ds ?? null);
                         setDisabled(db ?? null);
+                        setError(er ?? null);
                     }}
                     shape={shape}
                 />

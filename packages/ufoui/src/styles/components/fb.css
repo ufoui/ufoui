@@ -1,246 +1,271 @@
 .uui-field {
-  --uui-field-padding-l: 16px;
-  --uui-field-padding-r: 16px;
-  --uui-field-padding-y: 4px;
-  --uui-slot-size: 48px;
-  --uui-slot-gap: 0px;
-  --uui-control-color: var(--uui-color-on-surface);
-  display: flex;
-  flex-direction: column;
+    --uui-field-padding-l: 16px;
+    --uui-field-padding-r: 16px;
+    --uui-field-padding-y: 4px;
+    --uui-slot-size: 48px;
+    --uui-slot-gap: 0px;
+    --uui-control-color: var(--uui-color-on-surface);
+    display: flex;
+    flex-direction: column;
+    --uui-focus-ring-inset: 0;
 }
 
 .uui-field-control {
-  /*--uui-corner-full:*/
-  --uui-corner-round: var(--uui-corner-full);
-  --uui-corner-smooth: 4px;
-  --uui-corner-rounded: 8px;
-  display: flex;
-  align-items: center;
-  position: relative;
-  padding-block: var(--uui-field-padding-y);
-  cursor: text;
-  --uui-active-color: var(--uui-current-color,var(--uui-color-primary));
-  --uui-field-active-indicator-height: 2px;
-  --uui-field-indicator-height: 1px;
-  /*background-color: var(--uui-color-surface-container-highest);*/
+    --uui-corner-round: var(--uui-corner-full);
+    --uui-corner-smooth: 4px;
+    --uui-corner-rounded: 8px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-block: var(--uui-field-padding-y);
+    cursor: text;
+    --uui-active-color: var(--uui-current-color, var(--uui-color-primary));
+    /*--uui-field-active-indicator-height: 2px;*/
+    /*--uui-field-indicator-height: 1px;*/
+
+    --uui-border-width: 1px;
+    --uui-active-border-width: 2px;
+
 }
 
 .uui-field-input-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  min-height: 48px;
-  flex: 1 1 0;
-  margin-inline: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    min-height: 48px;
+    flex: 1 1 0;
+    margin-inline: 16px;
 }
 
 .uui-field-control.uui-has-leading .uui-field-input-wrapper {
-  margin-left: 4px;
+    margin-left: 4px;
 }
 
 .uui-field-control.uui-has-trailing .uui-field-input-wrapper {
-  margin-right: 4px;
+    margin-right: 4px;
 }
 
-
 .uui-field.uui-filled .uui-field-control {
-  --uui-corner-round: 16px;
-  background-color: var(--uui-color-surface-container-highest);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+    --uui-corner-round: 16px;
+    background-color: var(--uui-color-surface-container-highest);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .uui-field-control .uui-leading,
 .uui-field-control .uui-trailing {
-  display: inline-flex;
-  align-items: center;
+    display: inline-flex;
+    align-items: center;
+    color: var(--uui-control-color);
 }
 
-.uui-field-fieldset {
-  border: 1px solid var(--uui-color-outline);
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  top: 0;
-  pointer-events: none;
-  transition: border-color 150ms cubic-bezier(0.2, 0, 0.4, 1);
-
-}
-
-.uui-field-fieldset > legend {
-  line-height: 0;
-  margin-left: 10px;
-  opacity: 0;
-  max-width: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-.uui-field-indicator {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: var(--uui-field-indicator-height, 1px);
-  background-color: var(--uui-color-on-surface-variant);
-  z-index: 1;
-}
-
-/* filled State*/
-.uui-field-state {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  pointer-events: none;
-  background-color: var(--uui-color-on-surface);
-  opacity: 0;
-  border-radius: inherit;
-  transition: opacity 150ms cubic-bezier(0.2, 0, 0, 1);;
-}
-
-.uui-field.uui-filled .uui-field-control:not(.uui-active):hover .uui-field-state{
-  opacity: var(--uui-focus-opacity);
-}
-
-.uui-field-control.uui-active .uui-field-indicator {
-  background-color: var(--uui-active-color);
-  height: var(--uui-field-active-indicator-height, 2px);
-}
-
-.uui-field-control.uui-active.uui-error .uui-field-indicator {
-  background-color: var(--uui-color-error);
-}
-
-/* outlined State*/
-.uui-field-control.uui-active .uui-field-fieldset {
-  border-color: var(--uui-active-color) !important;
-}
-
-.uui-field-control:not(.uui-active):hover .uui-field-fieldset {
-  border-color: var(--uui-color-on-surface) !important;
-}
-
-/* classic State*/
-.uui-field.uui-classic .uui-field-control.uui-active {
-  border-color: var(--uui-active-color) !important;
-}
-
-.uui-field-control:not(.uui-active):hover  {
-  border-color: var(--uui-color-on-surface) !important;
-}
-
-.uui-field .uui-support-text {
-  padding: 4px var(--uui-field-padding-l);
-}
-
-
-/*label*/
+/* FLOAT LABEL */
 .uui-field-float-label {
-  position: absolute;
-  top: 50%;
-  pointer-events: none;
-  transform: translateY(-50%) translateX(0);
-  transition:
-    transform 150ms cubic-bezier(0.2, 0, 0, 1),
+    position: absolute;
+    top: 50%;
+    pointer-events: none;
+    transform: translateY(-50%) translateX(0);
+    transition: transform 150ms cubic-bezier(0.2, 0, 0, 1),
     top 150ms cubic-bezier(0.2, 0, 0, 1),
     font-size 150ms cubic-bezier(0.2, 0, 0, 1);
-  white-space: nowrap;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--uui-control-color);
+}
+
+
+
+/* FILLED */
+
+
+.uui-field.uui-filled .uui-field-control {
+    border-color: var(--uui-border-color, var(--uui-color-on-surface-variant));
+}
+.uui-field-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--uui-border-width);
+    background-color: var(--uui-border-color, var(--uui-color-on-surface-variant));
+    z-index: 1;
 }
 
 .uui-filled .uui-field-label-up .uui-field-float-label {
-  top: var(--uui-field-padding-y);
-  transform: translateY(0);
+    top: var(--uui-field-padding-y);
+    transform: translateY(0);
+}
+
+.uui-field-state {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    pointer-events: none;
+    background-color: var(--uui-color-on-surface);
+    opacity: 0;
+    border-radius: inherit;
+    transition: opacity 150ms cubic-bezier(0.2, 0, 0, 1);;
+}
+
+.uui-field.uui-filled .uui-field-control:not(.uui-active):hover .uui-field-state {
+    opacity: var(--uui-focus-opacity);
+}
+
+.uui-field-control.uui-active .uui-field-indicator {
+    background-color: var(--uui-active-color);
+    height: var(--uui-active-border-width);
+}
+
+.uui-field-control.uui-active .uui-field-label {
+    color: var(--uui-active-color);
+}
+
+
+
+/* OUTLINED */
+.uui-field.uui-outlined .uui-field-control {
+    border-color: var(--uui-border-color, var(--uui-color-outline));
 }
 
 .uui-outlined .uui-field-label-up .uui-field-float-label {
-  top: calc(var(--uui-field-padding-y) * -1);
-  /*top: 0;*/
-  transform: translateX(var(--uui-label-up-x)) translateY(-50%);
+    top: calc(var(--uui-field-padding-y) * -1);
+    transform: translateX(var(--uui-label-up-x)) translateY(-50%);
 }
 
 
-.uui-field.uui-classic .uui-field-label{
-  margin-bottom: 4px;
-  margin-left: 16px;
+.uui-field-fieldset {
+    border: var(--uui-border-width, 1px) solid var(--uui-border-color, var(--uui-color-outline));
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    transition: border 150ms cubic-bezier(0.2, 0, 0.4, 1);
 }
 
-
-.uui-field-input {
-  appearance: none;
-  background-color: transparent;
-  outline: 0;
-  width: 100%;
-  resize: none;
-  font: inherit;
+.uui-field-fieldset > legend {
+    line-height: 0;
+    margin-left: 10px;
+    opacity: 0;
+    max-width: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
-.uui-field-input:-webkit-autofill {
-  box-shadow: 0 0 0 1000px var(--uui-color-surface) inset !important;
-  -webkit-text-fill-color: var(--uui-color-on-surface) !important;
+.uui-field-control.uui-round .uui-field-fieldset > legend {
+    margin-left: 24px;
 }
 
+.uui-field-control.uui-active .uui-field-fieldset {
+    border: var(--uui-active-border-width, 2px) solid var(--uui-active-color);
+}
 
-
-
-
-
+.uui-field-control:not(.uui-active):hover .uui-field-fieldset {
+    border-color: var(--uui-color-on-surface) !important;
+}
 
 .uui-outlined .uui-field-label-up .uui-field-fieldset > legend {
-  max-width: 100%;
-  padding: 0 4px;
+    max-width: 100%;
+    padding: 0 4px;
 }
 
 
-/* domyślny backdrop = realne tło kontrolki; nadpisywany per wariant */
-.uui-field-control {
-  --uui-field-autofill-bg: var(--uui-color-surface);
+/* CLASSIC */
+.uui-field.uui-classic .uui-field-control {
+    border-color: var(--uui-border-color, var(--uui-color-outline));
 }
 
-.uui-field.uui-filled .uui-field-control {
-  --uui-field-autofill-bg: var(--uui-color-surface-container-highest);
+.uui-field.uui-classic .uui-field-control.uui-active {
+    border-color: var(--uui-active-color) !important;
+}
+
+.uui-field-control:not(.uui-active):hover {
+    border-color: var(--uui-color-on-surface) !important;
+}
+
+.uui-field .uui-support-text {
+    padding: 4px var(--uui-field-padding-l);
+}
+
+.uui-field.uui-classic {
+    --uui-field-padding-l: 8px;
+}
+
+.uui-field.uui-classic .uui-field-label {
+    margin-bottom: 4px;
+    margin-left: 8px;
+    color: var(--uui-control-color);
+}
+
+
+/* INPUT */
+.uui-field-input {
+    appearance: none;
+    background-color: transparent;
+    outline: 0;
+    width: 100%;
+    resize: none;
+    font: inherit;
 }
 
 .uui-field-input:-webkit-autofill,
 .uui-field-input:-webkit-autofill:hover,
 .uui-field-input:-webkit-autofill:focus,
 .uui-field-input:-webkit-autofill:active {
-  box-shadow: 0 0 0 1000px var(--uui-field-autofill-bg) inset !important;
-  -webkit-text-fill-color: var(--uui-control-color, var(--uui-color-on-surface)) !important;
-  caret-color: var(--uui-control-color, var(--uui-color-on-surface));
-  transition: background-color 9999s ease-in-out 0s;
+    -webkit-text-fill-color: var(--uui-control-color, var(--uui-color-on-surface)) !important;
+    caret-color: var(--uui-control-color, var(--uui-color-on-surface));
+    transition: background-color 9999s ease-in-out 0s;
 }
 
+/*error*/
+
+.uui-field.uui-error .uui-field-control,
+.uui-field.uui-error .uui-field-control.uui-active {
+    --uui-border-color: var(--uui-color-error) !important;
+    --uui-active-color: var(--uui-color-error) !important;
+}
+
+div.uui-field.uui-error .uui-field-label {
+    color: var(--uui-color-error) !important;
+}
 
 /*disabled*/
 
 .uui-field.uui-disabled .uui-field-control {
-  --uui-control-color: var(--uui-color-on-surface-variant);
-  color: var(--uui-color-on-surface-variant);
-  opacity: var(--uui-disabled-opacity);
+    --uui-control-color: var(--uui-color-on-surface-variant);
+    color: var(--uui-color-on-surface-variant);
+    opacity: var(--uui-disabled-opacity);
+    --uui-border-color: var(--uui-color-on-surface-variant) !important;
 }
 
-.uui-field.uui-disabled.uui-classic .uui-field-label{
-  color: var(--uui-color-on-surface-variant);
-  opacity: var(--uui-disabled-opacity);
+div.uui-field.uui-disabled .uui-field-label {
+    color: var(--uui-color-on-surface-variant) !important;
 }
+
+.uui-field.uui-disabled.uui-classic .uui-field-label {
+    opacity: var(--uui-disabled-opacity);
+}
+
 
 .uui-field.uui-disabled .uui-field-control {
-  pointer-events: none;
+    pointer-events: none;
 }
 
 /*multiline*/
-/*.uui-field-control.uui-multiline {*/
-/*  align-items: stretch;*/
-/*}*/
+.uui-field-control.uui-multiline {
+    --uui-corner-full: var(--uui-corner-extra-large);
+
+}
+
 .uui-field-control.uui-multiline .uui-leading,
 .uui-field-control.uui-multiline .uui-trailing {
-  align-self: flex-start;
-  height: var(--uui-slot-size);
+    align-self: flex-start;
+    height: var(--uui-slot-size);
 }
+

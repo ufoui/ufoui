@@ -27,6 +27,7 @@ type ButtonModifiersProps = {
     anchored?: boolean | null;
     dockedElevation?: ElementElevation | null;
     elevation?: ElementElevation | null;
+    error?: boolean | null;
     fit?: boolean | null;
     flush?: boolean | null;
     filled?: boolean | null;
@@ -48,6 +49,7 @@ type ButtonModifiersProps = {
         dockedElevation?: ElementElevation | null;
         detached?: boolean | null;
         elevation?: ElementElevation | null;
+        error?: boolean | null;
         filled?: boolean | null;
         fit?: boolean | null;
         flush?: boolean | null;
@@ -109,6 +111,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         density,
         detached,
         disabled,
+        error,
         fullColor,
         dockedElevation,
         fit,
@@ -652,6 +655,22 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             onChange({
                                 ...props,
                                 disabled: e.target.checked,
+                            });
+                        }}
+                    />
+                </>
+            )}
+            {error !== undefined && (
+                <>
+                    <label htmlFor="mod_error">Error:</label>
+                    <Checkbox
+                        checked={!!error}
+                        density="dense"
+                        id="mod_error"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                error: e.target.checked,
                             });
                         }}
                     />

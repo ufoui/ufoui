@@ -179,9 +179,10 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const generatedId = useUniqueId('input');
     const elemId = id ?? generatedId;
     const fieldVariant = variant ?? (filled ? 'filled' : outlined ? 'outlined' : classic ? 'classic' : 'filled');
+    const borderWidth = clampInt(0, 4, border, fieldVariant !== 'filled' ? 1 : 0);
+    const { isFocused, focusHandlers } = useFocusVisible(onFocus, onBlur);
 
     const [labelUpX, setLabelUpX] = useState(0);
-    const { isFocused, focusHandlers } = useFocusVisible(onFocus, onBlur);
 
     useDisableFocusWithin(controlRef, disabled);
 
@@ -214,9 +215,24 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         if (!multiline || !el) {
             return;
         }
-        el.style.height = 'auto';
-        const max = (maxLines ?? 0) * parseFloat(getComputedStyle(el).lineHeight) || Infinity;
-        el.style.height = `${Math.min(Math.max(el.scrollHeight, el.offsetHeight), max)}px`;
+        const autosize = () => {
+            el.style.height = 'auto';
+            const max = (maxLines ?? 0) * parseFloat(getComputedStyle(el).lineHeight) || Infinity;
+            el.style.height = `${Math.min(Math.max(el.scrollHeight, el.offsetHeight), max)}px`;
+        };
+        autosize();
+        // Only width matters – it rewraps the text; height changes are the autosize itself.
+        let width = el.clientWidth;
+        const observer = new ResizeObserver(() => {
+            if (width !== el.clientWidth) {
+                width = el.clientWidth;
+                autosize();
+            }
+        });
+        observer.observe(el);
+        return () => {
+            observer.disconnect();
+        };
     }, [multiline, maxLines, fieldValue]);
 
     // Leading
@@ -243,23 +259,12 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         'uui-field',
         `uui-${fieldVariant}`,
         disabled && 'uui-disabled',
-        getDensityClass(density)
+        getDensityClass(density),
+        error && 'uui-error'
     );
 
     // Label
     const labelText = label && <LabelText label={label} required={required} />;
-    const borderWidth = clampInt(0, 4, border, fieldVariant !== 'filled' ? 1 : 0);
-    const controlClasses = [
-        'uui-field-control',
-        getFontClass(font ?? 'bodyLarge'),
-        getShapeClass(shape ?? 'smooth'),
-        fieldVariant !== 'outlined' && getBorderClass(borderWidth as ElementBorder),
-        error && 'uui-error',
-        isFocused && 'uui-active',
-        finalLeading && 'uui-has-leading',
-        finalTrailing && 'uui-has-trailing',
-        multiline && 'uui-multiline',
-    ];
 
     // Label & Legend
     let labelContent;
@@ -272,11 +277,8 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     if (labelText) {
         if (fieldVariant !== 'classic') {
             if (isFocused || !isEmpty) {
-                labelStyle.text((error ? 'error' : undefined) ?? color ?? 'primary');
                 labelClasses.push(getFontClass(labelFont ?? 'bodySmall'));
-                controlClasses.push('uui-field-label-up');
             } else {
-                labelStyle.text((error ? 'error' : undefined) ?? 'onSurfaceVariant');
                 labelClasses.push(getFontClass(font ?? 'bodyLarge'));
             }
 
@@ -289,7 +291,6 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
                 labelContent = <span className={labelClasses.join(' ')}>{labelText}</span>;
             }
         } else {
-            labelStyle.text((error ? 'error' : undefined) ?? 'onSurface');
             labelClasses.push(getFontClass(labelFont ?? 'bodyMedium'));
             const finalLabelClasses = labelClasses.filter(Boolean).join(' ');
             externalLabelContent = (
@@ -305,7 +306,6 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     if (fieldVariant === 'outlined') {
         const fieldsetClasses = cn('uui-field-fieldset', getShapeClass(shape ?? 'rounded'));
         const fieldsetStyle = ControlStyle();
-        fieldsetStyle.set('borderWidth', `${borderWidth}px`);
         fieldsetContent = (
             <fieldset className={fieldsetClasses} style={fieldsetStyle.get()}>
                 {legendContent}
@@ -314,24 +314,36 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     }
 
     // Control
+    const controlClasses = [
+        'uui-field-control',
+        getFontClass(font ?? 'bodyLarge'),
+        getShapeClass(shape ?? 'smooth'),
+        fieldVariant !== 'outlined' && getBorderClass(borderWidth as ElementBorder),
+        isFocused && 'uui-active',
+        finalLeading && 'uui-has-leading',
+        finalTrailing && 'uui-has-trailing',
+        multiline && 'uui-multiline',
+        (isFocused || !isEmpty) && 'uui-field-label-up',
+    ];
 
     const controlStyle = ControlStyle();
-    controlStyle.set('--uui-label-up-x', `${labelUpX}px`);
+    if (shape && shape === 'round') {
+        controlStyle.set('--uui-label-up-x', `${labelUpX + 14 + (borderWidth ?? 0) / 2}px`);
+    } else {
+        controlStyle.set('--uui-label-up-x', `${labelUpX}px`);
+    }
     controlStyle.current(color);
-    if (border && border > 2) {
-        controlStyle.set('--uui-field-indicator-height', `${border}px`);
-        controlStyle.set('--uui-field-active-indicator-height', `${border}px`);
+
+    if (border && border > 0) {
+        controlStyle.set('--uui-border-width', `${border}px`);
+        controlStyle.set('--uui-active-border-width', `${border + 1}px`);
     }
 
-    if (fieldVariant === 'classic') {
-        controlStyle.border(borderColor ?? 'outline');
+    if (borderColor) {
+        controlStyle.token('--uui-border-color', borderColor);
     }
 
-    let indicator;
-    if (fieldVariant === 'filled') {
-        controlStyle.border(borderColor ?? 'onSurfaceVariant');
-        indicator = <div className="uui-field-indicator"></div>;
-    }
+    const indicator = fieldVariant === 'filled' ? <div className="uui-field-indicator"></div> : null;
 
     // State
     const stateClasses = cn('uui-field-state');
@@ -340,7 +352,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const descriptionText = <Description description={description} error={error} />;
 
     // Input
-    const inputClasses = 'uui-field-input';
+    const inputClasses = 'uui-field-input uui-scroller';
     const inputStyle = ControlStyle();
     inputStyle.text('onSurface');
     if (!isFocused && labelContent && isEmpty) {

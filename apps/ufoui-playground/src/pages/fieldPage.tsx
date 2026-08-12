@@ -31,6 +31,7 @@ export const FieldPage = () => {
     const [font, setFont] = useState<ElementFont | null>(null);
     const [labelFont, setLabelFont] = useState<ElementFont | null>(null);
     const [disabled, setDisabled] = useState<boolean | null>(false);
+    const [error, setError] = useState<boolean | null>(false);
 
     const shared = useMemo(
         () => ({
@@ -43,21 +44,22 @@ export const FieldPage = () => {
             font: font ?? undefined,
             labelFont: labelFont ?? undefined,
             disabled: disabled ?? undefined,
+            error: error ? 'Error, supporting text' : undefined,
             autocomplete: true,
         }),
-        [labelFont, shape, border, borderColor, color, density, font, disabled]
+        [labelFont, shape, border, borderColor, color, density, font, disabled, error]
     );
 
     return (
         <Article direction="row" gap={20}>
-            <Content gap={20} grow>
+            <Content color="surfaceContainerHigh" gap={20} grow>
                 <H1>TextField</H1>
                 <Fieldset direction="row" gap={16} legend="Default" wrap>
-                    <TextField {...shared} error="Error, label only" label="Label only" name="email" />
+                    <TextField {...shared} description="Label only" label="Label only" name="email" />
                     <TextField
                         {...shared}
+                        description="Label and placeholder, example of very long supporting text"
                         endIcon={<IconButton icon={<MdOutlineCancel />} />}
-                        error="Error, label and placeholderm example of very long supporting text "
                         icon={<MdSearch />}
                         label="Label"
                         name="email"
@@ -65,22 +67,22 @@ export const FieldPage = () => {
                     />
                     <TextField
                         {...shared}
+                        description="Placeholder only"
                         endIcon={<MdOutlineCancel />}
-                        error="Error, label and placeholder"
                         icon={<MdSearch />}
                         name="email"
                         placeholder="Placeholder only"
                     />
                     <TextField
                         {...shared}
-                        error="Error, placeholder only"
+                        description="Placeholder only"
                         name="email"
                         placeholder="Placeholder only"
                     />
                     <TextField
                         {...shared}
+                        description="Disabled, label and placeholder"
                         disabled
-                        error="Disabled, error, label and placeholder"
                         label="Label"
                         name="email"
                         placeholder="Placeholder"
@@ -354,6 +356,7 @@ export const FieldPage = () => {
                     color={color}
                     density={density}
                     disabled={disabled}
+                    error={error}
                     font={font}
                     labelFont={labelFont}
                     onChange={({
@@ -366,6 +369,7 @@ export const FieldPage = () => {
                         font: ft,
                         labelFont: lf,
                         disabled: db,
+                        error: er,
                     }) => {
                         // setSize(sz ?? null);
                         setShape(sp ?? null);
@@ -376,6 +380,7 @@ export const FieldPage = () => {
                         setFont(ft ?? null);
                         setLabelFont(lf ?? null);
                         setDisabled(db ?? null);
+                        setError(er ?? null);
                     }}
                     shape={shape}
                     // size={size}
