@@ -131,6 +131,7 @@ export interface FieldBaseProps
  *
  * @category Base components
  */
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: FieldBaseProps, ref) => {
     const {
         elementClass,
