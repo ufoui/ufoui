@@ -181,6 +181,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const elemId = id ?? generatedId;
     const fieldVariant = variant ?? (filled ? 'filled' : outlined ? 'outlined' : classic ? 'classic' : 'filled');
     const borderWidth = clampInt(0, 4, border, fieldVariant !== 'filled' ? 1 : 0);
+    const finalShape = getShapeClass(shape ?? 'smooth');
     const { isFocused, focusHandlers } = useFocusVisible(onFocus, onBlur);
 
     const [labelUpX, setLabelUpX] = useState(0);
@@ -268,57 +269,39 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const labelText = label && <LabelText label={label} required={required} />;
 
     // Label & Legend
-    let labelContent;
-    let labelPlaceholder;
-    let legendContent;
-    let externalLabelContent;
-    const labelStyle = ControlStyle();
-    const labelClasses = ['uui-field-label'];
 
-    if (labelText) {
-        if (fieldVariant !== 'classic') {
-            if (isFocused || !isEmpty) {
-                labelClasses.push(getFontClass(labelFont ?? 'bodySmall'));
-            } else {
-                labelClasses.push(getFontClass(font ?? 'bodyLarge'));
-            }
+    const labelFontClass = getFontClass(
+        fieldVariant !== 'classic'
+            ? isFocused || !isEmpty
+                ? (labelFont ?? 'bodySmall')
+                : (font ?? 'bodyLarge')
+            : (labelFont ?? 'bodyMedium')
+    );
 
-            labelClasses.push('uui-field-float-label');
-            if (fieldVariant === 'outlined') {
-                legendContent = <legend className={getFontClass(labelFont ?? 'bodySmall')}>{labelText}</legend>;
-                labelContent = <span className={labelClasses.join(' ')}>{labelText}</span>;
-            } else {
-                labelPlaceholder = <span className={getFontClass(labelFont ?? 'bodySmall')}>&nbsp;</span>;
-                labelContent = <span className={labelClasses.join(' ')}>{labelText}</span>;
-            }
-        } else {
-            labelClasses.push(getFontClass(labelFont ?? 'bodyMedium'));
-            const finalLabelClasses = labelClasses.filter(Boolean).join(' ');
-            externalLabelContent = (
-                <label className={finalLabelClasses} htmlFor={elemId} style={labelStyle.get()}>
-                    {labelText}
-                </label>
-            );
-        }
-    }
+    const labelClasses = cn('uui-field-label', labelFontClass, fieldVariant !== 'classic' && 'uui-field-float-label');
+    const labelContent = labelText && fieldVariant !== 'classic' && <span className={labelClasses}>{labelText}</span>;
+    const externalLabelContent = labelText && fieldVariant === 'classic' && (
+        <label className={labelClasses} htmlFor={elemId}>
+            {labelText}
+        </label>
+    );
+
+    const labelPlaceholder = labelText && fieldVariant === 'filled' && (
+        <span className={getFontClass(labelFont ?? 'bodySmall')}>&nbsp;</span>
+    );
 
     // Fieldset
-    let fieldsetContent;
-    if (fieldVariant === 'outlined') {
-        const fieldsetClasses = cn('uui-field-fieldset', getShapeClass(shape ?? 'rounded'));
-        const fieldsetStyle = ControlStyle();
-        fieldsetContent = (
-            <fieldset className={fieldsetClasses} style={fieldsetStyle.get()}>
-                {legendContent}
-            </fieldset>
-        );
-    }
+    const fieldsetContent = fieldVariant === 'outlined' && (
+        <fieldset className={cn('uui-field-fieldset', finalShape)}>
+            {labelText && <legend className={getFontClass(labelFont ?? 'bodySmall')}>{labelText}</legend>}
+        </fieldset>
+    );
 
     // Control
     const controlClasses = [
         'uui-field-control',
         getFontClass(font ?? 'bodyLarge'),
-        getShapeClass(shape ?? 'smooth'),
+        finalShape,
         fieldVariant !== 'outlined' && getBorderClass(borderWidth as ElementBorder),
         isFocused && 'uui-active',
         finalLeading && 'uui-has-leading',
@@ -345,12 +328,6 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     }
 
     const indicator = fieldVariant === 'filled' ? <div className="uui-field-indicator"></div> : null;
-
-    // State
-    const stateClasses = cn('uui-field-state');
-    const stateStyle = ControlStyle();
-
-    const descriptionText = <Description description={description} error={error} />;
 
     // Input
     const inputClasses = 'uui-field-input uui-scroller';
@@ -383,7 +360,6 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
                         {...(multiline ? { rows: lines ?? 3 } : {})}
                         {...(isControlled ? { value } : { defaultValue })}
                         aria-invalid={!!error}
-                        autoComplete="email"
                         className={inputClasses}
                         disabled={disabled}
                         id={elemId}
@@ -396,11 +372,11 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
                     />
                 </div>
                 {trailingContent}
-                {fieldVariant === 'filled' && <div className={stateClasses} style={stateStyle.get()} />}
+                {fieldVariant === 'filled' && <div className="uui-field-state" />}
                 {fieldsetContent}
                 {indicator}
             </div>
-            {descriptionText}
+            <Description description={description} error={error} />
         </div>
     );
 });
