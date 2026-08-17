@@ -12,6 +12,7 @@ import {
     LuListChecks,
     LuCirclePlus,
     LuHouse,
+    LuImage,
     LuLayoutGrid,
     LuLink,
     LuList,
@@ -75,6 +76,7 @@ import { CalendarPage } from './pages/calendarPage';
 import ColorPage from './pages/colorPage';
 import { DataTablePage } from './pages/dataTablePage';
 import { StatusPage } from './pages/statusPage';
+import { IconsPage } from './pages/iconsPage';
 
 export interface AppRoute {
     label: string;
@@ -132,6 +134,7 @@ export const appRoutes: AppRoute[] = [
     { label: 'Calendar', path: paths.calendar, component: CalendarPage, icon: LuSquareCode, showInNav: true },
 
     { label: 'Color', path: paths.color, component: ColorPage, icon: LuPalette, showInNav: true },
+    { label: 'Icons', path: paths.icons, component: IconsPage, icon: LuImage, showInNav: true },
 
     { label: 'DataTable', path: paths.dataTable, component: DataTablePage, icon: LuLayoutGrid, showInNav: true },
 ];

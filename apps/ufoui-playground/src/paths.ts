@@ -39,6 +39,7 @@ export const paths = {
     avatar: '/components/avatar',
     rating: '/components/rating',
     status: '/components/status',
+    icons: '/icons',
     dataTable: '/extra/datatable',
     catchAll: '*',
 };
