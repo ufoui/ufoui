@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { FieldBase, FieldBaseProps } from '../base/fieldBase';
+import { FieldBase, FieldBaseProps } from '../base';
 
 /**
  * Props for {@link PhoneField}.
@@ -8,7 +8,7 @@ import { FieldBase, FieldBaseProps } from '../base/fieldBase';
  *
  * @category PhoneField
  */
-export type PhoneFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines'>;
+export type PhoneFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines' | 'maxLines'>;
 
 /**
  * Phone field component used to enter telephone numbers.
@@ -25,17 +25,9 @@ export type PhoneFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'mu
  * @example
  * <PhoneField required />
  */
-export const PhoneField = forwardRef<HTMLInputElement, PhoneFieldProps>(
-  (props: PhoneFieldProps, ref) => {
-    return (
-      <FieldBase
-        ref={ref}
-        {...props}
-        elementClass="uui-phone-field"
-        type="tel"
-      />
-    );
-  },
-);
+
+export const PhoneField = forwardRef<HTMLInputElement, PhoneFieldProps>((props: PhoneFieldProps, ref) => {
+    return <FieldBase ref={ref} {...props} elementClass="uui-phone-field" type="tel" />;
+});
 
 PhoneField.displayName = 'PhoneField';

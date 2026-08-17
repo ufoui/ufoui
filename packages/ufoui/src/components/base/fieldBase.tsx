@@ -33,7 +33,30 @@ type FieldVariant = 'filled' | 'outlined' | 'classic';
  * @category Base components
  */
 export interface FieldBaseProps
-    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'color' | 'children' | 'rows'> {
+    extends Omit<
+        React.InputHTMLAttributes<HTMLInputElement>,
+        | 'color'
+        | 'children'
+        | 'rows'
+        | 'size'
+        | 'accept'
+        | 'capture'
+        | 'checked'
+        | 'defaultChecked'
+        | 'alt'
+        | 'src'
+        | 'width'
+        | 'height'
+        | 'formAction'
+        | 'formEncType'
+        | 'formMethod'
+        | 'formNoValidate'
+        | 'formTarget'
+        | 'min'
+        | 'max'
+        | 'step'
+        | 'multiple'
+    > {
     /** Semantic color used as the control accent when active. Default: primary */
     color?: SemanticColor;
 

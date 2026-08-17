@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { FieldBase, FieldBaseProps } from '../base/fieldBase';
+import { FieldBase, FieldBaseProps } from '../base';
 
 /**
  * Props for {@link UrlField}.
@@ -8,7 +8,7 @@ import { FieldBase, FieldBaseProps } from '../base/fieldBase';
  *
  * @category UrlField
  */
-export type UrlFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines'>;
+export type UrlFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines' | 'maxLines'>;
 
 /**
  * URL field component used to enter web addresses.
@@ -25,12 +25,9 @@ export type UrlFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'mult
  * @example
  * <UrlField required />
  */
-export const UrlField = forwardRef<HTMLInputElement, UrlFieldProps>(
-  (props: UrlFieldProps, ref) => {
-    return (
-      <FieldBase ref={ref} {...props} elementClass="uui-url-field" type="url" />
-    );
-  },
-);
+
+export const UrlField = forwardRef<HTMLInputElement, UrlFieldProps>((props: UrlFieldProps, ref) => {
+    return <FieldBase ref={ref} {...props} elementClass="uui-url-field" type="url" />;
+});
 
 UrlField.displayName = 'UrlField';

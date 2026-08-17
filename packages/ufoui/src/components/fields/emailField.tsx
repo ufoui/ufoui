@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { FieldBase, FieldBaseProps } from '../base/fieldBase';
+import { FieldBase, FieldBaseProps } from '../base';
 
 /**
  * Props for {@link EmailField}.
@@ -8,7 +8,7 @@ import { FieldBase, FieldBaseProps } from '../base/fieldBase';
  *
  * @category EmailField
  */
-export type EmailFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines'>;
+export type EmailFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines' | 'maxLines'>;
 
 /**
  * Email field component used to enter email addresses.
@@ -25,17 +25,8 @@ export type EmailFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'mu
  * @example
  * <EmailField required />
  */
-export const EmailField = forwardRef<HTMLInputElement, EmailFieldProps>(
-  (props: EmailFieldProps, ref) => {
-    return (
-      <FieldBase
-        ref={ref}
-        {...props}
-        elementClass="uui-email-field"
-        type="email"
-      />
-    );
-  },
-);
+export const EmailField = forwardRef<HTMLInputElement, EmailFieldProps>((props: EmailFieldProps, ref) => {
+    return <FieldBase ref={ref} {...props} elementClass="uui-email-field" type="email" />;
+});
 
 EmailField.displayName = 'EmailField';
