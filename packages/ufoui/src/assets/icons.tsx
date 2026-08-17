@@ -78,6 +78,12 @@ export const ExpandIcon = (
     </svg>
 );
 
+export const CollapseIcon = (
+    <svg fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 8.91671L7 13.9167L8.16667 15.0834L12 11.2501L15.8333 15.0834L17 13.9167L12 8.91671Z" />
+    </svg>
+);
+
 export const StarIcon = (
     <svg fill="currentColor" viewBox="0 0 24 24">
         <path d="M8.85 16.825L12 14.925L15.15 16.85L14.325 13.25L17.1 10.85L13.45 10.525L12 7.125L10.55 10.5L6.9 10.825L9.675 13.25L8.85 16.825ZM5.825 21L7.45 13.975L2 9.25L9.2 8.625L12 2L14.8 8.625L22 9.25L16.55 13.975L18.175 21L12 17.275L5.825 21Z" />

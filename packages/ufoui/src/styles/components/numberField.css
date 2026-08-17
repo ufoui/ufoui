@@ -1,0 +1,9 @@
+.uui-number-field .uui-field-input::-webkit-outer-spin-button,
+.uui-number-field .uui-field-input::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+}
+
+.uui-number-field .uui-field-input {
+    appearance: textfield;
+}
