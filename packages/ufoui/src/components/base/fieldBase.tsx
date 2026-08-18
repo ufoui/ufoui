@@ -17,7 +17,9 @@ import {
     SemanticColor,
     useUniqueId,
 } from '../../utils';
+import { CancelIcon, ErrorIcon } from '../../assets';
 import { useFocusVisible } from '../../hooks';
+import { IconButton } from '../iconButton/iconButton';
 import { Description, LabelText, Leading, Trailing } from '../../internal';
 import { useDisableFocusWithin } from '../../hooks/useDisableFocusWithin';
 
@@ -74,6 +76,15 @@ export interface FieldBaseProps
 
     /** Validation message. Marks the control invalid and replaces the description. */
     error?: string;
+
+    /** When true, renders the error icon in the trailing slot while `error` is set. */
+    showErrorIcon?: boolean;
+
+    /** When true, renders the control that clears the value while the field is not empty. */
+    showClear?: boolean;
+
+    /** Accessible label of the control that clears the value. Default: Clear */
+    clearLabel?: string;
 
     /** Supporting text displayed below control. */
     description?: string;
@@ -178,6 +189,9 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         description,
         name,
         error,
+        showErrorIcon,
+        showClear,
+        clearLabel = 'Clear',
         className,
         placeholder,
         multiline,
@@ -216,6 +230,17 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
             setInternalValue(e.target.value);
         }
         props.onChange?.(e);
+    };
+
+    const clearValue = () => {
+        const input = inputRef.current;
+        if (!input) {
+            return;
+        }
+        // Bypasses React’s value tracker so the input event still reaches onChange in controlled usage.
+        Object.getOwnPropertyDescriptor(Object.getPrototypeOf(input), 'value')?.set?.call(input, '');
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.focus();
     };
 
     const focusInput = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -274,8 +299,22 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const leadingContent = <Leading content={leading} start={icon} />;
 
     // Trailing
-    const finalTrailing = trailing ?? endIcon;
-    const trailingContent = <Trailing content={trailing} end={endIcon} />;
+    const errorIcon = showErrorIcon && error && ErrorIcon;
+    const clearButton = showClear && !isEmpty && !disabled && !other.readOnly && (
+        <IconButton aria-label={clearLabel} icon={CancelIcon} onClick={clearValue} />
+    );
+    const trailingEnd =
+        errorIcon || clearButton ? (
+            <>
+                {endIcon}
+                {clearButton}
+                {errorIcon}
+            </>
+        ) : (
+            endIcon
+        );
+    const finalTrailing = trailing ?? trailingEnd;
+    const trailingContent = <Trailing content={trailing} end={trailingEnd} />;
 
     // Wrapper
     const wrapperClasses = cn(

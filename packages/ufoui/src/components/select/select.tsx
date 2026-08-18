@@ -26,6 +26,9 @@ export interface SelectProps
     /** Uncontrolled initial selected value. */
     defaultValue?: string | string[];
 
+    /** Icon rendered in the trailing slot of the trigger. Default: ExpandIcon */
+    expandIcon?: ReactNode;
+
     /** Enables multiple value selection. */
     multiple?: boolean;
 
@@ -55,6 +58,7 @@ export interface SelectProps
 export const Select = ({
     value,
     defaultValue,
+    expandIcon,
     onChange,
     multiple,
     placeholder,
@@ -146,7 +150,7 @@ export const Select = ({
                 }}
                 placeholder={placeholder}
                 readOnly
-                trailing={ExpandIcon}
+                trailing={expandIcon ?? ExpandIcon}
                 value={displayValue}
             />
             {open &&

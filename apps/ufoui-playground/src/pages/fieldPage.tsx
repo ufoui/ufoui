@@ -1,4 +1,4 @@
-import { MdInfo, MdOutlineCancel, MdSearch, MdTune, MdVisibility } from 'react-icons/md';
+import { MdCalendarToday, MdEuro, MdMic, MdSearch, MdTune, MdVisibility } from 'react-icons/md';
 import { useMemo, useState } from 'react';
 
 import {
@@ -32,6 +32,9 @@ export const FieldPage = () => {
     const [labelFont, setLabelFont] = useState<ElementFont | null>(null);
     const [disabled, setDisabled] = useState<boolean | null>(false);
     const [error, setError] = useState<boolean | null>(false);
+    const [readOnly, setReadOnly] = useState<boolean | null>(false);
+    const [showErrorIcon, setShowErrorIcon] = useState<boolean | null>(false);
+    const [showClear, setShowClear] = useState<boolean | null>(false);
 
     const shared = useMemo(
         () => ({
@@ -45,9 +48,25 @@ export const FieldPage = () => {
             labelFont: labelFont ?? undefined,
             disabled: disabled ?? undefined,
             error: error ? 'Error, supporting text' : undefined,
+            readOnly: readOnly ?? undefined,
+            showErrorIcon: showErrorIcon ?? undefined,
+            showClear: showClear ?? undefined,
             autocomplete: true,
         }),
-        [labelFont, shape, border, borderColor, color, density, font, disabled, error]
+        [
+            labelFont,
+            shape,
+            border,
+            borderColor,
+            color,
+            density,
+            font,
+            disabled,
+            error,
+            readOnly,
+            showErrorIcon,
+            showClear,
+        ]
     );
 
     return (
@@ -59,7 +78,7 @@ export const FieldPage = () => {
                     <TextField
                         {...shared}
                         description="Label and placeholder, example of very long supporting text"
-                        endIcon={<IconButton icon={<MdOutlineCancel />} />}
+                        endIcon={<IconButton icon={<MdMic />} />}
                         icon={<MdSearch />}
                         label="Label"
                         name="email"
@@ -68,7 +87,7 @@ export const FieldPage = () => {
                     <TextField
                         {...shared}
                         description="Placeholder only"
-                        endIcon={<MdOutlineCancel />}
+                        endIcon={<MdEuro />}
                         icon={<MdSearch />}
                         name="email"
                         placeholder="Placeholder only"
@@ -104,7 +123,7 @@ export const FieldPage = () => {
                         label="Icon button"
                         name="email"
                         placeholder="Placeholder"
-                        trailing={<IconButton icon={<MdOutlineCancel />} />}
+                        trailing={<IconButton icon={<MdMic />} />}
                     />
                     <TextField
                         {...shared}
@@ -128,7 +147,7 @@ export const FieldPage = () => {
                         trailing={
                             <>
                                 <P>Long Text</P>
-                                <MdInfo />
+                                <MdCalendarToday />
                                 <MdVisibility />
                             </>
                         }
@@ -147,8 +166,8 @@ export const FieldPage = () => {
                         placeholder="Placeholder"
                         trailing={
                             <>
-                                <MdInfo />
-                                <IconButton icon={<MdOutlineCancel />} />
+                                <MdCalendarToday />
+                                <IconButton icon={<MdMic />} />
                             </>
                         }
                     />
@@ -159,7 +178,7 @@ export const FieldPage = () => {
                     <TextField
                         {...shared}
                         description="Label and placeholder"
-                        endIcon={<MdOutlineCancel />}
+                        endIcon={<MdEuro />}
                         filled
                         icon={<MdSearch />}
                         label="Label"
@@ -169,7 +188,7 @@ export const FieldPage = () => {
                     <TextField
                         {...shared}
                         description="Placeholder only"
-                        endIcon={<MdOutlineCancel />}
+                        endIcon={<MdEuro />}
                         filled
                         icon={<MdSearch />}
                         name="email"
@@ -192,7 +211,7 @@ export const FieldPage = () => {
                     <TextField
                         {...shared}
                         description="Label and placeholder"
-                        endIcon={<MdOutlineCancel />}
+                        endIcon={<MdEuro />}
                         icon={<MdSearch />}
                         label="Label"
                         name="email"
@@ -202,7 +221,7 @@ export const FieldPage = () => {
                     <TextField
                         {...shared}
                         description="Placeholder only"
-                        endIcon={<MdOutlineCancel />}
+                        endIcon={<MdEuro />}
                         icon={<MdSearch />}
                         name="email"
                         outlined
@@ -232,7 +251,7 @@ export const FieldPage = () => {
                         {...shared}
                         classic
                         description="Label and placeholder"
-                        endIcon={<MdOutlineCancel />}
+                        endIcon={<MdEuro />}
                         icon={<MdSearch />}
                         label="Label"
                         name="email"
@@ -242,7 +261,7 @@ export const FieldPage = () => {
                         {...shared}
                         classic
                         description="Placeholder only"
-                        endIcon={<MdOutlineCancel />}
+                        endIcon={<MdEuro />}
                         icon={<MdSearch />}
                         name="email"
                         placeholder="Placeholder only"
@@ -302,7 +321,7 @@ export const FieldPage = () => {
                         <TextField
                             {...shared}
                             description="Filled, icon and icon button"
-                            endIcon={<IconButton icon={<MdOutlineCancel />} />}
+                            endIcon={<IconButton icon={<MdMic />} />}
                             filled
                             icon={<MdSearch />}
                             label="Message"
@@ -340,8 +359,8 @@ export const FieldPage = () => {
                             placeholder="Placeholder"
                             trailing={
                                 <>
-                                    <MdInfo />
-                                    <IconButton icon={<MdOutlineCancel />} />
+                                    <MdCalendarToday />
+                                    <IconButton icon={<MdMic />} />
                                 </>
                             }
                         />
@@ -370,6 +389,9 @@ export const FieldPage = () => {
                         labelFont: lf,
                         disabled: db,
                         error: er,
+                        readOnly: ro,
+                        showErrorIcon: sei,
+                        showClear: sc,
                     }) => {
                         // setSize(sz ?? null);
                         setShape(sp ?? null);
@@ -381,8 +403,14 @@ export const FieldPage = () => {
                         setLabelFont(lf ?? null);
                         setDisabled(db ?? null);
                         setError(er ?? null);
+                        setReadOnly(ro ?? null);
+                        setShowErrorIcon(sei ?? null);
+                        setShowClear(sc ?? null);
                     }}
+                    readOnly={readOnly}
                     shape={shape}
+                    showClear={showClear}
+                    showErrorIcon={showErrorIcon}
                     // size={size}
                 />
             </Aside>

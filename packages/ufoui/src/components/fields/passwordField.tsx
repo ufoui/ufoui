@@ -1,6 +1,6 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, ReactElement, useState } from 'react';
 
-import { FieldBase, FieldBaseProps } from '../base/fieldBase';
+import { FieldBase, FieldBaseProps } from '../base';
 import { IconButton } from '../iconButton/iconButton';
 import { VisibilityIcon, VisibilityOffIcon } from '../../assets';
 
@@ -14,8 +14,14 @@ export interface PasswordFieldProps extends Omit<FieldBaseProps, 'elementClass' 
     /** When true, renders the control that reveals the password. */
     showReveal?: boolean;
 
+    /** Icon of the reveal control while the password is hidden. Default: VisibilityIcon */
+    revealIcon?: ReactElement;
+
     /** Accessible label of the reveal control while the password is hidden. Default: Show password */
     revealLabel?: string;
+
+    /** Icon of the reveal control while the password is revealed. Default: VisibilityOffIcon */
+    concealIcon?: ReactElement;
 
     /** Accessible label of the reveal control while the password is revealed. Default: Hide password */
     concealLabel?: string;
@@ -42,7 +48,9 @@ export interface PasswordFieldProps extends Omit<FieldBaseProps, 'elementClass' 
 export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>((props: PasswordFieldProps, ref) => {
     const {
         showReveal = true,
+        revealIcon,
         revealLabel = 'Show password',
+        concealIcon,
         concealLabel = 'Hide password',
         endIcon,
         ...other
@@ -52,7 +60,7 @@ export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>((p
         <IconButton
             aria-label={revealed ? concealLabel : revealLabel}
             aria-pressed={revealed}
-            icon={revealed ? VisibilityOffIcon : VisibilityIcon}
+            icon={revealed ? (concealIcon ?? VisibilityOffIcon) : (revealIcon ?? VisibilityIcon)}
             onClick={() => {
                 setRevealed(value => !value);
             }}

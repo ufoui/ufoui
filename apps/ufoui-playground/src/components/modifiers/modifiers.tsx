@@ -33,6 +33,8 @@ type ButtonModifiersProps = {
     filled?: boolean | null;
     flat?: boolean | null;
     showIcon?: boolean | null;
+    showErrorIcon?: boolean | null;
+    showClear?: boolean | null;
     focusColor?: SurfaceColor | null;
     font?: ElementFont | null;
     fullColor?: boolean | null;
@@ -55,6 +57,8 @@ type ButtonModifiersProps = {
         flush?: boolean | null;
         flat?: boolean | null;
         showIcon?: boolean | null;
+        showErrorIcon?: boolean | null;
+        showClear?: boolean | null;
         focusColor?: SurfaceColor | null;
         font?: ElementFont | null;
         fullColor?: boolean | null;
@@ -122,6 +126,8 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         focusColor,
         textPlacement,
         showIcon,
+        showErrorIcon,
+        showClear,
         docked,
         anchored,
     } = props;
@@ -703,6 +709,38 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             onChange({
                                 ...props,
                                 showIcon: e.target.checked,
+                            });
+                        }}
+                    />
+                </>
+            )}
+            {showErrorIcon !== undefined && (
+                <>
+                    <label htmlFor="mod_showErrorIcon">Show Error Icon:</label>
+                    <Checkbox
+                        checked={!!showErrorIcon}
+                        density="dense"
+                        id="mod_showErrorIcon"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                showErrorIcon: e.target.checked,
+                            });
+                        }}
+                    />
+                </>
+            )}
+            {showClear !== undefined && (
+                <>
+                    <label htmlFor="mod_showClear">Show Clear Button:</label>
+                    <Checkbox
+                        checked={!!showClear}
+                        density="dense"
+                        id="mod_showClear"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                showClear: e.target.checked,
                             });
                         }}
                     />

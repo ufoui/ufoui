@@ -1,4 +1,4 @@
-import { forwardRef, useRef } from 'react';
+import { forwardRef, ReactElement, useRef } from 'react';
 
 import { FieldBase, FieldBaseProps } from '../base';
 import { IconButton } from '../iconButton/iconButton';
@@ -25,8 +25,14 @@ export interface NumberFieldProps
     /** When true, renders the controls that increment and decrement the value. */
     showStepper?: boolean;
 
+    /** Icon of the control that increments the value. Default: CollapseIcon */
+    incrementIcon?: ReactElement;
+
     /** Accessible label of the control that increments the value. Default: Increase value */
     incrementLabel?: string;
+
+    /** Icon of the control that decrements the value. Default: ExpandIcon */
+    decrementIcon?: ReactElement;
 
     /** Accessible label of the control that decrements the value. Default: Decrease value */
     decrementLabel?: string;
@@ -53,7 +59,9 @@ export interface NumberFieldProps
 export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>((props: NumberFieldProps, ref) => {
     const {
         showStepper = true,
+        incrementIcon,
         incrementLabel = 'Increase value',
+        decrementIcon,
         decrementLabel = 'Decrease value',
         endIcon,
         ...other
@@ -77,14 +85,14 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>((props
         <>
             <IconButton
                 aria-label={decrementLabel}
-                icon={ExpandIcon}
+                icon={decrementIcon ?? ExpandIcon}
                 onClick={() => {
                     stepValue(false);
                 }}
             />
             <IconButton
                 aria-label={incrementLabel}
-                icon={CollapseIcon}
+                icon={incrementIcon ?? CollapseIcon}
                 onClick={() => {
                     stepValue(true);
                 }}

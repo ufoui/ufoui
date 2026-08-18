@@ -55,6 +55,9 @@ export const FieldsPage = () => {
     const [density, setDensity] = useState<ElementDensity | null>(null);
     const [disabled, setDisabled] = useState<boolean | null>(false);
     const [error, setError] = useState<boolean | null>(false);
+    const [readOnly, setReadOnly] = useState<boolean | null>(false);
+    const [showErrorIcon, setShowErrorIcon] = useState<boolean | null>(false);
+    const [showClear, setShowClear] = useState<boolean | null>(false);
 
     const shared = useMemo(
         () => ({
@@ -65,8 +68,11 @@ export const FieldsPage = () => {
             density: density ?? undefined,
             disabled: disabled ?? undefined,
             error: error ? 'Error, supporting text' : undefined,
+            readOnly: readOnly ?? undefined,
+            showErrorIcon: showErrorIcon ?? undefined,
+            showClear: showClear ?? undefined,
         }),
-        [shape, border, borderColor, color, density, disabled, error]
+        [shape, border, borderColor, color, density, disabled, error, readOnly, showErrorIcon, showClear]
     );
 
     return (
@@ -122,6 +128,9 @@ export const FieldsPage = () => {
                         density: ds,
                         disabled: db,
                         error: er,
+                        readOnly: ro,
+                        showErrorIcon: sei,
+                        showClear: sc,
                     }) => {
                         setShape(sp ?? null);
                         setBorder(bd ?? null);
@@ -130,8 +139,14 @@ export const FieldsPage = () => {
                         setDensity(ds ?? null);
                         setDisabled(db ?? null);
                         setError(er ?? null);
+                        setReadOnly(ro ?? null);
+                        setShowErrorIcon(sei ?? null);
+                        setShowClear(sc ?? null);
                     }}
+                    readOnly={readOnly}
                     shape={shape}
+                    showClear={showClear}
+                    showErrorIcon={showErrorIcon}
                 />
             </Aside>
         </Article>
