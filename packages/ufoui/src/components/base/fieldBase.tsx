@@ -86,6 +86,9 @@ export interface FieldBaseProps
     /** Accessible label of the control that clears the value. Default: Clear */
     clearLabel?: string;
 
+    /** Marks the control as read-only. Suppresses the affordances that change the value. */
+    readOnly?: boolean;
+
     /** Supporting text displayed below control. */
     description?: string;
 
@@ -192,6 +195,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         showErrorIcon,
         showClear,
         clearLabel = 'Clear',
+        readOnly,
         className,
         placeholder,
         multiline,
@@ -244,6 +248,10 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     };
 
     const focusInput = (e: React.PointerEvent<HTMLDivElement>) => {
+        // Pressing the input itself must keep the native caret placement and drag selection.
+        if (e.target === inputRef.current) {
+            return;
+        }
         e.preventDefault();
         inputRef.current?.focus();
     };
@@ -300,7 +308,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
 
     // Trailing
     const errorIcon = showErrorIcon && error && ErrorIcon;
-    const clearButton = showClear && !isEmpty && !disabled && !other.readOnly && (
+    const clearButton = showClear && !isEmpty && !disabled && !readOnly && (
         <IconButton aria-label={clearLabel} icon={CancelIcon} onClick={clearValue} />
     );
     const trailingEnd =
@@ -428,6 +436,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
                         name={name}
                         onChange={handleChange}
                         placeholder={placeholder}
+                        readOnly={readOnly}
                         ref={mergeRefs(ref, inputRef)}
                         style={inputStyle.get()}
                         type={type}
