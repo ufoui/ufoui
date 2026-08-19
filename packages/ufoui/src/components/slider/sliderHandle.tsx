@@ -54,7 +54,7 @@ export const SliderHandle = ({
 
     return (
         <span
-            aria-disabled={disabled ?? undefined}
+            aria-disabled={disabled ? 'true' : undefined}
             aria-label={ariaLabel}
             aria-labelledby={ariaLabelledby}
             aria-readonly={readOnly ?? undefined}

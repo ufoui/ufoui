@@ -365,7 +365,11 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     );
 
     const labelClasses = cn('uui-field-label', labelFontClass, fieldVariant !== 'classic' && 'uui-field-float-label');
-    const labelContent = labelText && fieldVariant !== 'classic' && <span className={labelClasses}>{labelText}</span>;
+    const labelContent = labelText && fieldVariant !== 'classic' && (
+        <label className={labelClasses} htmlFor={elemId}>
+            {labelText}
+        </label>
+    );
     const externalLabelContent = labelText && fieldVariant === 'classic' && (
         <label className={labelClasses} htmlFor={elemId}>
             {labelText}
@@ -378,7 +382,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
 
     // Fieldset
     const fieldsetContent = fieldVariant === 'outlined' && (
-        <fieldset className={cn('uui-field-fieldset', finalShape)}>
+        <fieldset aria-hidden="true" className={cn('uui-field-fieldset', finalShape)}>
             {labelText && <legend className={getFontClass(labelFont ?? 'bodySmall')}>{labelText}</legend>}
         </fieldset>
     );
@@ -430,7 +434,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         <div className={wrapperClasses} title={title}>
             {externalLabelContent}
             <div
-                aria-disabled={disabled}
+                aria-disabled={disabled ? 'true' : undefined}
                 className={cn(controlClasses)}
                 onPointerDown={focusInput}
                 ref={controlRef}
@@ -445,7 +449,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
                         {...other}
                         {...(multiline ? { rows: lines ?? 3 } : {})}
                         {...(isControlled ? { value } : { defaultValue })}
-                        aria-invalid={!!error}
+                        aria-invalid={!!error || undefined}
                         className={inputClasses}
                         disabled={disabled}
                         id={elemId}
