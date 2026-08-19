@@ -35,6 +35,7 @@ export const FieldPage = () => {
     const [readOnly, setReadOnly] = useState<boolean | null>(false);
     const [showErrorIcon, setShowErrorIcon] = useState<boolean | null>(false);
     const [showClear, setShowClear] = useState<boolean | null>(false);
+    const [fullWidth, setFullWidth] = useState<boolean | null>(false);
 
     const shared = useMemo(
         () => ({
@@ -51,6 +52,7 @@ export const FieldPage = () => {
             readOnly: readOnly ?? undefined,
             showErrorIcon: showErrorIcon ?? undefined,
             showClear: showClear ?? undefined,
+            fullWidth: fullWidth ?? undefined,
             autocomplete: true,
         }),
         [
@@ -66,12 +68,13 @@ export const FieldPage = () => {
             readOnly,
             showErrorIcon,
             showClear,
+            fullWidth,
         ]
     );
 
     return (
         <Article direction="row" gap={20}>
-            <Content color="surfaceContainerHigh" gap={20} grow>
+            <Content color="surfaceContainerHigh" gap={20} grow minWidth={0}>
                 <H1>TextField</H1>
                 <Fieldset direction="row" gap={16} legend="Default" wrap>
                     <TextField {...shared} description="Label only" label="Label only" name="email" />
@@ -285,7 +288,7 @@ export const FieldPage = () => {
                 </Fieldset>
 
                 <Fieldset direction="col" gap={16} legend="Multiline">
-                    <Flex alignItems="end" gap={16}>
+                    <Flex alignItems="end" gap={16} wrap>
                         <TextField
                             {...shared}
                             description="Filled, three lines"
@@ -317,7 +320,7 @@ export const FieldPage = () => {
                             placeholder="Placeholder"
                         />
                     </Flex>
-                    <Flex alignItems="end" gap={16}>
+                    <Flex alignItems="end" gap={16} wrap>
                         <TextField
                             {...shared}
                             description="Filled, icon and icon button"
@@ -377,6 +380,7 @@ export const FieldPage = () => {
                     disabled={disabled}
                     error={error}
                     font={font}
+                    fullWidth={fullWidth}
                     labelFont={labelFont}
                     onChange={({
                         size: sz,
@@ -386,6 +390,7 @@ export const FieldPage = () => {
                         color: cl,
                         density: ds,
                         font: ft,
+                        fullWidth: fw,
                         labelFont: lf,
                         disabled: db,
                         error: er,
@@ -400,6 +405,7 @@ export const FieldPage = () => {
                         setColor(cl ?? null);
                         setDensity(ds ?? null);
                         setFont(ft ?? null);
+                        setFullWidth(fw ?? null);
                         setLabelFont(lf ?? null);
                         setDisabled(db ?? null);
                         setError(er ?? null);

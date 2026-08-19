@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { cloneElement, forwardRef, ReactElement, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import {
     BorderColor,
@@ -80,8 +80,14 @@ export interface FieldBaseProps
     /** When true, renders the error icon in the trailing slot while `error` is set. */
     showErrorIcon?: boolean;
 
+    /** Icon rendered in the trailing slot while `error` is set. Default: ErrorIcon */
+    errorIcon?: ReactElement;
+
     /** When true, renders the control that clears the value while the field is not empty. */
     showClear?: boolean;
+
+    /** Icon of the control that clears the value. Default: CancelIcon */
+    clearIcon?: ReactElement;
 
     /** Accessible label of the control that clears the value. Default: Clear */
     clearLabel?: string;
@@ -104,6 +110,7 @@ export interface FieldBaseProps
     /** Shortcut for `variant="classic"`. */
     classic?: boolean;
 
+    /** Expands field to full width. */
     fullWidth?: boolean;
 
     /** Control shape variant. Default: smooth */
@@ -193,7 +200,9 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         name,
         error,
         showErrorIcon,
+        errorIcon,
         showClear,
+        clearIcon,
         clearLabel = 'Clear',
         readOnly,
         className,
@@ -207,6 +216,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         trailing,
         endIcon,
         variant,
+        fullWidth,
         value,
         defaultValue,
         ...other
@@ -307,16 +317,21 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const leadingContent = <Leading content={leading} start={icon} />;
 
     // Trailing
-    const errorIcon = showErrorIcon && error && ErrorIcon;
+    const finalErrorIcon = (errorIcon ?? ErrorIcon) as ReactElement<{ className?: string }>;
+    const errorIconContent =
+        showErrorIcon &&
+        error &&
+        cloneElement(finalErrorIcon, { className: cn(finalErrorIcon.props.className, 'uui-field-error-icon') });
+
     const clearButton = showClear && !isEmpty && !disabled && !readOnly && (
-        <IconButton aria-label={clearLabel} icon={CancelIcon} onClick={clearValue} />
+        <IconButton aria-label={clearLabel} icon={clearIcon ?? CancelIcon} onClick={clearValue} />
     );
     const trailingEnd =
-        errorIcon || clearButton ? (
+        errorIconContent || clearButton ? (
             <>
                 {endIcon}
                 {clearButton}
-                {errorIcon}
+                {errorIconContent}
             </>
         ) : (
             endIcon
@@ -332,6 +347,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         `uui-${fieldVariant}`,
         disabled && 'uui-disabled',
         getDensityClass(density),
+        fullWidth && 'uui-w-full',
         error && 'uui-error'
     );
 
@@ -386,7 +402,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     } else {
         controlStyle.set('--uui-label-up-x', `${labelUpX}px`);
     }
-    controlStyle.current(color);
+    controlStyle.token('--uui-accent-color', color);
 
     if (border && border > 0) {
         controlStyle.set('--uui-border-width', `${border}px`);

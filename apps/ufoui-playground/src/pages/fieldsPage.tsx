@@ -58,6 +58,7 @@ export const FieldsPage = () => {
     const [readOnly, setReadOnly] = useState<boolean | null>(false);
     const [showErrorIcon, setShowErrorIcon] = useState<boolean | null>(false);
     const [showClear, setShowClear] = useState<boolean | null>(false);
+    const [fullWidth, setFullWidth] = useState<boolean | null>(false);
 
     const shared = useMemo(
         () => ({
@@ -71,13 +72,14 @@ export const FieldsPage = () => {
             readOnly: readOnly ?? undefined,
             showErrorIcon: showErrorIcon ?? undefined,
             showClear: showClear ?? undefined,
+            fullWidth: fullWidth ?? undefined,
         }),
-        [shape, border, borderColor, color, density, disabled, error, readOnly, showErrorIcon, showClear]
+        [shape, border, borderColor, color, density, disabled, error, readOnly, showErrorIcon, showClear, fullWidth]
     );
 
     return (
         <Article direction="row" gap={20}>
-            <Content gap={20} grow>
+            <Content gap={20} grow minWidth={0}>
                 <H1>Fields</H1>
                 {fields.map(({ name, Field, placeholder, extra }) => (
                     <Fieldset alignItems="end" direction="row" gap={16} key={name} legend={name} wrap>
@@ -120,6 +122,7 @@ export const FieldsPage = () => {
                     density={density}
                     disabled={disabled}
                     error={error}
+                    fullWidth={fullWidth}
                     onChange={({
                         shape: sp,
                         border: bd,
@@ -128,6 +131,7 @@ export const FieldsPage = () => {
                         density: ds,
                         disabled: db,
                         error: er,
+                        fullWidth: fw,
                         readOnly: ro,
                         showErrorIcon: sei,
                         showClear: sc,
@@ -139,6 +143,7 @@ export const FieldsPage = () => {
                         setDensity(ds ?? null);
                         setDisabled(db ?? null);
                         setError(er ?? null);
+                        setFullWidth(fw ?? null);
                         setReadOnly(ro ?? null);
                         setShowErrorIcon(sei ?? null);
                         setShowClear(sc ?? null);

@@ -38,6 +38,7 @@ type ButtonModifiersProps = {
     focusColor?: SurfaceColor | null;
     font?: ElementFont | null;
     fullColor?: boolean | null;
+    fullWidth?: boolean | null;
     labelFont?: ElementFont | null;
     onChange: (mod: {
         baseColor?: BaseColor | null;
@@ -62,6 +63,7 @@ type ButtonModifiersProps = {
         focusColor?: SurfaceColor | null;
         font?: ElementFont | null;
         fullColor?: boolean | null;
+        fullWidth?: boolean | null;
         labelFont?: ElementFont | null;
         readOnly?: boolean | null;
         selectedColor?: SemanticColor | null;
@@ -117,6 +119,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         disabled,
         error,
         fullColor,
+        fullWidth,
         dockedElevation,
         fit,
         flush,
@@ -741,6 +744,22 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             onChange({
                                 ...props,
                                 showClear: e.target.checked,
+                            });
+                        }}
+                    />
+                </>
+            )}
+            {fullWidth !== undefined && (
+                <>
+                    <label htmlFor="mod_fullWidth">Full Width:</label>
+                    <Checkbox
+                        checked={!!fullWidth}
+                        density="dense"
+                        id="mod_fullWidth"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                fullWidth: e.target.checked,
                             });
                         }}
                     />
