@@ -34,6 +34,7 @@
     flex: 1 1 0;
     margin-inline: 16px;
     min-width: 0;
+    padding-block: 4px;
 }
 
 .uui-field-control.uui-has-leading .uui-field-input-wrapper {
@@ -223,6 +224,37 @@
     -webkit-text-fill-color: var(--uui-control-color, var(--uui-color-on-surface)) !important;
     caret-color: var(--uui-control-color, var(--uui-color-on-surface));
     transition: background-color 9999s ease-in-out 0s;
+}
+
+/* The browser fills the input without a change event and keeps the value unreadable until the user
+   interacts with the page, so the filled state is reported by the animation these rules start. */
+
+@keyframes uui-autofill {
+    from {
+        --uui-autofill: 1;
+    }
+}
+
+@keyframes uui-autofill-cancel {
+    from {
+        --uui-autofill: 0;
+    }
+}
+
+.uui-field-input:-webkit-autofill {
+    animation: uui-autofill 1ms;
+}
+
+.uui-field-input:not(:-webkit-autofill) {
+    animation: uui-autofill-cancel 1ms;
+}
+
+.uui-field-input:autofill {
+    animation: uui-autofill 1ms;
+}
+
+.uui-field-input:not(:autofill) {
+    animation: uui-autofill-cancel 1ms;
 }
 
 /*error*/

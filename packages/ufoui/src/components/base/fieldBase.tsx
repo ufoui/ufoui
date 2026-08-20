@@ -223,9 +223,10 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     } = props;
 
     const [internalValue, setInternalValue] = useState(defaultValue ?? '');
+    const [autofilled, setAutofilled] = useState(false);
     const isControlled = value !== undefined;
     const fieldValue = isControlled ? value : internalValue;
-    const isEmpty = fieldValue.length === 0;
+    const isEmpty = fieldValue.length === 0 && !autofilled;
     const inputRef = useRef<HTMLInputElement>(null);
     const controlRef = useRef<HTMLDivElement>(null);
     const generatedId = useUniqueId('input');
@@ -244,6 +245,17 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
             setInternalValue(e.target.value);
         }
         props.onChange?.(e);
+    };
+
+    // Autofill
+    const handleAnimationStart = (e: React.AnimationEvent<HTMLInputElement>) => {
+        if (e.animationName === 'uui-autofill') {
+            setAutofilled(true);
+            setInternalValue(e.currentTarget.value);
+        } else if (e.animationName === 'uui-autofill-cancel') {
+            setAutofilled(false);
+        }
+        props.onAnimationStart?.(e);
     };
 
     const clearValue = () => {
@@ -454,6 +466,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
                         disabled={disabled}
                         id={elemId}
                         name={name}
+                        onAnimationStart={handleAnimationStart}
                         onChange={handleChange}
                         placeholder={placeholder}
                         readOnly={readOnly}

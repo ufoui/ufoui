@@ -95,12 +95,7 @@ export const FieldPage = () => {
                         name="email"
                         placeholder="Placeholder only"
                     />
-                    <TextField
-                        {...shared}
-                        description="Placeholder only"
-                        name="email"
-                        placeholder="Placeholder only"
-                    />
+                    <TextField {...shared} description="Placeholder only" name="email" placeholder="Placeholder only" />
                     <TextField
                         {...shared}
                         description="Disabled, label and placeholder"
@@ -288,6 +283,41 @@ export const FieldPage = () => {
                 </Fieldset>
 
                 <Fieldset direction="col" gap={16} legend="Multiline">
+                    <Flex alignItems="end" gap={16} wrap>
+                        <TextField
+                            {...shared}
+                            description="Filled, three lines"
+                            filled
+                            label="Message"
+                            lines={1}
+                            maxLines={6}
+                            multiline
+                            name="message"
+                            placeholder="Placeholder"
+                        />
+                        <TextField
+                            {...shared}
+                            description="Outlined, five lines"
+                            label="Message"
+                            lines={1}
+                            maxLines={6}
+                            multiline
+                            name="message"
+                            outlined
+                            placeholder="Placeholder"
+                        />
+                        <TextField
+                            {...shared}
+                            classic
+                            description="Classic, default lines"
+                            label="Message"
+                            lines={1}
+                            maxLines={6}
+                            multiline
+                            name="message"
+                            placeholder="Placeholder"
+                        />
+                    </Flex>
                     <Flex alignItems="end" gap={16} wrap>
                         <TextField
                             {...shared}
