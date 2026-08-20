@@ -22,7 +22,6 @@
     --uui-active-color: var(--uui-accent-color, var(--uui-color-primary));
     --uui-border-width: 1px;
     --uui-active-border-width: 2px;
-
 }
 
 .uui-field-input-wrapper {
@@ -59,7 +58,6 @@
     color: var(--uui-control-color);
 }
 
-
 /* FLOAT LABEL */
 .uui-field-float-label {
     position: absolute;
@@ -76,9 +74,11 @@
     color: var(--uui-control-color);
 }
 
+.uui-multiline .uui-field-float-label {
+    top:  calc(var(--uui-slot-size) / 2);
+}
 
-
-/* FILLED */
+    /* FILLED */
 
 
 .uui-field.uui-filled .uui-field-control {
