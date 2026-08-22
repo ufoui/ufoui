@@ -1,14 +1,14 @@
 .uui-item {
-    /*user-select: none;*/
     position: relative;
     outline: none;
     display: flex;
     align-items: center;
+    /*align-items: start;*/
     column-gap: 16px;
     padding-inline: 16px;
     min-height: 56px;
     cursor: pointer;
-    /*touch-action: manipulation;*/
+    touch-action: manipulation;
     background-color: var(--uui-color-surface);
     color: var(--uui-color-on-surface);
     border-radius: var(--uui-corner-smooth, 0px);
@@ -21,6 +21,16 @@
 
 .uui-item.uui-dense {
     min-height: 40px;
+}
+
+.uui-item.uui-media-image .uui-leading,
+.uui-item.uui-media-image .uui-trailing {
+    padding-block: 8px;
+}
+
+.uui-item.uui-media-video .uui-leading,
+.uui-item.uui-media-video .uui-trailing {
+    padding-block: 12px;
 }
 
 .uui-item::after {
@@ -60,8 +70,8 @@
     padding-block: 4px;
 }
 
-.uui-item-label,
-.uui-item-description {
+.uui-item-label
+ {
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -74,5 +84,18 @@
 
 .uui-item-description {
     color: var(--uui-color-on-surface-variant);
+    overflow-wrap: break-word;
 }
 
+
+.uui-item-expander {
+    transition: transform var(--uui-duration) var(--uui-ease);
+}
+
+.uui-item.uui-open .uui-item-expander {
+    transform: rotate(180deg);
+}
+
+.uui-item-group {
+    padding-inline-start: 40px;
+}

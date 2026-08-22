@@ -11,8 +11,8 @@ export type FocusOrientation = 'vertical' | 'horizontal';
  * Moves DOM focus between registered elements of a group.
  *
  * Enables Arrow, Home, and End key navigation across registered items
- * using vertical or horizontal orientation. Skips disabled items and
- * follows the real DOM order.
+ * using vertical or horizontal orientation. Skips disabled items and items
+ * inside a collapsed (`inert`) region, and follows the real DOM order.
  *
  * @remarks
  * Does not manage `tabIndex` — the consuming component owns it.
@@ -83,7 +83,7 @@ export function useFocusNavigation(orientation: FocusOrientation = 'vertical', l
                     ('disabled' in el && (el as HTMLButtonElement).disabled) ||
                     el.getAttribute('aria-disabled') === 'true';
 
-                return !isDisabled;
+                return !isDisabled && !el.closest('[inert]');
             });
 
             if (enabled.length === 0) {

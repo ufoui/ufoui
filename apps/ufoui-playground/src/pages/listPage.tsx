@@ -10,12 +10,13 @@ import {
     Div,
     Divider,
     ElementBorder,
+    ElementDensity,
     ElementElevation,
     ElementShape,
-    Grid,
     H1,
     H2,
     Item,
+    ItemGroup,
     List,
     ListSelection,
     ListSelectionSlot,
@@ -26,6 +27,9 @@ import {
     Switch,
 } from '@ufoui/core';
 
+import cat from '../assets/cat.mp4';
+import dog from '../assets/dog.mp4';
+import tree from '../assets/tree.jpg';
 import { Modifiers } from '../components/modifiers/modifiers';
 
 export const ListPage = () => {
@@ -34,6 +38,7 @@ export const ListPage = () => {
     const [elevation, setElevation] = useState<ElementElevation | null>(null);
     const [border, setBorder] = useState<ElementBorder | null>(null);
     const [borderColor, setBorderColor] = useState<BorderColor | null>(null);
+    const [density, setDensity] = useState<ElementDensity | null>(null);
     const [selection, setSelection] = useState<ListSelection | null>(null);
     const [selectionSlot, setSelectionSlot] = useState<ListSelectionSlot | null>(null);
 
@@ -46,12 +51,13 @@ export const ListPage = () => {
             elevation: elevation ?? undefined,
             border: border ?? undefined,
             borderColor: borderColor ?? undefined,
+            density: density ?? undefined,
             selection: selection ?? undefined,
             selectionSlot: selectionSlot ?? undefined,
             maxHeight: 500,
             overflow: 'auto' as const,
         }),
-        [color, shape, elevation, border, borderColor, selection, selectionSlot]
+        [color, shape, elevation, border, borderColor, density, selection, selectionSlot]
     );
 
     const items = Array.from({ length: 50 }, (_, i) => {
@@ -106,41 +112,11 @@ export const ListPage = () => {
         );
     });
 
-    const videoThumbnail = (
-        <Grid
-            color="surfaceContainer"
-            height={56}
-            placeItems="center"
-            shape="square"
-            style={{ color: 'var(--uui-color-on-surface-variant)' }}
-            width={100}>
-            <MdImage />
-        </Grid>
-    );
+    const videoThumbnail = <video autoPlay height={56} loop muted playsInline src={cat} width={100} />;
 
-    const largeVideoThumbnail = (
-        <Grid
-            color="surfaceContainer"
-            height={64}
-            placeItems="center"
-            shape="square"
-            style={{ color: 'var(--uui-color-on-surface-variant)' }}
-            width={114}>
-            <MdImage />
-        </Grid>
-    );
+    const largeVideoThumbnail = <video autoPlay height={64} loop muted playsInline src={dog} width={114} />;
 
-    const imageThumbnail = (
-        <Grid
-            color="surfaceContainer"
-            height={56}
-            placeItems="center"
-            shape="square"
-            style={{ color: 'var(--uui-color-on-surface-variant)' }}
-            width={56}>
-            <MdImage />
-        </Grid>
-    );
+    const imageThumbnail = <img alt="" height={56} src={tree} width={56} />;
 
     const staticSwitch = <Switch aria-label="Enabled" readOnly tabIndex={-1} />;
 
@@ -158,6 +134,7 @@ export const ListPage = () => {
                     <H2>Various items</H2>
                     <List
                         color="surface"
+                        density={density ?? undefined}
                         maxWidth={520}
                         overflow="visible"
                         selection={selection ?? undefined}
@@ -166,6 +143,7 @@ export const ListPage = () => {
                             description="Supporting line text lorem ipsum dolor sit amet, consectetur."
                             label="List item"
                             leading={videoThumbnail}
+                            media="video"
                             trailing={staticSwitch}
                             value="figma-media-switch"
                         />
@@ -200,9 +178,14 @@ export const ListPage = () => {
                         />
                         <Item label="List item" value="figma-checkbox" />
                         <Item label="List item" trailing={<MdArrowRight />} value="figma-radio" />
-                        <Item label="Image item" leading={imageThumbnail} value="figma-image" />
-                        <Item label="Video item" leading={videoThumbnail} value="figma-wide-image" />
-                        <Item label="Large Video item" leading={largeVideoThumbnail} value="figma-wide-image" />
+                        <Item label="Image item" leading={imageThumbnail} media="image" value="figma-image" />
+                        <Item label="Video item" leading={videoThumbnail} media="video" value="figma-wide-image" />
+                        <Item
+                            label="Large Video item"
+                            leading={largeVideoThumbnail}
+                            media="video"
+                            value="figma-wide-image"
+                        />
                         <Item label="List item" value="figma-text" />
                         <Divider />
                         <Item
@@ -215,12 +198,46 @@ export const ListPage = () => {
                         <Div height={8} />
                     </List>
                 </Section>
+                <Section alignItems="start" gap={12}>
+                    <H2>Nested groups</H2>
+                    <List
+                        color="surface"
+                        density={density ?? undefined}
+                        maxWidth={520}
+                        selection={selection ?? undefined}
+                        selectionSlot={selectionSlot ?? undefined}>
+                        <Item label="Inbox" leading={<MdInbox />} value="nested-inbox" />
+                        <Item label="Starred" leading={<MdStar />} value="nested-starred" />
+                        <Item label="Settings" leading={<MdSettings />} value="nested-settings" />
+                        <Divider />
+                        <ItemGroup defaultOpen description="Single level" label="Projects" leading={<MdFolder />}>
+                            <Item label="Alpha" value="nested-alpha" />
+                            <Item label="Beta" value="nested-beta" />
+                            <Item label="Gamma" value="nested-gamma" />
+                        </ItemGroup>
+                        <ItemGroup description="Two levels" label="Workspace" leading={<MdFolder />}>
+                            <Item label="Overview" value="nested-ws-overview" />
+                            <ItemGroup label="Team" leading={<MdPerson />}>
+                                <Item label="Anna" value="nested-ws-anna" />
+                                <Item label="Marek" value="nested-ws-marek" />
+                            </ItemGroup>
+                        </ItemGroup>
+                        <ItemGroup description="Two levels" label="Media" leading={<MdFolder />}>
+                            <ItemGroup label="Images" leading={<MdImage />}>
+                                <Item label="Cover.png" value="nested-media-cover" />
+                                <Item label="Hero.jpg" value="nested-media-hero" />
+                            </ItemGroup>
+                            <Item label="Archive" value="nested-media-archive" />
+                        </ItemGroup>
+                    </List>
+                </Section>
             </Content>
 
             <Aside>
                 <Modifiers
                     border={border}
                     borderColor={borderColor}
+                    density={density}
                     elevation={elevation}
                     onChange={({
                         surfaceColor: sc,
@@ -228,6 +245,7 @@ export const ListPage = () => {
                         shape: sp,
                         border: bd,
                         borderColor: bc,
+                        density: dn,
                         selection: sel,
                         selectionSlot: slot,
                     }) => {
@@ -236,6 +254,7 @@ export const ListPage = () => {
                         setElevation(el ?? null);
                         setBorder(bd ?? null);
                         setBorderColor(bc ?? null);
+                        setDensity(dn ?? null);
                         setSelection(sel ?? null);
                         setSelectionSlot(slot ?? null);
                     }}

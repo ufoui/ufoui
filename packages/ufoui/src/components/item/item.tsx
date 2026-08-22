@@ -19,6 +19,8 @@ interface ItemCtxConfig {
 
 export type ItemVariant = 'baseline' | 'expressive';
 
+export type ItemMedia = 'image' | 'video';
+
 /**
  * Props for the {@link Item} component.
  *
@@ -37,6 +39,9 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
     /** Primary label text. */
     label?: string;
 
+    /** Type of media placed in the item slots. Adjusts their vertical padding. */
+    media?: ItemMedia;
+
     /** Slot holding the selection marker. Overrides the value provided by the parent `List`. */
     selectionSlot?: ListSelectionSlot;
 
@@ -46,6 +51,7 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
     /** Value identifier used for selection. */
     value?: string;
 
+    /** Short text rendered above the primary label. */
     overline?: string;
 
     /** Visual variant */
@@ -80,6 +86,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             description,
             leading,
             trailing,
+            media,
             value,
             disabled,
             selectionSlot,
@@ -148,6 +155,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                 className={cn(
                     'uui-item',
                     getDensityClass(config?.density),
+                    media && `uui-media-${media}`,
                     selected && 'uui-selected',
                     disabled && 'uui-disabled',
                     className
