@@ -11,6 +11,8 @@ import {
     ElementTextPlacement,
     getColorNames,
     Grid,
+    ListSelection,
+    ListSelectionSlot,
     SemanticColor,
     SurfaceColor,
 } from '@ufoui/core';
@@ -69,6 +71,8 @@ type ButtonModifiersProps = {
         selectedColor?: SemanticColor | null;
         selectedShape?: ElementShape | null;
         selectedTextColor?: SurfaceColor | null;
+        selection?: ListSelection | null;
+        selectionSlot?: ListSelectionSlot | null;
         shape?: ElementShape | null;
         size?: ElementSize | null;
         surfaceColor?: SurfaceColor | null;
@@ -83,6 +87,8 @@ type ButtonModifiersProps = {
     selectedColor?: SemanticColor | null;
     selectedShape?: ElementShape | null;
     selectedTextColor?: SurfaceColor | null;
+    selection?: ListSelection | null;
+    selectionSlot?: ListSelectionSlot | null;
     shape?: ElementShape | null;
     size?: ElementSize | null;
     surfaceColor?: SurfaceColor | null;
@@ -107,6 +113,8 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         selectedTextColor,
         selectedColor,
         selectedShape,
+        selection,
+        selectionSlot,
         borderColor,
         textColor,
         elevation,
@@ -843,6 +851,43 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             });
                         }}
                     />
+                </>
+            )}
+            {selection !== undefined && (
+                <>
+                    <span>Selection:</span>
+                    <select
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                selection: e.target.value === '' ? undefined : (e.target.value as ListSelection),
+                            });
+                        }}
+                        value={selection ?? ''}>
+                        <option value="">Default</option>
+                        <option value="none">None</option>
+                        <option value="single">Single</option>
+                        <option value="multiple">Multiple</option>
+                    </select>
+                </>
+            )}
+            {selectionSlot !== undefined && (
+                <>
+                    <span>Selection slot:</span>
+                    <select
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                selectionSlot:
+                                    e.target.value === '' ? undefined : (e.target.value as ListSelectionSlot),
+                            });
+                        }}
+                        value={selectionSlot ?? ''}>
+                        <option value="">Default</option>
+                        <option value="none">None</option>
+                        <option value="leading">Leading</option>
+                        <option value="trailing">Trailing</option>
+                    </select>
                 </>
             )}
         </Grid>

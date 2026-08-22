@@ -163,7 +163,7 @@ export const Select = ({
                             density={density}
                             elevation={3}
                             onChange={handleChange}
-                            type={multiple ? 'multiple' : 'single'}
+                            selection={multiple ? 'multiple' : 'single'}
                             value={currentValues}
                             variant="listbox">
                             {children}

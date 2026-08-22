@@ -1,16 +1,23 @@
 import React, { forwardRef, ForwardRefExoticComponent, RefAttributes, useContext, useEffect, useRef } from 'react';
 
-import { SelectionContext } from '../../context/selectionContext';
+import { SelectionContext } from '../../context';
 import { useFocusNavigation } from '../../hooks/useFocusNavigation';
-import { Leading, Trailing } from '../../internal/slots/slot';
-import { cn, createRipple, ElementDensity, getDensityClass, mergeRefs } from '../../utils';
+import { Leading, Trailing } from '../../internal';
+import { cn, createRipple, ElementDensity, getDensityClass, getFontClass, mergeRefs } from '../../utils';
 import { IS_ITEM } from './item.guards';
+import { ListSelection, ListSelectionSlot } from '../list/list';
+import { Radio } from '../radio/radio';
+import { Checkbox } from '../checkbox/checkbox';
 
 interface ItemCtxConfig {
     itemRole?: string;
     density?: ElementDensity;
     nav?: ReturnType<typeof useFocusNavigation>;
+    selection?: ListSelection;
+    selectionSlot?: ListSelectionSlot;
 }
+
+export type ItemVariant = 'baseline' | 'expressive';
 
 /**
  * Props for the {@link Item} component.
@@ -30,11 +37,19 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
     /** Primary label text. */
     label?: string;
 
+    /** Slot holding the selection marker. Overrides the value provided by the parent `List`. */
+    selectionSlot?: ListSelectionSlot;
+
     /** Trailing slot content. */
     trailing?: React.ReactNode;
 
     /** Value identifier used for selection. */
     value?: string;
+
+    overline?: string;
+
+    /** Visual variant */
+    variant?: ItemVariant;
 }
 
 /**
@@ -48,7 +63,7 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
  *
  * @example
  * ```tsx
- * <List variant="listbox" type="single">
+ * <List variant="listbox" selection="single">
  *   <Item value="a" label="Apple" />
  *   <Item value="b" label="Banana" description="Yellow fruit" />
  * </List>
@@ -58,13 +73,41 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
  * @category Item
  */
 export const Item = forwardRef<HTMLDivElement, ItemProps>(
-    ({ label, description, leading, trailing, value, disabled, className, onClick, onKeyDown, ...props }, ref) => {
+    (
+        {
+            overline,
+            label,
+            description,
+            leading,
+            trailing,
+            value,
+            disabled,
+            selectionSlot,
+            className,
+            onClick,
+            onKeyDown,
+            ...props
+        },
+        ref
+    ) => {
         const ctx = useContext(SelectionContext);
         const config = ctx?.config as ItemCtxConfig | undefined;
         const itemRef = useRef<HTMLDivElement>(null);
 
         const selected = value ? (ctx?.values.includes(value) ?? false) : false;
         const itemRole = config?.itemRole ?? 'listitem';
+        const selection = config?.selection ?? 'none';
+        const markerSlot = selectionSlot ?? config?.selectionSlot ?? 'leading';
+        const canSelect = ctx && selection !== 'none' && !disabled && value;
+
+        const markerControl =
+            selection !== 'none' ? (
+                selection === 'single' ? (
+                    <Radio aria-hidden="true" checked={selected} readOnly tabIndex={-1} />
+                ) : (
+                    <Checkbox aria-hidden="true" checked={selected} readOnly tabIndex={-1} />
+                )
+            ) : null;
 
         useEffect(() => {
             const el = itemRef.current;
@@ -79,7 +122,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             if (disabled) {
                 return;
             }
-            if (value && ctx) {
+            if (canSelect) {
                 ctx.toggle(value);
             }
             onClick?.(e);
@@ -90,7 +133,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
 
         const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
             config?.nav?.onKeyDown(e);
-            if ((e.key === 'Enter' || e.key === ' ') && !disabled && value && ctx) {
+            if ((e.key === 'Enter' || e.key === ' ') && canSelect) {
                 e.preventDefault();
                 ctx.toggle(value);
             }
@@ -114,12 +157,15 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                 ref={mergeRefs(itemRef, ref)}
                 role={itemRole}
                 tabIndex={disabled ? -1 : 0}>
-                <Leading content={leading} />
+                <Leading content={leading} start={markerSlot === 'leading' ? markerControl : undefined} />
                 <div className="uui-item-text">
-                    {label && <div className="uui-item-label">{label}</div>}
-                    {description && <div className="uui-item-description">{description}</div>}
+                    {overline && <div className={cn('uui-item-overline', getFontClass('labelMedium'))}>{overline}</div>}
+                    {label && <div className={cn('uui-item-label', getFontClass('bodyLarge'))}>{label}</div>}
+                    {description && (
+                        <div className={cn('uui-item-description', getFontClass('bodyMedium'))}>{description}</div>
+                    )}
                 </div>
-                <Trailing content={trailing} />
+                <Trailing content={trailing} end={markerSlot === 'trailing' ? markerControl : undefined} />
             </div>
         );
     }

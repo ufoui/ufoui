@@ -22,7 +22,7 @@ export const ListBoxPage = () => {
                         maxHeight={360}
                         onChange={setSelected}
                         overflow="auto"
-                        type="single"
+                        selection="single"
                         value={selected}
                         variant="listbox"
                         width={288}>
@@ -41,7 +41,7 @@ export const ListBoxPage = () => {
                         maxHeight={360}
                         onChange={setSelected}
                         overflow="auto"
-                        type="multiple"
+                        selection="multiple"
                         variant="listbox"
                         width={288}>
                         <Item label="Apple" value="apple" />

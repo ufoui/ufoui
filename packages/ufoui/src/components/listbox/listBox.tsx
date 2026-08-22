@@ -18,7 +18,7 @@ export type ListBoxProps = Omit<ListProps, 'variant'>;
  *
  * @example
  * ```tsx
- * <ListBox type="single" defaultValue="a">
+ * <ListBox selection="single" defaultValue="a">
  *   <Item value="a" label="Apple" />
  *   <Item value="b" label="Banana" />
  * </ListBox>

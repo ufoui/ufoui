@@ -1,6 +1,7 @@
-import React, { ReactNode, useCallback, useState } from 'react';
+import React, { ReactNode } from 'react';
 
 import { SelectionContext } from '../../context/selectionContext';
+import { useSelectionState } from '../../hooks';
 import { useFocusNavigation } from '../../hooks/useFocusNavigation';
 import { cn, ElementDensity } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base/boxBase';
@@ -9,12 +10,24 @@ import { BoxBase, BoxBaseProps } from '../base/boxBase';
 export type ListVariant = 'list' | 'listbox';
 
 /** @category List */
+export type ListSelection = 'none' | 'single' | 'multiple';
+
+/** @category List */
+export type ListSelectionSlot = 'none' | 'leading' | 'trailing';
+
+/** @category List */
 export interface ListConfig {
     density?: ElementDensity;
     itemRole: 'listitem' | 'option';
 
     /** Keyboard focus controller shared with the child items. */
     nav?: ReturnType<typeof useFocusNavigation>;
+
+    /** Selection mode enabled for the list. */
+    selection: ListSelection;
+
+    /** Slot holding the selection marker, shared with the child items. */
+    selectionSlot?: ListSelectionSlot;
     variant: ListVariant;
 }
 
@@ -35,21 +48,17 @@ export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange'> {
     /** Change handler called with the new selected values array. */
     onChange?: (values: string[]) => void;
 
-    /** Selection type for listbox variant. */
-    type?: 'single' | 'multiple';
+    /** Selection mode enabled for the list. */
+    selection?: ListSelection;
+
+    /** Slot holding the selection marker, shared by all child items. */
+    selectionSlot?: ListSelectionSlot;
 
     /** Controlled selected value(s). */
     value?: string | string[];
 
     /** Switches between display list and selectable listbox. */
     variant?: ListVariant;
-}
-
-function toArray(v?: string | string[]): string[] {
-    if (!v) {
-        return [];
-    }
-    return Array.isArray(v) ? v : [v];
 }
 
 /**
@@ -61,7 +70,7 @@ function toArray(v?: string | string[]): string[] {
  *
  * @example
  * ```tsx
- * <List variant="listbox" type="single" defaultValue="a">
+ * <List variant="listbox" selection="single" defaultValue="a">
  *   <Item value="a" label="Apple" />
  *   <Item value="b" label="Banana" />
  * </List>
@@ -73,66 +82,33 @@ export const List = ({
     children,
     className,
     variant = 'list',
-    type = 'single',
     value,
     defaultValue,
+    selection = 'none',
+    selectionSlot,
     onChange,
     density,
     ...props
 }: ListProps) => {
-    const isControlled = value !== undefined;
-    const [internalValues, setInternalValues] = useState<string[]>(() => toArray(defaultValue));
-    const currentValues = isControlled ? toArray(value) : internalValues;
-
+    const ss = useSelectionState({
+        type: selection === 'multiple' ? 'multiple' : 'single',
+        value,
+        defaultValue,
+        onChange,
+    });
     const nav = useFocusNavigation('vertical');
-
-    const toggle = useCallback(
-        (v: string) => {
-            const isSelected = currentValues.includes(v);
-            const newValues =
-                type === 'single'
-                    ? isSelected
-                        ? []
-                        : [v]
-                    : isSelected
-                      ? currentValues.filter(x => x !== v)
-                      : [...currentValues, v];
-
-            if (!isControlled) {
-                setInternalValues(newValues);
-            }
-            onChange?.(newValues);
-        },
-        [currentValues, type, isControlled, onChange]
-    );
-
-    const set = useCallback(
-        (v: string) => {
-            const newValues = [v];
-            if (!isControlled) {
-                setInternalValues(newValues);
-            }
-            onChange?.(newValues);
-        },
-        [isControlled, onChange]
-    );
-
-    const clear = useCallback(() => {
-        if (!isControlled) {
-            setInternalValues([]);
-        }
-        onChange?.([]);
-    }, [isControlled, onChange]);
 
     const config: ListConfig = {
         itemRole: variant === 'listbox' ? 'option' : 'listitem',
         density,
         nav,
+        selection,
+        selectionSlot,
         variant,
     };
 
     return (
-        <SelectionContext.Provider value={{ values: currentValues, toggle, set, clear, type, config }}>
+        <SelectionContext.Provider value={{ ...ss, config }}>
             <BoxBase
                 {...props}
                 aria-orientation="vertical"
