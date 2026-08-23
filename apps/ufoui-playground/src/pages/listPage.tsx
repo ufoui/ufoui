@@ -184,7 +184,7 @@ export const ListPage = () => {
                             label="Large Video item"
                             leading={largeVideoThumbnail}
                             media="video"
-                            value="figma-wide-image"
+                            value="figma-wide-image-2"
                         />
                         <Item label="List item" value="figma-text" />
                         <Divider />
