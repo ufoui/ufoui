@@ -44,7 +44,6 @@ export const CheckboxPage = () => {
     const [focusColor, setFocusColor] = useState<SurfaceColor | null>(null);
     const [disabled, setDisabled] = useState<boolean | null>(false);
     const [font, setFont] = useState<ElementFont | null>(null);
-    const [textColor, setTextColor] = useState<SurfaceColor | null>(null);
     const [textPlacement, setTextPlacement] = useState<ElementTextPlacement | null>(null);
     const [uncheckedColor, setUncheckedColor] = useState<SemanticColor | null>(null);
     const [readOnly, setReadOnly] = useState<boolean | null>(false);
@@ -64,7 +63,6 @@ export const CheckboxPage = () => {
             density: density ?? undefined,
             filled: !!filled,
             font: font ?? undefined,
-            textColor: textColor ?? undefined,
             textPlacement: textPlacement ?? undefined,
         }),
         [
@@ -72,7 +70,6 @@ export const CheckboxPage = () => {
             uncheckedBorder,
             uncheckedColor,
             textPlacement,
-            textColor,
             font,
             size,
             shape,
@@ -319,7 +316,6 @@ export const CheckboxPage = () => {
                         readOnly: ro,
                         font: lf,
                         disabled: db,
-                        textColor: tc,
                         textPlacement: tp,
                         uncheckedColor: uc,
                         uncheckedBorder: ub,
@@ -336,7 +332,6 @@ export const CheckboxPage = () => {
                         setFocusColor(fc ?? null);
                         setFont(lf ?? null);
                         setDisabled(db ?? null);
-                        setTextColor(tc ?? null);
                         setTextPlacement(tp ?? null);
                         setUncheckedColor(uc ?? null);
                         setUncheckedBorder(ub ?? null);
@@ -346,7 +341,6 @@ export const CheckboxPage = () => {
                     readOnly={readOnly}
                     shape={shape}
                     size={size}
-                    textColor={textColor}
                     textPlacement={textPlacement}
                     uncheckedBorder={uncheckedBorder}
                     uncheckedBorderColor={uncheckedBorderColor}

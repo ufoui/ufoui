@@ -57,6 +57,7 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
     const [elevation, setElevation] = useState<ElementElevation | null>(null);
     const [flat, setFlat] = useState<boolean | null>(false);
     const [toggle, setToggle] = useState<boolean | null>(false);
+    const [disabled, setDisabled] = useState<boolean | null>(false);
     const [density, setDensity] = useState<ElementDensity | null>(null);
     const [font, setFont] = useState<ElementFont | null>(null);
 
@@ -74,6 +75,7 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
             font: font ?? undefined,
             flat: !!flat,
             toggle: !!toggle,
+            ...(disabled ? { disabled: true } : {}),
         }),
         [
             size,
@@ -88,6 +90,7 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
             font,
             flat,
             toggle,
+            disabled,
         ]
     );
 
@@ -284,6 +287,7 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
                         borderColor={borderColor}
                         color={color}
                         density={density}
+                        disabled={disabled}
                         elevation={elevation}
                         flat={flat}
                         font={font}
@@ -295,6 +299,7 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
                             color: cl,
                             elevation: el,
                             density: ds,
+                            disabled: db,
                             flat: fl,
                             toggle: tg,
                             font: lf,
@@ -309,6 +314,7 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
                             setElevation(el ?? null);
                             setFlat(fl ?? null);
                             setDensity(ds ?? null);
+                            setDisabled(db ?? null);
                             setFont(lf ?? null);
                             setToggle(tg ?? null);
                             setSelectedShape(ss ?? null);

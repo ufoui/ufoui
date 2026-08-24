@@ -1,6 +1,6 @@
 {
   "name": "@ufoui/core",
-  "version": "0.0.205",
+  "version": "0.0.206",
   "description": "Lightweight Material Design 3 UI components for React",
   "type": "module",
   "main": "./index.js",

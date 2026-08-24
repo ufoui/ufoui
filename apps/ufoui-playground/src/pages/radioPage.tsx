@@ -44,7 +44,6 @@ export const RadioPage = () => {
     const [focusColor, setFocusColor] = useState<SurfaceColor | null>(null);
     const [disabled, setDisabled] = useState<boolean | null>(false);
     const [font, setFont] = useState<ElementFont | null>(null);
-    const [textColor, setTextColor] = useState<SurfaceColor | null>(null);
     const [textPlacement, setTextPlacement] = useState<ElementTextPlacement | null>(null);
     const [uncheckedColor, setUncheckedColor] = useState<SemanticColor | null>(null);
     const shared = useMemo(
@@ -61,7 +60,6 @@ export const RadioPage = () => {
             density: density ?? undefined,
             filled: !!filled,
             font: font ?? undefined,
-            textColor: textColor ?? undefined,
             readOnly: !!readOnly,
             textPlacement: textPlacement ?? undefined,
             uncheckedColor: uncheckedColor ?? undefined,
@@ -80,7 +78,6 @@ export const RadioPage = () => {
             density,
             filled,
             font,
-            textColor,
             textPlacement,
             readOnly,
         ]
@@ -310,7 +307,6 @@ export const RadioPage = () => {
                         focusColor: fc,
                         font: lf,
                         disabled: db,
-                        textColor: tc,
                         textPlacement: tp,
                         uncheckedColor: uc,
                         uncheckedBorder: ub,
@@ -327,7 +323,6 @@ export const RadioPage = () => {
                         setFocusColor(fc ?? null);
                         setFont(lf ?? null);
                         setDisabled(db ?? null);
-                        setTextColor(tc ?? null);
                         setTextPlacement(tp ?? null);
                         setUncheckedColor(uc ?? null);
                         setUncheckedBorder(ub ?? null);
@@ -337,7 +332,6 @@ export const RadioPage = () => {
                     readOnly={readOnly}
                     shape={shape}
                     size={size}
-                    textColor={textColor}
                     textPlacement={textPlacement}
                     uncheckedBorder={uncheckedBorder}
                     uncheckedBorderColor={uncheckedBorderColor}

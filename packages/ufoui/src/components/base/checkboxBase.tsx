@@ -28,7 +28,6 @@ import {
     getSurfaceColorVar,
     mergeRefs,
     SemanticColor,
-    SurfaceColor,
     useUniqueId,
 } from '../../utils';
 import { ElementAnimation } from '../../types';
@@ -69,8 +68,8 @@ export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLIn
     /** Supporting text displayed below the label. */
     description?: string;
 
-    /** Text color override for the description. */
-    descriptionColor?: SurfaceColor;
+    // /** Text color override for the description. */
+    // descriptionColor?: SurfaceColor;
 
     /** Font applied to the description text. */
     descriptionFont?: ElementFont;
@@ -114,9 +113,6 @@ export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLIn
     /** Text label displayed next to the control. */
     label?: string;
 
-    /** Text color override for the label. */
-    labelColor?: SurfaceColor;
-
     /** DOM name attribute. */
     name?: string;
 
@@ -140,9 +136,6 @@ export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLIn
 
     /** Size of the control. */
     size?: ElementSize;
-
-    /** Text color override for label and content. */
-    textColor?: SurfaceColor;
 
     /** Placement of text relative to the control. */
     textPlacement?: ElementTextPlacement;
@@ -234,14 +227,11 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         uncheckedIcon,
         indeterminateIcon,
         description,
-        descriptionColor,
         descriptionFont,
         className,
         error,
         animation,
         focusColor,
-        labelColor,
-        textColor,
         readOnly,
         tooltipAlign = 'auto',
         textPlacement = 'end',
@@ -418,7 +408,7 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
     }
 
     const labelStyle = ControlStyle();
-    labelStyle.text((error ? 'error' : undefined) ?? labelColor ?? textColor ?? 'onSurface');
+    labelStyle.text((error ? 'error' : undefined) ?? 'onSurface');
     const labelClasses = [getFontClass(font ?? 'bodyMedium'), 'uui-cb-label'].join(' ');
     const labelText = label && (
         <label className={labelClasses} htmlFor={elemId} style={labelStyle.get()}>

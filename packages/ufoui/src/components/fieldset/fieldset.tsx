@@ -16,8 +16,6 @@ export interface FieldsetProps extends Omit<BoxBaseProps, 'as' | 'elementClass' 
     color?: SurfaceColor;
     /** Supporting text displayed below the fieldset content. */
     description?: string;
-    /** Text color of the description. */
-    descriptionColor?: SurfaceColor;
     /** Font token applied to the description text. */
     descriptionFont?: ElementFont;
     /** Disables all form controls inside the fieldset. */
@@ -62,7 +60,6 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
             children,
             direction = 'col',
             required,
-            descriptionColor,
             descriptionFont,
             alignItems = 'start',
             ...props
@@ -75,8 +72,6 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
         const descriptionStyle = ControlStyle();
         if (error) {
             descriptionStyle.text('error');
-        } else if (descriptionColor) {
-            descriptionStyle.text(descriptionColor);
         } else {
             descriptionStyle.text.on('surfaceVariant');
         }
