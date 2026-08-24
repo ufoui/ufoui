@@ -26,7 +26,6 @@ import {
     Grid,
     H1,
     SemanticColor,
-    SurfaceColor,
 } from '@ufoui/core';
 
 import tree from '../../assets/tree.jpg';
@@ -40,15 +39,6 @@ const buttonStyles = [
     { label: 'Elevated', elevated: true },
     { label: 'Tonal', tonal: true },
     { label: 'Filled', filled: true },
-    { label: 'Outlined Elevated', outlined: true, elevated: true },
-    { label: 'Outlined Tonal', outlined: true, tonal: true },
-    { label: 'Outlined Filled', outlined: true, filled: true },
-    { label: 'Elevated Tonal', elevated: true, tonal: true },
-    { label: 'Elevated Filled', elevated: true, filled: true },
-    { label: 'Tonal Filled', tonal: true, filled: true },
-    // { label: 'Outlined Tonal Raised', tonal: true, raised: true, outlined: true },
-    { label: 'Outlined Tonal Filled', tonal: true, filled: true, outlined: true },
-    { label: 'All', tonal: true, filled: true, outlined: true, elevated: true },
 ];
 
 interface Props {
@@ -64,8 +54,6 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
     const [borderColor, setBorderColor] = useState<BorderColor | null>(null);
     const [color, setColor] = useState<SemanticColor | null>(null);
     const [selectedColor, setSelectedColor] = useState<SemanticColor | null>(null);
-    const [textColor, setTextColor] = useState<SurfaceColor | null>(null);
-    const [selectedTextColor, setSelectedTextColor] = useState<SurfaceColor | null>(null);
     const [elevation, setElevation] = useState<ElementElevation | null>(null);
     const [flat, setFlat] = useState<boolean | null>(false);
     const [toggle, setToggle] = useState<boolean | null>(false);
@@ -80,8 +68,6 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
             border: border ?? undefined,
             color: color ?? undefined,
             selectedColor: selectedColor ?? undefined,
-            textColor: textColor ?? undefined,
-            selectedTextColor: selectedTextColor ?? undefined,
             borderColor: borderColor ?? undefined,
             elevation: elevation ?? undefined,
             density: density ?? undefined,
@@ -96,8 +82,6 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
             border,
             color,
             selectedColor,
-            textColor,
-            selectedTextColor,
             borderColor,
             elevation,
             density,
@@ -309,13 +293,11 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
                             border: bd,
                             borderColor: bc,
                             color: cl,
-                            textColor: tc,
                             elevation: el,
                             density: ds,
                             flat: fl,
                             toggle: tg,
                             font: lf,
-                            selectedTextColor: stc,
                             selectedShape: ss,
                             selectedColor: sc,
                         }) => {
@@ -323,7 +305,6 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
                             setShape(sp ?? null);
                             setBorder(bd ?? null);
                             setColor(cl ?? null);
-                            setTextColor(tc ?? null);
                             setBorderColor(bc ?? null);
                             setElevation(el ?? null);
                             setFlat(fl ?? null);
@@ -331,15 +312,12 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
                             setFont(lf ?? null);
                             setToggle(tg ?? null);
                             setSelectedShape(ss ?? null);
-                            setSelectedTextColor(stc ?? null);
                             setSelectedColor(sc ?? null);
                         }}
                         selectedColor={selectedColor}
                         selectedShape={selectedShape}
-                        selectedTextColor={selectedTextColor}
                         shape={shape}
                         size={size}
-                        textColor={textColor}
                         toggle={toggle}
                     />
                 </Aside>

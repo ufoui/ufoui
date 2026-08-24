@@ -1,7 +1,6 @@
 import React, { forwardRef, ReactNode, useRef, useState } from 'react';
 
 import {
-    BaseColor,
     BorderColor,
     cn,
     ControlStyle,
@@ -146,17 +145,11 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
     /** Shape override when selected. */
     selectedShape?: ElementShape;
 
-    /** Text color override when selected. */
-    selectedTextColor?: BaseColor;
-
     /** Shape of the button. */
     shape?: ElementShape;
 
     /** Predefined button size. Default: medium */
     size?: ElementSize;
-
-    /** Text color override. */
-    textColor?: BaseColor;
 
     /** Tooltip text and accessibility label fallback. */
     title?: string;
@@ -235,8 +228,6 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         flat = false,
         elevation,
         disabled,
-        textColor,
-        selectedTextColor,
         shape = 'round',
         selectedShape = 'rounded',
         icon,
@@ -280,13 +271,11 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
 
     const wrapperClasses = cn(elementClass, className, 'uui-bb', getDensityClass(density), fullWidth && 'uui-w-full');
 
+    const resolvedBorder = border ?? (finalVariant === 'outlined' ? 1 : undefined);
     const controlClasses: string[] = [
         'uui-btn-control',
         getFontClass(font),
-        ...(filled ? ['uui-filled'] : []),
-        ...(elevated ? ['uui-elevated'] : []),
-        ...(tonal ? ['uui-tonal'] : []),
-        ...(outlined ? ['uui-outlined'] : []),
+        ...[`uui-${finalVariant}`],
         ...(focusEffects.includes('ring') ? ['uui-focus-ring'] : []),
         ...(focusEffects.includes('overlay') ? ['uui-focus-overlay'] : []),
         ...(hoverEffects.includes('overlay') ? ['uui-hover-overlay'] : []),
@@ -296,9 +285,16 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         ...(fullWidth ? ['uui-w-full'] : []),
         ...(!children ? [getSizeClass(size)] : []),
         ...(isSelected ? ['uui-selected'] : []),
+        getBorderClass(resolvedBorder),
     ];
 
+    const controlStyle = ControlStyle(style);
+    if (resolvedBorder !== undefined) {
+        controlStyle.border(getBorderColor(borderColor));
+    }
+
     const stateClasses: string[] = ['uui-state'];
+    const stateStyle = ControlStyle();
 
     const shapeClass =
         toggle && isSelected && selectedEffects.includes('morph') ? getShapeClass(selectedShape) : getShapeClass(shape);
@@ -333,16 +329,6 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         );
     }
 
-    const controlStyle = ControlStyle(style);
-    const stateStyle = ControlStyle();
-
-    if (outlined || border !== undefined) {
-        controlStyle.border(getBorderColor(borderColor));
-        const resolvedBorder = border ?? (outlined ? 1 : 0);
-        const borderClass = getBorderClass(resolvedBorder);
-        controlClasses.push(borderClass);
-    }
-
     let resolvedElevation = elevation;
     if (elevation === undefined) {
         if (tonal || filled) {
@@ -361,32 +347,24 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
 
     // Base appearance (non-toggle OR toggle without color effect)
     const setStandardColor = () => {
-        if (filled) {
+        if (finalVariant === 'filled') {
             controlStyle.bg(color ?? 'primary');
             stateStyle.bg.on(color ?? 'primary');
-            if (textColor) {
-                controlStyle.text(textColor);
-            } else {
-                controlStyle.text.on(color ?? 'primary');
-            }
-        } else if (tonal) {
+            controlStyle.text.on(color ?? 'primary');
+        } else if (finalVariant === 'tonal') {
             controlStyle.bg.container('secondary');
             stateStyle.bg.onContainer('secondary');
-            if (textColor) {
-                controlStyle.text(textColor);
-            } else {
-                controlStyle.text.onContainer('secondary');
-            }
-        } else if (elevated) {
+            controlStyle.text.onContainer('secondary');
+        } else if (finalVariant === 'elevated') {
             controlStyle.bg('surfaceContainerLow');
-            controlStyle.text(textColor ?? color ?? 'primary');
+            controlStyle.text(color ?? 'primary');
             stateStyle.bg(color ?? 'primary');
-        } else if (outlined && !textColor) {
+        } else if (finalVariant === 'outlined') {
             controlStyle.text.on('surfaceVariant');
             stateStyle.bg.on('surfaceVariant');
         } else {
-            controlStyle.text(textColor ?? color);
-            stateStyle.bg(textColor ?? color);
+            controlStyle.text(color);
+            stateStyle.bg(color);
         }
     };
 
@@ -396,57 +374,42 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
             controlStyle.bg(color);
             stateStyle.bg.on(color);
             controlStyle.text.on(color);
-        } else if (filled) {
+        } else if (finalVariant === 'filled') {
             controlStyle.bg('surfaceContainer');
             stateStyle.bg.on('surfaceContainer');
             controlStyle.text.on('surfaceVariant');
-        } else if (elevated) {
+        } else if (finalVariant === 'elevated') {
             controlStyle.bg('surfaceContainerLow');
             stateStyle.bg.on('surfaceContainerLow');
             controlStyle.text('primary');
-        } else if (tonal) {
+        } else if (finalVariant === 'tonal') {
             controlStyle.bg.container('secondary');
             stateStyle.bg('secondary');
             controlStyle.text.onContainer('secondary');
-        } else if (outlined && !textColor) {
+        } else if (finalVariant === 'outlined') {
             controlStyle.text.on('surfaceVariant');
             stateStyle.bg.on('surfaceVariant');
         } else {
-            controlStyle.text(textColor ?? color ?? 'primary');
-            stateStyle.bg(textColor ?? color ?? 'primary');
-        }
-        if (textColor) {
-            controlStyle.text(textColor);
+            controlStyle.text(color ?? 'primary');
+            stateStyle.bg(color ?? 'primary');
         }
     };
 
     // Toggle appearance – selected state
     const setSelectedColor = () => {
         const finalColor = selectedColor ?? color ?? 'primary';
-        if (tonal && !selectedColor) {
+        if (finalVariant === 'tonal' && !selectedColor) {
             controlStyle.bg('secondary');
             stateStyle.bg.on('secondary');
-            if (selectedTextColor) {
-                controlStyle.text(selectedTextColor);
-            } else {
-                controlStyle.text.on('secondary');
-            }
-        } else if (outlined && !selectedColor) {
+            controlStyle.text.on('secondary');
+        } else if (finalVariant === 'outlined' && !selectedColor) {
             controlStyle.bg('inverseSurface');
             stateStyle.bg.on('inverseSurface');
-            if (selectedTextColor) {
-                controlStyle.text(selectedTextColor);
-            } else {
-                controlStyle.text.on('inverseSurface');
-            }
+            controlStyle.text.on('inverseSurface');
         } else {
             controlStyle.bg(finalColor);
             stateStyle.bg.on(finalColor);
-            if (selectedTextColor) {
-                controlStyle.text(selectedTextColor);
-            } else {
-                controlStyle.text.on(finalColor);
-            }
+            controlStyle.text.on(finalColor);
         }
     };
 
@@ -525,7 +488,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
                 aria-haspopup={upload ? 'dialog' : undefined}
                 aria-label={finalAriaLabel}
                 aria-pressed={toggle ? isSelected : undefined}
-                className={controlClasses.join(' ')}
+                className={cn(controlClasses)}
                 disabled={disabled}
                 id={elemId}
                 name={name || undefined}

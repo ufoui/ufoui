@@ -70,7 +70,6 @@ type ButtonModifiersProps = {
         readOnly?: boolean | null;
         selectedColor?: SemanticColor | null;
         selectedShape?: ElementShape | null;
-        selectedTextColor?: SurfaceColor | null;
         selection?: ListSelection | null;
         selectionSlot?: ListSelectionSlot | null;
         shape?: ElementShape | null;
@@ -86,7 +85,6 @@ type ButtonModifiersProps = {
     readOnly?: boolean | null;
     selectedColor?: SemanticColor | null;
     selectedShape?: ElementShape | null;
-    selectedTextColor?: SurfaceColor | null;
     selection?: ListSelection | null;
     selectionSlot?: ListSelectionSlot | null;
     shape?: ElementShape | null;
@@ -110,7 +108,6 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         uncheckedBorderColor,
         color,
         uncheckedColor,
-        selectedTextColor,
         selectedColor,
         selectedShape,
         selection,
@@ -260,27 +257,6 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             });
                         }}
                         value={textColor ?? ''}>
-                        <option value="">Default</option>
-                        {getColorNames('base').map(c => (
-                            <option key={c} value={c}>
-                                {c}
-                            </option>
-                        ))}
-                    </select>
-                </>
-            )}
-
-            {selectedTextColor !== undefined && (
-                <>
-                    <span>Selected text color:</span>
-                    <select
-                        onChange={e => {
-                            onChange({
-                                ...props,
-                                selectedTextColor: e.target.value === '' ? undefined : (e.target.value as SurfaceColor),
-                            });
-                        }}
-                        value={selectedTextColor ?? ''}>
                         <option value="">Default</option>
                         {getColorNames('base').map(c => (
                             <option key={c} value={c}>
