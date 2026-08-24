@@ -24,7 +24,7 @@ import { Description, LabelText, Leading, Trailing } from '../../internal';
 import { useDisableFocusWithin } from '../../hooks/useDisableFocusWithin';
 
 /** Visual variant of the field control. */
-type FieldVariant = 'filled' | 'outlined' | 'classic';
+export type FieldVariant = 'filled' | 'outlined' | 'classic';
 
 /**
  * Props for the FieldBase component.

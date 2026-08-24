@@ -32,6 +32,9 @@ import {
 import { InlineTooltipManager } from '../../internal';
 import { Spinner } from '../spinner/spinner';
 
+/** Visual variant of the button. */
+export type ButtonVariant = 'text' | 'outlined' | 'elevated' | 'tonal' | 'filled';
+
 /**
  * Props for the ButtonBase component.
  *
@@ -184,6 +187,9 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
 
     /** Enables multi-file upload. */
     uploadMultiple?: boolean;
+
+    /** Visual button variant. Takes precedence over boolean variant shortcuts. Default: text */
+    variant?: ButtonVariant;
 }
 
 /**
@@ -221,6 +227,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         selectedEffects = ['morph', 'color'],
         focusEffects = ['ring', 'overlay'],
         children,
+        variant,
         outlined = false,
         filled = false,
         tonal = false,
@@ -267,6 +274,8 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     const buttonRef = useRef<HTMLButtonElement>(null);
     const generatedId = useUniqueId('button');
     const elemId = id || name || generatedId;
+    const finalVariant =
+        variant ?? (filled ? 'filled' : tonal ? 'tonal' : elevated ? 'elevated' : outlined ? 'outlined' : 'text');
     const linkContent = link ? React.cloneElement(link, { ref: linkRef, style: { display: 'none' } }) : null;
 
     const wrapperClasses = cn(elementClass, className, 'uui-bb', getDensityClass(density), fullWidth && 'uui-w-full');
