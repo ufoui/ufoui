@@ -188,3 +188,6 @@ Item.displayName = 'Item';
 
 /** @category Item */
 export const Option = Item;
+
+/** @category Item */
+export const ListItem = Item;
