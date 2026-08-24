@@ -44,6 +44,22 @@ export const ListPage = () => {
     const [draggable, setDraggable] = useState<boolean | null>(null);
 
     const [checked, setChecked] = useState<Record<string, boolean>>({});
+    const [order, setOrder] = useState(() => Array.from({ length: 50 }, (_, i) => i));
+    const [variousOrder, setVariousOrder] = useState(() => [
+        'figma-media-switch',
+        'figma-supporting',
+        'figma-icon-supporting',
+        'figma-icon',
+        'figma-avatar',
+        'figma-checkbox',
+        'figma-radio',
+        'figma-image',
+        'figma-wide-image',
+        'figma-wide-image-2',
+        'figma-text',
+        'figma-text-divider-1',
+        'figma-text-divider-2',
+    ]);
 
     const shared = useMemo(
         () => ({
@@ -62,7 +78,7 @@ export const ListPage = () => {
         [color, shape, elevation, border, borderColor, density, selection, selectionSlot, draggable]
     );
 
-    const items = Array.from({ length: 50 }, (_, i) => {
+    const items = order.map(i => {
         const value = `item-${i}`;
 
         if (i < 10) {
@@ -122,13 +138,92 @@ export const ListPage = () => {
 
     const staticSwitch = <Switch aria-label="Enabled" readOnly tabIndex={-1} />;
 
+    const variousItems = variousOrder.flatMap((value, index) => {
+        const item =
+            value === 'figma-media-switch' ? (
+                <ListItem
+                    description="Supporting line text lorem ipsum dolor sit amet, consectetur."
+                    key={value}
+                    label="List item"
+                    leading={videoThumbnail}
+                    media="video"
+                    trailing={staticSwitch}
+                    value={value}
+                />
+            ) : value === 'figma-supporting' ? (
+                <ListItem
+                    description="Supporting line text lorem ipsum dolor sit amet, consectetur."
+                    key={value}
+                    label="List item"
+                    trailing={
+                        <Span color="onSurfaceVariant" font="labelLarge">
+                            100+
+                        </Span>
+                    }
+                    value={value}
+                />
+            ) : value === 'figma-icon-supporting' ? (
+                <ListItem
+                    description="Supporting line text"
+                    key={value}
+                    label="List item"
+                    leading={<MdPerson />}
+                    trailing={
+                        <Span color="onSurfaceVariant" font="labelLarge">
+                            100+
+                        </Span>
+                    }
+                    value={value}
+                />
+            ) : value === 'figma-icon' ? (
+                <ListItem key={value} label="List item" leading={<MdPerson />} value={value} />
+            ) : value === 'figma-avatar' ? (
+                <ListItem key={value} label="List item" leading={<Avatar name="Anna" />} trailing={staticSwitch} value={value} />
+            ) : value === 'figma-checkbox' ? (
+                <ListItem key={value} label="List item" value={value} />
+            ) : value === 'figma-radio' ? (
+                <ListItem key={value} label="List item" trailing={<MdArrowRight />} value={value} />
+            ) : value === 'figma-image' ? (
+                <ListItem key={value} label="Image item" leading={imageThumbnail} media="image" value={value} />
+            ) : value === 'figma-wide-image' ? (
+                <ListItem key={value} label="Video item" leading={videoThumbnail} media="video" value={value} />
+            ) : value === 'figma-wide-image-2' ? (
+                <ListItem key={value} label="Large Video item" leading={largeVideoThumbnail} media="video" value={value} />
+            ) : value === 'figma-text' ? (
+                <ListItem key={value} label="List item" value={value} />
+            ) : value === 'figma-text-divider-1' ? (
+                <ListItem description="Supporting line text" key={value} label="List item" overline="Overline" value={value} />
+            ) : (
+                <ListItem key={value} label="List item" overline="Overline" value={value} />
+            );
+
+        if (index === 1) {
+            return [item, <Divider key="various-divider-top" />];
+        }
+        if (index === variousOrder.length - 3) {
+            return [item, <Divider key="various-divider-bottom" />];
+        }
+
+        return [item];
+    });
+
     return (
         <Article direction="row" fullWidth>
             <Content direction="row" gap={24} grow p={16}>
                 <H1>List</H1>
                 <Section alignItems="start" gap={12}>
                     <H2>Simple List</H2>
-                    <List defaultValue="item-20" {...shared}>
+                    <List
+                        defaultValue="item-20"
+                        {...shared}
+                        onOrderChange={({ from, to }) => {
+                            setOrder(prev => {
+                                const next = [...prev];
+                                const [item] = next.splice(from, 1);
+                                next.splice(to, 0, item);
+                                return next;
+                            });
+                        }}>
                         {items}
                     </List>
                 </Section>
@@ -141,63 +236,16 @@ export const ListPage = () => {
                         maxWidth={520}
                         overflow="visible"
                         selection={selection ?? undefined}
-                        selectionSlot={selectionSlot ?? undefined}>
-                        <ListItem
-                            description="Supporting line text lorem ipsum dolor sit amet, consectetur."
-                            label="List item"
-                            leading={videoThumbnail}
-                            media="video"
-                            trailing={staticSwitch}
-                            value="figma-media-switch"
-                        />
-                        <ListItem
-                            description="Supporting line text lorem ipsum dolor sit amet, consectetur."
-                            label="List item"
-                            trailing={
-                                <Span color="onSurfaceVariant" font="labelLarge">
-                                    100+
-                                </Span>
-                            }
-                            value="figma-supporting"
-                        />
-                        <Divider />
-                        <ListItem
-                            description="Supporting line text"
-                            label="List item"
-                            leading={<MdPerson />}
-                            trailing={
-                                <Span color="onSurfaceVariant" font="labelLarge">
-                                    100+
-                                </Span>
-                            }
-                            value="figma-icon-supporting"
-                        />
-                        <ListItem label="List item" leading={<MdPerson />} value="figma-icon" />
-                        <ListItem
-                            label="List item"
-                            leading={<Avatar name="Anna" />}
-                            trailing={staticSwitch}
-                            value="figma-avatar"
-                        />
-                        <ListItem label="List item" value="figma-checkbox" />
-                        <ListItem label="List item" trailing={<MdArrowRight />} value="figma-radio" />
-                        <ListItem label="Image item" leading={imageThumbnail} media="image" value="figma-image" />
-                        <ListItem label="Video item" leading={videoThumbnail} media="video" value="figma-wide-image" />
-                        <ListItem
-                            label="Large Video item"
-                            leading={largeVideoThumbnail}
-                            media="video"
-                            value="figma-wide-image-2"
-                        />
-                        <ListItem label="List item" value="figma-text" />
-                        <Divider />
-                        <ListItem
-                            description="Supporting line text"
-                            label="List item"
-                            overline="Overline"
-                            value="figma-text-divider-1"
-                        />
-                        <ListItem label="List item" overline="Overline" value="figma-text-divider-2" />
+                        selectionSlot={selectionSlot ?? undefined}
+                        onOrderChange={({ from, to }) => {
+                            setVariousOrder(prev => {
+                                const next = [...prev];
+                                const [item] = next.splice(from, 1);
+                                next.splice(to, 0, item);
+                                return next;
+                            });
+                        }}>
+                        {variousItems}
                         <Div height={8} />
                     </List>
                 </Section>
