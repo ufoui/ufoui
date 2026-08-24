@@ -26,6 +26,7 @@ type ButtonModifiersProps = {
     disabled?: boolean | null;
     detached?: boolean | null;
     docked?: boolean | null;
+    draggable?: boolean | null;
     anchored?: boolean | null;
     dockedElevation?: ElementElevation | null;
     elevation?: ElementElevation | null;
@@ -50,6 +51,7 @@ type ButtonModifiersProps = {
         density?: ElementDensity | null;
         disabled?: boolean | null;
         docked?: boolean | null;
+        draggable?: boolean | null;
         anchored?: boolean | null;
         dockedElevation?: ElementElevation | null;
         detached?: boolean | null;
@@ -112,6 +114,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         selectedShape,
         selection,
         selectionSlot,
+        draggable,
         borderColor,
         textColor,
         elevation,
@@ -864,6 +867,22 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         <option value="leading">Leading</option>
                         <option value="trailing">Trailing</option>
                     </select>
+                </>
+            )}
+            {draggable !== undefined && (
+                <>
+                    <label htmlFor="mod_draggable">Draggable:</label>
+                    <Checkbox
+                        checked={!!draggable}
+                        density="dense"
+                        id="mod_draggable"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                draggable: e.target.checked,
+                            });
+                        }}
+                    />
                 </>
             )}
         </Grid>

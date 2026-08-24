@@ -12,6 +12,7 @@ import { Checkbox } from '../checkbox/checkbox';
 interface ItemCtxConfig {
     itemRole?: string;
     density?: ElementDensity;
+    draggable?: boolean;
     nav?: ReturnType<typeof useFocusNavigation>;
     selection?: ListSelection;
     selectionSlot?: ListSelectionSlot;
@@ -26,12 +27,15 @@ export type ItemMedia = 'image' | 'video';
  *
  * @category Item
  */
-export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'draggable'> {
     /** Secondary supporting text. */
     description?: string;
 
     /** Disables interactions and focus. */
     disabled?: boolean;
+
+    /** Makes the item a drag source. Overrides the value provided by the parent `List`. */
+    draggable?: boolean;
 
     /** Leading slot content. */
     leading?: React.ReactNode;
@@ -91,6 +95,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             media,
             value,
             disabled,
+            draggable,
             selectionSlot,
             className,
             onClick,
@@ -108,6 +113,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
         const selection = config?.selection ?? 'none';
         const markerSlot = selectionSlot ?? config?.selectionSlot ?? 'leading';
         const canSelect = ctx && selection !== 'none' && !disabled && value;
+        const canDrag = (draggable ?? config?.draggable) && !disabled;
 
         const markerControl =
             selection !== 'none' ? (
@@ -162,6 +168,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                     disabled && 'uui-disabled',
                     className
                 )}
+                // draggable={canDrag}
                 onClick={handleClick}
                 onKeyDown={handleKeyDown}
                 ref={mergeRefs(itemRef, ref)}

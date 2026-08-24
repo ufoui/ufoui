@@ -18,6 +18,10 @@ export type ListSelectionSlot = 'none' | 'leading' | 'trailing';
 /** @category List */
 export interface ListConfig {
     density?: ElementDensity;
+
+    /** Marks the child items as drag sources. */
+    draggable?: boolean;
+
     itemRole: 'listitem' | 'option';
 
     /** Keyboard focus controller shared with the child items. */
@@ -36,7 +40,7 @@ export interface ListConfig {
  *
  * @category List
  */
-export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange'> {
+export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange' | 'draggable'> {
     children: ReactNode;
 
     /** Uncontrolled initial selected value(s). */
@@ -44,6 +48,9 @@ export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange'> {
 
     /** Density preset propagated to all child items. */
     density?: ElementDensity;
+
+    /** Makes all child items draggable. */
+    draggable?: boolean;
 
     /** Change handler called with the new selected values array. */
     onChange?: (values: string[]) => void;
@@ -88,6 +95,7 @@ export const List = ({
     selectionSlot,
     onChange,
     density,
+    draggable,
     ...props
 }: ListProps) => {
     const ss = useSelectionState({
@@ -101,6 +109,7 @@ export const List = ({
     const config: ListConfig = {
         itemRole: variant === 'listbox' ? 'option' : 'listitem',
         density,
+        draggable,
         nav,
         selection,
         selectionSlot,

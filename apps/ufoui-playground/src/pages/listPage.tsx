@@ -41,6 +41,7 @@ export const ListPage = () => {
     const [density, setDensity] = useState<ElementDensity | null>(null);
     const [selection, setSelection] = useState<ListSelection | null>(null);
     const [selectionSlot, setSelectionSlot] = useState<ListSelectionSlot | null>(null);
+    const [draggable, setDraggable] = useState<boolean | null>(null);
 
     const [checked, setChecked] = useState<Record<string, boolean>>({});
 
@@ -54,10 +55,11 @@ export const ListPage = () => {
             density: density ?? undefined,
             selection: selection ?? undefined,
             selectionSlot: selectionSlot ?? undefined,
+            draggable: draggable ?? undefined,
             maxHeight: 500,
             overflow: 'auto' as const,
         }),
-        [color, shape, elevation, border, borderColor, density, selection, selectionSlot]
+        [color, shape, elevation, border, borderColor, density, selection, selectionSlot, draggable]
     );
 
     const items = Array.from({ length: 50 }, (_, i) => {
@@ -135,6 +137,7 @@ export const ListPage = () => {
                     <List
                         color="surface"
                         density={density ?? undefined}
+                        draggable={draggable ?? undefined}
                         maxWidth={520}
                         overflow="visible"
                         selection={selection ?? undefined}
@@ -203,6 +206,7 @@ export const ListPage = () => {
                     <List
                         color="surface"
                         density={density ?? undefined}
+                        draggable={draggable ?? undefined}
                         maxWidth={520}
                         selection={selection ?? undefined}
                         selectionSlot={selectionSlot ?? undefined}>
@@ -238,6 +242,7 @@ export const ListPage = () => {
                     border={border}
                     borderColor={borderColor}
                     density={density}
+                    draggable={draggable}
                     elevation={elevation}
                     onChange={({
                         surfaceColor: sc,
@@ -248,6 +253,7 @@ export const ListPage = () => {
                         density: dn,
                         selection: sel,
                         selectionSlot: slot,
+                        draggable: drag,
                     }) => {
                         setColor(sc ?? null);
                         setShape(sp ?? null);
@@ -257,6 +263,7 @@ export const ListPage = () => {
                         setDensity(dn ?? null);
                         setSelection(sel ?? null);
                         setSelectionSlot(slot ?? null);
+                        setDraggable(drag ?? null);
                     }}
                     selection={selection}
                     selectionSlot={selectionSlot}
