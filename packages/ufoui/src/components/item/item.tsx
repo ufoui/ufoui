@@ -22,7 +22,7 @@ export type ItemVariant = 'baseline' | 'expressive';
 export type ItemMedia = 'image' | 'video';
 
 /**
- * Props for the {@link Item} component.
+ * Props for the {@link ListItem} and {@link Option} components.
  *
  * @category Item
  */
@@ -65,18 +65,20 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
  * itself with the focus controller provided by the parent `List`.
  *
  * @remarks
- * Export aliases: `ListItem`, `Option`.
+ * Not exported from the package. Use the aliases instead: {@link ListItem} inside
+ * {@link List}, {@link Option} inside {@link Select}.
  *
  * @example
  * ```tsx
  * <List variant="listbox" selection="single">
- *   <Item value="a" label="Apple" />
- *   <Item value="b" label="Banana" description="Yellow fruit" />
+ *   <ListItem value="a" label="Apple" />
+ *   <ListItem value="b" label="Banana" description="Yellow fruit" />
  * </List>
  * ```
  *
  * @function
  * @category Item
+ * @internal
  */
 export const Item = forwardRef<HTMLDivElement, ItemProps>(
     (

@@ -22,9 +22,9 @@ import {
     Grid,
     H1,
     H2,
-    Item,
     MotionAnimation,
     MotionStyle,
+    Option,
     P,
     Radio,
     RadioGroup,
@@ -243,9 +243,9 @@ export const DialogPage = () => {
                             }}
                             placeholder="Select country..."
                             value={country}>
-                            <Item label="Poland" value="pl" />
-                            <Item label="Germany" value="de" />
-                            <Item label="France" value="fr" />
+                            <Option label="Poland" value="pl" />
+                            <Option label="Germany" value="de" />
+                            <Option label="France" value="fr" />
                         </Select>
                     </Flex>
                 </Dialog>

@@ -26,7 +26,7 @@ export interface ItemGroupProps extends ItemProps {
 }
 
 /**
- * **ItemGroup** — {@link Item} that reveals nested items.
+ * **ItemGroup** — {@link ListItem} that reveals nested items.
  *
  * Renders the group header as a regular `Item` and the nested entries inside a
  * {@link Collapse}. The children stay ordinary list items: they register with

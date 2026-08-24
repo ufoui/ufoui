@@ -30,6 +30,7 @@ Leading
 Trailing
 
 @alpha
+Item
 ControlLabel
 Menu
 MenuItem
@@ -68,6 +69,7 @@ PasswordField
 NumberField
 
 @experimental
+Option
 ListItem
 ItemGroup
 TextField
@@ -92,7 +94,6 @@ FieldBase
 InlineTooltipManager
 List
 MonthField
-Option
 Select
 Slider
 Tab
@@ -107,9 +108,6 @@ WeekField
 AlertDialog
 Stepper
 TopAppBar
-ListItemButton
-ListItemText
-ListItemIcon
 ExpansionPanel
 NavigationDrawer
 AppBar
@@ -129,6 +127,9 @@ ChipSet
 RichEdit
 
 @deprecated
+ListItemIcon
+ListItemText
+ListItemButton
 Scrim
 Surface
 AccordionSummary

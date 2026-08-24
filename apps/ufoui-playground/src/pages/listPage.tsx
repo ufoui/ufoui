@@ -15,9 +15,9 @@ import {
     ElementShape,
     H1,
     H2,
-    Item,
     ItemGroup,
     List,
+    ListItem,
     ListSelection,
     ListSelectionSlot,
     Section,
@@ -65,7 +65,7 @@ export const ListPage = () => {
 
         if (i < 10) {
             return (
-                <Item
+                <ListItem
                     description="Toggle favorite"
                     key={value}
                     label={`Starred ${i + 1}`}
@@ -84,7 +84,7 @@ export const ListPage = () => {
 
         if (i < 20) {
             return (
-                <Item
+                <ListItem
                     description="No selection"
                     key={value}
                     label={`Folder ${i - 9}`}
@@ -95,7 +95,7 @@ export const ListPage = () => {
         }
 
         return (
-            <Item
+            <ListItem
                 description="Selectable item"
                 key={value}
                 label={`Option ${i - 19}`}
@@ -139,7 +139,7 @@ export const ListPage = () => {
                         overflow="visible"
                         selection={selection ?? undefined}
                         selectionSlot={selectionSlot ?? undefined}>
-                        <Item
+                        <ListItem
                             description="Supporting line text lorem ipsum dolor sit amet, consectetur."
                             label="List item"
                             leading={videoThumbnail}
@@ -147,7 +147,7 @@ export const ListPage = () => {
                             trailing={staticSwitch}
                             value="figma-media-switch"
                         />
-                        <Item
+                        <ListItem
                             description="Supporting line text lorem ipsum dolor sit amet, consectetur."
                             label="List item"
                             trailing={
@@ -158,7 +158,7 @@ export const ListPage = () => {
                             value="figma-supporting"
                         />
                         <Divider />
-                        <Item
+                        <ListItem
                             description="Supporting line text"
                             label="List item"
                             leading={<MdPerson />}
@@ -169,32 +169,32 @@ export const ListPage = () => {
                             }
                             value="figma-icon-supporting"
                         />
-                        <Item label="List item" leading={<MdPerson />} value="figma-icon" />
-                        <Item
+                        <ListItem label="List item" leading={<MdPerson />} value="figma-icon" />
+                        <ListItem
                             label="List item"
                             leading={<Avatar name="Anna" />}
                             trailing={staticSwitch}
                             value="figma-avatar"
                         />
-                        <Item label="List item" value="figma-checkbox" />
-                        <Item label="List item" trailing={<MdArrowRight />} value="figma-radio" />
-                        <Item label="Image item" leading={imageThumbnail} media="image" value="figma-image" />
-                        <Item label="Video item" leading={videoThumbnail} media="video" value="figma-wide-image" />
-                        <Item
+                        <ListItem label="List item" value="figma-checkbox" />
+                        <ListItem label="List item" trailing={<MdArrowRight />} value="figma-radio" />
+                        <ListItem label="Image item" leading={imageThumbnail} media="image" value="figma-image" />
+                        <ListItem label="Video item" leading={videoThumbnail} media="video" value="figma-wide-image" />
+                        <ListItem
                             label="Large Video item"
                             leading={largeVideoThumbnail}
                             media="video"
                             value="figma-wide-image-2"
                         />
-                        <Item label="List item" value="figma-text" />
+                        <ListItem label="List item" value="figma-text" />
                         <Divider />
-                        <Item
+                        <ListItem
                             description="Supporting line text"
                             label="List item"
                             overline="Overline"
                             value="figma-text-divider-1"
                         />
-                        <Item label="List item" overline="Overline" value="figma-text-divider-2" />
+                        <ListItem label="List item" overline="Overline" value="figma-text-divider-2" />
                         <Div height={8} />
                     </List>
                 </Section>
@@ -206,28 +206,28 @@ export const ListPage = () => {
                         maxWidth={520}
                         selection={selection ?? undefined}
                         selectionSlot={selectionSlot ?? undefined}>
-                        <Item label="Inbox" leading={<MdInbox />} value="nested-inbox" />
-                        <Item label="Starred" leading={<MdStar />} value="nested-starred" />
-                        <Item label="Settings" leading={<MdSettings />} value="nested-settings" />
+                        <ListItem label="Inbox" leading={<MdInbox />} value="nested-inbox" />
+                        <ListItem label="Starred" leading={<MdStar />} value="nested-starred" />
+                        <ListItem label="Settings" leading={<MdSettings />} value="nested-settings" />
                         <Divider />
                         <ItemGroup defaultOpen description="Single level" label="Projects" leading={<MdFolder />}>
-                            <Item label="Alpha" value="nested-alpha" />
-                            <Item label="Beta" value="nested-beta" />
-                            <Item label="Gamma" value="nested-gamma" />
+                            <ListItem label="Alpha" value="nested-alpha" />
+                            <ListItem label="Beta" value="nested-beta" />
+                            <ListItem label="Gamma" value="nested-gamma" />
                         </ItemGroup>
                         <ItemGroup description="Two levels" label="Workspace" leading={<MdFolder />}>
-                            <Item label="Overview" value="nested-ws-overview" />
+                            <ListItem label="Overview" value="nested-ws-overview" />
                             <ItemGroup label="Team" leading={<MdPerson />}>
-                                <Item label="Anna" value="nested-ws-anna" />
-                                <Item label="Marek" value="nested-ws-marek" />
+                                <ListItem label="Anna" value="nested-ws-anna" />
+                                <ListItem label="Marek" value="nested-ws-marek" />
                             </ItemGroup>
                         </ItemGroup>
                         <ItemGroup description="Two levels" label="Media" leading={<MdFolder />}>
                             <ItemGroup label="Images" leading={<MdImage />}>
-                                <Item label="Cover.png" value="nested-media-cover" />
-                                <Item label="Hero.jpg" value="nested-media-hero" />
+                                <ListItem label="Cover.png" value="nested-media-cover" />
+                                <ListItem label="Hero.jpg" value="nested-media-hero" />
                             </ItemGroup>
-                            <Item label="Archive" value="nested-media-archive" />
+                            <ListItem label="Archive" value="nested-media-archive" />
                         </ItemGroup>
                     </List>
                 </Section>

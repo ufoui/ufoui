@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { MdInbox, MdSettings, MdStar } from 'react-icons/md';
 
-import { Article, Aside, Content, H1, H2, Item, List, P, Section, SurfaceColor } from '@ufoui/core';
+import { Article, Aside, Content, H1, H2, List, ListItem, P, Section, SurfaceColor } from '@ufoui/core';
 
 import { Modifiers } from '../components/modifiers/modifiers';
 
@@ -26,12 +26,12 @@ export const ListBoxPage = () => {
                         value={selected}
                         variant="listbox"
                         width={288}>
-                        <Item description="12 unread" label="Inbox" leading={<MdInbox />} value="inbox" />
-                        <Item description="Favorites" label="Starred" leading={<MdStar />} value="starred" />
-                        <Item description="System settings" label="Settings" leading={<MdSettings />} value="settings" />
-                        <Item description="Archived items" label="Archive" value="archive" />
-                        <Item description="Disabled example" disabled label="Billing" value="billing" />
-                        <Item description="User profile" label="Profile" value="profile" />
+                        <ListItem description="12 unread" label="Inbox" leading={<MdInbox />} value="inbox" />
+                        <ListItem description="Favorites" label="Starred" leading={<MdStar />} value="starred" />
+                        <ListItem description="System settings" label="Settings" leading={<MdSettings />} value="settings" />
+                        <ListItem description="Archived items" label="Archive" value="archive" />
+                        <ListItem description="Disabled example" disabled label="Billing" value="billing" />
+                        <ListItem description="User profile" label="Profile" value="profile" />
                     </List>
                 </Section>
 
@@ -44,10 +44,10 @@ export const ListBoxPage = () => {
                         selection="multiple"
                         variant="listbox"
                         width={288}>
-                        <Item label="Apple" value="apple" />
-                        <Item label="Banana" value="banana" />
-                        <Item label="Cherry" value="cherry" />
-                        <Item disabled label="Date" value="date" />
+                        <ListItem label="Apple" value="apple" />
+                        <ListItem label="Banana" value="banana" />
+                        <ListItem label="Cherry" value="cherry" />
+                        <ListItem disabled label="Date" value="date" />
                     </List>
                 </Section>
             </Content>

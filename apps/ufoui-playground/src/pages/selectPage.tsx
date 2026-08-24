@@ -1,11 +1,10 @@
 import { useState } from 'react';
 
-import { Article, H2, Item, P, Section, Select } from '@ufoui/core';
+import { Article, H2, Option, P, Section, Select } from '@ufoui/core';
 
 export const SelectPage = () => {
     const [fruit, setFruit] = useState<string | undefined>(undefined);
     const [fruits, setFruits] = useState<string[]>([]);
-
     return (
         <Article direction="row" fullWidth>
             <Section alignItems="start" gap={24} grow p={16}>
@@ -13,39 +12,39 @@ export const SelectPage = () => {
                 <P>Value: {fruit ?? '—'}</P>
                 <Select
                     label="Fruit"
+                    onChange={v => {
+                        setFruit(v as string | undefined);
+                    }}
                     placeholder="Pick a fruit..."
-                    value={fruit}
-                    onChange={v => setFruit(v as string | undefined)}>
-                    <Item value="apple" label="Apple" />
-                    <Item value="banana" label="Banana" description="Yellow fruit" />
-                    <Item value="cherry" label="Cherry" />
-                    <Item value="date" label="Date" disabled />
-                    <Item value="elderberry" label="Elderberry" />
+                    value={fruit}>
+                    <Option label="Apple" value="apple" />
+                    <Option description="Yellow fruit" label="Banana" value="banana" />
+                    <Option label="Cherry" value="cherry" />
+                    <Option disabled label="Date" value="date" />
+                    <Option label="Elderberry" value="elderberry" />
                 </Select>
 
                 <H2>Select — multiple</H2>
                 <P>Values: {fruits.length ? fruits.join(', ') : '—'}</P>
                 <Select
                     label="Fruits"
-                    placeholder="Pick fruits..."
                     multiple
-                    value={fruits}
-                    onChange={v => setFruits(v as string[])}>
-                    <Item value="apple" label="Apple" />
-                    <Item value="banana" label="Banana" />
-                    <Item value="cherry" label="Cherry" />
-                    <Item value="date" label="Date" disabled />
+                    onChange={v => {
+                        setFruits(v as string[]);
+                    }}
+                    placeholder="Pick fruits..."
+                    value={fruits}>
+                    <Option label="Apple" value="apple" />
+                    <Option label="Banana" value="banana" />
+                    <Option label="Cherry" value="cherry" />
+                    <Option disabled label="Date" value="date" />
                 </Select>
 
                 <H2>Select — outlined</H2>
-                <Select
-                    label="Country"
-                    placeholder="Select country..."
-                    outlined
-                    fullWidth>
-                    <Item value="pl" label="Poland" />
-                    <Item value="de" label="Germany" />
-                    <Item value="fr" label="France" />
+                <Select fullWidth label="Country" outlined placeholder="Select country...">
+                    <Option label="Poland" value="pl" />
+                    <Option label="Germany" value="de" />
+                    <Option label="France" value="fr" />
                 </Select>
             </Section>
         </Article>
