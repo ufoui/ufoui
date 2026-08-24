@@ -108,7 +108,7 @@ export const FieldsetPage = () => {
                 </Section>
 
                 <Section alignItems="start" gap={12}>
-                    <H2>Horizontal — switches</H2>
+                    <H2>Horizontal - switches</H2>
                     <Fieldset {...shared} direction="row" gap={16} legend="Inline switches">
                         <Switch {...control} defaultChecked label="One" />
                         <Switch {...control} label="Two" />
@@ -117,7 +117,7 @@ export const FieldsetPage = () => {
                 </Section>
 
                 <Section alignItems="start" gap={12}>
-                    <H2>Horizontal — checkboxes</H2>
+                    <H2>Horizontal - checkboxes</H2>
                     <Fieldset {...shared} direction="row" gap={16} legend="Inline checkboxes">
                         <Checkbox {...control} defaultChecked label="One" value="1" />
                         <Checkbox {...control} label="Two" value="2" />

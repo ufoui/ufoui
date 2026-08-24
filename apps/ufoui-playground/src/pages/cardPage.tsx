@@ -116,7 +116,7 @@ export const CardPage = () => {
                                 titleAlign={titleAlign ?? undefined}
                             />
                             <CardMedia>
-                                {/* TODO[html]: brak komponentu Image w bibliotece — surowy <img> */}
+                                {/* TODO[html]: brak komponentu Image w bibliotece - surowy <img> */}
                                 <img
                                     alt={`${variant} clipart`}
                                     src={cliparts[idx % cliparts.length]}
@@ -144,7 +144,7 @@ export const CardPage = () => {
                     {variants.map((variant, idx) => (
                         <Card {...shared} key={`${variant}-image-first`} variant={variant}>
                             <CardMedia>
-                                {/* TODO[html]: brak komponentu Image w bibliotece — surowy <img> */}
+                                {/* TODO[html]: brak komponentu Image w bibliotece - surowy <img> */}
                                 <img
                                     alt={`${variant} clipart`}
                                     src={cliparts[idx % cliparts.length]}
@@ -244,7 +244,7 @@ export const CardPage = () => {
                     surfaceColor={color}
                 />
 
-                {/* TODO[html]: surowe <select>/<option> — do zamiany na ufoui Select (inny onChange/value, osobno) */}
+                {/* TODO[html]: surowe <select>/<option> - do zamiany na ufoui Select (inny onChange/value, osobno) */}
                 <Grid alignItems="center" cols={2} gapX={16} gapY={4}>
                     <>
                         <Span>Actions align:</Span>

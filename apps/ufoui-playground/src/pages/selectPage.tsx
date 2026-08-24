@@ -8,8 +8,8 @@ export const SelectPage = () => {
     return (
         <Article direction="row" fullWidth>
             <Section alignItems="start" gap={24} grow p={16}>
-                <H2>Select — single</H2>
-                <P>Value: {fruit ?? '—'}</P>
+                <H2>Select - single</H2>
+                <P>Value: {fruit ?? '-'}</P>
                 <Select
                     label="Fruit"
                     onChange={v => {
@@ -24,8 +24,8 @@ export const SelectPage = () => {
                     <Option label="Elderberry" value="elderberry" />
                 </Select>
 
-                <H2>Select — multiple</H2>
-                <P>Values: {fruits.length ? fruits.join(', ') : '—'}</P>
+                <H2>Select - multiple</H2>
+                <P>Values: {fruits.length ? fruits.join(', ') : '-'}</P>
                 <Select
                     label="Fruits"
                     multiple
@@ -40,7 +40,7 @@ export const SelectPage = () => {
                     <Option disabled label="Date" value="date" />
                 </Select>
 
-                <H2>Select — outlined</H2>
+                <H2>Select - outlined</H2>
                 <Select fullWidth label="Country" outlined placeholder="Select country...">
                     <Option label="Poland" value="pl" />
                     <Option label="Germany" value="de" />

@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
  *
  * @remarks
  * If the element is missing, a `div` with the given `id` is appended to `document.body`.
- * The portal mounts **into** that host — `document.body` itself is never used as the
+ * The portal mounts **into** that host - `document.body` itself is never used as the
  * direct portal container.
  *
  * @param rootId - `id` of the root node (e.g. `'dialog-root'`).

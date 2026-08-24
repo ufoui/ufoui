@@ -6,7 +6,7 @@ import { createContext } from 'react';
  * @typeParam T - Optional configuration object provided by the parent component.
  *
  * @remarks
- * Selection only. Keyboard focus is family-specific — components that need it
+ * Selection only. Keyboard focus is family-specific - components that need it
  * expose their own controller through {@link SelectionContextValue.config}.
  *
  * @category Contexts

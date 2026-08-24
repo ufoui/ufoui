@@ -38,16 +38,16 @@ function resolveRole(value: ColorRoleValue): { color: string; on?: string } {
  * @remarks
  * Each entry in `colors` accepts two forms:
  *
- * - **String** — seed hex used to generate the full MD3 tonal palette. All roles are MD3-computed.
+ * - **String** - seed hex used to generate the full MD3 tonal palette. All roles are MD3-computed.
  *   ```ts
  *   { info: '#2196f3' }
  *   ```
  *
- * - **Object** — allows exact color overrides per mode:
- *   - `main.light` / `main.dark` — overrides the primary role token. `dark` defaults to `light` if omitted.
+ * - **Object** - allows exact color overrides per mode:
+ *   - `main.light` / `main.dark` - overrides the primary role token. `dark` defaults to `light` if omitted.
  *   - `on` color is derived automatically from the overridden color's luminance (HCT tone < 50 → white, ≥ 50 → near-black)
  *     unless provided explicitly via `{ color, on }`.
- *   - `fixed` — controls the `Fixed` / `onFixed` tokens:
+ *   - `fixed` - controls the `Fixed` / `onFixed` tokens:
  *     - omitted: inherited from `main` override
  *     - `'preserve'`: keeps the MD3-generated values
  *     - object `{ light, dark? }`: explicit override, same rules as `main`
@@ -199,7 +199,7 @@ export function generateMaterialColors(seedColor = '#6750A4', colors: ThemeCusto
         });
     });
 
-    // Override main and on-main tokens for object-form configs only — strings use MD3-generated values as-is.
+    // Override main and on-main tokens for object-form configs only - strings use MD3-generated values as-is.
     // When on is not provided, derive it from the overridden color's luminance (Hct tone):
     // dark color (tone < 50) → light on (tone 100), light color (tone >= 50) → dark on (tone 10).
     const deriveOn = (hex: string) => {

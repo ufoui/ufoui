@@ -14,8 +14,8 @@ declare module '../../../src/types/color' {
 
 const seedColor = '#6750A4';
 
-describe('generateMaterialColors — palette snapshots', () => {
-    it('blue — string shorthand', () => {
+describe('generateMaterialColors - palette snapshots', () => {
+    it('blue - string shorthand', () => {
         const { light, dark } = generateMaterialColors(seedColor, { blue: '#0057FF' });
 
         expect(light.blue).toBe('#493ef2');
@@ -37,7 +37,7 @@ describe('generateMaterialColors — palette snapshots', () => {
         expect(dark.onBlueFixedVariant).toBe('#414176');
     });
 
-    it('red — string shorthand', () => {
+    it('red - string shorthand', () => {
         const { light, dark } = generateMaterialColors(seedColor, { red: '#FF5252' });
 
         expect(light.red).toBe('#b81250');
@@ -59,7 +59,7 @@ describe('generateMaterialColors — palette snapshots', () => {
         expect(dark.onRedFixedVariant).toBe('#6d3641');
     });
 
-    it('brandBlue — main locked light=dark', () => {
+    it('brandBlue - main locked light=dark', () => {
         const { light, dark } = generateMaterialColors(seedColor, {
             brandBlue: {
                 main: { light: '#0057FF', dark: '#0057FF' },
@@ -85,7 +85,7 @@ describe('generateMaterialColors — palette snapshots', () => {
         expect(dark.onBrandBlueFixedVariant).toBe('#414176');
     });
 
-    it('brandBlueYellow — main with explicit on color', () => {
+    it('brandBlueYellow - main with explicit on color', () => {
         const { light, dark } = generateMaterialColors(seedColor, {
             brandBlueYellow: {
                 main: {
@@ -110,7 +110,7 @@ describe('generateMaterialColors — palette snapshots', () => {
         expect(dark.brandBlueYellowFixedDim).toBe('#c2c1ff');
     });
 
-    it('brandRed — main locked light=dark', () => {
+    it('brandRed - main locked light=dark', () => {
         const { light, dark } = generateMaterialColors(seedColor, {
             brandRed: {
                 main: { light: '#FF5252', dark: '#FF5252' },
@@ -136,7 +136,7 @@ describe('generateMaterialColors — palette snapshots', () => {
         expect(dark.onBrandRedFixedVariant).toBe('#6d3641');
     });
 
-    it('brandBlue — main light only, dark falls back to light', () => {
+    it('brandBlue - main light only, dark falls back to light', () => {
         const { light, dark } = generateMaterialColors(seedColor, {
             brandBlue: {
                 main: { light: '#0057FF' },
@@ -155,7 +155,7 @@ describe('generateMaterialColors — palette snapshots', () => {
         expect(dark.brandBlueContainer).toBe('#2e15db');
     });
 
-    it('brandBlue — fixed light only, dark falls back to light fixed', () => {
+    it('brandBlue - fixed light only, dark falls back to light fixed', () => {
         const { light, dark } = generateMaterialColors(seedColor, {
             brandBlue: {
                 main: { light: '#0057FF', dark: '#0057FF' },
@@ -172,7 +172,7 @@ describe('generateMaterialColors — palette snapshots', () => {
         expect(dark.brandBlueContainer).toBe('#2e15db');
     });
 
-    it('brandBlueYellow — explicit on only in light, dark uses deriveOn independently', () => {
+    it('brandBlueYellow - explicit on only in light, dark uses deriveOn independently', () => {
         const { light, dark } = generateMaterialColors(seedColor, {
             brandBlueYellow: {
                 main: {
@@ -191,7 +191,7 @@ describe('generateMaterialColors — palette snapshots', () => {
         expect(dark.brandBlueYellowContainer).toBe('#2e15db');
     });
 
-    it('brandBlue — fixed preserve keeps MD3 values', () => {
+    it('brandBlue - fixed preserve keeps MD3 values', () => {
         const { light, dark } = generateMaterialColors(seedColor, {
             brandBlue: {
                 main: { light: '#0057FF', dark: '#0057FF' },
@@ -210,7 +210,7 @@ describe('generateMaterialColors — palette snapshots', () => {
         expect(dark.onBrandBlueFixed).toBe('#151448');
     });
 
-    it('brandBlue — fixed object override', () => {
+    it('brandBlue - fixed object override', () => {
         const { light, dark } = generateMaterialColors(seedColor, {
             brandBlue: {
                 main: { light: '#0057FF', dark: '#0057FF' },
@@ -229,7 +229,7 @@ describe('generateMaterialColors — palette snapshots', () => {
         expect(dark.onBrandBlueFixed).toBe('#ffffff');
     });
 
-    it('full app palette — all colors combined', () => {
+    it('full app palette - all colors combined', () => {
         const { light, dark } = generateMaterialColors(seedColor, {
             blue: '#0057FF',
             red: '#FF5252',
@@ -247,19 +247,19 @@ describe('generateMaterialColors — palette snapshots', () => {
             },
         });
 
-        // blue — string shorthand, MD3-generated
+        // blue - string shorthand, MD3-generated
         expect(light.blue).toBe('#493ef2');
         expect(dark.blue).toBe('#c2c1ff');
         expect(light.onBlue).toBe('#ffffff');
         expect(dark.onBlue).toBe('#1b00a6');
 
-        // red — string shorthand, MD3-generated
+        // red - string shorthand, MD3-generated
         expect(light.red).toBe('#b81250');
         expect(dark.red).toBe('#ffb2bf');
         expect(light.onRed).toBe('#ffffff');
         expect(dark.onRed).toBe('#660028');
 
-        // brandBlue — exact color override, on derived from luminance
+        // brandBlue - exact color override, on derived from luminance
         expect(light.brandBlue).toBe('#0057FF');
         expect(dark.brandBlue).toBe('#0057FF');
         expect(light.onBrandBlue).toBe('#ffffff');
@@ -267,13 +267,13 @@ describe('generateMaterialColors — palette snapshots', () => {
         expect(light.brandBlueFixed).toBe('#0057FF');
         expect(dark.brandBlueFixed).toBe('#0057FF');
 
-        // brandBlueYellow — exact color override, explicit on
+        // brandBlueYellow - exact color override, explicit on
         expect(light.brandBlueYellow).toBe('#0057FF');
         expect(dark.brandBlueYellow).toBe('#0057FF');
         expect(light.onBrandBlueYellow).toBe('#FFD600');
         expect(dark.onBrandBlueYellow).toBe('#FFD600');
 
-        // brandRed — exact color override, on derived from luminance (tone 10 = dark)
+        // brandRed - exact color override, on derived from luminance (tone 10 = dark)
         expect(light.brandRed).toBe('#FF5252');
         expect(dark.brandRed).toBe('#FF5252');
         expect(light.onBrandRed).toBe('#410004');

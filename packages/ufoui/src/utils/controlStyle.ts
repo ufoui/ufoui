@@ -7,28 +7,28 @@
  *
  * Every target is callable and shares the same token variants:
  *
- * - `target(color)` — any ThemeColor
- * - `target.on(surfaceColor)` — corresponding `on-*` surface color
- * - `target.container(semanticColor)` — semantic `*-container`
- * - `target.onContainer(semanticColor)` — semantic `on-*-container`
- * - `target.fixed(semanticColor)` — semantic `*-fixed`
- * - `target.fixedDim(semanticColor)` — semantic `*-fixed-dim`
+ * - `target(color)` - any ThemeColor
+ * - `target.on(surfaceColor)` - corresponding `on-*` surface color
+ * - `target.container(semanticColor)` - semantic `*-container`
+ * - `target.onContainer(semanticColor)` - semantic `on-*-container`
+ * - `target.fixed(semanticColor)` - semantic `*-fixed`
+ * - `target.fixedDim(semanticColor)` - semantic `*-fixed-dim`
  *
  * Available targets:
  *
- * - `bg` — `background-color`
- * - `text` — `color`
- * - `border` — `border-color`
- * - `outline` — `outline-color`
- * - `current` — the `--uui-current-color` variable, inherited by descendants
- * - `stroke` — SVG `stroke`
- * - `fill` — SVG `fill`
+ * - `bg` - `background-color`
+ * - `text` - `color`
+ * - `border` - `border-color`
+ * - `outline` - `outline-color`
+ * - `current` - the `--uui-current-color` variable, inherited by descendants
+ * - `stroke` - SVG `stroke`
+ * - `fill` - SVG `fill`
  *
  * Outside the targets:
  *
- * - `token(cssVar, color)` — resolves a ThemeColor into any custom CSS variable
- * - `set(key, value)` — writes any CSS property or CSS variable verbatim
- * - `merge(styles)` — merges caller styles over the builder output, skipping nullish values
+ * - `token(cssVar, color)` - resolves a ThemeColor into any custom CSS variable
+ * - `set(key, value)` - writes any CSS property or CSS variable verbatim
+ * - `merge(styles)` - merges caller styles over the builder output, skipping nullish values
  *
  * The builder accumulates all style operations internally
  * and exposes them via `.get()` as a final React.CSSProperties object.

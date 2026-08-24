@@ -10,7 +10,7 @@ import { List, ListProps } from '../list/list';
 export type ListBoxProps = Omit<ListProps, 'variant'>;
 
 /**
- * **ListBox** — thin semantic wrapper over `List` that presets `variant="listbox"`.
+ * **ListBox** - thin semantic wrapper over `List` that presets `variant="listbox"`.
  *
  * @remarks
  * Prefer using `List` with `variant="listbox"` directly when composing

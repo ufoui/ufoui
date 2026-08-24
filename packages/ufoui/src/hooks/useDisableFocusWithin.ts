@@ -6,7 +6,7 @@ const focusableSelector =
 /**
  * Removes every focusable descendant of the given element from the tab order.
  *
- * Blocks keyboard entry only — the subtree stays visible and readable by
+ * Blocks keyboard entry only - the subtree stays visible and readable by
  * assistive technology. Elements added later are handled as well. Original
  * `tabindex` values are kept on the nodes and restored on cleanup.
  *

@@ -2,7 +2,7 @@
  * Subscribes to the global `Escape` key press and triggers a callback.
  *
  * Maintains an internal priority stack so that only the most recently
- * registered (topmost) handler fires — nested dialogs or menus won't
+ * registered (topmost) handler fires - nested dialogs or menus won't
  * accidentally close their parents when Escape is pressed.
  *
  * Use when a component (Menu, Dialog, etc.) should close

@@ -515,7 +515,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
             }
         }
 
-        // submenu close 1 — only after open → close, not on mount when submenu was never open.
+        // submenu close 1 - only after open → close, not on mount when submenu was never open.
         useEffect(() => {
             const wasVisible = prevSubmenuVisibleRef.current;
             const nowVisible = submenuVisible;

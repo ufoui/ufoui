@@ -32,7 +32,7 @@ export type DivProps = Omit<
  *
  * Renders a plain block element without imposing layout semantics.
  * Use this component when you need a structural wrapper for styling,
- * spacing, elevation, or surface color — but not layout.
+ * spacing, elevation, or surface color - but not layout.
  *
  * Built on top of {@link BoxBase} with `type="block"`.
  *

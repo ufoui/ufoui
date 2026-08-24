@@ -62,7 +62,7 @@ export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange'> {
 }
 
 /**
- * **List** — vertical container for {@link ListItem} elements.
+ * **List** - vertical container for {@link ListItem} elements.
  *
  * When `variant="listbox"` is set, enables keyboard navigation and
  * selection via {@link SelectionContext}. Supports both controlled

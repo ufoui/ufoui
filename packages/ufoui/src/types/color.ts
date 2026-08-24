@@ -362,7 +362,7 @@ export type TextColor =
 export type ThemeColor = BorderColor | OnColor<SemanticBaseColor> | OnExtendedColor | CoreThemeColor;
 
 /**
- * Value for a single color role — either a plain hex string or an explicit color/on pair.
+ * Value for a single color role - either a plain hex string or an explicit color/on pair.
  *
  * @category Theme
  */
@@ -372,8 +372,8 @@ export type ColorRoleValue = string | { color: string; on?: string };
  * Full configuration for a custom semantic color token.
  *
  * @remarks
- * - **Plain string** — seed hex for standard MD3 tonal generation. All roles are MD3-computed.
- * - **Object** — exact color overrides per mode:
+ * - **Plain string** - seed hex for standard MD3 tonal generation. All roles are MD3-computed.
+ * - **Object** - exact color overrides per mode:
  *   - `main.light` / `main.dark` set the primary role token. `dark` defaults to `light` if omitted.
  *   - Each value is either a plain hex string or `{ color, on? }`. When `on` is omitted,
  *     the counterpart is derived from the overridden color's luminance (HCT tone < 50 → white, ≥ 50 → near-black).

@@ -6,7 +6,7 @@ import { FlexProps } from './flex';
 /**
  * Props for the {@link Stack} component.
  *
- * Extends {@link FlexProps} with the layout direction removed —
+ * Extends {@link FlexProps} with the layout direction removed -
  * a Stack is always a vertical column.
  *
  * @category Stack
@@ -16,7 +16,7 @@ export type StackProps = Omit<FlexProps, 'direction'>;
 /**
  * Vertical flex layout container.
  *
- * Renders a flexbox column — the equivalent of `<Flex direction="col">`,
+ * Renders a flexbox column - the equivalent of `<Flex direction="col">`,
  * exposed as its own component because vertical stacking is the most common
  * layout need. Use this component to stack children top-to-bottom; reach for
  * {@link Flex} when you need a horizontal or configurable direction.

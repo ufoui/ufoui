@@ -437,7 +437,9 @@ export const SliderPage = () => {
                                 showValue="always"
                                 value={controlled}
                             />
-                            <P color="onSurfaceVariant" font="bodySmall">Value: {controlled}</P>
+                            <P color="onSurfaceVariant" font="bodySmall">
+                                Value: {controlled}
+                            </P>
                         </Fieldset>
                         <Fieldset disabled={disabled ?? undefined} gap={24} legend="Range">
                             <Slider
@@ -517,7 +519,7 @@ export const SliderPage = () => {
                     textPlacement={textPlacement}
                 />
                 <Grid alignItems="center" cols={2} gapX={16} gapY={4}>
-                    {/* TODO[html]: natywny <select> — panel deweloperski jak w Modifiers; ufoui Select ma inny onChange */}
+                    {/* TODO[html]: natywny <select> - panel deweloperski jak w Modifiers; ufoui Select ma inny onChange */}
                     <>
                         <Span>ShowValue:</Span>
                         <select

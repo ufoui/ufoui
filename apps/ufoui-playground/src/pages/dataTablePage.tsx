@@ -94,7 +94,7 @@ export const DataTablePage = () => {
     return (
         <Article direction="row" fullWidth>
             <Section gap={16} grow p={16}>
-                <H2>DataTable — @ufoui/extra</H2>
+                <H2>DataTable - @ufoui/extra</H2>
 
                 {selected && (
                     <P color="onSurfaceVariant" font="bodySmall">
@@ -109,8 +109,7 @@ export const DataTablePage = () => {
                     fullWidth
                     minWidth={640}
                     shape={shape ?? undefined}
-                    stickyHeader={stickyHeader}
-                >
+                    stickyHeader={stickyHeader}>
                     <DataTableHeader table={table} />
                     <DataTableBody
                         onRowClick={row => {
@@ -143,7 +142,9 @@ export const DataTablePage = () => {
                             checked={stickyHeader}
                             density="dense"
                             label=" "
-                            onChange={() => setStickyHeader(v => !v)}
+                            onChange={() => {
+                                setStickyHeader(v => !v);
+                            }}
                         />
                     </>
                 </Grid>

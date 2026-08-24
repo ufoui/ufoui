@@ -11,12 +11,12 @@ const renderText = (props: Parameters<typeof TextBase>[0] = {}) => {
 };
 
 const getStyleMap = (html: string) => {
-    const style = html.match(/\sstyle="([^"]*)"/)?.[1] ?? '';
+    const style = /\sstyle="([^"]*)"/.exec(html)?.[1] ?? '';
     return Object.fromEntries(
         style
             .split(';')
             .filter(Boolean)
-            .map((entry) => {
+            .map(entry => {
                 const separator = entry.indexOf(':');
                 return [entry.slice(0, separator), entry.slice(separator + 1)];
             })
@@ -29,7 +29,7 @@ const textStyle = (props: Parameters<typeof TextBase>[0]) => {
     return getStyleMap(renderToStaticMarkup(<TextBase {...props} />));
 };
 
-describe('TextBase — element & rendering', () => {
+describe('TextBase - element & rendering', () => {
     it('renders a span with the inline base class by default', () => {
         const el = renderText();
 
@@ -54,7 +54,7 @@ describe('TextBase — element & rendering', () => {
     });
 });
 
-describe('TextBase — attributes, ref & events', () => {
+describe('TextBase - attributes, ref & events', () => {
     it('forwards the ref to the underlying DOM node', () => {
         const ref = createRef<HTMLElement>();
         render(<TextBase as="label" ref={ref} />);
@@ -79,7 +79,7 @@ describe('TextBase — attributes, ref & events', () => {
     });
 });
 
-describe('TextBase — styling tokens', () => {
+describe('TextBase - styling tokens', () => {
     it('maps font / shape tokens to classes', () => {
         expect(renderText({ font: 'titleSmall' }).classList.contains('uui-font-title-small')).toBe(true);
         expect(renderText({ shape: 'rounded' }).classList.contains('uui-rounded')).toBe(true);
@@ -101,7 +101,7 @@ describe('TextBase — styling tokens', () => {
     });
 });
 
-describe('TextBase — colors', () => {
+describe('TextBase - colors', () => {
     it('sets the text color directly from the color token', () => {
         expect(textStyle({ color: 'primary' }).color).toBe('var(--uui-color-primary)');
     });
@@ -115,7 +115,7 @@ describe('TextBase — colors', () => {
     });
 });
 
-describe('TextBase — wrapper props', () => {
+describe('TextBase - wrapper props', () => {
     it('applies margin / position / stacking to the element', () => {
         const el = renderText({ m: 10, position: 'relative', zIndex: 3, top: 12, left: 5 });
 
@@ -136,7 +136,7 @@ describe('TextBase — wrapper props', () => {
     });
 });
 
-describe('TextBase — className & style merge', () => {
+describe('TextBase - className & style merge', () => {
     it('merges a custom className alongside the base class', () => {
         const el = renderText({ className: 'custom' });
 

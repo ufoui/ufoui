@@ -26,14 +26,14 @@ export interface ItemGroupProps extends ItemProps {
 }
 
 /**
- * **ItemGroup** — {@link ListItem} that reveals nested items.
+ * **ItemGroup** - {@link ListItem} that reveals nested items.
  *
  * Renders the group header as a regular `Item` and the nested entries inside a
  * {@link Collapse}. The children stay ordinary list items: they register with
  * the focus controller of the parent `List` and take part in its selection.
  *
  * @remarks
- * Groups nest — every level adds its own leading inset. Supports both
+ * Groups nest - every level adds its own leading inset. Supports both
  * controlled (`open` + `onChange`) and uncontrolled (`defaultOpen`) modes.
  *
  * @example

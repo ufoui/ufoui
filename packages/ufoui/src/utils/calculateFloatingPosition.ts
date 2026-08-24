@@ -57,7 +57,7 @@ export interface ElementFloatingPosition {
  *
  * @remarks
  * - Supports `"auto"` with preset-specific fallbacks (`mode`).
- * - Prevents overflow — returned values are fully **viewport clamped**.
+ * - Prevents overflow - returned values are fully **viewport clamped**.
  * - Works with all UUI floating components.
  * - Side placements (`centerLeft`, `centerRight`) ignore vertical overflow by design.
  *
@@ -187,7 +187,7 @@ export function calculateFloatingPosition(
         }
     }
 
-    // Fallback — clamp with edge padding
+    // Fallback - clamp with edge padding
     const fallback = tryPlacement(fallbackPlacements[0]);
 
     fallback.x = Math.max(EDGE_PAD, Math.min(fallback.x, viewportWidth - floatRect.width - EDGE_PAD));

@@ -1,5 +1,4 @@
 import { forwardRef, HTMLAttributes, ReactNode } from 'react';
-
 import {
     BorderColor,
     cn,
@@ -20,7 +19,7 @@ import {
  * @category DataTable
  */
 export interface DataTableProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'>, WrapperProps {
-    /** React children — use {@link DataTableHeader} and {@link DataTableBody}. */
+    /** React children - use {@link DataTableHeader} and {@link DataTableBody}. */
     children?: ReactNode;
 
     /** Border width (0–5). */
@@ -46,7 +45,7 @@ export interface DataTableProps extends Omit<HTMLAttributes<HTMLDivElement>, 'co
 }
 
 /**
- * DataTable — scrollable container wrapping a `<table>` element.
+ * DataTable - scrollable container wrapping a `<table>` element.
  *
  * @remarks
  * Compose with {@link DataTableHeader} and {@link DataTableBody} as children,
@@ -83,11 +82,12 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps>((props, ref)
     const { wrapperStyle, otherProps } = getWrapperStyle(other);
     const cs = ControlStyle(wrapperStyle);
     cs.merge(style);
-    if (borderColor) cs.border(borderColor);
+    if (borderColor) {
+        cs.border(borderColor);
+    }
 
     return (
         <div
-            ref={ref}
             className={cn(
                 'uui-data-table-root',
                 elevation !== undefined && getElevationClass(elevation),
@@ -95,11 +95,11 @@ export const DataTable = forwardRef<HTMLDivElement, DataTableProps>((props, ref)
                 border !== undefined && getBorderClass(border),
                 stickyHeader && 'uui-data-table--sticky-header',
                 fullWidth && 'uui-data-table--full-width',
-                className,
+                className
             )}
+            ref={ref}
             style={cs.get()}
-            {...otherProps}
-        >
+            {...otherProps}>
             <table className="uui-data-table" style={minWidth ? { minWidth } : undefined}>
                 {children}
             </table>

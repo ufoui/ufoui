@@ -34,7 +34,7 @@ const toValues = (value?: string | string[]) => (value === undefined ? [] : Arra
  * @function
  *
  * @remarks
- * Selection only — keyboard focus is a separate concern, handled by
+ * Selection only - keyboard focus is a separate concern, handled by
  * {@link useFocusNavigation} where the component needs it.
  *
  * @param options Selection configuration.

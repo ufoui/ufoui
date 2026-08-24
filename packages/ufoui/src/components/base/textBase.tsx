@@ -55,7 +55,7 @@ export interface TextBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color'
 }
 
 /**
- * TextBase — core typography primitive powering semantic text components.
+ * TextBase - core typography primitive powering semantic text components.
  *
  * Provides font tokens, color, border, shape and elevation styling
  * for inline-level and text semantic elements.

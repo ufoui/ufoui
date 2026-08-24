@@ -1,6 +1,5 @@
 import { HTMLAttributes } from 'react';
 import { Table } from '@tanstack/react-table';
-
 import { cn, getWrapperStyle, IconButton, Label, WrapperProps } from '@ufoui/core';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '../../assets/icons';
@@ -23,7 +22,7 @@ export interface DataTablePaginationProps<TData = unknown>
 }
 
 /**
- * DataTablePagination — previous/next navigation and rows-per-page selector.
+ * DataTablePagination - previous/next navigation and rows-per-page selector.
  *
  * @remarks
  * Requires `getPaginationRowModel` passed to `useReactTable`.
@@ -53,20 +52,24 @@ export const DataTablePagination = <TData = unknown,>({
         <div
             className={cn('uui-data-table-pagination', className)}
             style={{ ...wrapperStyle, ...style }}
-            {...otherProps}
-        >
+            {...otherProps}>
             <Label className="uui-data-table-pagination-info" color="onSurfaceVariant" font="bodySmall">
                 {from}–{to} z {totalRows}
             </Label>
 
             <span className="uui-data-table-pagination-size">
-                <Label color="onSurfaceVariant" font="bodySmall">Wierszy:</Label>
+                <Label color="onSurfaceVariant" font="bodySmall">
+                    Wierszy:
+                </Label>
                 <select
-                    value={pageSize}
-                    onChange={e => table.setPageSize(Number(e.target.value))}
-                >
+                    onChange={e => {
+                        table.setPageSize(Number(e.target.value));
+                    }}
+                    value={pageSize}>
                     {pageSizeOptions.map(size => (
-                        <option key={size} value={size}>{size}</option>
+                        <option key={size} value={size}>
+                            {size}
+                        </option>
                     ))}
                 </select>
             </span>
@@ -74,15 +77,19 @@ export const DataTablePagination = <TData = unknown,>({
             <IconButton
                 disabled={!table.getCanPreviousPage()}
                 icon={ChevronLeftIcon}
+                onClick={() => {
+                    table.previousPage();
+                }}
                 size="small"
-                onClick={() => { table.previousPage(); }}
             />
 
             <IconButton
                 disabled={!table.getCanNextPage()}
                 icon={ChevronRightIcon}
+                onClick={() => {
+                    table.nextPage();
+                }}
                 size="small"
-                onClick={() => { table.nextPage(); }}
             />
         </div>
     );

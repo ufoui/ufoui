@@ -40,10 +40,10 @@ export type ElementOrientation = 'vertical' | 'horizontal';
  *
  * @remarks
  * Maps numeric values **0–5** to predefined shadow tokens (`--uui-elevation-*`):
- * - **0** — no shadow
- * - **1–2** — low elevation (small ambient + subtle directional shadow)
- * - **3–4** — medium elevation (stronger spread, more depth)
- * - **5** — highest elevation (max separation from background)
+ * - **0** - no shadow
+ * - **1–2** - low elevation (small ambient + subtle directional shadow)
+ * - **3–4** - medium elevation (stronger spread, more depth)
+ * - **5** - highest elevation (max separation from background)
  *
  * Each level resolves to a CSS `box-shadow` defined in theme tokens.
  * Supports hover/pressed elevation transitions via utility classes:

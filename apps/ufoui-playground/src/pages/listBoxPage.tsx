@@ -15,7 +15,7 @@ export const ListBoxPage = () => {
                 <H1>ListBox</H1>
                 <Section alignItems="start" gap={12}>
                     <H2>Single selection</H2>
-                    <P>Selected: {selected.join(', ') || '—'}</P>
+                    <P>Selected: {selected.join(', ') || '-'}</P>
 
                     <List
                         color={color ?? undefined}
@@ -28,7 +28,12 @@ export const ListBoxPage = () => {
                         width={288}>
                         <ListItem description="12 unread" label="Inbox" leading={<MdInbox />} value="inbox" />
                         <ListItem description="Favorites" label="Starred" leading={<MdStar />} value="starred" />
-                        <ListItem description="System settings" label="Settings" leading={<MdSettings />} value="settings" />
+                        <ListItem
+                            description="System settings"
+                            label="Settings"
+                            leading={<MdSettings />}
+                            value="settings"
+                        />
                         <ListItem description="Archived items" label="Archive" value="archive" />
                         <ListItem description="Disabled example" disabled label="Billing" value="billing" />
                         <ListItem description="User profile" label="Profile" value="profile" />

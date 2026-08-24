@@ -17,7 +17,7 @@ export interface SelectProps
         FieldBaseProps,
         'elementClass' | 'value' | 'onChange' | 'trailing' | 'defaultValue' | 'multiline' | 'lines'
     > {
-    /** Select options — `Item` or `Option` elements. */
+    /** Select options - `Item` or `Option` elements. */
     children?: ReactNode;
 
     /** Change handler called with the new selected value. */
@@ -40,7 +40,7 @@ export interface SelectProps
 }
 
 /**
- * **Select** — field control that opens a listbox dropdown for picking values.
+ * **Select** - field control that opens a listbox dropdown for picking values.
  *
  * Composes `FieldBase` (trigger) with `List variant="listbox"` (dropdown).
  * Supports single and multiple selection, controlled and uncontrolled modes.

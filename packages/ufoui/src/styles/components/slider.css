@@ -189,7 +189,7 @@
 .uui-slider-handle.uui-focus-visible                  .uui-slider-state { opacity: var(--uui-focus-opacity,   0.12); }
 .uui-slider-handle:not([aria-disabled='true']):active .uui-slider-state { opacity: var(--uui-pressed-opacity, 0.16); }
 
-/* Focus ring — outline-color overridden inline when color ≠ primary */
+/* Focus ring - outline-color overridden inline when color ≠ primary */
 .uui-slider-handle.uui-focus-ring {
     outline: 3px solid var(--uui-slider-active-color);
     outline-offset: 2px;

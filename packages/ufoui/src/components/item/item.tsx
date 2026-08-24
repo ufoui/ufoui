@@ -59,7 +59,7 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
 }
 
 /**
- * **Item** — dumb renderer for list, listbox and menu contexts.
+ * **Item** - dumb renderer for list, listbox and menu contexts.
  *
  * Reads ARIA role and density from {@link SelectionContext}. Registers
  * itself with the focus controller provided by the parent `List`.
@@ -187,9 +187,3 @@ type ItemComponent = ForwardRefExoticComponent<ItemProps & RefAttributes<HTMLDiv
 
 (Item as ItemComponent)[IS_ITEM] = true;
 Item.displayName = 'Item';
-
-/** @category Item */
-export const Option = Item;
-
-/** @category Item */
-export const ListItem = Item;

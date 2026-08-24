@@ -8,7 +8,7 @@ import { DependencyList, useEffect, useRef } from 'react';
  * - If already initialized, calls the callback normally.
  *
  * @param effect Callback to run after initialization when deps change.
- * @param deps Dependency list — same semantics as `useEffect`.
+ * @param deps Dependency list - same semantics as `useEffect`.
  * @param active When `true` the hook considers itself initialized on the next run. Defaults to `true`,
  *               which means initialization happens after the first React render (equivalent to skipping mount).
  *               Pass a derived boolean (e.g. `size !== undefined`) to delay initialization until
@@ -24,14 +24,9 @@ import { DependencyList, useEffect, useRef } from 'react';
  *
  * @category Hooks
  */
-export function useUpdateEffect(
-    effect: () => void | (() => void),
-    deps: DependencyList,
-    active = true
-) {
+export function useUpdateEffect(effect: () => void | (() => void), deps: DependencyList, active = true) {
     const initialized = useRef(false);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         if (!initialized.current) {
             if (active) {

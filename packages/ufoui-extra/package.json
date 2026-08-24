@@ -1,7 +1,7 @@
 {
   "name": "@ufoui/extra",
-  "version": "0.0.5",
-  "description": "Experimental extras for @ufoui/core — wrappers, integrations, work-in-progress",
+  "version": "0.0.6",
+  "description": "Experimental extras for @ufoui/core - wrappers, integrations, work-in-progress",
   "type": "module",
   "main": "./index.js",
   "module": "./index.js",

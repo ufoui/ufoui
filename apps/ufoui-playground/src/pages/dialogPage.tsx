@@ -296,7 +296,7 @@ export const DialogPage = () => {
                         setOpenNested2(false);
                     }}
                     open={openNested2}>
-                    <P>Third level — deepest dialog in the stack.</P>
+                    <P>Third level - deepest dialog in the stack.</P>
                 </Dialog>
             </Content>
 
@@ -359,7 +359,7 @@ export const DialogPage = () => {
                     surfaceColor={color}
                 />
                 <Grid alignItems="center" cols={2} gapX={16} gapY={4}>
-                    {/* TODO[html]: natywne <select> — panel deweloperski jak w Modifiers; ufoui Select ma inny onChange */}
+                    {/* TODO[html]: natywne <select> - panel deweloperski jak w Modifiers; ufoui Select ma inny onChange */}
                     <>
                         <Span>Actions placement:</Span>
                         <select

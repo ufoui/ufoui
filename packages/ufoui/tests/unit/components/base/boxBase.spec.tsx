@@ -12,12 +12,12 @@ const renderBox = (props: Parameters<typeof BoxBase>[0] = {}) => {
 };
 
 const getStyleMap = (html: string) => {
-    const style = html.match(/\sstyle="([^"]*)"/)?.[1] ?? '';
+    const style = /\sstyle="([^"]*)"/.exec(html)?.[1] ?? '';
     return Object.fromEntries(
         style
             .split(';')
             .filter(Boolean)
-            .map((entry) => {
+            .map(entry => {
                 const separator = entry.indexOf(':');
                 return [entry.slice(0, separator), entry.slice(separator + 1)];
             })
@@ -30,7 +30,7 @@ const boxStyle = (props: Parameters<typeof BoxBase>[0]) => {
     return getStyleMap(renderToStaticMarkup(<BoxBase {...props} />));
 };
 
-describe('BoxBase — element & rendering', () => {
+describe('BoxBase - element & rendering', () => {
     it('renders a div with the base flex layout classes by default', () => {
         const el = renderBox();
 
@@ -58,7 +58,7 @@ describe('BoxBase — element & rendering', () => {
     });
 });
 
-describe('BoxBase — attributes, ref & events', () => {
+describe('BoxBase - attributes, ref & events', () => {
     it('forwards the ref to the underlying DOM node', () => {
         const ref = createRef<HTMLElement>();
         render(<BoxBase as="article" ref={ref} />);
@@ -85,7 +85,7 @@ describe('BoxBase — attributes, ref & events', () => {
     });
 });
 
-describe('BoxBase — layout type', () => {
+describe('BoxBase - layout type', () => {
     it('grid: applies the grid class and template columns/rows', () => {
         const el = renderBox({ type: 'grid', cols: 3, rows: 2 });
 
@@ -119,7 +119,7 @@ describe('BoxBase — layout type', () => {
     });
 });
 
-describe('BoxBase — direction & flow', () => {
+describe('BoxBase - direction & flow', () => {
     it('maps the `direction` prop to the flex direction class', () => {
         expect(renderBox({ direction: 'row' }).classList.contains('uui-flex-row')).toBe(true);
         expect(renderBox({ direction: 'col' }).classList.contains('uui-flex-col')).toBe(true);
@@ -141,7 +141,7 @@ describe('BoxBase — direction & flow', () => {
     });
 });
 
-describe('BoxBase — spacing & gap', () => {
+describe('BoxBase - spacing & gap', () => {
     it('applies padding shorthands', () => {
         const el = renderBox({ p: 16 });
         expect(el.style.padding).toBe('16px');
@@ -170,7 +170,7 @@ describe('BoxBase — spacing & gap', () => {
     });
 });
 
-describe('BoxBase — sizing', () => {
+describe('BoxBase - sizing', () => {
     it('fullWidth / fullHeight set 100%', () => {
         const el = renderBox({ fullWidth: true, fullHeight: true });
 
@@ -213,7 +213,7 @@ describe('BoxBase — sizing', () => {
     });
 });
 
-describe('BoxBase — alignment', () => {
+describe('BoxBase - alignment', () => {
     it('maps the alignment props', () => {
         const el = renderBox({
             justifyContent: 'center',
@@ -229,7 +229,7 @@ describe('BoxBase — alignment', () => {
     });
 });
 
-describe('BoxBase — wrapper props', () => {
+describe('BoxBase - wrapper props', () => {
     it('applies margin / position / stacking to the box', () => {
         const el = renderBox({ m: 10, position: 'relative', zIndex: 3, top: 12, left: 5 });
 
@@ -250,7 +250,7 @@ describe('BoxBase — wrapper props', () => {
     });
 });
 
-describe('BoxBase — styling tokens', () => {
+describe('BoxBase - styling tokens', () => {
     it('maps font / shape tokens to classes', () => {
         expect(renderBox({ font: 'bodyLarge' }).classList.contains('uui-font-body-large')).toBe(true);
         expect(renderBox({ shape: 'rounded' }).classList.contains('uui-rounded')).toBe(true);
@@ -272,7 +272,7 @@ describe('BoxBase — styling tokens', () => {
     });
 });
 
-describe('BoxBase — colors', () => {
+describe('BoxBase - colors', () => {
     afterEach(() => {
         setColorRegistry({});
     });
@@ -294,7 +294,7 @@ describe('BoxBase — colors', () => {
     });
 });
 
-describe('BoxBase — className & style merge', () => {
+describe('BoxBase - className & style merge', () => {
     it('merges a custom className alongside the base classes', () => {
         const el = renderBox({ className: 'custom' });
 

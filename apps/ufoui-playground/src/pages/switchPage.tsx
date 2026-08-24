@@ -260,7 +260,7 @@ export const SwitchPage = () => {
                             onChange={() => {
                                 setChecked1(v => !v);
                             }}>
-                            {/* TODO[html]: brak komponentu Image w bibliotece — surowy <img> */}
+                            {/* TODO[html]: brak komponentu Image w bibliotece - surowy <img> */}
                             {checked1 ? (
                                 <img alt="" height={64} src={tree} style={{ transition: 'all 200ms' }} width={64} />
                             ) : (

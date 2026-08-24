@@ -85,9 +85,9 @@ export interface SliderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 
     textPlacement?: ElementTextPlacement;
     /**
      * Slider behaviour type.
-     * - `"standard"` — single handle, active track from the left edge (default).
-     * - `"centered"` — single handle, active track grows from the midpoint.
-     * - `"range"` — two handles; pass `[start, end]` as `value` / `defaultValue`.
+     * - `"standard"` - single handle, active track from the left edge (default).
+     * - `"centered"` - single handle, active track grows from the midpoint.
+     * - `"range"` - two handles; pass `[start, end]` as `value` / `defaultValue`.
      */
     type?: 'standard' | 'centered' | 'range';
     /** Color of the inactive track. */

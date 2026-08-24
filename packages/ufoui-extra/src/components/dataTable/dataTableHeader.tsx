@@ -15,7 +15,7 @@ export interface DataTableHeaderProps<TData> extends HTMLAttributes<HTMLTableSec
 }
 
 /**
- * DataTableHeader — renders `<thead>` with column headers and sort indicators.
+ * DataTableHeader - renders `<thead>` with column headers and sort indicators.
  *
  * @remarks
  * Clicking a sortable column header toggles ascending → descending → unsorted.

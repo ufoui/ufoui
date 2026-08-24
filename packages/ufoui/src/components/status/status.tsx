@@ -7,8 +7,8 @@ import { Leading, Trailing } from '../../internal';
 /**
  * Visual style variant of the Status pill.
  *
- * - `soft` — container tone (`{color}Container` bg, `on{color}Container` text). Default.
- * - `filled` — solid tone (`{color}` bg, `on{color}` text).
+ * - `soft` - container tone (`{color}Container` bg, `on{color}Container` text). Default.
+ * - `filled` - solid tone (`{color}` bg, `on{color}` text).
  *
  * @category Status
  */
@@ -50,7 +50,7 @@ const fontMap: Record<ElementSize, ElementFont> = {
 /**
  * Displays a standalone status pill for states, outcomes, or workflow labels.
  *
- * Purely presentational — no interaction, hover, focus, or ripple.
+ * Purely presentational - no interaction, hover, focus, or ripple.
  * Accepts optional leading/trailing slots for icons or indicators.
  *
  * @function Status

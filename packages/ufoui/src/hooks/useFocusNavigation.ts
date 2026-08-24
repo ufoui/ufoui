@@ -15,7 +15,7 @@ export type FocusOrientation = 'vertical' | 'horizontal';
  * inside a collapsed (`inert`) region, and follows the real DOM order.
  *
  * @remarks
- * Does not manage `tabIndex` — the consuming component owns it.
+ * Does not manage `tabIndex` - the consuming component owns it.
  *
  * @param orientation Navigation direction. Default: 'vertical'.
  * @param loop Whether focus should wrap around. Default: true.

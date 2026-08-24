@@ -211,7 +211,7 @@ export const RadioPage = () => {
                                 setCustomValue(e.currentTarget.value);
                             }}
                             value="image">
-                            {/* TODO[html]: brak komponentu Image w bibliotece — surowy <img> */}
+                            {/* TODO[html]: brak komponentu Image w bibliotece - surowy <img> */}
                             {customValue === 'image' ? (
                                 <img alt="" height={64} src={tree} style={{ transition: 'all 200ms' }} width={64} />
                             ) : (
@@ -280,11 +280,7 @@ export const RadioPage = () => {
                 </Section>
 
                 <Section>
-                    <RadioGroup
-                        disabled={disabled ?? undefined}
-                        fullWidth
-                        legend="Error State"
-                        name="errors">
+                    <RadioGroup disabled={disabled ?? undefined} fullWidth legend="Error State" name="errors">
                         <Radio {...shared} error="Error message" label="Error" value="error" />
                         <Radio {...shared} description="A descrption." label="Description" value="desc" />
                     </RadioGroup>

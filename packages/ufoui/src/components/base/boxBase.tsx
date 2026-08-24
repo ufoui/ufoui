@@ -22,9 +22,9 @@ import {
  *
  * @remarks
  * Determines how children are arranged:
- * - `'flex'` — flex container
- * - `'grid'` — grid container
- * - `'block'` — block or inline-block element
+ * - `'flex'` - flex container
+ * - `'grid'` - grid container
+ * - `'block'` - block or inline-block element
  *
  * @category Box
  */
@@ -178,12 +178,12 @@ export interface BoxBaseProps extends Omit<HTMLAttributes<HTMLElement>, 'color' 
 }
 
 /**
- * `BoxBase` — core layout primitive powering semantic containers
+ * `BoxBase` - core layout primitive powering semantic containers
  * (`Box`, `Flex`, `Grid`, `Section`, `Article`, `Aside`, `Header`, `Footer`, `Nav`, …).
  *
  * Provides low-level control over layout (flex, grid, block),
  * spacing, alignment, wrapping, elevation, borders, shape, and surface color.
- * This component does **not** impose visual design — higher-level
+ * This component does **not** impose visual design - higher-level
  * components add semantics, but rely on `BoxBase` for structure.
  *
  * Accepts both semantic styling props (color, shape, elevation)
