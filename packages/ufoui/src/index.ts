@@ -26,7 +26,6 @@ export * from './components/listbox/listBox';
 export * from './components/item/listItem';
 export type { ItemMedia, ItemProps, ItemVariant } from './components/item/item';
 export * from './components/item/option';
-export * from './components/item/itemGroup';
 export * from './components/item/item.guards';
 export * from './components/switch/switch';
 export * from './components/spinner/spinner';

@@ -16,11 +16,26 @@ export type ListItemProps = ItemProps;
  * Reads ARIA role and density from {@link SelectionContext}. Registers
  * itself with the focus controller provided by the parent `List`.
  *
+ * @remarks
+ * An item given `children` becomes an expandable group - the nested entries render
+ * inside a {@link Collapse} and stay ordinary list items.
+ *
  * @example
  * ```tsx
  * <List type="listbox" selection="single">
  *   <ListItem label="Apple" value="apple" />
  *   <ListItem description="Yellow fruit" label="Banana" value="banana" />
+ * </List>
+ * ```
+ *
+ * @example
+ * ```tsx
+ * <List>
+ *   <ListItem label="Inbox" />
+ *   <ListItem defaultOpen label="Projects">
+ *     <ListItem label="Alpha" value="alpha" />
+ *     <ListItem label="Beta" value="beta" />
+ *   </ListItem>
  * </List>
  * ```
  *

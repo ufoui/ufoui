@@ -38,7 +38,7 @@ export const Collapse = forwardRef<HTMLDivElement, CollapseProps>((props, ref) =
     const [size, setSize] = useState<number | undefined>(undefined);
 
     const { openingVars, closingVars, animate, animating, animationClasses } = useMotion(animation, {
-        animation: 'fade',
+        animation: 'slideDown',
         duration: 220,
     });
 

@@ -15,7 +15,6 @@ import {
     ElementShape,
     H1,
     H2,
-    ItemGroup,
     List,
     ListItem,
     ListSelection,
@@ -262,25 +261,25 @@ export const ListPage = () => {
                         <ListItem label="Starred" leading={<MdStar />} value="nested-starred" />
                         <ListItem label="Settings" leading={<MdSettings />} value="nested-settings" />
                         <Divider />
-                        <ItemGroup defaultOpen description="Single level" label="Projects" leading={<MdFolder />}>
+                        <ListItem defaultOpen description="Single level" label="Projects" leading={<MdFolder />}>
                             <ListItem label="Alpha" value="nested-alpha" />
                             <ListItem label="Beta" value="nested-beta" />
                             <ListItem label="Gamma" value="nested-gamma" />
-                        </ItemGroup>
-                        <ItemGroup description="Two levels" label="Workspace" leading={<MdFolder />}>
+                        </ListItem>
+                        <ListItem description="Two levels" label="Workspace" leading={<MdFolder />}>
                             <ListItem label="Overview" value="nested-ws-overview" />
-                            <ItemGroup label="Team" leading={<MdPerson />}>
+                            <ListItem label="Team" leading={<MdPerson />}>
                                 <ListItem label="Anna" value="nested-ws-anna" />
                                 <ListItem label="Marek" value="nested-ws-marek" />
-                            </ItemGroup>
-                        </ItemGroup>
-                        <ItemGroup description="Two levels" label="Media" leading={<MdFolder />}>
-                            <ItemGroup label="Images" leading={<MdImage />}>
+                            </ListItem>
+                        </ListItem>
+                        <ListItem description="Two levels" label="Media" leading={<MdFolder />}>
+                            <ListItem label="Images" leading={<MdImage />}>
                                 <ListItem label="Cover.png" value="nested-media-cover" />
                                 <ListItem label="Hero.jpg" value="nested-media-hero" />
-                            </ItemGroup>
+                            </ListItem>
                             <ListItem label="Archive" value="nested-media-archive" />
-                        </ItemGroup>
+                        </ListItem>
                     </List>
                 </Section>
             </Content>

@@ -1,5 +1,17 @@
-import React, { forwardRef, ForwardRefExoticComponent, RefAttributes, useContext, useEffect, useRef } from 'react';
+import React, {
+    forwardRef,
+    ForwardRefExoticComponent,
+    ReactElement,
+    ReactNode,
+    RefAttributes,
+    useContext,
+    useEffect,
+    useId,
+    useRef,
+    useState,
+} from 'react';
 
+import { ExpandIcon } from '../../assets';
 import { SelectionContext } from '../../context';
 import { useFocusNavigation } from '../../hooks/useFocusNavigation';
 import { Leading, Trailing } from '../../internal';
@@ -8,6 +20,7 @@ import { IS_ITEM } from './item.guards';
 import { ListSelection, ListSelectionSlot } from '../list/list';
 import { Radio } from '../radio/radio';
 import { Checkbox } from '../checkbox/checkbox';
+import { Collapse } from '../collapse/collapse';
 
 interface ItemCtxConfig {
     itemRole?: string;
@@ -28,6 +41,12 @@ export type ItemMedia = 'image' | 'video';
  * @category Item
  */
 export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'draggable'> {
+    /** Nested items revealed while the item is expanded. */
+    children?: React.ReactNode;
+
+    /** Initial expanded state for uncontrolled usage. */
+    defaultOpen?: boolean;
+
     /** Secondary supporting text. */
     description?: string;
 
@@ -38,7 +57,7 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
     draggable?: boolean;
 
     /** Leading slot content. */
-    leading?: React.ReactNode;
+    leading?: ReactNode;
 
     /** Primary label text. */
     label?: string;
@@ -46,11 +65,17 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
     /** Type of media placed in the item slots. Adjusts their vertical padding. */
     media?: ItemMedia;
 
+    /** Called whenever the expanded state changes. */
+    onChange?: (open: boolean) => void;
+
+    /** Controlled expanded state. */
+    open?: boolean;
+
     /** Slot holding the selection marker. Overrides the value provided by the parent `List`. */
     selectionSlot?: ListSelectionSlot;
 
     /** Trailing slot content. */
-    trailing?: React.ReactNode;
+    trailing?: ReactNode;
 
     /** Value identifier used for selection. */
     value?: string;
@@ -60,6 +85,8 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
 
     /** Visual variant */
     variant?: ItemVariant;
+
+    expandIcon?: ReactElement;
 }
 
 /**
@@ -71,6 +98,11 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
  * @remarks
  * Not exported from the package. Use the aliases instead: {@link ListItem} inside
  * {@link List}, {@link Option} inside {@link Select}.
+ *
+ * Items given `children` turn into expandable groups - the nested entries render inside a
+ * {@link Collapse} and stay ordinary items, so they keep the focus controller and the selection
+ * of the parent `List`. Groups nest, every level adds its own leading inset, and both controlled
+ * (`open` + `onChange`) and uncontrolled (`defaultOpen`) modes are supported.
  *
  * @example
  * ```tsx
@@ -98,8 +130,13 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             draggable,
             selectionSlot,
             className,
+            children,
+            defaultOpen,
+            open,
+            onChange,
             onClick,
             onKeyDown,
+            expandIcon,
             ...props
         },
         ref
@@ -107,8 +144,11 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
         const ctx = useContext(SelectionContext);
         const config = ctx?.config as ItemCtxConfig | undefined;
         const itemRef = useRef<HTMLDivElement>(null);
+        const groupId = useId();
+        const [internalOpen, setInternalOpen] = useState(!!defaultOpen);
 
         const selected = value ? (ctx?.values.includes(value) ?? false) : false;
+        const expanded = open ?? internalOpen;
         const itemRole = config?.itemRole ?? 'listitem';
         const selection = config?.selection ?? 'none';
         const markerSlot = selectionSlot ?? config?.selectionSlot ?? 'leading';
@@ -133,12 +173,22 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             return () => config.nav?.unregister(el);
         }, [config?.nav]);
 
+        const toggleOpen = () => {
+            if (open === undefined) {
+                setInternalOpen(!expanded);
+            }
+            onChange?.(!expanded);
+        };
+
         const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
             if (disabled) {
                 return;
             }
             if (canSelect) {
                 ctx.toggle(value);
+            }
+            if (children) {
+                toggleOpen();
             }
             onClick?.(e);
             if (itemRef.current) {
@@ -148,42 +198,69 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
 
         const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
             config?.nav?.onKeyDown(e);
-            if ((e.key === 'Enter' || e.key === ' ') && canSelect) {
+            if ((e.key === 'Enter' || e.key === ' ') && (canSelect || children)) {
                 e.preventDefault();
-                ctx.toggle(value);
+                if (canSelect) {
+                    ctx.toggle(value);
+                }
+                if (children) {
+                    toggleOpen();
+                }
             }
             onKeyDown?.(e);
         };
 
+        const expander = children ? (expandIcon ?? ExpandIcon) : null;
+        const trailingEnd =
+            markerSlot === 'trailing' ? (
+                <>
+                    {expander}
+                    {markerControl}
+                </>
+            ) : (
+                expander
+            );
+
         return (
-            <div
-                {...props}
-                aria-disabled={disabled || undefined}
-                aria-selected={selected}
-                className={cn(
-                    'uui-item',
-                    getDensityClass(config?.density),
-                    media && `uui-media-${media}`,
-                    selected && 'uui-selected',
-                    disabled && 'uui-disabled',
-                    className
-                )}
-                // draggable={canDrag}
-                onClick={handleClick}
-                onKeyDown={handleKeyDown}
-                ref={mergeRefs(itemRef, ref)}
-                role={itemRole}
-                tabIndex={disabled ? -1 : 0}>
-                <Leading content={leading} start={markerSlot === 'leading' ? markerControl : undefined} />
-                <div className="uui-item-text">
-                    {overline && <div className={cn('uui-item-overline', getFontClass('labelMedium'))}>{overline}</div>}
-                    {label && <div className={cn('uui-item-label', getFontClass('bodyLarge'))}>{label}</div>}
-                    {description && (
-                        <div className={cn('uui-item-description', getFontClass('bodyMedium'))}>{description}</div>
+            <>
+                <div
+                    {...props}
+                    aria-controls={children ? groupId : undefined}
+                    aria-disabled={disabled || undefined}
+                    aria-expanded={children ? expanded : undefined}
+                    aria-selected={selected}
+                    className={cn(
+                        'uui-item',
+                        getDensityClass(config?.density),
+                        media && `uui-media-${media}`,
+                        selected && 'uui-selected',
+                        disabled && 'uui-disabled',
+                        children && expanded && 'uui-open',
+                        className
                     )}
+                    onClick={handleClick}
+                    onKeyDown={handleKeyDown}
+                    ref={mergeRefs(itemRef, ref)}
+                    role={itemRole}
+                    tabIndex={disabled ? -1 : 0}>
+                    <Leading content={leading} start={markerSlot === 'leading' ? markerControl : undefined} />
+                    <div className="uui-item-text">
+                        {overline && (
+                            <div className={cn('uui-item-overline', getFontClass('labelMedium'))}>{overline}</div>
+                        )}
+                        {label && <div className={cn('uui-item-label', getFontClass('bodyLarge'))}>{label}</div>}
+                        {description && (
+                            <div className={cn('uui-item-description', getFontClass('bodyMedium'))}>{description}</div>
+                        )}
+                    </div>
+                    <Trailing content={trailing} end={trailingEnd} />
                 </div>
-                <Trailing content={trailing} end={markerSlot === 'trailing' ? markerControl : undefined} />
-            </div>
+                {children && (
+                    <Collapse className="uui-item-group" direction="col" id={groupId} open={expanded}>
+                        {children}
+                    </Collapse>
+                )}
+            </>
         );
     }
 );

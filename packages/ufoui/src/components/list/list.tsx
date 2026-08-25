@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react';
 
-import { SelectionContext } from '../../context/selectionContext';
+import { SelectionContext } from '../../context';
 import { useSelectionState } from '../../hooks';
 import { useFocusNavigation } from '../../hooks/useFocusNavigation';
 import { cn, ElementDensity } from '../../utils';
-import { BoxBase, BoxBaseProps } from '../base/boxBase';
+import { BoxBase, BoxBaseProps } from '../base';
 
 /** @category List */
 export type ListType = 'list' | 'listbox' | 'tree';
@@ -119,7 +119,9 @@ export const List = ({
     return (
         <SelectionContext.Provider value={{ ...ss, config }}>
             <BoxBase {...props} aria-orientation="vertical" className={cn('uui-list', className)} role={type}>
-                <div className="uui-list-scroll uui-flex uui-flex-col" role="none">{children}</div>
+                <div className="uui-list-scroll uui-flex uui-flex-col" role="none">
+                    {children}
+                </div>
             </BoxBase>
         </SelectionContext.Provider>
     );

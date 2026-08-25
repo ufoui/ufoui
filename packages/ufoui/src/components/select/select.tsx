@@ -1,4 +1,14 @@
-import React, { Children, CSSProperties, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+    Children,
+    CSSProperties,
+    ReactElement,
+    ReactNode,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 
 import { ExpandIcon } from '../../assets';
 import { useClickOutside } from '../../hooks';
@@ -27,7 +37,7 @@ export interface SelectProps
     defaultValue?: string | string[];
 
     /** Icon rendered in the trailing slot of the trigger. Default: ExpandIcon */
-    expandIcon?: ReactNode;
+    expandIcon?: ReactElement;
 
     /** Enables multiple value selection. */
     multiple?: boolean;
