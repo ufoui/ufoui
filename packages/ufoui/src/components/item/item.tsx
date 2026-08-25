@@ -74,7 +74,7 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
  *
  * @example
  * ```tsx
- * <List variant="listbox" selection="single">
+ * <List type="listbox" selection="single">
  *   <ListItem value="a" label="Apple" />
  *   <ListItem value="b" label="Banana" description="Yellow fruit" />
  * </List>

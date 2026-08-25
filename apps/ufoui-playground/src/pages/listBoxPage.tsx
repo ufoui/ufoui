@@ -23,8 +23,8 @@ export const ListBoxPage = () => {
                         onChange={setSelected}
                         overflow="auto"
                         selection="single"
+                        type="listbox"
                         value={selected}
-                        variant="listbox"
                         width={288}>
                         <ListItem description="12 unread" label="Inbox" leading={<MdInbox />} value="inbox" />
                         <ListItem description="Favorites" label="Starred" leading={<MdStar />} value="starred" />
@@ -47,7 +47,7 @@ export const ListBoxPage = () => {
                         onChange={setSelected}
                         overflow="auto"
                         selection="multiple"
-                        variant="listbox"
+                        type="listbox"
                         width={288}>
                         <ListItem label="Apple" value="apple" />
                         <ListItem label="Banana" value="banana" />

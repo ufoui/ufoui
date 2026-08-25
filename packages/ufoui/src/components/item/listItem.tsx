@@ -18,7 +18,7 @@ export type ListItemProps = ItemProps;
  *
  * @example
  * ```tsx
- * <List variant="listbox" selection="single">
+ * <List type="listbox" selection="single">
  *   <ListItem label="Apple" value="apple" />
  *   <ListItem description="Yellow fruit" label="Banana" value="banana" />
  * </List>

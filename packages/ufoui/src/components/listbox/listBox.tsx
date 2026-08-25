@@ -7,13 +7,13 @@ import { List, ListProps } from '../list/list';
  *
  * @category ListBox
  */
-export type ListBoxProps = Omit<ListProps, 'variant'>;
+export type ListBoxProps = Omit<ListProps, 'type'>;
 
 /**
- * **ListBox** - thin semantic wrapper over `List` that presets `variant="listbox"`.
+ * **ListBox** - thin semantic wrapper over `List` that presets `type="listbox"`.
  *
  * @remarks
- * Prefer using `List` with `variant="listbox"` directly when composing
+ * Prefer using `List` with `type="listbox"` directly when composing
  * with `Select` or other controlled parents.
  *
  * @example
@@ -26,4 +26,4 @@ export type ListBoxProps = Omit<ListProps, 'variant'>;
  *
  * @category ListBox
  */
-export const ListBox = (props: ListBoxProps) => <List {...props} variant="listbox" />;
+export const ListBox = (props: ListBoxProps) => <List {...props} type="listbox" />;

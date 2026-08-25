@@ -42,7 +42,7 @@ export interface SelectProps
 /**
  * **Select** - field control that opens a listbox dropdown for picking values.
  *
- * Composes `FieldBase` (trigger) with `List variant="listbox"` (dropdown).
+ * Composes `FieldBase` (trigger) with `List type="listbox"` (dropdown).
  * Supports single and multiple selection, controlled and uncontrolled modes.
  *
  * @example
@@ -153,6 +153,7 @@ export const Select = ({
                 trailing={expandIcon ?? ExpandIcon}
                 value={displayValue}
             />
+
             {open &&
                 renderPortal(
                     'select-root',
@@ -164,8 +165,8 @@ export const Select = ({
                             elevation={3}
                             onChange={handleChange}
                             selection={multiple ? 'multiple' : 'single'}
-                            value={currentValues}
-                            variant="listbox">
+                            type="listbox"
+                            value={currentValues}>
                             {children}
                         </List>
                     </div>

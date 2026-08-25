@@ -7,7 +7,7 @@ import { cn, ElementDensity } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base/boxBase';
 
 /** @category List */
-export type ListVariant = 'list' | 'listbox';
+export type ListType = 'list' | 'listbox' | 'tree';
 
 /** @category List */
 export type ListSelection = 'none' | 'single' | 'multiple';
@@ -22,7 +22,7 @@ export interface ListConfig {
     /** Marks the child items as drag sources. */
     draggable?: boolean;
 
-    itemRole: 'listitem' | 'option';
+    itemRole: 'listitem' | 'option' | 'treeitem';
 
     /** Keyboard focus controller shared with the child items. */
     nav?: ReturnType<typeof useFocusNavigation>;
@@ -32,7 +32,7 @@ export interface ListConfig {
 
     /** Slot holding the selection marker, shared with the child items. */
     selectionSlot?: ListSelectionSlot;
-    variant: ListVariant;
+    type: ListType;
 }
 
 /**
@@ -61,23 +61,23 @@ export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange' | 'dra
     /** Slot holding the selection marker, shared by all child items. */
     selectionSlot?: ListSelectionSlot;
 
+    /** ARIA role family applied to the list and to its child items. */
+    type?: ListType;
+
     /** Controlled selected value(s). */
     value?: string | string[];
-
-    /** Switches between display list and selectable listbox. */
-    variant?: ListVariant;
 }
 
 /**
  * **List** - vertical container for {@link ListItem} elements.
  *
- * When `variant="listbox"` is set, enables keyboard navigation and
+ * When `type="listbox"` is set, enables keyboard navigation and
  * selection via {@link SelectionContext}. Supports both controlled
  * (`value` + `onChange`) and uncontrolled (`defaultValue`) modes.
  *
  * @example
  * ```tsx
- * <List variant="listbox" selection="single" defaultValue="a">
+ * <List type="listbox" selection="single" defaultValue="a">
  *   <Item value="a" label="Apple" />
  *   <Item value="b" label="Banana" />
  * </List>
@@ -88,7 +88,7 @@ export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange' | 'dra
 export const List = ({
     children,
     className,
-    variant = 'list',
+    type = 'list',
     value,
     defaultValue,
     selection = 'none',
@@ -107,24 +107,19 @@ export const List = ({
     const nav = useFocusNavigation('vertical');
 
     const config: ListConfig = {
-        itemRole: variant === 'listbox' ? 'option' : 'listitem',
+        itemRole: type === 'listbox' ? 'option' : type === 'tree' ? 'treeitem' : 'listitem',
         density,
         draggable,
         nav,
         selection,
         selectionSlot,
-        variant,
+        type,
     };
 
     return (
         <SelectionContext.Provider value={{ ...ss, config }}>
-            <BoxBase
-                {...props}
-                aria-orientation="vertical"
-                as="div"
-                className={cn('uui-list', className)}
-                role={variant === 'listbox' ? 'listbox' : 'list'}>
-                <div className="uui-list-scroll uui-flex uui-flex-col">{children}</div>
+            <BoxBase {...props} aria-orientation="vertical" className={cn('uui-list', className)} role={type}>
+                <div className="uui-list-scroll uui-flex uui-flex-col" role="none">{children}</div>
             </BoxBase>
         </SelectionContext.Provider>
     );
