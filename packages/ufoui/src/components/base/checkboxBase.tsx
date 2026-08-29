@@ -62,17 +62,14 @@ export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLIn
     /** Semantic color used when checked. */
     color?: SemanticColor;
 
+    /** Renders a non-interactive marker without an input element. */
+    decorative?: boolean;
+
     /** Visual density of the control. */
     density?: ElementDensity;
 
     /** Supporting text displayed below the label. */
     description?: string;
-
-    // /** Text color override for the description. */
-    // descriptionColor?: SurfaceColor;
-
-    /** Font applied to the description text. */
-    descriptionFont?: ElementFont;
 
     /** Required root class name for styling. */
     elementClass: string;
@@ -227,11 +224,11 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         uncheckedIcon,
         indeterminateIcon,
         description,
-        descriptionFont,
         className,
         error,
         animation,
         focusColor,
+        decorative,
         readOnly,
         tooltipAlign = 'auto',
         textPlacement = 'end',
@@ -328,12 +325,12 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         getDensityClass(density),
         className,
         resolvedDisabled && 'uui-disabled',
+        decorative && 'uui-decorative',
         !children && getSizeClass(size)
     );
 
     const controlClasses = cn(
         'uui-cb-control',
-
         isChecked && 'uui-checked',
         indeterminate && 'uui-indeterminate',
         filled && 'uui-filled',
@@ -409,11 +406,13 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
 
     const labelStyle = ControlStyle();
     labelStyle.text((error ? 'error' : undefined) ?? 'onSurface');
-    const labelClasses = [getFontClass(font ?? 'bodyMedium'), 'uui-cb-label'].join(' ');
+    const labelClasses = cn([getFontClass(font ?? 'bodyMedium'), 'uui-cb-label']);
+
+    const LabelTag = decorative ? 'span' : 'label';
     const labelText = label && (
-        <label className={labelClasses} htmlFor={elemId} style={labelStyle.get()}>
+        <LabelTag className={labelClasses} htmlFor={elemId} style={labelStyle.get()}>
             <LabelText label={label} required={required} />
-        </label>
+        </LabelTag>
     );
 
     const descriptionStyle = ControlStyle();
@@ -449,24 +448,28 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         <div className={wrapperClasses} style={wrapperStyle.get()}>
             <div className="uui-cb-control-wrapper" style={controlWrapperStyle.get()}>
                 <div className={controlClasses} ref={controlRef} style={controlStyle.get()}>
-                    <input
-                        {...focusHandlers}
-                        aria-label={finalAriaLabel}
-                        aria-readonly={readOnly === true ? true : undefined}
-                        checked={!!isChecked}
-                        className={inputClasses}
-                        disabled={resolvedDisabled}
-                        id={elemId}
-                        name={resolvedName}
-                        onChange={handleChange}
-                        onClick={handleClick}
-                        readOnly={readOnly}
-                        ref={mergeRefs(inputRef, ref)}
-                        type={type}
-                        value={value}
-                        {...other}
-                    />
-                    <div className={stateClasses} ref={stateRef} style={stateStyle.get()} />
+                    {!decorative && (
+                        <>
+                            <input
+                                {...focusHandlers}
+                                aria-label={finalAriaLabel}
+                                aria-readonly={readOnly === true ? true : undefined}
+                                checked={!!isChecked}
+                                className={inputClasses}
+                                disabled={resolvedDisabled}
+                                id={elemId}
+                                name={resolvedName}
+                                onChange={handleChange}
+                                onClick={handleClick}
+                                readOnly={readOnly}
+                                ref={mergeRefs(inputRef, ref)}
+                                type={type}
+                                value={value}
+                                {...other}
+                            />
+                            <div className={stateClasses} ref={stateRef} style={stateStyle.get()} />
+                        </>
+                    )}
                     {content}
                 </div>
             </div>

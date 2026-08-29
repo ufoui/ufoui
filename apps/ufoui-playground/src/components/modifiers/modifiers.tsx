@@ -22,6 +22,7 @@ type ButtonModifiersProps = {
     border?: ElementBorder | null;
     borderColor?: BorderColor | null;
     color?: SemanticColor | null;
+    decorative?: boolean | null;
     density?: ElementDensity | null;
     disabled?: boolean | null;
     detached?: boolean | null;
@@ -48,6 +49,7 @@ type ButtonModifiersProps = {
         border?: ElementBorder | null;
         borderColor?: BorderColor | null;
         color?: SemanticColor | null;
+        decorative?: boolean | null;
         density?: ElementDensity | null;
         disabled?: boolean | null;
         docked?: boolean | null;
@@ -122,6 +124,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         flat,
         toggle,
         surfaceColor,
+        decorative,
         density,
         detached,
         disabled,
@@ -667,6 +670,22 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             onChange({
                                 ...props,
                                 error: e.target.checked,
+                            });
+                        }}
+                    />
+                </>
+            )}
+            {decorative !== undefined && (
+                <>
+                    <label htmlFor="mod_decorative">Decorative:</label>
+                    <Checkbox
+                        checked={!!decorative}
+                        density="dense"
+                        id="mod_decorative"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                decorative: e.target.checked,
                             });
                         }}
                     />

@@ -295,7 +295,7 @@ export const BoxBase = forwardRef<HTMLElement, BoxBaseProps>((props, ref) => {
         'uui-box',
         elementClass,
         font && getFontClass(font),
-        shape && getShapeClass(shape),
+        getShapeClass(shape),
         elevation !== undefined && getElevationClass(elevation),
         border !== undefined && getBorderClass(border),
         grow && 'uui-grow',

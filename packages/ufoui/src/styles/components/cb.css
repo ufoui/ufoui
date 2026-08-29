@@ -61,6 +61,7 @@
     cursor: pointer;
 }
 
+
 .uui-cb-control .uui-state {
     opacity: 0;
     transition: var(--uui-opacity-transition);
@@ -112,6 +113,10 @@
     cursor: pointer;
 }
 
+.uui-decorative .uui-cb-label {
+    cursor: default;
+}
+
 fieldset[disabled] .uui-cb,
 .uui-cb.uui-disabled {
     pointer-events: none;
@@ -147,10 +152,7 @@ fieldset[disabled] .uui-cb-control.uui-filled .uui-cb-glyph {
 }
 
 .uui-disabled .uui-cb-control.uui-filled.uui-checked .uui-cb-glyph .uui-icon,
-fieldset[disabled]
-.uui-cb-control.uui-filled.uui-checked
-.uui-cb-glyph
-.uui-icon {
+fieldset[disabled].uui-cb-control.uui-filled.uui-checked.uui-cb-glyph.uui-icon {
     color: var(--uui-color-surface) !important;
 }
 

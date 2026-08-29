@@ -35,6 +35,7 @@ export const RadioPage = () => {
     const [uncheckedBorderColor, setUncheckedBorderColor] = useState<BorderColor | null>(null);
     const [color, setColor] = useState<SemanticColor | null>(null);
     const [readOnly, setReadOnly] = useState<boolean | null>(false);
+    const [decorative, setDecorative] = useState<boolean | null>(false);
     const [elevation, setElevation] = useState<ElementElevation | null>(null);
     const [density, setDensity] = useState<ElementDensity | null>(null);
     const [filled, setFilled] = useState<boolean | null>(false);
@@ -60,6 +61,7 @@ export const RadioPage = () => {
             density: density ?? undefined,
             filled: !!filled,
             font: font ?? undefined,
+            decorative: !!decorative,
             readOnly: !!readOnly,
             textPlacement: textPlacement ?? undefined,
             uncheckedColor: uncheckedColor ?? undefined,
@@ -80,6 +82,7 @@ export const RadioPage = () => {
             font,
             textPlacement,
             readOnly,
+            decorative,
         ]
     );
 
@@ -288,6 +291,7 @@ export const RadioPage = () => {
                     border={border}
                     borderColor={borderColor}
                     color={color}
+                    decorative={decorative}
                     density={density}
                     disabled={disabled}
                     elevation={elevation}
@@ -303,6 +307,7 @@ export const RadioPage = () => {
                         elevation: el,
                         density: ds,
                         filled: fl,
+                        decorative: dc,
                         readOnly: ro,
                         focusColor: fc,
                         font: lf,
@@ -328,6 +333,7 @@ export const RadioPage = () => {
                         setUncheckedBorder(ub ?? null);
                         setUncheckedBorderColor(ud ?? null);
                         setReadOnly(ro ?? null);
+                        setDecorative(dc ?? null);
                     }}
                     readOnly={readOnly}
                     shape={shape}

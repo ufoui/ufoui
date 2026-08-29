@@ -1,4 +1,4 @@
-@beta
+@stable
 BoxBase
 Article
 Header
@@ -20,6 +20,8 @@ Flex
 Grid
 Div
 Stack
+
+@beta
 Content
 Label
 
@@ -117,15 +119,17 @@ DataTable
 DatePicker
 FABGroup
 Pagination
-ProgressIndicator
 SegmentedButton
 Snackbar
 TimePicker
 Skeleton
 ChipSet
+
+@extra
 RichEdit
 
 @deprecated
+ProgressIndicator
 ListItemIcon
 ListItemText
 ListItemButton

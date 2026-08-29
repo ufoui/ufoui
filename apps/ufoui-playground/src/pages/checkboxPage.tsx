@@ -47,6 +47,7 @@ export const CheckboxPage = () => {
     const [textPlacement, setTextPlacement] = useState<ElementTextPlacement | null>(null);
     const [uncheckedColor, setUncheckedColor] = useState<SemanticColor | null>(null);
     const [readOnly, setReadOnly] = useState<boolean | null>(false);
+    const [decorative, setDecorative] = useState<boolean | null>(false);
     const shared = useMemo(
         () => ({
             size: size ?? undefined,
@@ -54,6 +55,7 @@ export const CheckboxPage = () => {
             border: border ?? undefined,
             uncheckedBorder: uncheckedBorder ?? undefined,
             color: color ?? undefined,
+            decorative: !!decorative,
             readOnly: !!readOnly,
             borderColor: borderColor ?? undefined,
             uncheckedBorderColor: uncheckedBorderColor ?? undefined,
@@ -81,6 +83,7 @@ export const CheckboxPage = () => {
             density,
             filled,
             readOnly,
+            decorative,
         ]
     );
 
@@ -297,6 +300,7 @@ export const CheckboxPage = () => {
                     border={border}
                     borderColor={borderColor}
                     color={color}
+                    decorative={decorative}
                     density={density}
                     disabled={disabled}
                     elevation={elevation}
@@ -313,6 +317,7 @@ export const CheckboxPage = () => {
                         density: ds,
                         filled: fl,
                         focusColor: fc,
+                        decorative: dc,
                         readOnly: ro,
                         font: lf,
                         disabled: db,
@@ -337,6 +342,7 @@ export const CheckboxPage = () => {
                         setUncheckedBorder(ub ?? null);
                         setUncheckedBorderColor(ud ?? null);
                         setReadOnly(ro ?? null);
+                        setDecorative(dc ?? null);
                     }}
                     readOnly={readOnly}
                     shape={shape}
