@@ -6,20 +6,17 @@ import {
     ControlStyle,
     createRipple,
     ElementDensity,
+    ElementEffects,
     ElementElevation,
-    ElementFocusEffect,
     ElementFont,
-    ElementHoverEffect,
     ElementOutline,
     ElementPlacement,
-    ElementPressedEffect,
-    ElementSelectedEffect,
     ElementShape,
     ElementSize,
     ElementTextPlacement,
-    ElementTouchEffect,
     getBorderClass,
     getDensityClass,
+    getEffects,
     getElevationClass,
     getShapeClass,
     getSizeClass,
@@ -67,6 +64,9 @@ export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
     /** Supporting text displayed below the label. */
     description?: string;
 
+    /** Interaction visual effects, or `'none'` to disable them all. */
+    effects?: ElementEffects;
+
     /** Elevation level of the control surface. */
     elevation?: ElementElevation;
 
@@ -76,17 +76,11 @@ export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
     /** Focus ring color override. */
     focusColor?: BorderColor;
 
-    /** Visual effects applied on focus. */
-    focusEffects?: ElementFocusEffect[];
-
     /** Font token applied to the label text. */
     font?: ElementFont;
 
     /** Enables full color rendering for the unchecked state. */
     fullColor?: boolean;
-
-    /** Visual effects applied on hover. */
-    hoverEffects?: ElementHoverEffect[];
 
     /** Icon rendered when checked. */
     icon?: ReactNode;
@@ -103,14 +97,8 @@ export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
     /** Change event handler. */
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
 
-    /** Visual effects applied on press. */
-    pressedEffects?: ElementPressedEffect[];
-
     /** Marks the control as required. Visual only. */
     required?: boolean;
-
-    /** Visual effects applied when checked. */
-    selectedEffects?: ElementSelectedEffect[];
 
     /** Shape variant of the control. */
     shape?: ElementShape;
@@ -123,9 +111,6 @@ export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
 
     /** Tooltip alignment relative to the control. */
     tooltipAlign?: ElementPlacement;
-
-    /** Touch and click visual effects. */
-    touchEffects?: ElementTouchEffect[];
 
     /** Border style when unchecked. */
     uncheckedBorder?: ElementOutline;
@@ -148,6 +133,14 @@ export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
  *
  * Represents an immediate boolean preference.
  *
+ * @remarks
+ * Supported effects:
+ * - `hover` - `'overlay'`
+ * - `pressed` - `'overlay'`, `'scale'`
+ * - `touch` - `'ripple'`
+ * - `selected` - `'overlay'`
+ * - `focus` - `'ring'`, `'overlay'`
+ *
  * @function Switch
  * @param props Component properties.
  *
@@ -168,11 +161,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
         color = 'primary',
         uncheckedColor,
         defaultChecked,
-        hoverEffects = ['overlay'],
-        touchEffects = ['ripple'],
-        focusEffects = ['ring'],
-        selectedEffects = [],
-        pressedEffects = ['overlay', 'scale'],
+        effects,
         id,
         name,
         label,
@@ -202,6 +191,13 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
         readOnly,
         ...other
     } = props;
+
+    const finalEffects = getEffects(effects, {
+        hover: ['overlay'],
+        pressed: ['overlay', 'scale'],
+        touch: ['ripple'],
+        focus: ['ring'],
+    });
 
     const rippleTimerRef = useRef<number | null>(null);
 
@@ -241,7 +237,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
             e.preventDefault();
             return;
         }
-        if (touchEffects.includes('ripple')) {
+        if (finalEffects.touch?.includes('ripple')) {
             if (rippleTimerRef.current) {
                 clearTimeout(rippleTimerRef.current);
             }
@@ -272,13 +268,13 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
         'uui-switch-control',
         isChecked && 'uui-checked',
         !!uncheckedIcon && 'uui-symmetric-thumb',
-        hoverEffects.includes('overlay') && !readOnly && 'uui-hover-overlay',
-        focusEffects.includes('overlay') && focusVisible && isFocused && 'uui-focus-overlay',
-        selectedEffects.includes('overlay') && 'uui-selected-overlay',
-        pressedEffects.includes('overlay') && !readOnly && 'uui-pressed-overlay',
-        pressedEffects.includes('scale') && !readOnly && 'uui-pressed-scale',
+        finalEffects.hover?.includes('overlay') && !readOnly && 'uui-hover-overlay',
+        finalEffects.focus?.includes('overlay') && focusVisible && isFocused && 'uui-focus-overlay',
+        finalEffects.selected?.includes('overlay') && 'uui-selected-overlay',
+        finalEffects.pressed?.includes('overlay') && !readOnly && 'uui-pressed-overlay',
+        finalEffects.pressed?.includes('scale') && !readOnly && 'uui-pressed-scale',
         getShapeClass(shape),
-        focusEffects.includes('ring') && focusVisible && isFocused && 'uui-focus-visible uui-focus-ring'
+        finalEffects.focus?.includes('ring') && focusVisible && isFocused && 'uui-focus-visible uui-focus-ring'
     );
 
     const controlStyle = ControlStyle();

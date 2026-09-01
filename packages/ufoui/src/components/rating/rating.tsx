@@ -4,12 +4,13 @@ import {
     cn,
     ControlStyle,
     ElementDensity,
-    ElementFocusEffect,
+    ElementEffects,
     ElementFont,
     ElementPlacement,
     ElementSize,
     ElementTextPlacement,
     getDensityClass,
+    getEffects,
     getSizeClass,
     SurfaceColor,
     useUniqueId,
@@ -45,6 +46,9 @@ export interface RatingProps
     /** Disables interaction with the control. */
     disabled?: boolean;
 
+    /** Interaction visual effects, or `'none'` to disable them all. */
+    effects?: ElementEffects;
+
     /** Icon used for the empty rating state. */
     emptyIcon?: ReactNode;
 
@@ -53,9 +57,6 @@ export interface RatingProps
 
     /** Enables filled visual style for icons. */
     filled?: boolean;
-
-    /** Visual effects applied when the control receives focus. */
-    focusEffects?: ElementFocusEffect[];
 
     /** Font applied to the label text. */
     font?: ElementFont;
@@ -102,6 +103,10 @@ export interface RatingProps
  *
  * Supports mouse, keyboard and form integration through a hidden input.
  *
+ * @remarks
+ * Supported effects:
+ * - `focus` - `'ring'`
+ *
  * @function
  * @param props Component properties.
  *
@@ -133,7 +138,7 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
             onBlur,
             title,
             textPlacement = 'start',
-            focusEffects = ['ring'],
+            effects,
             className,
             tooltipAlign = 'auto',
             'aria-label': ariaLabel,
@@ -142,6 +147,8 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
         },
         ref
     ) => {
+        const finalEffects = getEffects(effects, { focus: ['ring'] });
+
         const generatedId = useUniqueId('rating');
         const elemId = id ?? name ?? generatedId;
         const labelId = label ? `${elemId}_label` : undefined;
@@ -245,7 +252,9 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
 
         const controlClasses = cn(
             'uui-rating-control',
-            ...(focusEffects.includes('ring') && isFocused && focusVisible ? ['uui-focus-ring uui-focus-visible'] : []),
+            ...(finalEffects.focus?.includes('ring') && isFocused && focusVisible
+                ? ['uui-focus-ring uui-focus-visible']
+                : []),
             getDensityClass(density)
         );
 

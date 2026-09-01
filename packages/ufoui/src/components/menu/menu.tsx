@@ -21,14 +21,12 @@ import {
     ControlStyle,
     ElementBorder,
     ElementDensity,
+    ElementEffects,
     ElementElevation,
     ElementFloatingMode,
-    ElementFocusEffect,
     ElementFont,
     ElementPlacement,
-    ElementSelectedEffect,
     ElementShape,
-    ElementTouchEffect,
     getBorderClass,
     getBorderColor,
     getDensityClass,
@@ -131,14 +129,8 @@ export interface MenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'>
     /** Enables horizontal menu layout. */
     horizontal?: boolean;
 
-    /** Focus effects applied to menu items. */
-    itemFocusEffects?: ElementFocusEffect[];
-
-    /** Selected state effects applied to menu items. */
-    itemSelectedEffects?: ElementSelectedEffect[];
-
-    /** Touch and click feedback effects for menu items. */
-    itemTouchEffects?: ElementTouchEffect[];
+    /** Interaction visual effects applied to menu items, or `'none'` to disable them all. */
+    itemEffects?: ElementEffects;
 
     /** Text color for item labels. */
     labelColor?: SurfaceColor;
@@ -330,9 +322,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
             radioUncheckedIcon,
             radioCheckedIcon,
             selectedColor,
-            itemTouchEffects,
-            itemSelectedEffects,
-            itemFocusEffects,
+            itemEffects,
             closeOnChange = false,
             openOnHover = true,
             labelFont,
@@ -790,9 +780,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                         child.props.uncheckedIcon ??
                         (child.props.type === 'checkbox' ? uncheckedIcon : radioUncheckedIcon),
                     selectedColor: child.props.selectedColor ?? selectedColor,
-                    touchEffects: child.props.touchEffects ?? itemTouchEffects,
-                    selectedEffects: child.props.selectedEffects ?? itemSelectedEffects,
-                    focusEffects: child.props.focusEffects ?? itemFocusEffects,
+                    effects: child.props.effects ?? itemEffects,
                     labelFont: child.props.labelFont ?? labelFont,
                     font: child.props.font ?? font,
                     descriptionFont: child.props.descriptionFont ?? descriptionFont,
@@ -1038,9 +1026,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                         fixedLeading={fixedLeading}
                         floatingMode={horizontal ? 'menu' : 'submenu'}
                         font={font}
-                        itemFocusEffects={itemFocusEffects}
-                        itemSelectedEffects={itemSelectedEffects}
-                        itemTouchEffects={itemTouchEffects}
+                        itemEffects={itemEffects}
                         labelColor={labelColor}
                         labelFont={labelFont}
                         motionStyle={motionStyle}

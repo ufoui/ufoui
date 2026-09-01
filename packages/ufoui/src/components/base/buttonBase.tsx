@@ -6,20 +6,17 @@ import {
     ControlStyle,
     createRipple,
     ElementDensity,
+    ElementEffects,
     ElementElevation,
-    ElementFocusEffect,
     ElementFont,
-    ElementHoverEffect,
     ElementOutline,
     ElementPlacement,
-    ElementPressedEffect,
-    ElementSelectedEffect,
     ElementShape,
     ElementSize,
-    ElementTouchEffect,
     getBorderClass,
     getBorderColor,
     getDensityClass,
+    getEffects,
     getElevationClass,
     getFontClass,
     getShapeClass,
@@ -61,6 +58,9 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
     /** Disables the button. */
     disabled?: boolean;
 
+    /** Interaction visual effects, or `'none'` to disable them all. */
+    effects?: ElementEffects;
+
     /** Required root class name. */
     elementClass: string;
 
@@ -79,17 +79,11 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
     /** Disables elevation and elevation effects. */
     flat?: boolean;
 
-    /** Focus visual effects. */
-    focusEffects?: ElementFocusEffect[];
-
     /** Font token for label and content. */
     font?: ElementFont;
 
     /** Expands button to full width. */
     fullWidth?: boolean;
-
-    /** Hover visual effects. */
-    hoverEffects?: ElementHoverEffect[];
 
     /** Icon rendered at the start of the button. */
     icon?: React.ReactElement;
@@ -127,17 +121,11 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
     /** Enables outlined style. */
     outlined?: boolean;
 
-    /** Pressed visual effects. */
-    pressedEffects?: ElementPressedEffect[];
-
     /** Controlled selected state for toggle buttons. */
     selected?: boolean;
 
     /** Semantic color override when selected. */
     selectedColor?: SemanticColor;
-
-    /** Visual effects applied when selected. */
-    selectedEffects?: ElementSelectedEffect[];
 
     /** Icon displayed when selected. */
     selectedIcon?: React.ReactElement;
@@ -162,9 +150,6 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
 
     /** Tooltip alignment relative to the button. */
     tooltipAlign?: ElementPlacement;
-
-    /** Touch and click visual effects. */
-    touchEffects?: ElementTouchEffect[];
 
     /** Custom trailing content. */
     trailing?: ReactNode;
@@ -191,6 +176,13 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
  * Supports Material Design 3 styles, toggle behavior, loading state,
  * file upload trigger, icons, and semantic colors.
  *
+ * @remarks
+ * Supported effects:
+ * - `hover`, `pressed` - `'overlay'`, `'elevate'`
+ * - `touch` - `'ripple'`
+ * - `selected` - `'morph'`, `'color'`, `'overlay'`
+ * - `focus` - `'ring'`, `'overlay'`
+ *
  * @param props - Component properties.
  * @function
  *
@@ -214,11 +206,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         size = 'small',
         border,
         borderColor,
-        hoverEffects = ['overlay', 'elevate'],
-        pressedEffects = ['overlay', 'elevate'],
-        touchEffects = ['ripple'],
-        selectedEffects = ['morph', 'color'],
-        focusEffects = ['ring', 'overlay'],
+        effects,
         children,
         variant,
         outlined = false,
@@ -256,6 +244,14 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         'aria-label': ariaLabel,
         ...other
     } = props;
+    const finalEffects = getEffects(effects, {
+        hover: ['overlay', 'elevate'],
+        pressed: ['overlay', 'elevate'],
+        touch: ['ripple'],
+        selected: ['morph', 'color'],
+        focus: ['ring', 'overlay'],
+    });
+
     const isControlled = selected !== undefined;
     const [internalSelected, setInternalSelected] = useState(defaultSelected ?? false);
     const isSelected = isControlled ? selected : internalSelected;
@@ -272,22 +268,44 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     const wrapperClasses = cn(elementClass, className, 'uui-bb', getDensityClass(density), fullWidth && 'uui-w-full');
 
     const resolvedBorder = border ?? (finalVariant === 'outlined' ? 1 : undefined);
+    const shapeClass =
+        toggle && isSelected && finalEffects.selected?.includes('morph')
+            ? getShapeClass(selectedShape)
+            : getShapeClass(shape);
+
+    let resolvedElevation = elevation;
+    if (elevation === undefined) {
+        if (tonal || filled) {
+            if (!flat) {
+                resolvedElevation = elevated ? 1 : 0;
+            }
+        } else if (elevated) {
+            resolvedElevation = 1;
+        }
+    }
+    const elevationClasses = [
+        ...(finalEffects.hover?.includes('elevate') && !flat ? ['uui-hover-elevate'] : []),
+        ...(finalEffects.pressed?.includes('elevate') && !flat ? ['uui-pressed-elevate'] : []),
+    ];
+
     const controlClasses: string[] = [
         'uui-btn-control',
         getFontClass(font),
-        ...(toggle && selectedEffects.includes('color') ? ['uui-toggle'] : []),
+        ...(toggle && finalEffects.selected?.includes('color') ? ['uui-toggle'] : []),
         ...[`uui-${finalVariant}`],
-        ...(focusEffects.includes('ring') ? ['uui-focus-ring'] : []),
-        ...(focusEffects.includes('overlay') ? ['uui-focus-overlay'] : []),
-        ...(hoverEffects.includes('overlay') ? ['uui-hover-overlay'] : []),
-        ...(pressedEffects.includes('overlay') ? ['uui-pressed-overlay'] : []),
-        ...(selectedEffects.includes('overlay') ? ['uui-selected-overlay'] : []),
+        ...(finalEffects.focus?.includes('ring') ? ['uui-focus-ring'] : []),
+        ...(finalEffects.focus?.includes('overlay') ? ['uui-focus-overlay'] : []),
+        ...(finalEffects.hover?.includes('overlay') ? ['uui-hover-overlay'] : []),
+        ...(finalEffects.pressed?.includes('overlay') ? ['uui-pressed-overlay'] : []),
+        ...(finalEffects.selected?.includes('overlay') ? ['uui-selected-overlay'] : []),
         ...(loading ? ['uui-loading'] : []),
         ...(fullWidth ? ['uui-w-full'] : []),
         ...(!children ? [getSizeClass(size)] : []),
         ...(isSelected ? ['uui-selected'] : []),
         getBorderClass(resolvedBorder),
     ];
+    controlClasses.push(shapeClass);
+    controlClasses.push(...elevationClasses, getElevationClass(resolvedElevation));
 
     const controlStyle = ControlStyle(style);
     if (resolvedBorder !== undefined) {
@@ -297,10 +315,6 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     const stateClasses: string[] = ['uui-state'];
     const stateStyle = ControlStyle();
 
-    const shapeClass =
-        toggle && isSelected && selectedEffects.includes('morph') ? getShapeClass(selectedShape) : getShapeClass(shape);
-
-    controlClasses.push(shapeClass);
     stateClasses.push(shapeClass);
 
     const iconClass = 'uui-icon';
@@ -329,22 +343,6 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
             </div>
         );
     }
-
-    let resolvedElevation = elevation;
-    if (elevation === undefined) {
-        if (tonal || filled) {
-            if (!flat) {
-                resolvedElevation = elevated ? 1 : 0;
-            }
-        } else if (elevated) {
-            resolvedElevation = 1;
-        }
-    }
-    const elevationClasses = [
-        ...(hoverEffects.includes('elevate') && !flat ? ['uui-hover-elevate'] : []),
-        ...(pressedEffects.includes('elevate') && !flat ? ['uui-pressed-elevate'] : []),
-    ];
-    controlClasses.push(...elevationClasses, getElevationClass(resolvedElevation));
 
     // Base appearance (non-toggle OR toggle without color effect)
     const setStandardColor = () => {
@@ -378,7 +376,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         }
     };
 
-    if (toggle && selectedEffects.includes('color')) {
+    if (toggle && finalEffects.selected?.includes('color')) {
         if (isSelected) {
             setSelectedColor();
         } else {
@@ -418,7 +416,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         if (onClick) {
             onClick(event);
         }
-        if (touchEffects.includes('ripple')) {
+        if (finalEffects.touch?.includes('ripple')) {
             createRipple(event.currentTarget, event);
         }
     };

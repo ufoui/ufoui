@@ -13,12 +13,11 @@ import {
     ControlStyle,
     createRipple,
     ElementDensity,
-    ElementFocusEffect,
+    ElementEffects,
     ElementFont,
-    ElementSelectedEffect,
     ElementShape,
-    ElementTouchEffect,
     getDensityClass,
+    getEffects,
     getFontClass,
     getShapeClass,
     mergeRefs,
@@ -111,6 +110,9 @@ export interface MenuItemProps extends Omit<HTMLProps<HTMLDivElement>, 'ref' | '
     /** Disables interactions and focus. */
     disabled?: boolean;
 
+    /** Interaction visual effects, or `'none'` to disable them all. */
+    effects?: ElementEffects;
+
     /** Icon rendered at the end (alias for `trailing`). */
     endIcon?: ReactNode;
 
@@ -119,9 +121,6 @@ export interface MenuItemProps extends Omit<HTMLProps<HTMLDivElement>, 'ref' | '
 
     /** Reserves leading slot even without an icon. */
     fixedLeading?: boolean;
-
-    /** Visual focus effects applied when active. */
-    focusEffects?: ElementFocusEffect[];
 
     /** Forces focus-visible styling. */
     focusVisible?: boolean;
@@ -162,9 +161,6 @@ export interface MenuItemProps extends Omit<HTMLProps<HTMLDivElement>, 'ref' | '
     /** Background color used when selected. */
     selectedColor?: SurfaceColor;
 
-    /** Visual effects applied when selected. */
-    selectedEffects?: ElementSelectedEffect[];
-
     /** Shape token applied to the item. */
     shape?: ElementShape;
 
@@ -179,9 +175,6 @@ export interface MenuItemProps extends Omit<HTMLProps<HTMLDivElement>, 'ref' | '
 
     /** Overrides automatic text color. */
     textColor?: SurfaceColor;
-
-    /** Touch and click feedback effects. */
-    touchEffects?: ElementTouchEffect[];
 
     /** Custom trailing content. */
     trailing?: ReactNode;
@@ -227,6 +220,12 @@ export interface MenuItemInternalProps {
  *
  * Keyboard interaction and focus are handled by the parent Menu.
  *
+ * @remarks
+ * Supported effects:
+ * - `touch` - `'ripple'`
+ * - `selected` - `'color'`
+ * - `focus` - `'ring'`, `'overlay'`
+ *
  * @param props
  *
  * @example
@@ -259,9 +258,7 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
     (
         {
             shape,
-            touchEffects = ['ripple'],
-            focusEffects = ['ring', 'overlay'],
-            selectedEffects = ['color'],
+            effects,
             checkedIcon,
             uncheckedIcon,
             selectedColor,
@@ -304,6 +301,12 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
         ref
         // eslint-disable-next-line sonarjs/cognitive-complexity
     ) => {
+        const finalEffects = getEffects(effects, {
+            touch: ['ripple'],
+            selected: ['color'],
+            focus: ['ring', 'overlay'],
+        });
+
         const menuItemRef = useRef<HTMLDivElement>(null);
         const childList = React.Children.toArray(children);
         const submenuElement = childList.find(el => isMenu(el)) as ReactElement | undefined;
@@ -393,7 +396,7 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
                 return;
             }
             onClick?.(e);
-            if (touchEffects.includes('ripple')) {
+            if (finalEffects.touch?.includes('ripple')) {
                 if (menuItemRef.current && e) {
                     createRipple(menuItemRef.current, e);
                 }
@@ -401,7 +404,7 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
         };
 
         let resolvedColor = color ?? (variant === 'modern' ? 'surfaceContainerLow' : 'surfaceContainer');
-        if (type === 'option' && selected && selectedEffects.includes('color')) {
+        if (type === 'option' && selected && finalEffects.selected?.includes('color')) {
             resolvedColor = selectedColor ?? (variant === 'modern' ? 'tertiaryContainer' : 'secondaryContainer');
         }
 
@@ -428,8 +431,8 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
         const contentClasses = cn(
             'uui-menu-item-content',
             resolvedShape,
-            focusEffects.includes('ring') && active && 'uui-focus-ring-in',
-            focusEffects.includes('overlay') && active && 'uui-focus-overlay',
+            finalEffects.focus?.includes('ring') && active && 'uui-focus-ring-in',
+            finalEffects.focus?.includes('overlay') && active && 'uui-focus-overlay',
             active && 'uui-active',
             active && focusVisible && 'uui-focus-visible'
         );

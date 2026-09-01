@@ -10,12 +10,9 @@ import {
     cn,
     ControlStyle,
     createRipple,
-    ElementFocusEffect,
+    ElementEffects,
     ElementFont,
-    ElementHoverEffect,
-    ElementPressedEffect,
-    ElementSelectedEffect,
-    ElementTouchEffect,
+    getEffects,
     getFontClass,
     SurfaceColor,
 } from '../../utils';
@@ -46,16 +43,8 @@ export interface AccordionItemProps {
     divided?: boolean;
     onFocus?: React.FocusEventHandler<HTMLButtonElement>;
     onBlur?: React.FocusEventHandler<HTMLButtonElement>;
-    /** Hover visual effects. */
-    hoverEffects?: ElementHoverEffect[];
-    /** Focus visual effects. */
-    focusEffects?: ElementFocusEffect[];
-    /** Pressed visual effects. */
-    pressedEffects?: ElementPressedEffect[];
-    /** Touch and click visual effects. */
-    touchEffects?: ElementTouchEffect[];
-    /** Visual effects applied when selected. */
-    selectedEffects?: ElementSelectedEffect[];
+    /** Interaction visual effects, or `'none'` to disable them all. */
+    effects?: ElementEffects;
     color?: SurfaceColor;
     disabled?: boolean;
 }
@@ -65,6 +54,12 @@ export interface AccordionItemProps {
  *
  * Integrates with shared selection behavior to determine
  * whether the panel is expanded and to toggle its state.
+ *
+ * @remarks
+ * Supported effects:
+ * - `hover`, `pressed` - `'overlay'`
+ * - `touch` - `'ripple'`
+ * - `focus` - `'ring'`, `'overlay'`
  *
  * @function
  *
@@ -87,12 +82,15 @@ export const AccordionItem = ({
     onBlur,
     color,
     disabled,
-    hoverEffects = ['overlay'],
-    focusEffects = ['ring', 'overlay'],
-    pressedEffects = ['overlay'],
-    touchEffects = ['ripple'],
-    selectedEffects = ['color'],
+    effects,
 }: AccordionItemProps) => {
+    const finalEffects = getEffects(effects, {
+        hover: ['overlay'],
+        pressed: ['overlay'],
+        touch: ['ripple'],
+        focus: ['ring', 'overlay'],
+    });
+
     const headerRef = useRef<HTMLDivElement>(null);
     const { values, toggle, config } = useSelection<AccordionConfig>();
     const isOpen = values.includes(value);
@@ -110,15 +108,15 @@ export const AccordionItem = ({
     const triggerClasses = cn(
         'uui-accordion-trigger',
         getFontClass(font ?? config?.font ?? 'labelLarge'),
-        focusEffects.includes('ring') && focusVisible && 'uui-focus-ring',
-        focusEffects.includes('overlay') && 'uui-focus-overlay',
-        hoverEffects.includes('overlay') && 'uui-hover-overlay',
-        pressedEffects.includes('overlay') && 'uui-pressed-overlay'
+        finalEffects.focus?.includes('ring') && focusVisible && 'uui-focus-ring',
+        finalEffects.focus?.includes('overlay') && 'uui-focus-overlay',
+        finalEffects.hover?.includes('overlay') && 'uui-hover-overlay',
+        finalEffects.pressed?.includes('overlay') && 'uui-pressed-overlay'
     );
 
     function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
         toggle(value);
-        if (touchEffects.includes('ripple') && headerRef.current) {
+        if (finalEffects.touch?.includes('ripple') && headerRef.current) {
             createRipple(headerRef.current, e);
         }
     }

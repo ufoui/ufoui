@@ -7,20 +7,17 @@ import {
     createRipple,
     ElementBorder,
     ElementDensity,
+    ElementEffects,
     ElementElevation,
-    ElementFocusEffect,
     ElementFont,
-    ElementHoverEffect,
     ElementOutline,
     ElementPlacement,
-    ElementPressedEffect,
-    ElementSelectedEffect,
     ElementShape,
     ElementSize,
     ElementTextPlacement,
-    ElementTouchEffect,
     getBorderClass,
     getDensityClass,
+    getEffects,
     getElevationClass,
     getFontClass,
     getShapeClass,
@@ -71,6 +68,9 @@ export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLIn
     /** Supporting text displayed below the label. */
     description?: string;
 
+    /** Interaction visual effects, or `'none'` to disable them all. */
+    effects?: ElementEffects;
+
     /** Required root class name for styling. */
     elementClass: string;
 
@@ -86,14 +86,8 @@ export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLIn
     /** Focus color override. */
     focusColor?: BorderColor;
 
-    /** Visual effects applied on focus. */
-    focusEffects?: ElementFocusEffect[];
-
     /** Font applied to the label text. */
     font?: ElementFont;
-
-    /** Visual effects applied on hover. */
-    hoverEffects?: ElementHoverEffect[];
 
     /** Icon rendered in checked state. */
     icon?: ReactNode;
@@ -116,17 +110,11 @@ export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLIn
     /** Change event handler. */
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
 
-    /** Visual effects applied while pressed. */
-    pressedEffects?: ElementPressedEffect[];
-
     /** Marks the control as read-only without disabling focus. */
     readOnly?: boolean;
 
     /** Marks the control as required. Visual indicator only. */
     required?: boolean;
-
-    /** Visual effects applied when selected. */
-    selectedEffects?: ElementSelectedEffect[];
 
     /** Shape variant of the control. */
     shape?: ElementShape;
@@ -139,9 +127,6 @@ export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLIn
 
     /** Tooltip alignment relative to the control. */
     tooltipAlign?: ElementPlacement;
-
-    /** Touch and click visual effects. */
-    touchEffects?: ElementTouchEffect[];
 
     /** Input type. */
     type: 'radio' | 'checkbox';
@@ -167,6 +152,12 @@ export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLIn
  *
  * Supports controlled and uncontrolled usage.
  *
+ * @remarks
+ * Supported effects:
+ * - `hover`, `pressed` - `'overlay'`
+ * - `touch` - `'ripple'`
+ * - `selected` - `'overlay'`
+ * - `focus` - `'ring'`, `'overlay'`
  *
  * @param props Component properties.
  * @function
@@ -197,11 +188,7 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         uncheckedColor,
         defaultChecked,
         indeterminate,
-        hoverEffects = ['overlay'],
-        touchEffects = ['ripple'],
-        focusEffects = ['ring'],
-        selectedEffects = [],
-        pressedEffects = ['overlay'],
+        effects,
         id,
         name,
         label,
@@ -235,6 +222,13 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         'aria-label': ariaLabel,
         ...other
     } = props;
+
+    const finalEffects = getEffects(effects, {
+        hover: ['overlay'],
+        pressed: ['overlay'],
+        touch: ['ripple'],
+        focus: ['ring'],
+    });
 
     const { animationVars, animate, animating, animationClasses } = useMotion(
         animation,
@@ -298,7 +292,7 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
             e.preventDefault();
             return;
         }
-        if (touchEffects.includes('ripple') && stateRef.current && controlRef.current) {
+        if (finalEffects.touch?.includes('ripple') && stateRef.current && controlRef.current) {
             createRipple(stateRef.current, e, controlRef.current);
         }
         onClick?.(e);
@@ -334,10 +328,10 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         isChecked && 'uui-checked',
         indeterminate && 'uui-indeterminate',
         filled && 'uui-filled',
-        hoverEffects.includes('overlay') && !readOnly && 'uui-hover-overlay',
-        focusEffects.includes('overlay') && focusVisible && isFocused && 'uui-focus-overlay',
-        selectedEffects.includes('overlay') && 'uui-selected-overlay',
-        pressedEffects.includes('overlay') && !readOnly && 'uui-pressed-overlay',
+        finalEffects.hover?.includes('overlay') && !readOnly && 'uui-hover-overlay',
+        finalEffects.focus?.includes('overlay') && focusVisible && isFocused && 'uui-focus-overlay',
+        finalEffects.selected?.includes('overlay') && 'uui-selected-overlay',
+        finalEffects.pressed?.includes('overlay') && !readOnly && 'uui-pressed-overlay',
         children ? getShapeClass(shape) : 'uui-round'
     );
 
@@ -349,7 +343,7 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
 
     const inputClasses = cn(
         'uui-input',
-        focusEffects.includes('ring') && focusVisible && isFocused && 'uui-focus-visible uui-focus-ring'
+        finalEffects.focus?.includes('ring') && focusVisible && isFocused && 'uui-focus-visible uui-focus-ring'
     );
     const stateClasses = cn('uui-state');
 

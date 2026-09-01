@@ -4,10 +4,9 @@ import {
     BaseColor,
     cn,
     ControlStyle,
-    ElementFocusEffect,
+    ElementEffects,
     ElementFont,
-    ElementHoverEffect,
-    ElementPressedEffect,
+    getEffects,
     getFontClass,
 } from '../../utils';
 import { Leading, Trailing } from '../../internal';
@@ -57,14 +56,8 @@ export type LinkProps<T extends ElementType = 'a'> = {
     /** Disables interaction and focus. */
     disabled?: boolean;
 
-    /** Hover visual effects. */
-    hoverEffects?: ElementHoverEffect[];
-
-    /** Focus visual effects. */
-    focusEffects?: ElementFocusEffect[];
-
-    /** Pressed visual effects. */
-    pressedEffects?: ElementPressedEffect[];
+    /** Interaction visual effects, or `'none'` to disable them all. */
+    effects?: ElementEffects;
 
     /** Underline animation origin. */
     underlineOrigin?: 'left' | 'center';
@@ -90,6 +83,11 @@ export interface LinkComponent {
  * The component is polymorphic via the `as` prop and forwards remaining props to the rendered element.
  * When `external` is enabled and a valid `href` is present, secure external-link attributes are applied.
  * When `disabled` is enabled, click handling is blocked and the element is removed from tab order.
+ *
+ * @remarks
+ * Supported effects:
+ * - `hover`, `pressed` - `'overlay'`
+ * - `focus` - `'ring'`, `'overlay'`
  *
  * @function
  * @param rawProps - Component properties.
@@ -122,23 +120,27 @@ const LinkInner = <T extends ElementType = 'a'>(rawProps: LinkProps<T>, ref: Rea
         label,
         className,
         disabled,
-        hoverEffects = ['overlay'],
-        focusEffects = ['ring', 'overlay'],
-        pressedEffects = ['overlay'],
+        effects,
         underlineAnimation,
         underlineOrigin,
         'aria-label': ariaLabel,
         ...props
     } = rawProps;
 
+    const finalEffects = getEffects(effects, {
+        hover: ['overlay'],
+        pressed: ['overlay'],
+        focus: ['ring', 'overlay'],
+    });
+
     const Component = as ?? 'a';
     const { onClick, ...rest } = props;
     const { href } = rest as { href?: unknown };
 
     const stateClasses = cn(
-        ...(focusEffects.includes('overlay') ? ['uui-focus-overlay'] : []),
-        ...(hoverEffects.includes('overlay') ? ['uui-hover-overlay'] : []),
-        ...(pressedEffects.includes('overlay') ? ['uui-pressed-overlay'] : [])
+        ...(finalEffects.focus?.includes('overlay') ? ['uui-focus-overlay'] : []),
+        ...(finalEffects.hover?.includes('overlay') ? ['uui-hover-overlay'] : []),
+        ...(finalEffects.pressed?.includes('overlay') ? ['uui-pressed-overlay'] : [])
     );
 
     const classes = cn(
@@ -149,7 +151,7 @@ const LinkInner = <T extends ElementType = 'a'>(rawProps: LinkProps<T>, ref: Rea
         underlineAnimation && `uui-link-anim-${underlineAnimation}`,
         className,
         stateClasses,
-        ...(focusEffects.includes('ring') ? ['uui-focus-ring'] : [])
+        ...(finalEffects.focus?.includes('ring') ? ['uui-focus-ring'] : [])
     );
 
     const finalAriaLabel = ariaLabel ?? label ?? (typeof children === 'string' ? children : undefined);

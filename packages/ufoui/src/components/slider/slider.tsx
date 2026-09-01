@@ -4,12 +4,13 @@ import React, { forwardRef, useCallback, useContext, useMemo, useRef, useState }
 import {
     cn,
     ElementDensity,
-    ElementFocusEffect,
+    ElementEffects,
     ElementFont,
     ElementOrientation,
     ElementSize,
     ElementTextPlacement,
     getDensityClass,
+    getEffects,
     getSizeClass,
     mergeRefs,
     SemanticColor,
@@ -45,10 +46,10 @@ export interface SliderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 
     description?: string;
     /** Disables interaction. */
     disabled?: boolean;
+    /** Interaction visual effects, or `'none'` to disable them all. */
+    effects?: ElementEffects;
     /** Error message. Overrides `description` when set. */
     error?: string;
-    /** Focus ring effects. */
-    focusEffects?: ElementFocusEffect[];
     /** Font token for the label. */
     font?: ElementFont;
     /** Format function for the value indicator. */
@@ -102,6 +103,10 @@ export interface SliderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 
  * Track thickness is controlled by `size` (MD3: XS=16dp, S=24dp, M=40dp, L=56dp, XL=96dp).
  * Use `orientation="vertical"` and set a height via `style` for vertical sliders.
  *
+ * @remarks
+ * Supported effects:
+ * - `focus` - `'ring'`
+ *
  * @function
  * @category Slider
  *
@@ -127,8 +132,8 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>((props, ref) => {
         density,
         description,
         disabled,
+        effects,
         error,
-        focusEffects = ['ring'],
         font,
         formatValue,
         id,
@@ -153,6 +158,8 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>((props, ref) => {
         type = 'standard',
         value: valueProp,
     } = props;
+
+    const finalEffects = getEffects(effects, { focus: ['ring'] });
 
     const rangeMode = type === 'range';
     const centeredMode = type === 'centered';
@@ -329,7 +336,14 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>((props, ref) => {
             : { left: `${activeLeft}%`, width: `${activeSize}%` };
 
     const labelledBy = !ariaLabel && label ? `${elemId}-label` : undefined;
-    const hCommon = { disabled: off, focusEffects, focusVisible, orientation, readOnly, showValue: showMode } as const;
+    const hCommon = {
+        disabled: off,
+        effects: finalEffects,
+        focusVisible,
+        orientation,
+        readOnly,
+        showValue: showMode,
+    } as const;
     const controlStyle = {
         '--uui-slider-h0': `${p0}%`,
         ...(rangeMode ? { '--uui-slider-h1': `${p1}%` } : {}),

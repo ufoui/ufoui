@@ -10,6 +10,7 @@ export * from './toasts';
 export * from './useUniqueId';
 export * from './controlStyle';
 export * from './getWrapperStyle';
+export * from './getEffects';
 export * from './flatChildren';
 export * from './renderPortal';
 export * from './colorRegistry';

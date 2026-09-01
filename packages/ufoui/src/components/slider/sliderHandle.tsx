@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { cn, ElementFocusEffect } from '../../utils';
+import { cn, EffectConfig } from '../../utils';
 import { BoxBase } from '../base';
 
 export interface SliderHandleProps {
@@ -8,7 +8,7 @@ export interface SliderHandleProps {
     ariaLabelledby?: string;
     disabled?: boolean;
     displayValue: string;
-    focusEffects: ElementFocusEffect[];
+    effects: EffectConfig;
     focusVisible: boolean;
     handleRef: React.Ref<HTMLSpanElement>;
     isFocused: boolean;
@@ -30,7 +30,7 @@ export const SliderHandle = ({
     ariaLabelledby,
     disabled,
     displayValue,
-    focusEffects,
+    effects,
     focusVisible,
     handleRef,
     isFocused,
@@ -46,7 +46,7 @@ export const SliderHandle = ({
     showValue,
     value,
 }: SliderHandleProps) => {
-    const ring = focusEffects.includes('ring') && focusVisible && isFocused;
+    const ring = effects.focus?.includes('ring') && focusVisible && isFocused;
     const pos: React.CSSProperties =
         orientation === 'vertical'
             ? { bottom: `${pct}%`, left: '50%', transform: 'translate(-50%, 50%)' }
