@@ -1,4 +1,4 @@
-import React, { ElementType, forwardRef, ReactNode, useEffect, useState } from 'react';
+import React, { ElementType, forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
 
 import { BorderColor, cn, ControlStyle, ElementElevation, ElementShape, SurfaceColor } from '../../utils';
 import { ElementAnimation } from '../../types';
@@ -70,6 +70,11 @@ export const Card = forwardRef<HTMLElement, CardProps>(
         ref
     ) => {
         const [visible, setVisible] = useState(open === undefined);
+        // Content keeps its last open value while the close animation runs.
+        const frozen = useRef(children);
+        if (open !== false) {
+            frozen.current = children;
+        }
         const { animationVars, animate, idle, active, animationClasses } = useMotion(animation, {
             animation: 'scale',
             duration: 240,
@@ -119,7 +124,7 @@ export const Card = forwardRef<HTMLElement, CardProps>(
                 style={cardStyle.get()}
                 type="block"
                 {...rest}>
-                <div className={cn('uui-card-content', flush && 'uui-flush')}>{children}</div>
+                <div className={cn('uui-card-content', flush && 'uui-flush')}>{frozen.current}</div>
             </BoxBase>
         );
     }

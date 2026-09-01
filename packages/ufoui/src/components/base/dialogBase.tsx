@@ -258,6 +258,12 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         const [visible, setVisible] = useState(false);
         const [maxW, setMaxW] = useState(false);
         const [maxH, setMaxH] = useState(false);
+        // Content keeps its last open value while the close animation runs.
+        const frozen = useRef({ actions, children, label });
+        if (open) {
+            frozen.current = { actions, children, label };
+        }
+        const { actions: finalActions, children: finalChildren, label: finalLabel } = frozen.current;
 
         const motion = animation as MotionConfig | undefined;
         const { animationVars, animate, animating, idle, active, animationClasses } = useMotion({
@@ -355,7 +361,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         const dialogActions =
             actionsPlacement !== 'inline' ? (
                 <DialogActions
-                    actions={actions}
+                    actions={finalActions}
                     align={actionsAlign}
                     className={cn('uui-dialog-actions', actionsPlacement && `uui-actions-${actionsPlacement}`)}
                     maxActions={maxActions}
@@ -383,7 +389,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                     shape={shape}
                     style={controlStyle.get()}>
                     <DialogHeader
-                        actions={actionsPlacement === 'inline' && actions}
+                        actions={actionsPlacement === 'inline' && finalActions}
                         actionsAlign={actionsAlign}
                         actionsStack={actionsStack}
                         backIcon={backIcon}
@@ -392,7 +398,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                         icon={icon}
                         iconColor={iconColor}
                         iconSlot={iconSlot}
-                        label={label}
+                        label={finalLabel}
                         leading={leading}
                         maxActions={maxActions}
                         moreIcon={moreIcon}
@@ -407,7 +413,7 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
                     />
 
                     <DialogContent icon={icon} iconColor={iconColor} iconSlot={iconSlot} showIcon={showIcon}>
-                        {children}
+                        {finalChildren}
                     </DialogContent>
 
                     {dialogActions}
