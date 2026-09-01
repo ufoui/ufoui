@@ -283,39 +283,35 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
             resolvedElevation = 1;
         }
     }
-    const elevationClasses = [
-        ...(finalEffects.hover?.includes('elevate') && !flat ? ['uui-hover-elevate'] : []),
-        ...(finalEffects.pressed?.includes('elevate') && !flat ? ['uui-pressed-elevate'] : []),
-    ];
 
-    const controlClasses: string[] = [
+    const controlClasses = cn(
         'uui-btn-control',
         getFontClass(font),
-        ...(toggle && finalEffects.selected?.includes('color') ? ['uui-toggle'] : []),
-        ...[`uui-${finalVariant}`],
-        ...(finalEffects.focus?.includes('ring') ? ['uui-focus-ring'] : []),
-        ...(finalEffects.focus?.includes('overlay') ? ['uui-focus-overlay'] : []),
-        ...(finalEffects.hover?.includes('overlay') ? ['uui-hover-overlay'] : []),
-        ...(finalEffects.pressed?.includes('overlay') ? ['uui-pressed-overlay'] : []),
-        ...(finalEffects.selected?.includes('overlay') ? ['uui-selected-overlay'] : []),
-        ...(loading ? ['uui-loading'] : []),
-        ...(fullWidth ? ['uui-w-full'] : []),
-        ...(!children ? [getSizeClass(size)] : []),
-        ...(isSelected ? ['uui-selected'] : []),
+        toggle && finalEffects.selected?.includes('color') && 'uui-toggle',
+        `uui-${finalVariant}`,
+        finalEffects.focus?.includes('ring') && 'uui-focus-ring',
+        finalEffects.focus?.includes('overlay') && 'uui-focus-overlay',
+        finalEffects.hover?.includes('overlay') && 'uui-hover-overlay',
+        finalEffects.pressed?.includes('overlay') && 'uui-pressed-overlay',
+        finalEffects.selected?.includes('overlay') && 'uui-selected-overlay',
+        loading && 'uui-loading',
+        fullWidth && 'uui-w-full',
+        !children && getSizeClass(size),
+        isSelected && 'uui-selected',
         getBorderClass(resolvedBorder),
-    ];
-    controlClasses.push(shapeClass);
-    controlClasses.push(...elevationClasses, getElevationClass(resolvedElevation));
+        shapeClass,
+        finalEffects.hover?.includes('elevate') && !flat && 'uui-hover-elevate',
+        finalEffects.pressed?.includes('elevate') && !flat && 'uui-pressed-elevate',
+        getElevationClass(resolvedElevation)
+    );
 
     const controlStyle = ControlStyle(style);
     if (resolvedBorder !== undefined) {
         controlStyle.border(getBorderColor(borderColor));
     }
 
-    const stateClasses: string[] = ['uui-state'];
+    const stateClasses = cn('uui-state', shapeClass);
     const stateStyle = ControlStyle();
-
-    stateClasses.push(shapeClass);
 
     const iconClass = 'uui-icon';
 
@@ -451,7 +447,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
                 aria-haspopup={upload ? 'dialog' : undefined}
                 aria-label={finalAriaLabel}
                 aria-pressed={toggle ? isSelected : undefined}
-                className={cn(controlClasses)}
+                className={controlClasses}
                 disabled={disabled}
                 id={elemId}
                 name={name || undefined}
@@ -460,7 +456,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
                 style={controlStyle.get()}
                 type={type}
                 {...other}>
-                <div className={stateClasses.join(' ')} style={stateStyle.get()} />
+                <div className={stateClasses} style={stateStyle.get()} />
                 {content}
             </button>
             {linkContent}
