@@ -275,6 +275,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     const controlClasses: string[] = [
         'uui-btn-control',
         getFontClass(font),
+        ...(toggle && selectedEffects.includes('color') ? ['uui-toggle'] : []),
         ...[`uui-${finalVariant}`],
         ...(focusEffects.includes('ring') ? ['uui-focus-ring'] : []),
         ...(focusEffects.includes('overlay') ? ['uui-focus-overlay'] : []),
@@ -348,21 +349,10 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     // Base appearance (non-toggle OR toggle without color effect)
     const setStandardColor = () => {
         if (finalVariant === 'filled') {
-            controlStyle.bg(color ?? 'primary');
-            stateStyle.bg.on(color ?? 'primary');
-            controlStyle.text.on(color ?? 'primary');
-        } else if (finalVariant === 'tonal') {
-            controlStyle.bg.container('secondary');
-            stateStyle.bg.onContainer('secondary');
-            controlStyle.text.onContainer('secondary');
-        } else if (finalVariant === 'elevated') {
-            controlStyle.bg('surfaceContainerLow');
-            controlStyle.text(color ?? 'primary');
-            stateStyle.bg(color ?? 'primary');
-        } else if (finalVariant === 'outlined') {
-            controlStyle.text.on('surfaceVariant');
-            stateStyle.bg.on('surfaceVariant');
-        } else {
+            controlStyle.bg(color);
+            stateStyle.bg.on(color);
+            controlStyle.text.on(color);
+        } else if (finalVariant === 'text' || finalVariant === 'elevated') {
             controlStyle.text(color);
             stateStyle.bg(color);
         }
@@ -374,39 +364,14 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
             controlStyle.bg(color);
             stateStyle.bg.on(color);
             controlStyle.text.on(color);
-        } else if (finalVariant === 'filled') {
-            controlStyle.bg('surfaceContainer');
-            stateStyle.bg.on('surfaceContainer');
-            controlStyle.text.on('surfaceVariant');
-        } else if (finalVariant === 'elevated') {
-            controlStyle.bg('surfaceContainerLow');
-            stateStyle.bg.on('surfaceContainerLow');
-            controlStyle.text('primary');
-        } else if (finalVariant === 'tonal') {
-            controlStyle.bg.container('secondary');
-            stateStyle.bg('secondary');
-            controlStyle.text.onContainer('secondary');
-        } else if (finalVariant === 'outlined') {
-            controlStyle.text.on('surfaceVariant');
-            stateStyle.bg.on('surfaceVariant');
-        } else {
-            controlStyle.text(color ?? 'primary');
-            stateStyle.bg(color ?? 'primary');
         }
     };
 
     // Toggle appearance – selected state
     const setSelectedColor = () => {
-        const finalColor = selectedColor ?? color ?? 'primary';
-        if (finalVariant === 'tonal' && !selectedColor) {
-            controlStyle.bg('secondary');
-            stateStyle.bg.on('secondary');
-            controlStyle.text.on('secondary');
-        } else if (finalVariant === 'outlined' && !selectedColor) {
-            controlStyle.bg('inverseSurface');
-            stateStyle.bg.on('inverseSurface');
-            controlStyle.text.on('inverseSurface');
-        } else {
+        if (color || selectedColor) {
+            const altColor = finalVariant !== 'tonal' && finalVariant !== 'outlined' ? color : undefined;
+            const finalColor = selectedColor ?? altColor;
             controlStyle.bg(finalColor);
             stateStyle.bg.on(finalColor);
             controlStyle.text.on(finalColor);
@@ -419,7 +384,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         } else {
             setUnselectedColor();
         }
-    } else {
+    } else if (color) {
         setStandardColor();
     }
 

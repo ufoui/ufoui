@@ -5,8 +5,7 @@
   justify-content: center;
   min-width: 48px;
   min-height: 48px;
-  --uui-btn-color: var(--uui-control-color, var(--uui-color-primary));
-  /*--uui-btn-color: var(--uui-control-color, var(--uui-color-error));*/
+  --uui-accent-color: var(--uui-control-color, var(--uui-color-primary));
   --uui-corner-round: var(--uui-corner-full);
   /*--uui-*/
 }
@@ -31,7 +30,7 @@
   height: var(--uui-button-height, inherit);
   padding-left: var(--uui-button-padding, inherit);
   padding-right: var(--uui-button-padding, inherit);
-  color: var(--uui-btn-color);
+
 }
 
 .uui-btn-control.uui-btn-custom {
@@ -53,7 +52,6 @@
   inset: 0;
   transition: var(--uui-opacity-transition);
   z-index: 1;
-  background-color: var(--uui-btn-color);
 }
 
 .uui-btn-control.uui-focus-overlay:focus-visible .uui-state {
@@ -70,6 +68,99 @@
 
 .uui-btn-control.uui-selected.uui-selected-overlay .uui-state {
   opacity: var(--uui-selected-opacity);
+}
+
+/*Colors*/
+
+/*Standard*/
+.uui-btn-control.uui-text{
+  --uui-btn-text-color: var(--uui-accent-color);
+  --uui-btn-state-color: var(--uui-accent-color);
+}
+
+.uui-btn-control.uui-outlined {
+  --uui-btn-text-color: var(--uui-color-on-surface-variant);
+  --uui-btn-state-color: var(--uui-color-on-surface-variant);
+}
+
+.uui-btn-control.uui-filled {
+  --uui-btn-text-color: var(--uui-color-on-primary);
+  --uui-btn-bg-color: var(--uui-accent-color);
+  --uui-btn-state-color: var(--uui-color-on-primary);
+}
+
+.uui-btn-control.uui-tonal {
+  --uui-btn-text-color: var(--uui-color-on-secondary-container);
+  --uui-btn-bg-color: var(--uui-color-secondary-container);
+  --uui-btn-state-color: var(--uui-color-on-secondary-container);
+}
+
+.uui-btn-control.uui-elevated {
+  --uui-btn-text-color: var(--uui-accent-color);
+  --uui-btn-bg-color: var(--uui-color-surface-container-low);
+  --uui-btn-state-color: var(--uui-color-primary);
+}
+
+/*Toggle*/
+.uui-btn-control.uui-text.uui-toggle{
+  --uui-btn-text-color: var(--uui-accent-color);
+  --uui-btn-state-color: var(--uui-accent-color);
+}
+
+.uui-btn-control.uui-outlined.uui-toggle {
+  --uui-btn-text-color: var(--uui-color-on-surface-variant);
+  --uui-btn-state-color: var(--uui-color-on-surface-variant);
+}
+
+.uui-btn-control.uui-filled.uui-toggle {
+  --uui-btn-text-color: var(--uui-color-on-surface-variant);
+  --uui-btn-bg-color: var(--uui-color-surface-container);
+  --uui-btn-state-color: var(--uui-color-on-surface);
+}
+
+.uui-btn-control.uui-tonal.uui-toggle {
+  --uui-btn-text-color: var(--uui-color-on-secondary-container);
+  --uui-btn-bg-color: var(--uui-color-secondary-container);
+  --uui-btn-state-color: var(--uui-color-secondary);
+}
+
+.uui-btn-control.uui-elevated.uui-toggle {
+  --uui-btn-text-color: var(--uui-accent-color);
+  --uui-btn-bg-color: var(--uui-color-surface-container-low);
+  --uui-btn-state-color: var(--uui-color-on-surface);
+}
+
+/*Toggle selected*/
+.uui-btn-control.uui-text.uui-toggle.uui-selected,
+.uui-btn-control.uui-elevated.uui-toggle.uui-selected,
+.uui-btn-control.uui-filled.uui-toggle.uui-selected
+{
+  --uui-btn-text-color: var(--uui-color-on-primary);
+  --uui-btn-bg-color: var(--uui-accent-color);
+  --uui-btn-state-color: var(--uui-color-on-primary);
+}
+
+.uui-btn-control.uui-outlined.uui-toggle.uui-selected {
+  --uui-btn-text-color: var(--uui-color-inverse-on-surface);
+  --uui-btn-bg-color: var(--uui-color-inverse-surface);
+  --uui-btn-state-color: var(--uui-color-inverse-on-surface);
+}
+
+.uui-btn-control.uui-tonal.uui-toggle.uui-selected {
+  --uui-btn-text-color: var(--uui-color-on-secondary);
+  --uui-btn-bg-color: var(--uui-color-secondary);
+  --uui-btn-state-color: var(--uui-color-on-secondary);
+}
+
+
+
+.uui-btn-control {
+   color: var(--uui-btn-text-color);
+   background-color: var(--uui-btn-bg-color);
+}
+
+.uui-btn-control .uui-state {
+   background-color: var(--uui-btn-state-color);
 }
 
 /*Disabled shared*/
