@@ -32,7 +32,7 @@ interface SlotProps {
  * @category Slot
  */
 export const Slot = ({ start, end, content, className }: SlotProps) => {
-    return (start ?? end ?? content) ? (
+    return start || end || content ? (
         <div className={`uui-slot ${className}`}>
             {start}
             {content}

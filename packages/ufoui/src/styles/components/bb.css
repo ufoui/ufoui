@@ -7,7 +7,6 @@
   min-height: 48px;
   --uui-accent-color: var(--uui-control-color, var(--uui-color-primary));
   --uui-corner-round: var(--uui-corner-full);
-  /*--uui-*/
 }
 
 .uui-compact > .uui-bb,
@@ -192,6 +191,6 @@
   user-select: none;
 }
 
-.uui-bb .uui-icon {
-  display: flex;
-}
+/*.uui-bb .uui-icon {*/
+/*  display: flex;*/
+/*}*/

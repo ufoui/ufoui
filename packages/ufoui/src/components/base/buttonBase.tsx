@@ -25,7 +25,7 @@ import {
     SemanticColor,
     useUniqueId,
 } from '../../utils';
-import { InlineTooltipManager } from '../../internal';
+import { InlineTooltipManager, Leading, Trailing } from '../../internal';
 import { Spinner } from '../spinner/spinner';
 
 /** Visual variant of the button. */
@@ -94,7 +94,7 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
     /** Text label for the button. */
     label?: string;
 
-    /** Custom leading content. */
+    /** Leading slot content, rendered after `icon`. Replaced by the spinner while loading. */
     leading?: ReactNode;
 
     /** Imperative link trigger element. */
@@ -151,7 +151,7 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
     /** Tooltip alignment relative to the button. */
     tooltipAlign?: ElementPlacement;
 
-    /** Custom trailing content. */
+    /** Trailing slot content, rendered before `endIcon`. */
     trailing?: ReactNode;
 
     /** Native button type. Default: button */
@@ -313,18 +313,9 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     const stateClasses = cn('uui-state', shapeClass);
     const stateStyle = ControlStyle();
 
-    const iconClass = 'uui-icon';
-
-    const staticLeadingIcon = toggle && isSelected ? (selectedIcon ?? leading ?? icon) : (leading ?? icon);
-    const leadingIcon = loading ? (
-        <div className={iconClass}>
-            <Spinner />
-        </div>
-    ) : (
-        staticLeadingIcon && <div className={iconClass}>{staticLeadingIcon}</div>
-    );
-
-    const trailingIcon = (trailing ?? endIcon) && <div className={iconClass}>{trailing ?? endIcon}</div>;
+    const finalLeading = loading ? <Spinner /> : leading;
+    const leadingContent = <Leading content={finalLeading} start={!loading && icon} />;
+    const trailingContent = <Trailing content={trailing} end={endIcon} />;
 
     let content;
     if (children) {
@@ -333,9 +324,9 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     } else {
         content = (
             <div className="uui-btn-content">
-                {leadingIcon}
+                {leadingContent}
                 {label && <span className={'uui-label ' + getFontClass(font)}>{label}</span>}
-                {trailingIcon}
+                {trailingContent}
             </div>
         );
     }
