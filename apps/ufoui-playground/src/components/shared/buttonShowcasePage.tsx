@@ -41,6 +41,15 @@ const buttonStyles = [
     { label: 'Filled', filled: true },
 ];
 
+const ScrollingText = ({ text }: { text: string }) => (
+    <Div className="w-20 overflow-hidden">
+        <Flex className="animate-marquee w-max">
+            <Div className="whitespace-nowrap pr-4">{text}</Div>
+            <Div className="whitespace-nowrap pr-4">{text}</Div>
+        </Flex>
+    </Div>
+);
+
 interface Props {
     component: React.ElementType;
     title: string;
@@ -203,19 +212,18 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
                     <Div>End icon</Div>
                     <Flex gap={16}>
                         <Component
-                            color="primary"
                             endIcon={<FaHome />}
                             filled
                             label="End icon"
-                            title="End icon only"></Component>
+                            title="End icon only"
+                            {...shared}></Component>
                         <Component
-                            color="primary"
                             endIcon={<BsHouse />}
                             filled
                             icon={<FaHome />}
-                            label="2 icons"></Component>
+                            label="2 icons"
+                            {...shared}></Component>
                         <Component
-                            color="primary"
                             endIcon={
                                 <>
                                     <BsHouse />
@@ -224,26 +232,46 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
                             }
                             filled
                             icon={<FaHome />}
-                            label="3 icons"></Component>
+                            label="3 icons"
+                            {...shared}></Component>
                     </Flex>
 
                     <Divider className="col-span-2" />
                     <Div>Links</Div>
                     <Flex gap={16}>
                         <Component
-                            color="primary"
                             filled
                             icon={<BsWikipedia />}
                             label="Wikipedia"
                             link={<a href="https://www.wikipedia.org" rel="noreferrer" target="_blank" />}
+                            {...shared}
                         />
                         <Component
-                            color="primary"
                             filled
                             icon={<BiColor />}
                             label="Color page"
                             link={<Link to={paths.color} />}
+                            {...shared}
                         />
+                    </Flex>
+                    <Divider className="col-span-2" />
+                    <Div>Content</Div>
+                    <Flex alignItems="center" direction="row" gap={16}>
+                        <Component
+                            {...shared}
+                            content={<ScrollingText text="Custom Slot Demo" />}
+                            filled
+                            label="Custom Slot Demo"
+                        />
+                        <Component
+                            {...shared}
+                            content={<ScrollingText text="Custom Slot Demo" />}
+                            icon={<MdAdd />}
+                            label="Slots"
+                            tonal
+                            trailing={<MdRemove />}
+                        />
+                        <Component {...shared} content="" icon={<MdAdd />} label="Add" />
                     </Flex>
                     <Divider className="col-span-2" />
                     <Div>Custom</Div>

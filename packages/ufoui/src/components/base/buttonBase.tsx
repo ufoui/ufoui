@@ -21,9 +21,11 @@ import {
     getFontClass,
     getShapeClass,
     getSizeClass,
+    getWrapperStyle,
     mergeRefs,
     SemanticColor,
     useUniqueId,
+    WrapperProps,
 } from '../../utils';
 import { InlineTooltipManager, Leading, Trailing } from '../../internal';
 import { Spinner } from '../spinner/spinner';
@@ -36,7 +38,9 @@ export type ButtonVariant = 'text' | 'outlined' | 'elevated' | 'tonal' | 'filled
  *
  * @category Base components
  */
-export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'size'> {
+export interface ButtonBaseProps
+    extends WrapperProps,
+        Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'size' | 'content'> {
     /** Outline thickness when outlined. Default: 1 */
     border?: ElementOutline;
 
@@ -48,6 +52,9 @@ export interface ButtonBaseProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
 
     /** Semantic color theme. Default: primary */
     color?: SemanticColor;
+
+    /** Text block content, rendered between the leading and trailing slots. */
+    content?: ReactNode;
 
     /** Initial selected state for uncontrolled toggle buttons. */
     defaultSelected?: boolean;
@@ -223,6 +230,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         leading,
         endIcon,
         trailing,
+        content,
         onClick,
         elementClass,
         font = 'labelLarge',
@@ -244,6 +252,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         'aria-label': ariaLabel,
         ...other
     } = props;
+    const { wrapperStyle, otherProps } = getWrapperStyle(other);
     const finalEffects = getEffects(effects, {
         hover: ['overlay', 'elevate'],
         pressed: ['overlay', 'elevate'],
@@ -313,23 +322,23 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     const stateClasses = cn('uui-state', shapeClass);
     const stateStyle = ControlStyle();
 
-    const finalLeading = loading ? <Spinner /> : leading;
+    const finalLeading = loading ? <Spinner fluid /> : leading;
     const leadingContent = <Leading content={finalLeading} start={!loading && icon} />;
     const trailingContent = <Trailing content={trailing} end={endIcon} />;
+    const finalContent = content ?? label;
+    const finalLabel = finalContent && <span className="uui-label">{finalContent}</span>;
 
-    let content;
-    if (children) {
-        const contentClass = cn('uui-btn-content uui-overflow-hidden', shapeClass, getFontClass(font));
-        content = <div className={contentClass}>{children}</div>;
-    } else {
-        content = (
-            <div className="uui-btn-content">
-                {leadingContent}
-                {label && <span className={'uui-label ' + getFontClass(font)}>{label}</span>}
-                {trailingContent}
-            </div>
-        );
-    }
+    const contentSlot = (
+        <div className={cn('uui-btn-content', children && ['uui-overflow-hidden', shapeClass])}>
+            {children ?? (
+                <>
+                    {leadingContent}
+                    {finalLabel}
+                    {trailingContent}
+                </>
+            )}
+        </div>
+    );
 
     // Base appearance (non-toggle OR toggle without color effect)
     const setStandardColor = () => {
@@ -409,18 +418,11 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     };
 
     const inlineTooltip = title ? <div id={`${elemId}-tip`}>{title}</div> : null;
-
-    let resolvedAriaLabel;
-    if (label && children) {
-        resolvedAriaLabel = label;
-    }
-    if (!label && !children) {
-        resolvedAriaLabel = title;
-    }
-    const finalAriaLabel = ariaLabel ?? resolvedAriaLabel;
+    // eslint-disable-next-line eqeqeq
+    const finalAriaLabel = ariaLabel ?? ((children ?? content) != null ? label : label ? undefined : title);
 
     return (
-        <div className={wrapperClasses}>
+        <div className={wrapperClasses} style={wrapperStyle}>
             {upload && (
                 <input
                     accept={uploadAccept}
@@ -446,9 +448,9 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
                 ref={mergeRefs(ref, buttonRef)}
                 style={controlStyle.get()}
                 type={type}
-                {...other}>
+                {...otherProps}>
                 <div className={stateClasses} style={stateStyle.get()} />
-                {content}
+                {contentSlot}
             </button>
             {linkContent}
             {inlineTooltip && (

@@ -8,6 +8,15 @@ export default {
       fontFamily: {
         sans: ['Roboto', ...defaultTheme.fontFamily.sans],
       },
+      keyframes: {
+        marquee: {
+          '0%, 12%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+      },
+      animation: {
+        marquee: 'marquee 6s linear infinite',
+      },
     },
   },
   plugins: [],

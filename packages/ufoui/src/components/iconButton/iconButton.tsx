@@ -55,7 +55,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
                 shape={shape}
                 size={size}
                 title={title}>
-                {!loading && children}
+                {loading ? undefined : children}
             </ButtonBase>
         );
     }
