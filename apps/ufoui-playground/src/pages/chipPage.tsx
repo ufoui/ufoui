@@ -16,8 +16,8 @@ import {
     Flex,
     H1,
     H2,
-    SemanticColor,
     Section,
+    SemanticColor,
 } from '@ufoui/core';
 
 import { Modifiers } from '../components/modifiers/modifiers';
@@ -66,12 +66,12 @@ export const ChipPage = () => {
                         <Chip {...shared} label="Default" />
                         <Chip {...shared} label="Outlined" outlined />
                         <Chip {...shared} label="Tonal" tonal />
-                        <Chip {...shared} label="Filled" filled />
+                        <Chip {...shared} filled label="Filled" />
                     </Flex>
                 </Section>
 
                 <Section gap={12}>
-                    <H2>With leading icon</H2>
+                    <H2>Leading icon</H2>
                     <Flex gap={8} wrap>
                         <Chip {...shared} chipType="assist" icon={<MdStar />} label="Assist" />
                         <Chip {...shared} chipType="filter" icon={<MdFilterList />} label="Filter" />

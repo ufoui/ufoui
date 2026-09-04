@@ -119,7 +119,7 @@ export const ListPage = () => {
                 leading={<MdSettings />}
                 trailing={
                     i % 5 === 0 ? (
-                        <Status color="error" label="New" variant="filled" />
+                        <Status color="error" label="New" />
                     ) : i % 7 === 0 ? (
                         <Span color="onSurfaceVariant">⌘K</Span>
                     ) : undefined

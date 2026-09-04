@@ -33,11 +33,11 @@ interface SlotProps {
  */
 export const Slot = ({ start, end, content, className }: SlotProps) => {
     return start || end || content ? (
-        <div className={`uui-slot ${className}`}>
+        <span className={`uui-slot ${className}`}>
             {start}
             {content}
             {end}
-        </div>
+        </span>
     ) : null;
 };
 

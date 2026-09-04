@@ -1,36 +1,40 @@
 import { HTMLAttributes, ReactNode } from 'react';
 
-import { cn, ControlStyle, ElementFont, ElementSize, getFontClass, getSizeClass } from '../../utils';
-import { SemanticColor } from '../../types';
+import {
+    cn,
+    ControlStyle,
+    ElementFont,
+    ElementShape,
+    ElementSize,
+    getFontClass,
+    getShapeClass,
+    getSizeClass,
+    getWrapperStyle,
+    WrapperProps,
+} from '../../utils';
+import { BaseColor } from '../../types';
 import { Leading, Trailing } from '../../internal';
-
-/**
- * Visual style variant of the Status pill.
- *
- * - `soft` - container tone (`{color}Container` bg, `on{color}Container` text). Default.
- * - `filled` - solid tone (`{color}` bg, `on{color}` text).
- *
- * @category Status
- */
-export type StatusVariant = 'soft' | 'filled';
 
 /**
  * Props for the Status component.
  *
  * @category Status
  */
-export interface StatusProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
+export interface StatusProps extends WrapperProps, Omit<HTMLAttributes<HTMLSpanElement>, 'color' | 'children'> {
     /** Text label describing the entity state. */
     label: string;
 
-    /** Semantic color. When omitted renders in the `surfaceVariant` / `onSurfaceVariant` surface roles. */
-    color?: SemanticColor;
+    /**
+     * Background color role. The text color is resolved to its `on*` counterpart.
+     * When omitted renders in the `surfaceVariant` / `onSurfaceVariant` surface roles.
+     */
+    color?: BaseColor;
 
     /** Visual size of the pill. @default 'small' */
     size?: ElementSize;
 
-    /** Color style variant. @default 'soft' */
-    variant?: StatusVariant;
+    /** Shape of the pill. @default 'round' */
+    shape?: ElementShape;
 
     /** Content rendered before the label (e.g. an icon). */
     leading?: ReactNode;
@@ -53,17 +57,21 @@ const fontMap: Record<ElementSize, ElementFont> = {
  * Purely presentational - no interaction, hover, focus, or ripple.
  * Accepts optional leading/trailing slots for icons or indicators.
  *
+ * @remarks
+ * Not an ARIA live region - the name refers to the entity state, not to the `status` role.
+ * Set `role="status"` explicitly when the pill reports a change that should be announced.
+ *
  * @function Status
  * @param props Component properties.
  *
  * @example
- * <Status label="Published" color="success" />
+ * <Status label="Published" color="successContainer" />
  *
  * @example
- * <Status label="Pending" color="warning" leading={<ClockIcon />} />
+ * <Status label="Pending" color="warningContainer" leading={<ClockIcon />} />
  *
  * @example
- * <Status label="Failed" color="error" variant="filled" trailing={<AlertIcon />} />
+ * <Status label="Failed" color="error" trailing={<AlertIcon />} />
  *
  * @category Status
  */
@@ -71,29 +79,24 @@ export const Status = ({
     label,
     color,
     size = 'small',
-    variant = 'soft',
+    shape = 'round',
     leading,
     trailing,
     className,
     style,
     ...rest
 }: StatusProps) => {
-    const cs = ControlStyle(style);
+    const { wrapperStyle, otherProps } = getWrapperStyle(rest);
+    const cs = ControlStyle(wrapperStyle);
+    cs.merge(style);
 
-    if (color) {
-        if (variant === 'filled') {
-            cs.bg(color);
-            cs.text.on(color);
-        } else {
-            cs.bg.container(color);
-            cs.text.onContainer(color);
-        }
-    }
+    cs.bg(color);
+    cs.text.on(color);
 
-    const classes = cn('uui-status', getSizeClass(size), getFontClass(fontMap[size]), className);
+    const classes = cn('uui-status', getSizeClass(size), getShapeClass(shape), getFontClass(fontMap[size]), className);
 
     return (
-        <span className={classes} style={cs.get()} {...rest}>
+        <span className={classes} style={cs.get()} {...otherProps}>
             <Leading content={leading} />
             <span className="uui-status-label">{label}</span>
             <Trailing content={trailing} />

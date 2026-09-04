@@ -20,10 +20,11 @@ Flex
 Grid
 Div
 Stack
+Content
 
 @beta
-Content
 Label
+Status
 
 @internal
 Description
@@ -46,7 +47,6 @@ IconButton
 Checkbox
 Radio
 Badge
-Status
 Switch
 CheckboxBase
 Avatar
