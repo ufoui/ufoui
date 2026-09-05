@@ -109,6 +109,28 @@ export const LinkPage = () => {
                     />
                     <Span style={{ opacity: 0.7 }}>Opens new tab + sets rel=&quot;noopener noreferrer&quot;.</Span>
                 </Section>
+                <Section fullWidth gap={12} width={240}>
+                    <H2>Multiline</H2>
+                    <P>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua.{' '}
+                        <Link
+                            as={RouterLink}
+                            color={color ?? undefined}
+                            disabled={!!disabled}
+                            font={font ?? undefined}
+                            leading={<MdOpenInNew />}
+                            to="/components/link"
+                            trailing={<MdArrowForward />}
+                            underline={underline}>
+                            This is a really long multiline link that keeps running across several lines of text, so you
+                            can see how the underline, the hover state and the focus ring behave once the label wraps
+                        </Link>{' '}
+                        ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                        fugiat nulla pariatur.
+                    </P>
+                </Section>
             </Content>
 
             <Aside>

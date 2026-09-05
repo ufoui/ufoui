@@ -8,21 +8,56 @@ import {
     ElementFont,
     getEffects,
     getFontClass,
+    getWrapperStyle,
+    PolymorphicComponent,
+    PolymorphicProps,
+    WrapperProps,
 } from '../../utils';
 import { Leading, Trailing } from '../../internal';
 
 /**
- * Props for {@link Link}.
+ * Underline visibility behavior.
+ *
+ * @category Link
+ */
+export type UnderlineVisibility = 'none' | 'hover' | 'always';
+
+/**
+ * Underline configuration.
+ *
+ * Groups the underline axes of a link. Each axis is optional and overrides the default independently.
+ *
+ * @category Link
+ */
+export interface UnderlineConfig {
+    /** When the underline is visible. @default 'hover' */
+    visibility?: UnderlineVisibility;
+
+    /** Underline animation type. @default 'fade' */
+    animation?: 'fade' | 'scale';
+
+    /** Transform origin of the `'scale'` animation. Ignored for `'fade'`. @default 'left' */
+    origin?: 'left' | 'center';
+}
+
+/**
+ * Underline value.
+ *
+ * Can be provided as a {@link UnderlineVisibility} shorthand or as a full {@link UnderlineConfig} object.
+ *
+ * @category Link
+ */
+export type ElementUnderline = UnderlineVisibility | UnderlineConfig;
+
+/**
+ * Own props for {@link Link}.
  *
  * Polymorphic inline link that can render as a native anchor or custom navigation component.
  * Supports optional leading/trailing visuals, underline behavior, and interaction effects.
  *
  * @category Link
  */
-export type LinkProps<T extends ElementType = 'a'> = {
-    /** Underlying element or router component. */
-    as?: T;
-
+interface LinkOwnProps extends WrapperProps {
     /** Link content. */
     children?: ReactNode;
 
@@ -38,8 +73,8 @@ export type LinkProps<T extends ElementType = 'a'> = {
     /** Color token applied to text. */
     color?: BaseColor;
 
-    /** Underline visibility behavior. */
-    underline?: 'none' | 'hover' | 'always';
+    /** Underline behavior - visibility shorthand or full configuration. @default 'hover' */
+    underline?: ElementUnderline;
 
     /** Font token applied to content. */
     font?: ElementFont;
@@ -58,30 +93,29 @@ export type LinkProps<T extends ElementType = 'a'> = {
 
     /** Interaction visual effects, or `'none'` to disable them all. */
     effects?: ElementEffects;
-
-    /** Underline animation origin. */
-    underlineOrigin?: 'left' | 'center';
-
-    /** Underline animation type. */
-    underlineAnimation?: 'scale' | 'fade';
-} & Omit<React.ComponentPropsWithoutRef<T>, 'as' | 'color' | 'children' | 'className'>;
-
-export interface LinkComponent {
-    /**
-     * Renders a polymorphic link element.
-     *
-     * @typeParam T - Element type rendered by the component.
-     * @param props - Link configuration and props for the rendered element type.
-     */
-    <T extends ElementType = 'a'>(props: LinkProps<T>): ReactNode;
-    displayName?: string;
 }
+
+/**
+ * Props for {@link Link}.
+ *
+ * @typeParam T - Element type rendered by the component.
+ *
+ * @category Link
+ */
+export type LinkProps<T extends ElementType = 'a'> = PolymorphicProps<T, LinkOwnProps>;
+
+/**
+ * Call signature of {@link Link}.
+ *
+ * @category Link
+ */
+export type LinkComponent = PolymorphicComponent<LinkOwnProps, 'a'>;
 
 /**
  * Interactive text link with optional leading/trailing content and configurable underline animation.
  *
  * The component is polymorphic via the `as` prop and forwards remaining props to the rendered element.
- * When `external` is enabled and a valid `href` is present, secure external-link attributes are applied.
+ * When `external` is enabled, secure external-link attributes are applied to the rendered element.
  * When `disabled` is enabled, click handling is blocked and the element is removed from tab order.
  *
  * @remarks
@@ -104,6 +138,9 @@ export interface LinkComponent {
  * </Link>
  *
  * @example
+ * <Link href="/docs" label="Documentation" underline={{ animation: 'scale', origin: 'center' }} />
+ *
+ * @example
  * <Link as={RouterLink} to="/settings" leading={<IconSettings />} label="Settings" />
  */
 
@@ -114,18 +151,23 @@ const LinkInner = <T extends ElementType = 'a'>(rawProps: LinkProps<T>, ref: Rea
         leading,
         trailing,
         color,
-        underline = 'hover',
+        underline,
         font = 'labelLarge',
         external,
         label,
         className,
+        style,
         disabled,
+        onClick,
         effects,
-        underlineAnimation,
-        underlineOrigin,
         'aria-label': ariaLabel,
         ...props
     } = rawProps;
+
+    const { wrapperStyle, otherProps } = getWrapperStyle(props);
+    const cs = ControlStyle(wrapperStyle);
+    cs.merge(style);
+    cs.text(color);
 
     const finalEffects = getEffects(effects, {
         hover: ['overlay'],
@@ -133,9 +175,14 @@ const LinkInner = <T extends ElementType = 'a'>(rawProps: LinkProps<T>, ref: Rea
         focus: ['ring', 'overlay'],
     });
 
+    const finalUnderline: UnderlineConfig =
+        typeof underline === 'string' ? { visibility: underline } : (underline ?? {});
+
+    if (finalUnderline.origin) {
+        cs.set('--uui-underline-origin', finalUnderline.origin);
+    }
+
     const Component = as ?? 'a';
-    const { onClick, ...rest } = props;
-    const { href } = rest as { href?: unknown };
 
     const stateClasses = cn(
         ...(finalEffects.focus?.includes('overlay') ? ['uui-focus-overlay'] : []),
@@ -147,8 +194,8 @@ const LinkInner = <T extends ElementType = 'a'>(rawProps: LinkProps<T>, ref: Rea
         'uui-link',
         'uui-text-trigger',
         getFontClass(font),
-        `uui-link-underline-${underline}`,
-        underlineAnimation && `uui-link-anim-${underlineAnimation}`,
+        `uui-link-underline-${finalUnderline.visibility ?? 'hover'}`,
+        finalUnderline.animation === 'scale' && 'uui-link-anim-scale',
         className,
         stateClasses,
         ...(finalEffects.focus?.includes('ring') ? ['uui-focus-ring'] : [])
@@ -156,18 +203,11 @@ const LinkInner = <T extends ElementType = 'a'>(rawProps: LinkProps<T>, ref: Rea
 
     const finalAriaLabel = ariaLabel ?? label ?? (typeof children === 'string' ? children : undefined);
 
-    const style = ControlStyle();
-    style.text(color);
-
-    if (underlineOrigin) {
-        style.set('--uui-underline-origin', underlineOrigin);
-    }
-
     const content = (
         <span className="uui-link-content">
-            {leading && <Leading content={leading} />}
+            <Leading content={leading} />
             <span className="uui-link-text">{children ?? label}</span>
-            {trailing && <Trailing content={trailing} />}
+            <Trailing content={trailing} />
         </span>
     );
 
@@ -185,15 +225,15 @@ const LinkInner = <T extends ElementType = 'a'>(rawProps: LinkProps<T>, ref: Rea
                 onClick?.(e);
             }}
             ref={ref as React.Ref<never>}
-            style={style.get()}
+            style={cs.get()}
             tabIndex={disabled ? -1 : undefined}
-            {...(external && href && !disabled
+            {...(external && !disabled
                 ? {
                       target: '_blank',
                       rel: 'noopener noreferrer',
                   }
                 : {})}
-            {...rest}>
+            {...otherProps}>
             {content}
         </Component>
     );

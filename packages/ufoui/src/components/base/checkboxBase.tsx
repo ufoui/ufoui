@@ -475,4 +475,4 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
     );
 });
 
-CheckboxBase.displayName = 'CheckBoxBase';
+CheckboxBase.displayName = 'CheckboxBase';

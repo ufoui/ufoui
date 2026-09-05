@@ -16,3 +16,4 @@ export * from './renderPortal';
 export * from './colorRegistry';
 export * from './mergeOverrides';
 export { createRipple } from './createRipple';
+export * from './polymorphic';
