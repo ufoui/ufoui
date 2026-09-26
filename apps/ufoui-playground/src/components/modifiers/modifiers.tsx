@@ -15,6 +15,7 @@ import {
     ListSelectionSlot,
     SemanticColor,
     SurfaceColor,
+    TextColor,
 } from '@ufoui/core';
 
 type ButtonModifiersProps = {
@@ -43,6 +44,7 @@ type ButtonModifiersProps = {
     font?: ElementFont | null;
     fullColor?: boolean | null;
     fullWidth?: boolean | null;
+    inkColor?: TextColor | null;
     labelFont?: ElementFont | null;
     onChange: (mod: {
         baseColor?: BaseColor | null;
@@ -70,6 +72,7 @@ type ButtonModifiersProps = {
         font?: ElementFont | null;
         fullColor?: boolean | null;
         fullWidth?: boolean | null;
+        inkColor?: TextColor | null;
         labelFont?: ElementFont | null;
         readOnly?: boolean | null;
         selectedColor?: SemanticColor | null;
@@ -119,6 +122,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         draggable,
         borderColor,
         textColor,
+        inkColor,
         elevation,
         filled,
         flat,
@@ -265,6 +269,27 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         value={textColor ?? ''}>
                         <option value="">Default</option>
                         {getColorNames('base').map(c => (
+                            <option key={c} value={c}>
+                                {c}
+                            </option>
+                        ))}
+                    </select>
+                </>
+            )}
+
+            {inkColor !== undefined && (
+                <>
+                    <span>Color (ink):</span>
+                    <select
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                inkColor: e.target.value === '' ? undefined : (e.target.value as TextColor),
+                            });
+                        }}
+                        value={inkColor ?? ''}>
+                        <option value="">Default</option>
+                        {getColorNames('text').map(c => (
                             <option key={c} value={c}>
                                 {c}
                             </option>
