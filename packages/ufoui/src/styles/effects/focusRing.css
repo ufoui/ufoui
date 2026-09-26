@@ -37,6 +37,23 @@
     }
 }
 
+.uui-focus-ring-inline:focus-visible,
+.uui-focus-ring-inline.uui-focus-visible {
+    outline: 3px solid var(--uui-focus-color);
+    outline-offset: var(--uui-focus-ring-offset, 2px);
+    border-radius: 1px;
+    animation: uui-focus-ring-inline-appear var(--uui-focus-ring-duration) var(--uui-focus-ring-ease);
+}
+
+@keyframes uui-focus-ring-inline-appear {
+    0% {
+        outline-offset: 0;
+    }
+    60% {
+        outline-offset: 6px;
+    }
+}
+
 .uui-focus-ring-in {
     /*position: relative;*/
     --uui-focus-ring: var(--uui-focus-color);

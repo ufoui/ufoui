@@ -5,7 +5,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import {
     Article,
     Aside,
-    BaseColor,
     Content,
     ElementFont,
     H1,
@@ -16,6 +15,7 @@ import {
     Section,
     Span,
     Stack,
+    TextColor,
 } from '@ufoui/core';
 
 import { Modifiers } from '../components/modifiers/modifiers';
@@ -24,7 +24,7 @@ export const LinkPage = () => {
     const [disabled, setDisabled] = useState<boolean | null>(false);
     const [underline, setUnderline] = useState<'none' | 'hover' | 'always'>('hover');
     const [font, setFont] = useState<ElementFont | null>(null);
-    const [color, setColor] = useState<BaseColor | null>(null);
+    const [color, setColor] = useState<TextColor | null>(null);
 
     const underlineOptions = useMemo(
         () => [
@@ -135,11 +135,11 @@ export const LinkPage = () => {
 
             <Aside>
                 <Modifiers
-                    baseColor={color}
                     disabled={disabled}
                     font={font}
-                    onChange={({ baseColor: bc, disabled: db, font: lf }) => {
-                        setColor(bc ?? null);
+                    inkColor={color}
+                    onChange={({ inkColor: ic, disabled: db, font: lf }) => {
+                        setColor(ic ?? null);
                         setDisabled(db ?? null);
                         setFont(lf ?? null);
                     }}
