@@ -67,8 +67,8 @@ export interface MotionConfig {
     duration?: number;
     /** Motion style variant. */
     style?: MotionStyle;
-    /** First-render behaviour: `'animate'` plays the open transition on mount, `'skip'` shows the final state immediately. Defaults to the component's own UX default when omitted. */
-    initial?: 'animate' | 'skip';
+    // /** First-render behaviour: `'animate'` plays the open transition on mount, `'skip'` shows the final state immediately. Defaults to the component's own UX default when omitted. */
+    // initial?: 'animate' | 'skip';
 }
 
 /**

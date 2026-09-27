@@ -1,4 +1,4 @@
-import React, { forwardRef, ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, ReactElement, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
 import {
     BorderColor,
@@ -275,15 +275,18 @@ export const DialogBase = forwardRef<HTMLDivElement, DialogBaseProps>(
         const vdock = type === 'dockLeft' || type === 'dockRight';
         const finalTitleFont = titleFont ?? (vdock ? 'titleLarge' : undefined);
 
-        const handleResize = (_next: ObservedElementSize) => {
-            if (backdropRef.current && dialogRef.current) {
-                const { width: bw, height: bh } = backdropRef.current.getBoundingClientRect();
-                const { width: dw, height: dh } = dialogRef.current.getBoundingClientRect();
-                const eps = 1;
-                setMaxW((type === 'dockLeft' || type === 'dockRight') && dw >= bw - eps);
-                setMaxH((type === 'dockTop' || type === 'dockBottom') && dh >= bh - eps);
-            }
-        };
+        const handleResize = useCallback(
+            (_next: ObservedElementSize) => {
+                if (backdropRef.current && dialogRef.current) {
+                    const { width: bw, height: bh } = backdropRef.current.getBoundingClientRect();
+                    const { width: dw, height: dh } = dialogRef.current.getBoundingClientRect();
+                    const eps = 1;
+                    setMaxW((type === 'dockLeft' || type === 'dockRight') && dw >= bw - eps);
+                    setMaxH((type === 'dockTop' || type === 'dockBottom') && dh >= bh - eps);
+                }
+            },
+            [type]
+        );
 
         const observeDialogResize = type !== 'basic' && type !== 'fullscreen' && !detached;
         useResizeObserver(dialogRef, handleResize, observeDialogResize && !animating, true);

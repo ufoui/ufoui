@@ -25,6 +25,8 @@ Content
 @beta
 Label
 Status
+Link
+Collapse
 
 @internal
 Description
@@ -38,9 +40,7 @@ LabelText
 
 @alpha
 Spinner
-Link
 Avatar
-Collapse
 Rating
 Item
 ThemeProvider

@@ -98,6 +98,7 @@ export function useAnimate(options: UseAnimateOptions = {}): UseAnimateResult {
     const [phase, setPhase] = useState<Phase>('idle');
     const [resetting, setResetting] = useState(false);
     const { t1 = 0, t2, oneShot = false } = options;
+    const timed = options.t1 !== undefined;
     const closeTime = t2 ?? Math.round(t1 * 0.67);
     const timerRef = useRef<number | null>(null);
 
@@ -125,7 +126,7 @@ export function useAnimate(options: UseAnimateOptions = {}): UseAnimateResult {
             }
 
             if (oneShot) {
-                if (t1) {
+                if (timed) {
                     delay('open', t1);
                     setPhase('opening');
                 } else {
@@ -134,7 +135,7 @@ export function useAnimate(options: UseAnimateOptions = {}): UseAnimateResult {
                 return;
             }
 
-            if (t1) {
+            if (timed) {
                 setPhase(prev => {
                     const shouldClose =
                         next === 'closed' ? true : next === 'open' ? false : prev === 'open' || prev === 'opening';
@@ -165,7 +166,7 @@ export function useAnimate(options: UseAnimateOptions = {}): UseAnimateResult {
                 }
             });
         },
-        [oneShot, t1, closeTime, phase]
+        [oneShot, timed, t1, closeTime, phase]
     );
 
     useEffect(() => {

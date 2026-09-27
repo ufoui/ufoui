@@ -11,6 +11,7 @@ import {
     ElementBorder,
     ElementElevation,
     ElementShape,
+    Flex,
     H1,
     H2,
     Section,
@@ -25,6 +26,9 @@ export const CollapsePage = () => {
     const text2 = useMemo(() => faker.lorem.paragraphs(5), []);
     const [open1, setOpen1] = useState(false);
     const [open2, setOpen2] = useState(true);
+    const paragraphs3 = useMemo(() => faker.lorem.paragraphs(10, '\n').split('\n'), []);
+    const [open3, setOpen3] = useState(false);
+    const [count3, setCount3] = useState(1);
 
     const [color, setColor] = useState<SurfaceColor | null>(null);
     const [shape, setShape] = useState<ElementShape | null>(null);
@@ -77,6 +81,31 @@ export const CollapsePage = () => {
                         <Span>{text2}</Span>
                     </Collapse>
                 </Div>
+
+                <H2>Zero Duration</H2>
+
+                <Flex gap={8}>
+                    <Button
+                        label={open3 ? 'Close' : 'Open'}
+                        onClick={() => {
+                            setOpen3(v => !v);
+                        }}
+                        tonal
+                    />
+                    <Button
+                        label="Add paragraph"
+                        onClick={() => {
+                            setCount3(v => Math.min(v + 1, paragraphs3.length));
+                        }}
+                        outlined
+                    />
+                </Flex>
+
+                <Collapse {...shared} animation={{ animation: 'slideDown', duration: 0 }} direction="col" open={open3}>
+                    {paragraphs3.slice(0, count3).map(p => (
+                        <Span key={p}>{p}</Span>
+                    ))}
+                </Collapse>
             </Section>
 
             <Aside>
