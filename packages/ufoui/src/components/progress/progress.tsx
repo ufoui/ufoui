@@ -20,7 +20,7 @@ import {
  *
  * @category Progress
  */
-export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'>, Omit<WrapperProps, 'shape'> {
+export interface ProgressProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'>, WrapperProps {
     /** Semantic color of the active indicator. */
     color?: SemanticColor;
     /** Maximum value of the progress range. */
