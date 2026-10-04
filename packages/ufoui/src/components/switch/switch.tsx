@@ -21,9 +21,11 @@ import {
     getShapeClass,
     getSizeClass,
     getSurfaceColorVar,
+    getWrapperStyle,
     mergeRefs,
     SemanticColor,
     useUniqueId,
+    WrapperProps,
 } from '../../utils';
 import { FieldsetContext } from '../../context';
 import { useFocusVisible } from '../../hooks';
@@ -36,7 +38,9 @@ import { ControlGrid, ControlLabel, Description, InlineTooltipManager } from '..
  *
  * @category Switch
  */
-export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'color' | 'size' | 'type'> {
+export interface SwitchProps
+    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'color' | 'size' | 'type'>,
+        WrapperProps {
     /** Border style when outlined. */
     border?: ElementOutline;
 
@@ -189,8 +193,13 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
         textPlacement = 'end',
         'aria-label': ariaLabel,
         readOnly,
-        ...other
+        style,
+        ...rest
     } = props;
+
+    const { wrapperStyle, otherProps } = getWrapperStyle(rest);
+    const rootStyle = ControlStyle(wrapperStyle);
+    rootStyle.merge(style);
 
     const finalEffects = getEffects(effects, {
         hover: ['overlay'],
@@ -391,7 +400,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
                     ref={mergeRefs(inputRef, ref)}
                     type="checkbox"
                     value={value}
-                    {...other}
+                    {...otherProps}
                 />
                 {content}
                 {inlineTooltip && (
@@ -407,6 +416,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
             control={control}
             description={descriptionText}
             label={labelText}
+            style={rootStyle.get()}
             textPlacement={textPlacement}
         />
     );

@@ -31,9 +31,9 @@ export const Icon = ({ icon, className, color }: IconProps) => {
     const iconStyle = ControlStyle();
     iconStyle.text(color);
     return icon ? (
-        <div className={cn('uui-icon', className)} style={iconStyle.get()}>
+        <span className={cn('uui-icon', className)} style={iconStyle.get()}>
             {icon}
-        </div>
+        </span>
     ) : null;
 };
 

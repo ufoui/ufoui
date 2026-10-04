@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode } from 'react';
+import { CSSProperties, forwardRef, ReactNode } from 'react';
 
 import { cn, ElementTextPlacement } from '../../utils';
 /**
@@ -26,6 +26,9 @@ export interface ControlGridProps {
 
     /** Spans description across all grid columns. */
     spanDesc?: boolean;
+
+    /** Inline styles applied to the root element. */
+    style?: CSSProperties;
 }
 
 /**
@@ -37,13 +40,14 @@ export interface ControlGridProps {
  * @category Slot
  */
 export const ControlGrid = forwardRef<HTMLDivElement, ControlGridProps>(
-    ({ control, label, description, className, textPlacement, spanDesc }, ref) => {
+    ({ control, label, description, className, textPlacement, spanDesc, style }, ref) => {
         const columns = label && (textPlacement === 'start' || textPlacement === 'end') ? textPlacement : 'col';
 
         return (
             <div
                 className={cn(className, `uui-control-grid uui-control-grid-${columns}`, spanDesc && 'uui-spanned')}
-                ref={ref}>
+                ref={ref}
+                style={style}>
                 {(textPlacement === 'start' || textPlacement === 'top') && label}
                 {control}
                 {(textPlacement === 'end' || textPlacement === 'bottom') && label}

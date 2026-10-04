@@ -12,8 +12,10 @@ import {
     getDensityClass,
     getEffects,
     getSizeClass,
+    getWrapperStyle,
     SurfaceColor,
     useUniqueId,
+    WrapperProps,
 } from '../../utils';
 import { StarFilledIcon, StarIcon } from '../../assets';
 import { ControlGrid, ControlLabel, Description, InlineTooltipManager } from '../../internal';
@@ -27,7 +29,8 @@ import { useFocusVisible, useSliderKeys } from '../../hooks';
  * @category Rating
  */
 export interface RatingProps
-    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange' | 'value' | 'defaultValue' | 'size'> {
+    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange' | 'value' | 'defaultValue' | 'size'>,
+        WrapperProps {
     /** Additional class applied to the root element. */
     className?: string;
 
@@ -143,10 +146,15 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
             tooltipAlign = 'auto',
             'aria-label': ariaLabel,
             filled,
+            style,
             ...rest
         },
         ref
     ) => {
+        const { wrapperStyle, otherProps } = getWrapperStyle(rest);
+        const rootStyle = ControlStyle(wrapperStyle);
+        rootStyle.merge(style);
+
         const finalEffects = getEffects(effects, { focus: ['ring'] });
 
         const generatedId = useUniqueId('rating');
@@ -297,7 +305,7 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
                 ref={trackRef}
                 role="slider"
                 tabIndex={readOnly || disabled ? -1 : 0}>
-                <input disabled={disabled} ref={ref} type="hidden" value={current} {...rest} />
+                <input disabled={disabled} ref={ref} type="hidden" value={current} {...otherProps} />
                 {stars}
                 {inlineTooltip && (
                     <InlineTooltipManager align={tooltipAlign} tooltip={inlineTooltip} triggerRef={wrapperRef} />
@@ -319,6 +327,7 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
                 label={controlLabel}
                 ref={wrapperRef}
                 spanDesc
+                style={rootStyle.get()}
                 textPlacement={textPlacement}
             />
         );
