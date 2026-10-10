@@ -27,7 +27,7 @@ import { IS_MENU_ITEM } from './menuItem.guards';
 import { isMenu } from '../menu/menu.guards';
 import { Badge } from '../badge/badge';
 import { MenuVariant } from '../menu/menu';
-import { ChevronRightIcon, MenuCheckIcon, RadioCheckedIcon, RadioUncheckedIcon } from '../../assets';
+import { ArrowRightIcon, MenuCheckIcon, RadioCheckedIcon, RadioUncheckedIcon } from '../../assets';
 
 /**
  * Visual variant of a MenuItem.
@@ -345,7 +345,7 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
 
         const shortcutStyle = ControlStyle();
         shortcutStyle.text(shortcutColor);
-        const trailingIcon = hasSubmenu && !horizontal ? ChevronRightIcon : trailingElement;
+        const trailingIcon = hasSubmenu && !horizontal ? ArrowRightIcon : trailingElement;
         const trailingText = shortcut && (
             <div className={`uui-menu-item-shortcut ${getFontClass(appliedShortcutFont)}`} style={shortcutStyle.get()}>
                 {shortcut}

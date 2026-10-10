@@ -1,22 +1,23 @@
 import React, { forwardRef, useState } from 'react';
 
 import { BoxBase, BoxBaseProps } from '../base';
-import { cn, ControlStyle } from '../../utils';
-import { addMonths, formatMonthYear, getMonthDays, getWeekDaysShort, isSameDay } from './calendarUtils';
-import { IconButton } from '../iconButton/iconButton';
+import { cn } from '../../utils';
+import { addMonths } from './calendarUtils';
+import { CalendarDays } from './calendarDays';
+import { CalendarHeader } from './calendarHeader';
 
 /**
  * Props for Calendar component.
  *
  * @category Calendar
  */
-export interface CalendarProps extends Omit<BoxBaseProps, 'onChange'> {
+export interface CalendarProps extends Omit<BoxBaseProps, 'type' | 'onChange'> {
     /** The currently selected date. */
     value?: Date;
     /** Callback fired when a date is selected. */
     onChange?: (date: Date) => void;
-    /** The date that is currently visible in the calendar. */
-    viewDate?: Date;
+    /** Calendar type. Default: docked */
+    type?: 'docked' | 'modal';
 }
 
 /**
@@ -27,8 +28,8 @@ export interface CalendarProps extends Omit<BoxBaseProps, 'onChange'> {
  * @category Calendar
  */
 export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
-    ({ value, onChange, viewDate: initialViewDate, className, ...rest }, ref) => {
-        const [viewDate, setViewDate] = useState(initialViewDate || value || new Date());
+    ({ value, onChange, type, className, ...rest }, ref) => {
+        const [viewDate, setViewDate] = useState(value || new Date());
 
         const handlePrevMonth = (e: React.MouseEvent<HTMLButtonElement>) => {
             e.preventDefault();
@@ -40,66 +41,10 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
             setViewDate(addMonths(viewDate, 1));
         };
 
-        const handleDateClick = (date: Date) => {
-            onChange?.(date);
-        };
-
-        const days = getMonthDays(viewDate, value);
-        const weekDays = getWeekDaysShort();
-
-        const style = ControlStyle();
-        style.bg('surfaceContainerHigh');
-        style.text.on('surface');
-
         return (
-            <BoxBase className={cn('uui-calendar', className)} {...rest} style={style.get()}>
-                <div className="uui-calendar-header">
-                    <div className="uui-calendar-title">{formatMonthYear(viewDate)}</div>
-
-                    <div className="uui-calendar-nav">
-                        <button
-                            aria-label="Previous month"
-                            className="uui-calendar-nav-btn"
-                            onClick={handlePrevMonth}
-                            type="button">
-                            &lt;
-                        </button>
-
-                        <button
-                            aria-label="Next month"
-                            className="uui-calendar-nav-btn"
-                            onClick={handleNextMonth}
-                            type="button">
-                            &gt;
-                        </button>
-                    </div>
-                </div>
-
-                <div className="uui-calendar-grid">
-                    {weekDays.map(day => (
-                        <div className="uui-calendar-weekday" key={day}>
-                            {day}
-                        </div>
-                    ))}
-
-                    {days.map((day, index) => {
-                        const isSelected = !!value && isSameDay(day.date, value);
-
-                        return (
-                            <IconButton
-                                className={cn('uui-calendar-day')}
-                                disabled={!day.isCurrentMonth}
-                                filled={isSelected}
-                                key={index}
-                                onClick={() => {
-                                    handleDateClick(day.date);
-                                }}
-                                outlined={day.isToday}>
-                                <span>{day.date.getDate()}</span>
-                            </IconButton>
-                        );
-                    })}
-                </div>
+            <BoxBase className={cn('uui-calendar', className, `uui-${type ?? 'docked'}-calendar`)} {...rest}>
+                <CalendarHeader onViewDateChange={setViewDate} type={type} viewDate={viewDate} />
+                <CalendarDays onChange={onChange} value={value} viewDate={viewDate} />
             </BoxBase>
         );
     }

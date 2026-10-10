@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Article, Aside, Calendar, Content, Flex, H1, H2, P, Section } from '@ufoui/core';
+import { Article, Aside, Calendar, Content, H1, H2, P, Section } from '@ufoui/core';
 
 export const CalendarPage = () => {
     const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -11,17 +11,13 @@ export const CalendarPage = () => {
                 <H1>Calendar</H1>
 
                 <Section gap={16}>
-                    <H2>Standard Calendar</H2>
+                    <H2>Docked</H2>
                     <Calendar onChange={setSelectedDate} value={selectedDate} />
                 </Section>
 
                 <Section gap={16}>
-                    <H2>Variants</H2>
-
-                    <Flex gap={16} wrap>
-                        <Calendar border={1} />
-                        <Calendar color="secondaryContainer" elevation={1} shape="square" />
-                    </Flex>
+                    <H2>Modal</H2>
+                    <Calendar onChange={setSelectedDate} value={selectedDate} type="modal" />
                 </Section>
             </Content>
 
