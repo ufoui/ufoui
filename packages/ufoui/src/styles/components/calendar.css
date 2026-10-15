@@ -19,6 +19,7 @@
 }
 
 .uui-calendar-header {
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -26,8 +27,12 @@
     --uui-control-color: var(--uui-color-on-surface-variant);
 }
 
+.uui-calendar-header .uui-button .uui-slot {
+    --uui-icon-size: 18px;
+}
+
 .uui-docked-calendar .uui-calendar-header{
-    padding-inline: 0px;
+    padding-inline: 0;
 }
 
 .uui-calendar-nav {

@@ -87,6 +87,7 @@ export const CalendarHeader = ({
             onClick={() => {
                 onViewChange?.(view === target ? 'day' : target);
             }}
+            spread="narrow"
         />
     );
 
