@@ -1,6 +1,6 @@
 import { forwardRef, ReactNode } from 'react';
 
-import { ButtonBase, ButtonBaseProps } from '../base/buttonBase';
+import { ButtonBase, ButtonBaseProps } from '../base';
 
 /**
  * Props for {@link IconButton}.

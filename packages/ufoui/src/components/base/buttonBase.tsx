@@ -146,6 +146,9 @@ export interface ButtonBaseProps
     /** Predefined button size. Default: medium */
     size?: ElementSize;
 
+    /** Horizontal spacing around the leading and trailing slots. Default: default */
+    spread?: 'narrow' | 'default' | 'wide';
+
     /** Tooltip text and accessibility label fallback. */
     title?: string;
 
@@ -248,6 +251,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         toggle = false,
         tooltipAlign = 'auto',
         density,
+        spread,
         style,
         'aria-label': ariaLabel,
         ...other
@@ -311,7 +315,8 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         shapeClass,
         finalEffects.hover?.includes('elevate') && !flat && 'uui-hover-elevate',
         finalEffects.pressed?.includes('elevate') && !flat && 'uui-pressed-elevate',
-        getElevationClass(resolvedElevation)
+        getElevationClass(resolvedElevation),
+        spread && `uui-spread-${spread}`
     );
 
     const controlStyle = ControlStyle(style);

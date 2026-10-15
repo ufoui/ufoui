@@ -7,6 +7,14 @@
   --uui-corner-smooth: 16px;
 }
 
+.uui-button .uui-spread-narrow.uui-extra-large {
+  --uui-button-padding: 2rem;
+}
+
+.uui-button .uui-spread-wide.uui-extra-large {
+  --uui-button-padding: 6rem;
+}
+
 .uui-button .uui-large {
   --uui-button-padding: 3rem;
   --uui-button-height: 6rem;
@@ -14,6 +22,14 @@
   --uui-col-space: 0.75rem;
   --uui-corner-rounded: 28px;
   --uui-corner-smooth: 16px;
+}
+
+.uui-button .uui-spread-narrow.uui-large {
+  --uui-button-padding: 1.5rem;
+}
+
+.uui-button .uui-spread-wide.uui-large {
+  --uui-button-padding: 4.5rem;
 }
 
 .uui-button .uui-medium {
@@ -25,6 +41,14 @@
   --uui-corner-smooth: 12px;
 }
 
+.uui-button .uui-spread-narrow.uui-medium {
+  --uui-button-padding: 0.75rem;
+}
+
+.uui-button .uui-spread-wide.uui-medium {
+  --uui-button-padding: 2.25rem;
+}
+
 .uui-button .uui-small {
   --uui-button-padding: 1rem;
   --uui-button-height: 2.5rem;
@@ -34,6 +58,14 @@
   --uui-corner-smooth: 8px;
 }
 
+.uui-button .uui-spread-narrow.uui-small {
+  --uui-button-padding: 0.5rem;
+}
+
+.uui-button .uui-spread-wide.uui-small {
+  --uui-button-padding: 1.5rem;
+}
+
 .uui-button .uui-extra-small {
   --uui-button-padding: 0.75rem;
   --uui-button-height: 2rem;
@@ -41,4 +73,12 @@
   --uui-col-space: 0.5rem;
   --uui-corner-rounded: 12px;
   --uui-corner-smooth: 8px;
+}
+
+.uui-button .uui-spread-narrow.uui-extra-small {
+  --uui-button-padding: 0.375rem;
+}
+
+.uui-button .uui-spread-wide.uui-extra-small {
+  --uui-button-padding: 1.125rem;
 }

@@ -1,6 +1,7 @@
 import {
     BaseColor,
     BorderColor,
+    ButtonBaseProps,
     Checkbox,
     ElementBorder,
     ElementDensity,
@@ -81,6 +82,7 @@ type ButtonModifiersProps = {
         selectionSlot?: ListSelectionSlot | null;
         shape?: ElementShape | null;
         size?: ElementSize | null;
+        spread?: ButtonBaseProps['spread'] | null;
         surfaceColor?: SurfaceColor | null;
         textColor?: SurfaceColor | null;
         textPlacement?: ElementTextPlacement | null;
@@ -96,6 +98,7 @@ type ButtonModifiersProps = {
     selectionSlot?: ListSelectionSlot | null;
     shape?: ElementShape | null;
     size?: ElementSize | null;
+    spread?: ButtonBaseProps['spread'] | null;
     surfaceColor?: SurfaceColor | null;
     textColor?: SurfaceColor | null;
     textPlacement?: ElementTextPlacement | null;
@@ -109,6 +112,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
     const {
         baseColor,
         size,
+        spread,
         shape,
         border,
         uncheckedBorder,
@@ -600,6 +604,24 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         <option value="end">End</option>
                         <option value="top">Top</option>
                         <option value="bottom">Bottom</option>
+                    </select>
+                </>
+            )}
+            {spread !== undefined && (
+                <>
+                    <span>Spread:</span>
+                    <select
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                spread:
+                                    e.target.value === '' ? undefined : (e.target.value as ButtonBaseProps['spread']),
+                            });
+                        }}
+                        value={spread ?? ''}>
+                        <option value="">Default</option>
+                        <option value="narrow">Narrow</option>
+                        <option value="wide">Wide</option>
                     </select>
                 </>
             )}

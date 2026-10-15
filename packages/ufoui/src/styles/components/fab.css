@@ -8,6 +8,14 @@
   --uui-ext-padding: 2.5rem;
 }
 
+.uui-fab .uui-spread-narrow.uui-extra-large {
+  --uui-ext-padding: 1.25rem;
+}
+
+.uui-fab .uui-spread-wide.uui-extra-large {
+  --uui-ext-padding: 3.75rem;
+}
+
 .uui-fab .uui-large {
   --uui-button-width: 6rem;
   --uui-button-height: 6rem;
@@ -16,6 +24,14 @@
   --uui-corner-rounded: 28px;
   --uui-corner-smooth: 16px;
   --uui-ext-padding: 1.75rem;
+}
+
+.uui-fab .uui-spread-narrow.uui-large {
+  --uui-ext-padding: 0.875rem;
+}
+
+.uui-fab .uui-spread-wide.uui-large {
+  --uui-ext-padding: 2.625rem;
 }
 
 .uui-fab .uui-medium {
@@ -28,6 +44,14 @@
   --uui-ext-padding: 1.625rem;
 }
 
+.uui-fab .uui-spread-narrow.uui-medium {
+  --uui-ext-padding: 0.8125rem;
+}
+
+.uui-fab .uui-spread-wide.uui-medium {
+  --uui-ext-padding: 2.4375rem;
+}
+
 .uui-fab .uui-small {
   --uui-button-width: 3.5rem;
   --uui-button-height: 3.5rem;
@@ -38,6 +62,14 @@
   --uui-ext-padding: 1rem;
 }
 
+.uui-fab .uui-spread-narrow.uui-small {
+  --uui-ext-padding: 0.5rem;
+}
+
+.uui-fab .uui-spread-wide.uui-small {
+  --uui-ext-padding: 1.5rem;
+}
+
 .uui-fab .uui-extra-small {
   --uui-button-width: 2.5rem;
   --uui-button-height: 2.5rem;
@@ -46,6 +78,14 @@
   --uui-corner-rounded: 12px;
   --uui-corner-smooth: 8px;
   --uui-ext-padding: 1rem;
+}
+
+.uui-fab .uui-spread-narrow.uui-extra-small {
+  --uui-ext-padding: 0.5rem;
+}
+
+.uui-fab .uui-spread-wide.uui-extra-small {
+  --uui-ext-padding: 1.5rem;
 }
 
 .uui-fab.uui-fab-extended button {

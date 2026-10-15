@@ -15,6 +15,7 @@ import {
     BorderColor,
     Div,
     Divider,
+    ButtonBaseProps,
     ElementBorder,
     ElementDensity,
     ElementElevation,
@@ -57,6 +58,7 @@ interface Props {
 
 export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
     const [size, setSize] = useState<ElementSize | null>(null);
+    const [spread, setSpread] = useState<ButtonBaseProps['spread'] | null>(null);
     const [shape, setShape] = useState<ElementShape | null>(null);
     const [selectedShape, setSelectedShape] = useState<ElementShape | null>(null);
     const [border, setBorder] = useState<ElementBorder | null>(null);
@@ -73,6 +75,7 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
     const shared = useMemo(
         () => ({
             size: size ?? undefined,
+            spread: spread ?? undefined,
             shape: shape ?? undefined,
             selectedShape: selectedShape ?? undefined,
             border: border ?? undefined,
@@ -88,6 +91,7 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
         }),
         [
             size,
+            spread,
             shape,
             selectedShape,
             border,
@@ -171,6 +175,7 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
                             { icon: <PiHouse />, color: 'white' },
                         ].map(b => (
                             <Component
+                                {...shared}
                                 aria-label={b.color}
                                 color={b.color as SemanticColor}
                                 filled
@@ -321,6 +326,7 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
                         font={font}
                         onChange={({
                             size: sz,
+                            spread: spr,
                             shape: sp,
                             border: bd,
                             borderColor: bc,
@@ -335,6 +341,7 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
                             selectedColor: sc,
                         }) => {
                             setSize(sz ?? null);
+                            setSpread(spr ?? null);
                             setShape(sp ?? null);
                             setBorder(bd ?? null);
                             setColor(cl ?? null);
@@ -352,6 +359,7 @@ export const ButtonShowcasePage = ({ component: Component, title }: Props) => {
                         selectedShape={selectedShape}
                         shape={shape}
                         size={size}
+                        spread={spread}
                         toggle={toggle}
                     />
                 </Aside>
