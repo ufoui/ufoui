@@ -31,7 +31,7 @@ export interface CalendarDaysProps {
  * @internal
  */
 export const CalendarDays = ({ viewDate, value, onChange }: CalendarDaysProps) => (
-    <div className="uui-calendar-grid">
+    <div className="uui-calendar-days">
         {getWeekDaysShort().map(day => (
             <div className="uui-calendar-weekday" key={day}>
                 {day}

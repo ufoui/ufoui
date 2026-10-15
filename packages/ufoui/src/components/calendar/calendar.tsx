@@ -44,7 +44,9 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
         return (
             <BoxBase className={cn('uui-calendar', className, `uui-${type ?? 'docked'}-calendar`)} {...rest}>
                 <CalendarHeader onViewDateChange={setViewDate} type={type} viewDate={viewDate} />
-                <CalendarDays onChange={onChange} value={value} viewDate={viewDate} />
+                <div className="uui-calendar-view">
+                    <CalendarDays onChange={onChange} value={value} viewDate={viewDate} />
+                </div>
             </BoxBase>
         );
     }
