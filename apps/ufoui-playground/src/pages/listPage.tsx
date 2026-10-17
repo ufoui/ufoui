@@ -18,6 +18,7 @@ import {
     List,
     ListItem,
     ListSelection,
+    ListSelectionMarker,
     ListSelectionSlot,
     Section,
     Span,
@@ -39,9 +40,11 @@ export const ListPage = () => {
     const [borderColor, setBorderColor] = useState<BorderColor | null>(null);
     const [density, setDensity] = useState<ElementDensity | null>(null);
     const [selection, setSelection] = useState<ListSelection | null>(null);
+    const [selectionMarker, setSelectionMarker] = useState<ListSelectionMarker | null>(null);
     const [selectionSlot, setSelectionSlot] = useState<ListSelectionSlot | null>(null);
     const [draggable, setDraggable] = useState<boolean | null>(null);
     const [disabled, setDisabled] = useState<boolean | null>(null);
+    const [fixedLeading, setFixedLeading] = useState<boolean | null>(null);
 
     const [checked, setChecked] = useState<Record<string, boolean>>({});
     const [order, setOrder] = useState(() => Array.from({ length: 50 }, (_, i) => i));
@@ -71,12 +74,14 @@ export const ListPage = () => {
             density: density ?? undefined,
             disabled: disabled ?? undefined,
             selection: selection ?? undefined,
+            selectionMarker: selectionMarker ?? undefined,
             selectionSlot: selectionSlot ?? undefined,
             draggable: draggable ?? undefined,
+            fixedLeading: fixedLeading ?? undefined,
             maxHeight: 500,
             overflow: 'auto' as const,
         }),
-        [color, shape, elevation, border, borderColor, density, disabled, selection, selectionSlot, draggable]
+        [color, shape, elevation, border, borderColor, density, disabled, selection, selectionMarker, selectionSlot, draggable, fixedLeading]
     );
 
     const items = order.map(i => {
@@ -235,9 +240,11 @@ export const ListPage = () => {
                         density={density ?? undefined}
                         disabled={disabled ?? undefined}
                         draggable={draggable ?? undefined}
+                        fixedLeading={fixedLeading ?? undefined}
                         maxWidth={520}
                         overflow="visible"
                         selection={selection ?? undefined}
+                        selectionMarker={selectionMarker ?? undefined}
                         selectionSlot={selectionSlot ?? undefined}
                         onOrderChange={({ from, to }) => {
                             setVariousOrder(prev => {
@@ -258,8 +265,10 @@ export const ListPage = () => {
                         density={density ?? undefined}
                         disabled={disabled ?? undefined}
                         draggable={draggable ?? undefined}
+                        fixedLeading={fixedLeading ?? undefined}
                         maxWidth={520}
                         selection={selection ?? undefined}
+                        selectionMarker={selectionMarker ?? undefined}
                         selectionSlot={selectionSlot ?? undefined}>
                         <ListItem label="Inbox" leading={<MdInbox />} value="nested-inbox" />
                         <ListItem label="Starred" leading={<MdStar />} value="nested-starred" />
@@ -296,6 +305,7 @@ export const ListPage = () => {
                     disabled={disabled}
                     draggable={draggable}
                     elevation={elevation}
+                    fixedLeading={fixedLeading}
                     onChange={({
                         surfaceColor: sc,
                         elevation: el,
@@ -305,8 +315,10 @@ export const ListPage = () => {
                         density: dn,
                         disabled: dis,
                         selection: sel,
+                        selectionMarker: marker,
                         selectionSlot: slot,
                         draggable: drag,
+                        fixedLeading: fixed,
                     }) => {
                         setColor(sc ?? null);
                         setShape(sp ?? null);
@@ -316,10 +328,13 @@ export const ListPage = () => {
                         setDensity(dn ?? null);
                         setDisabled(dis ?? null);
                         setSelection(sel ?? null);
+                        setSelectionMarker(marker ?? null);
                         setSelectionSlot(slot ?? null);
                         setDraggable(drag ?? null);
+                        setFixedLeading(fixed ?? null);
                     }}
                     selection={selection}
+                    selectionMarker={selectionMarker}
                     selectionSlot={selectionSlot}
                     shape={shape}
                     surfaceColor={color}

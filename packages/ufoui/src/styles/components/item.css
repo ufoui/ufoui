@@ -102,6 +102,10 @@
     transform: rotate(180deg);
 }
 
+.uui-item:not(.uui-selected) .uui-item-check {
+    visibility: hidden;
+}
+
 .uui-item-group {
     padding-inline-start: 40px;
 }

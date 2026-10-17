@@ -13,6 +13,7 @@ import {
     getColorNames,
     Grid,
     ListSelection,
+    ListSelectionMarker,
     ListSelectionSlot,
     SemanticColor,
     SurfaceColor,
@@ -30,6 +31,7 @@ type ButtonModifiersProps = {
     detached?: boolean | null;
     docked?: boolean | null;
     draggable?: boolean | null;
+    fixedLeading?: boolean | null;
     anchored?: boolean | null;
     dockedElevation?: ElementElevation | null;
     elevation?: ElementElevation | null;
@@ -57,6 +59,7 @@ type ButtonModifiersProps = {
         disabled?: boolean | null;
         docked?: boolean | null;
         draggable?: boolean | null;
+        fixedLeading?: boolean | null;
         anchored?: boolean | null;
         dockedElevation?: ElementElevation | null;
         detached?: boolean | null;
@@ -79,6 +82,7 @@ type ButtonModifiersProps = {
         selectedColor?: SemanticColor | null;
         selectedShape?: ElementShape | null;
         selection?: ListSelection | null;
+        selectionMarker?: ListSelectionMarker | null;
         selectionSlot?: ListSelectionSlot | null;
         shape?: ElementShape | null;
         size?: ElementSize | null;
@@ -95,6 +99,7 @@ type ButtonModifiersProps = {
     selectedColor?: SemanticColor | null;
     selectedShape?: ElementShape | null;
     selection?: ListSelection | null;
+    selectionMarker?: ListSelectionMarker | null;
     selectionSlot?: ListSelectionSlot | null;
     shape?: ElementShape | null;
     size?: ElementSize | null;
@@ -122,8 +127,10 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         selectedColor,
         selectedShape,
         selection,
+        selectionMarker,
         selectionSlot,
         draggable,
+        fixedLeading,
         borderColor,
         textColor,
         inkColor,
@@ -916,6 +923,26 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                     </select>
                 </>
             )}
+            {selectionMarker !== undefined && (
+                <>
+                    <span>Selection marker:</span>
+                    <select
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                selectionMarker:
+                                    e.target.value === '' ? undefined : (e.target.value as ListSelectionMarker),
+                            });
+                        }}
+                        value={selectionMarker ?? ''}>
+                        <option value="">Default</option>
+                        <option value="auto">Auto</option>
+                        <option value="checkbox">Checkbox</option>
+                        <option value="radio">Radio</option>
+                        <option value="icon">Icon</option>
+                    </select>
+                </>
+            )}
             {selectionSlot !== undefined && (
                 <>
                     <span>Selection slot:</span>
@@ -946,6 +973,22 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             onChange({
                                 ...props,
                                 draggable: e.target.checked,
+                            });
+                        }}
+                    />
+                </>
+            )}
+            {fixedLeading !== undefined && (
+                <>
+                    <label htmlFor="mod_fixed_leading">Fixed leading:</label>
+                    <Checkbox
+                        checked={!!fixedLeading}
+                        density="dense"
+                        id="mod_fixed_leading"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                fixedLeading: e.target.checked,
                             });
                         }}
                     />

@@ -1,4 +1,5 @@
 import React, {
+    cloneElement,
     forwardRef,
     ForwardRefExoticComponent,
     ReactElement,
@@ -11,13 +12,13 @@ import React, {
     useState,
 } from 'react';
 
-import { ExpandIcon } from '../../assets';
+import { ExpandIcon, MenuCheckIcon } from '../../assets';
 import { SelectionContext } from '../../context';
 import { useFocusNavigation } from '../../hooks/useFocusNavigation';
 import { Leading, Trailing } from '../../internal';
 import { cn, createRipple, ElementDensity, getDensityClass, getFontClass, mergeRefs } from '../../utils';
 import { IS_ITEM } from './item.guards';
-import { ListSelection, ListSelectionSlot } from '../list/list';
+import { ListSelection, ListSelectionMarker, ListSelectionSlot } from '../list/list';
 import { Radio } from '../radio/radio';
 import { Checkbox } from '../checkbox/checkbox';
 import { Collapse } from '../collapse/collapse';
@@ -27,8 +28,10 @@ interface ItemCtxConfig {
     density?: ElementDensity;
     disabled?: boolean;
     draggable?: boolean;
+    fixedLeading?: boolean;
     nav?: ReturnType<typeof useFocusNavigation>;
     selection?: ListSelection;
+    selectionMarker?: ListSelectionMarker;
     selectionSlot?: ListSelectionSlot;
 }
 
@@ -57,6 +60,9 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
     /** Makes the item a drag source. Overrides the value provided by the parent `List`. */
     draggable?: boolean;
 
+    /** Reserves the leading selection marker space while unselected. Overrides the value provided by the parent `List`. */
+    fixedLeading?: boolean;
+
     /** Leading slot content. */
     leading?: ReactNode;
 
@@ -71,6 +77,9 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
 
     /** Controlled expanded state. */
     open?: boolean;
+
+    /** Selection marker kind. Overrides the value provided by the parent `List`. */
+    selectionMarker?: ListSelectionMarker;
 
     /** Slot holding the selection marker. Overrides the value provided by the parent `List`. */
     selectionSlot?: ListSelectionSlot;
@@ -129,6 +138,8 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             value,
             disabled,
             draggable,
+            fixedLeading,
+            selectionMarker,
             selectionSlot,
             className,
             children,
@@ -149,22 +160,28 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
         const [internalOpen, setInternalOpen] = useState(!!defaultOpen);
 
         const finalDisabled = disabled ?? config?.disabled;
+        const finalFixedLeading = fixedLeading ?? config?.fixedLeading ?? true;
         const selected = value ? (ctx?.values.includes(value) ?? false) : false;
         const expanded = open ?? internalOpen;
         const itemRole = config?.itemRole ?? 'listitem';
         const selection = config?.selection ?? 'none';
+        const marker = selectionMarker ?? config?.selectionMarker ?? 'auto';
         const markerSlot = selectionSlot ?? config?.selectionSlot ?? 'leading';
         const canSelect = ctx && selection !== 'none' && !finalDisabled && value;
         const canDrag = (draggable ?? config?.draggable) && !finalDisabled;
 
         const markerControl =
-            selection !== 'none' ? (
-                selection === 'single' ? (
-                    <Radio aria-hidden="true" checked={selected} readOnly tabIndex={-1} />
+            selection === 'none' ? null : marker === 'icon' ? (
+                finalFixedLeading && markerSlot === 'leading' ? (
+                    cloneElement(MenuCheckIcon, { className: 'uui-item-check' })
                 ) : (
-                    <Checkbox aria-hidden="true" checked={selected} readOnly tabIndex={-1} />
+                    selected && MenuCheckIcon
                 )
-            ) : null;
+            ) : marker === 'radio' || (marker === 'auto' && selection === 'single') ? (
+                <Radio aria-hidden="true" checked={selected} readOnly tabIndex={-1} />
+            ) : (
+                <Checkbox aria-hidden="true" checked={selected} readOnly tabIndex={-1} />
+            );
 
         useEffect(() => {
             const el = itemRef.current;

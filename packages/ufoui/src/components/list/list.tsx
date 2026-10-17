@@ -13,6 +13,9 @@ export type ListType = 'list' | 'listbox' | 'tree';
 export type ListSelection = 'none' | 'single' | 'multiple';
 
 /** @category List */
+export type ListSelectionMarker = 'auto' | 'checkbox' | 'radio' | 'icon';
+
+/** @category List */
 export type ListSelectionSlot = 'none' | 'leading' | 'trailing';
 
 /** @category List */
@@ -25,6 +28,9 @@ export interface ListConfig {
     /** Marks the child items as drag sources. */
     draggable?: boolean;
 
+    /** Reserves the leading selection marker space of unselected child items. */
+    fixedLeading?: boolean;
+
     itemRole: 'listitem' | 'option' | 'treeitem';
 
     /** Keyboard focus controller shared with the child items. */
@@ -32,6 +38,9 @@ export interface ListConfig {
 
     /** Selection mode enabled for the list. */
     selection: ListSelection;
+
+    /** Selection marker kind, shared with the child items. */
+    selectionMarker?: ListSelectionMarker;
 
     /** Slot holding the selection marker, shared with the child items. */
     selectionSlot?: ListSelectionSlot;
@@ -58,11 +67,23 @@ export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange' | 'dra
     /** Makes all child items draggable. */
     draggable?: boolean;
 
+    /**
+     * Reserves the selection marker space of unselected child items, so their text does not shift.
+     * Applies to the `icon` marker in the leading slot. Default: `true`.
+     */
+    fixedLeading?: boolean;
+
     /** Change handler called with the new selected values array. */
     onChange?: (values: string[]) => void;
 
     /** Selection mode enabled for the list. */
     selection?: ListSelection;
+
+    /**
+     * Selection marker kind, shared by all child items. `auto` renders a radio for single
+     * and a checkbox for multiple selection; `icon` renders a check mark on selected items only.
+     */
+    selectionMarker?: ListSelectionMarker;
 
     /** Slot holding the selection marker, shared by all child items. */
     selectionSlot?: ListSelectionSlot;
@@ -100,11 +121,13 @@ export const List = ({
     value,
     defaultValue,
     selection = 'none',
+    selectionMarker,
     selectionSlot,
     onChange,
     density,
     disabled,
     draggable,
+    fixedLeading,
     ...props
 }: ListProps) => {
     const ss = useSelectionState({
@@ -122,8 +145,10 @@ export const List = ({
         density,
         disabled,
         draggable,
+        fixedLeading,
         nav,
         selection,
+        selectionMarker,
         selectionSlot,
         type,
     };
