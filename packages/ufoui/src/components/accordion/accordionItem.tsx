@@ -4,7 +4,7 @@ import { Collapse } from '../collapse/collapse';
 import { useFocusVisible, useSelection } from '../../hooks';
 import { IS_ACCORDION_ITEM } from './accordionItem.guards';
 import { Leading, Trailing } from '../../internal';
-import { ExpandIcon } from '../../assets';
+import { KeyboardArrowDownIcon } from '../../assets';
 import { AccordionConfig, AccordionVariant } from './accordion';
 import {
     cn,
@@ -100,7 +100,7 @@ export const AccordionItem = ({
     const finalVariant = variant ?? config?.variant ?? 'segmented';
     const finalDisabled = disabled ?? config?.disabled;
     const finalColor = color ?? config?.color;
-    const expandIcon = finalShowIcon && <div className="uui-accordion-icon uui-icon">{icon ?? ExpandIcon}</div>;
+    const expandIcon = finalShowIcon && <div className="uui-accordion-icon uui-icon">{icon ?? KeyboardArrowDownIcon}</div>;
 
     const leadingContent = leading && <Leading content={leading} />;
     const trailingContent = (trailing ?? finalShowIcon) && <Trailing content={trailing} end={expandIcon} />;

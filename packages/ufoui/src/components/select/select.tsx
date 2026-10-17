@@ -10,7 +10,7 @@ import React, {
     useState,
 } from 'react';
 
-import { ExpandIcon } from '../../assets';
+import { ArrowDropDownIcon } from '../../assets';
 import { useClickOutside } from '../../hooks';
 import { calculateFloatingPosition, renderPortal } from '../../utils';
 import { FieldBase, FieldBaseProps } from '../base';
@@ -36,7 +36,7 @@ export interface SelectProps
     /** Uncontrolled initial selected value. */
     defaultValue?: string | string[];
 
-    /** Icon rendered in the trailing slot of the trigger. Default: ExpandIcon */
+    /** Icon rendered in the trailing slot of the trigger. Default: ArrowDropDownIcon */
     expandIcon?: ReactElement;
 
     /** Enables multiple value selection. */
@@ -160,7 +160,7 @@ export const Select = ({
                 }}
                 placeholder={placeholder}
                 readOnly
-                trailing={expandIcon ?? ExpandIcon}
+                trailing={expandIcon ?? ArrowDropDownIcon}
                 value={displayValue}
             />
 

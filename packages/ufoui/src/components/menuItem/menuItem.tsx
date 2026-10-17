@@ -27,7 +27,7 @@ import { IS_MENU_ITEM } from './menuItem.guards';
 import { isMenu } from '../menu/menu.guards';
 import { Badge } from '../badge/badge';
 import { MenuVariant } from '../menu/menu';
-import { ArrowRightIcon, MenuCheckIcon, RadioCheckedIcon, RadioUncheckedIcon } from '../../assets';
+import { ArrowRightIcon, CheckIcon, RadioCheckedIcon, RadioUncheckedIcon } from '../../assets';
 
 /**
  * Visual variant of a MenuItem.
@@ -320,7 +320,7 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
             if (type === 'radio') {
                 toggleIcon = checked ? (checkedIcon ?? RadioCheckedIcon) : (uncheckedIcon ?? RadioUncheckedIcon);
             } else if (type === 'checkbox') {
-                toggleIcon = checked ? (checkedIcon ?? MenuCheckIcon) : uncheckedIcon;
+                toggleIcon = checked ? (checkedIcon ?? CheckIcon) : uncheckedIcon;
             }
         }
         const leadingElement = toggleIcon ?? leading ?? icon ?? (fixedLeading && !horizontal);

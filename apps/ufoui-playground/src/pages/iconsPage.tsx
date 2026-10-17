@@ -14,7 +14,7 @@ export const IconsPage = () => {
                 <H1>Icons</H1>
                 <Flex gap={12} style={{ '--uui-icon-size': large ? '2.5rem' : '1.5rem' } as CSSProperties} wrap>
                     {icons.map(([name, icon]) => (
-                        <Stack alignItems="center" color="surfaceDim" gap={8} key={name} p={12} width={150}>
+                        <Stack alignItems="center" color="surfaceDim" gap={8} key={name} p={12} width={170}>
                             <Div className="uui-icon">{icon}</Div>
                             <Div>{name}</Div>
                         </Stack>

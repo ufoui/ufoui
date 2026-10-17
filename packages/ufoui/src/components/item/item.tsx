@@ -12,7 +12,7 @@ import React, {
     useState,
 } from 'react';
 
-import { ExpandIcon, MenuCheckIcon } from '../../assets';
+import { CheckIcon, KeyboardArrowDownIcon } from '../../assets';
 import { SelectionContext } from '../../context';
 import { useFocusNavigation } from '../../hooks/useFocusNavigation';
 import { Leading, Trailing } from '../../internal';
@@ -173,9 +173,9 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
         const markerControl =
             selection === 'none' ? null : marker === 'icon' ? (
                 finalFixedLeading && markerSlot === 'leading' ? (
-                    cloneElement(MenuCheckIcon, { className: 'uui-item-check' })
+                    cloneElement(CheckIcon, { className: 'uui-item-check' })
                 ) : (
-                    selected && MenuCheckIcon
+                    selected && CheckIcon
                 )
             ) : marker === 'radio' || (marker === 'auto' && selection === 'single') ? (
                 <Radio aria-hidden="true" checked={selected} readOnly tabIndex={-1} />
@@ -229,7 +229,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             onKeyDown?.(e);
         };
 
-        const expander = children ? (expandIcon ?? ExpandIcon) : null;
+        const expander = children ? (expandIcon ?? KeyboardArrowDownIcon) : null;
         const trailingEnd =
             markerSlot === 'trailing' ? (
                 <>

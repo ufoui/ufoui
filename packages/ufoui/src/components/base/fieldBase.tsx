@@ -17,7 +17,7 @@ import {
     SemanticColor,
     useUniqueId,
 } from '../../utils';
-import { CancelIcon, ErrorIcon } from '../../assets';
+import { CancelIcon, ErrorFilledIcon } from '../../assets';
 import { useFocusVisible } from '../../hooks';
 import { IconButton } from '../iconButton/iconButton';
 import { Description, LabelText, Leading, Trailing } from '../../internal';
@@ -80,7 +80,7 @@ export interface FieldBaseProps
     /** When true, renders the error icon in the trailing slot while `error` is set. */
     showErrorIcon?: boolean;
 
-    /** Icon rendered in the trailing slot while `error` is set. Default: ErrorIcon */
+    /** Icon rendered in the trailing slot while `error` is set. Default: ErrorFilledIcon */
     errorIcon?: ReactElement;
 
     /** When true, renders the control that clears the value while the field is not empty. */
@@ -329,7 +329,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
     const leadingContent = <Leading content={leading} start={icon} />;
 
     // Trailing
-    const finalErrorIcon = (errorIcon ?? ErrorIcon) as ReactElement<{ className?: string }>;
+    const finalErrorIcon = (errorIcon ?? ErrorFilledIcon) as ReactElement<{ className?: string }>;
     const errorIconContent =
         showErrorIcon &&
         error &&

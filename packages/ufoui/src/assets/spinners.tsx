@@ -32,12 +32,11 @@ interface SpinnerRingSvgProps extends SvgProps {
 
 export const SpinnerRingSvg = ({ trackProps, indicatorProps, ...props }: SpinnerRingSvgProps) => (
     <svg fill="none" viewBox="0 0 40 40" {...props}>
-        <circle className="uui-spinner-ring-track" cx="20" cy="20" fill="none" r="18" strokeWidth="4" {...trackProps} />
+        <circle className="uui-spinner-ring-track" cx="20" cy="20" r="18" strokeWidth="4" {...trackProps} />
         <circle
             className="uui-spinner-ring-indicator"
             cx="20"
             cy="20"
-            fill="none"
             r="18"
             strokeWidth="4"
             {...indicatorProps}
@@ -125,16 +124,13 @@ export const SpinnerOrbitSvg = (props: SvgProps) => (
  */
 export const SpinnerArcSvg = (props: SvgProps) => (
     <svg fill="none" viewBox="0 0 56 56" {...props}>
-        <circle cx="28" cy="28" fill="none" opacity="0.25" r="22" stroke="currentColor" strokeWidth="6" />
+        <circle cx="28" cy="28" opacity="0.25" r="22" stroke="currentColor" strokeWidth="6" />
         <circle
             cx="28"
             cy="28"
-            fill="none"
             r="22"
             stroke="currentColor"
             strokeDasharray="69 69"
-            strokeDashoffset="0"
-            strokeLinecap="butt"
             strokeWidth="6"
         />
     </svg>
@@ -164,7 +160,7 @@ export const SpinnerStepBarSvg = (props: SvgProps) => (
  */
 export const SpinnerDualRingSvg = (props: SvgProps) => (
     <svg fill="none" viewBox="0 0 56 56" {...props}>
-        <circle cx="28" cy="28" fill="none" r="23" strokeWidth="6" />
-        <circle cx="28" cy="28" fill="none" r="14" strokeWidth="5" />
+        <circle cx="28" cy="28" r="23" strokeWidth="6" />
+        <circle cx="28" cy="28" r="14" strokeWidth="5" />
     </svg>
 );
