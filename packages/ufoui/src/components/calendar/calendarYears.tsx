@@ -60,16 +60,12 @@ export const CalendarYears = ({ type = 'docked', viewDate, onViewDateChange }: C
                 }
             }}
             selection="single"
-            selectionSlot="leading"
-            type="list"
+            selectionMarker="icon"
+            selectionScroll="center"
+            type="listbox"
             value={String(viewDate.getFullYear())}>
             {years.map(year => (
-                <ListItem
-                    key={year}
-                    label={String(year)}
-                    // leading={year === viewDate.getFullYear() ? MenuCheckIcon : undefined}
-                    value={String(year)}
-                />
+                <ListItem key={year} label={String(year)} value={String(year)} />
             ))}
         </List>
     );

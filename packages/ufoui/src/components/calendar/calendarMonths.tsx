@@ -39,14 +39,14 @@ export const CalendarMonths = ({ viewDate, locale, onViewDateChange }: CalendarM
             }
         }}
         selection="single"
-        // selectionSlot="none"
-        type="list"
+        selectionMarker="icon"
+        selectionScroll="center"
+        type="listbox"
         value={String(viewDate.getMonth())}>
         {Array.from({ length: 12 }, (_, month) => (
             <ListItem
                 key={month}
                 label={new Date(2000, month, 1).toLocaleDateString(locale, { month: 'long' })}
-                // leading={month === viewDate.getMonth() ? MenuCheckIcon : undefined}
                 value={String(month)}
             />
         ))}
