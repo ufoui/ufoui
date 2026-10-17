@@ -14,6 +14,7 @@ import {
     Grid,
     ListSelection,
     ListSelectionMarker,
+    ListSelectionScroll,
     ListSelectionSlot,
     SemanticColor,
     SurfaceColor,
@@ -83,6 +84,7 @@ type ButtonModifiersProps = {
         selectedShape?: ElementShape | null;
         selection?: ListSelection | null;
         selectionMarker?: ListSelectionMarker | null;
+        selectionScroll?: ListSelectionScroll | null;
         selectionSlot?: ListSelectionSlot | null;
         shape?: ElementShape | null;
         size?: ElementSize | null;
@@ -100,6 +102,7 @@ type ButtonModifiersProps = {
     selectedShape?: ElementShape | null;
     selection?: ListSelection | null;
     selectionMarker?: ListSelectionMarker | null;
+    selectionScroll?: ListSelectionScroll | null;
     selectionSlot?: ListSelectionSlot | null;
     shape?: ElementShape | null;
     size?: ElementSize | null;
@@ -128,6 +131,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         selectedShape,
         selection,
         selectionMarker,
+        selectionScroll,
         selectionSlot,
         draggable,
         fixedLeading,
@@ -940,6 +944,25 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         <option value="checkbox">Checkbox</option>
                         <option value="radio">Radio</option>
                         <option value="icon">Icon</option>
+                    </select>
+                </>
+            )}
+            {selectionScroll !== undefined && (
+                <>
+                    <span>Selection scroll:</span>
+                    <select
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                selectionScroll:
+                                    e.target.value === '' ? undefined : (e.target.value as ListSelectionScroll),
+                            });
+                        }}
+                        value={selectionScroll ?? ''}>
+                        <option value="">Default</option>
+                        <option value="none">None</option>
+                        <option value="nearest">Nearest</option>
+                        <option value="center">Center</option>
                     </select>
                 </>
             )}

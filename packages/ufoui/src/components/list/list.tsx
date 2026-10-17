@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useRef } from 'react';
 
 import { SelectionContext } from '../../context';
 import { useSelectionState } from '../../hooks';
@@ -14,6 +14,9 @@ export type ListSelection = 'none' | 'single' | 'multiple';
 
 /** @category List */
 export type ListSelectionMarker = 'auto' | 'checkbox' | 'radio' | 'icon';
+
+/** @category List */
+export type ListSelectionScroll = 'none' | 'nearest' | 'center';
 
 /** @category List */
 export type ListSelectionSlot = 'none' | 'leading' | 'trailing';
@@ -85,6 +88,12 @@ export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange' | 'dra
      */
     selectionMarker?: ListSelectionMarker;
 
+    /**
+     * Scrolls the first selected item into view on mount - `nearest` with minimal movement,
+     * `center` to the middle of the list. Default: `'none'`.
+     */
+    selectionScroll?: ListSelectionScroll;
+
     /** Slot holding the selection marker, shared by all child items. */
     selectionSlot?: ListSelectionSlot;
 
@@ -122,6 +131,7 @@ export const List = ({
     defaultValue,
     selection = 'none',
     selectionMarker,
+    selectionScroll = 'none',
     selectionSlot,
     onChange,
     density,
@@ -137,6 +147,7 @@ export const List = ({
         onChange,
     });
     const nav = useFocusNavigation('vertical');
+    const rootRef = useRef<HTMLElement>(null);
     const controlStyle = ControlStyle(style);
     controlStyle.token('--uui-variant-color', color && getOnColorName(color, true));
 
@@ -153,6 +164,13 @@ export const List = ({
         type,
     };
 
+    useEffect(() => {
+        if (selectionScroll !== 'none') {
+            rootRef.current?.querySelector('.uui-selected')?.scrollIntoView({ block: selectionScroll });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <SelectionContext.Provider value={{ ...ss, config }}>
             <BoxBase
@@ -160,6 +178,7 @@ export const List = ({
                 aria-orientation="vertical"
                 className={cn('uui-list', className)}
                 color={color}
+                ref={rootRef}
                 role={type}
                 style={controlStyle.get()}>
                 <div className="uui-list-scroll uui-flex uui-flex-col" role="none">

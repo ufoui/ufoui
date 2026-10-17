@@ -19,6 +19,7 @@ import {
     ListItem,
     ListSelection,
     ListSelectionMarker,
+    ListSelectionScroll,
     ListSelectionSlot,
     Section,
     Span,
@@ -41,12 +42,14 @@ export const ListPage = () => {
     const [density, setDensity] = useState<ElementDensity | null>(null);
     const [selection, setSelection] = useState<ListSelection | null>(null);
     const [selectionMarker, setSelectionMarker] = useState<ListSelectionMarker | null>(null);
+    const [selectionScroll, setSelectionScroll] = useState<ListSelectionScroll | null>(null);
     const [selectionSlot, setSelectionSlot] = useState<ListSelectionSlot | null>(null);
     const [draggable, setDraggable] = useState<boolean | null>(null);
     const [disabled, setDisabled] = useState<boolean | null>(null);
     const [fixedLeading, setFixedLeading] = useState<boolean | null>(null);
 
     const [checked, setChecked] = useState<Record<string, boolean>>({});
+    const [selected, setSelected] = useState<string[]>(['item-20']);
     const [order, setOrder] = useState(() => Array.from({ length: 50 }, (_, i) => i));
     const [variousOrder, setVariousOrder] = useState(() => [
         'figma-media-switch',
@@ -75,13 +78,14 @@ export const ListPage = () => {
             disabled: disabled ?? undefined,
             selection: selection ?? undefined,
             selectionMarker: selectionMarker ?? undefined,
+            selectionScroll: selectionScroll ?? undefined,
             selectionSlot: selectionSlot ?? undefined,
             draggable: draggable ?? undefined,
             fixedLeading: fixedLeading ?? undefined,
             maxHeight: 500,
             overflow: 'auto' as const,
         }),
-        [color, shape, elevation, border, borderColor, density, disabled, selection, selectionMarker, selectionSlot, draggable, fixedLeading]
+        [color, shape, elevation, border, borderColor, density, disabled, selection, selectionMarker, selectionScroll, selectionSlot, draggable, fixedLeading]
     );
 
     const items = order.map(i => {
@@ -220,7 +224,9 @@ export const ListPage = () => {
                 <Section alignItems="start" gap={12}>
                     <H2>Simple List</H2>
                     <List
-                        defaultValue="item-20"
+                        key={selectionScroll ?? ''}
+                        onChange={setSelected}
+                        value={selected}
                         {...shared}
                         onOrderChange={({ from, to }) => {
                             setOrder(prev => {
@@ -245,6 +251,7 @@ export const ListPage = () => {
                         overflow="visible"
                         selection={selection ?? undefined}
                         selectionMarker={selectionMarker ?? undefined}
+                        selectionScroll={selectionScroll ?? undefined}
                         selectionSlot={selectionSlot ?? undefined}
                         onOrderChange={({ from, to }) => {
                             setVariousOrder(prev => {
@@ -269,6 +276,7 @@ export const ListPage = () => {
                         maxWidth={520}
                         selection={selection ?? undefined}
                         selectionMarker={selectionMarker ?? undefined}
+                        selectionScroll={selectionScroll ?? undefined}
                         selectionSlot={selectionSlot ?? undefined}>
                         <ListItem label="Inbox" leading={<MdInbox />} value="nested-inbox" />
                         <ListItem label="Starred" leading={<MdStar />} value="nested-starred" />
@@ -316,6 +324,7 @@ export const ListPage = () => {
                         disabled: dis,
                         selection: sel,
                         selectionMarker: marker,
+                        selectionScroll: scroll,
                         selectionSlot: slot,
                         draggable: drag,
                         fixedLeading: fixed,
@@ -329,12 +338,14 @@ export const ListPage = () => {
                         setDisabled(dis ?? null);
                         setSelection(sel ?? null);
                         setSelectionMarker(marker ?? null);
+                        setSelectionScroll(scroll ?? null);
                         setSelectionSlot(slot ?? null);
                         setDraggable(drag ?? null);
                         setFixedLeading(fixed ?? null);
                     }}
                     selection={selection}
                     selectionMarker={selectionMarker}
+                    selectionScroll={selectionScroll}
                     selectionSlot={selectionSlot}
                     shape={shape}
                     surfaceColor={color}
