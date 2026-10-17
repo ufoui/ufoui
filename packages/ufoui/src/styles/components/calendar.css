@@ -13,13 +13,30 @@
 
 .uui-calendar-view {
     height: 336px;
+    width: 360px;
+    overflow-y: hidden;
+}
+
+/*.uui-calendar-months .uui-item:not(.uui-selected) {*/
+/*    padding-inline-start: 56px;*/
+/*}*/
+
+/*.uui-calendar-years .uui-item:not(.uui-selected) {*/
+/*    padding-inline-start: 56px;*/
+/*}*/
+
+.uui-modal-calendar .uui-calendar-years {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+    padding-inline: 12px;
+
 }
 
 .uui-calendar-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     padding-inline: 12px;
-
 }
 
 .uui-calendar-header {

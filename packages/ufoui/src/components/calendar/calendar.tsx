@@ -4,7 +4,9 @@ import { BoxBase, BoxBaseProps } from '../base';
 import { cn } from '../../utils';
 import { addMonths } from './calendarUtils';
 import { CalendarDays } from './calendarDays';
-import { CalendarHeader } from './calendarHeader';
+import { CalendarHeader, CalendarView } from './calendarHeader';
+import { CalendarMonths } from './calendarMonths';
+import { CalendarYears } from './calendarYears';
 
 /**
  * Props for Calendar component.
@@ -30,6 +32,7 @@ export interface CalendarProps extends Omit<BoxBaseProps, 'type' | 'onChange'> {
 export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
     ({ value, onChange, type, className, ...rest }, ref) => {
         const [viewDate, setViewDate] = useState(value || new Date());
+        const [view, setView] = useState<CalendarView>('day');
 
         const handlePrevMonth = (e: React.MouseEvent<HTMLButtonElement>) => {
             e.preventDefault();
@@ -43,9 +46,34 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
 
         return (
             <BoxBase className={cn('uui-calendar', className, `uui-${type ?? 'docked'}-calendar`)} {...rest}>
-                <CalendarHeader onViewDateChange={setViewDate} type={type} viewDate={viewDate} />
+                <CalendarHeader
+                    onViewChange={setView}
+                    onViewDateChange={setViewDate}
+                    type={type}
+                    view={view}
+                    viewDate={viewDate}
+                />
                 <div className="uui-calendar-view">
-                    <CalendarDays onChange={onChange} value={value} viewDate={viewDate} />
+                    {view === 'month' ? (
+                        <CalendarMonths
+                            onViewDateChange={date => {
+                                setViewDate(date);
+                                setView('day');
+                            }}
+                            viewDate={viewDate}
+                        />
+                    ) : view === 'year' ? (
+                        <CalendarYears
+                            onViewDateChange={date => {
+                                setViewDate(date);
+                                setView('day');
+                            }}
+                            type={type}
+                            viewDate={viewDate}
+                        />
+                    ) : (
+                        <CalendarDays onChange={onChange} value={value} viewDate={viewDate} />
+                    )}
                 </div>
             </BoxBase>
         );
