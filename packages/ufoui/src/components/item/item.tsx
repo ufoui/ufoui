@@ -25,6 +25,7 @@ import { Collapse } from '../collapse/collapse';
 interface ItemCtxConfig {
     itemRole?: string;
     density?: ElementDensity;
+    disabled?: boolean;
     draggable?: boolean;
     nav?: ReturnType<typeof useFocusNavigation>;
     selection?: ListSelection;
@@ -50,7 +51,7 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
     /** Secondary supporting text. */
     description?: string;
 
-    /** Disables interactions and focus. */
+    /** Disables interactions and focus. Overrides the value provided by the parent `List`. */
     disabled?: boolean;
 
     /** Makes the item a drag source. Overrides the value provided by the parent `List`. */
@@ -147,13 +148,14 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
         const groupId = useId();
         const [internalOpen, setInternalOpen] = useState(!!defaultOpen);
 
+        const finalDisabled = disabled ?? config?.disabled;
         const selected = value ? (ctx?.values.includes(value) ?? false) : false;
         const expanded = open ?? internalOpen;
         const itemRole = config?.itemRole ?? 'listitem';
         const selection = config?.selection ?? 'none';
         const markerSlot = selectionSlot ?? config?.selectionSlot ?? 'leading';
-        const canSelect = ctx && selection !== 'none' && !disabled && value;
-        const canDrag = (draggable ?? config?.draggable) && !disabled;
+        const canSelect = ctx && selection !== 'none' && !finalDisabled && value;
+        const canDrag = (draggable ?? config?.draggable) && !finalDisabled;
 
         const markerControl =
             selection !== 'none' ? (
@@ -181,7 +183,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
         };
 
         const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-            if (disabled) {
+            if (finalDisabled) {
                 return;
             }
             if (canSelect) {
@@ -226,7 +228,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                 <div
                     {...props}
                     aria-controls={children ? groupId : undefined}
-                    aria-disabled={disabled || undefined}
+                    aria-disabled={finalDisabled || undefined}
                     aria-expanded={children ? expanded : undefined}
                     aria-selected={selected}
                     className={cn(
@@ -234,7 +236,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                         getDensityClass(config?.density),
                         media && `uui-media-${media}`,
                         selected && 'uui-selected',
-                        disabled && 'uui-disabled',
+                        finalDisabled && 'uui-disabled',
                         children && expanded && 'uui-open',
                         className
                     )}
@@ -242,7 +244,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                     onKeyDown={handleKeyDown}
                     ref={mergeRefs(itemRef, ref)}
                     role={itemRole}
-                    tabIndex={disabled ? -1 : 0}>
+                    tabIndex={finalDisabled ? -1 : 0}>
                     <Leading content={leading} start={markerSlot === 'leading' ? markerControl : undefined} />
                     <div className="uui-item-text">
                         {overline && (

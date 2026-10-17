@@ -19,6 +19,9 @@ export type ListSelectionSlot = 'none' | 'leading' | 'trailing';
 export interface ListConfig {
     density?: ElementDensity;
 
+    /** Disables all child items. */
+    disabled?: boolean;
+
     /** Marks the child items as drag sources. */
     draggable?: boolean;
 
@@ -48,6 +51,9 @@ export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange' | 'dra
 
     /** Density preset propagated to all child items. */
     density?: ElementDensity;
+
+    /** Disables all child items. */
+    disabled?: boolean;
 
     /** Makes all child items draggable. */
     draggable?: boolean;
@@ -95,6 +101,7 @@ export const List = ({
     selectionSlot,
     onChange,
     density,
+    disabled,
     draggable,
     ...props
 }: ListProps) => {
@@ -109,6 +116,7 @@ export const List = ({
     const config: ListConfig = {
         itemRole: type === 'listbox' ? 'option' : type === 'tree' ? 'treeitem' : 'listitem',
         density,
+        disabled,
         draggable,
         nav,
         selection,

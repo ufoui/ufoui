@@ -3,7 +3,6 @@
     outline: none;
     display: flex;
     align-items: center;
-    /*align-items: start;*/
     column-gap: 16px;
     padding-inline: 16px;
     min-height: 56px;
@@ -52,9 +51,9 @@
     opacity: var(--uui-focus-opacity, 0.12);
 }
 
-.uui-item.uui-selected::after {
-    opacity: var(--uui-hover-opacity, 0.08);
-}
+/*.uui-item.uui-selected::after {*/
+/*    opacity: var(--uui-hover-opacity, 0.08);*/
+/*}*/
 
 .uui-item.uui-disabled {
     opacity: var(--uui-disabled-opacity, 0.38);
@@ -81,6 +80,13 @@
 .uui-item-label {
     color: var(--uui-color-on-surface);
 }
+
+.uui-item .uui-leading,
+.uui-item .uui-trailing,
+.uui-item-overline {
+    color: var(--uui-color-on-surface-variant);
+}
+
 
 .uui-item-description {
     color: var(--uui-color-on-surface-variant);
