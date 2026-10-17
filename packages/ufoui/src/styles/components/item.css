@@ -8,8 +8,8 @@
     min-height: 56px;
     cursor: pointer;
     touch-action: manipulation;
-    background-color: var(--uui-color-surface);
-    color: var(--uui-color-on-surface);
+    /*background-color: var(--uui-color-surface);*/
+    /*color: var(--uui-color-on-surface);*/
     border-radius: var(--uui-corner-smooth, 0px);
     transition: background-color 180ms cubic-bezier(0.2, 0, 0, 1);
 }
@@ -78,18 +78,18 @@
 }
 
 .uui-item-label {
-    color: var(--uui-color-on-surface);
+    /*color: var(--uui-color-on-surface);*/
 }
 
 .uui-item .uui-leading,
 .uui-item .uui-trailing,
+.uui-item-description,
 .uui-item-overline {
-    color: var(--uui-color-on-surface-variant);
+    color: var(--uui-variant-color,var(--uui-color-on-surface-variant));
 }
 
 
 .uui-item-description {
-    color: var(--uui-color-on-surface-variant);
     overflow-wrap: break-word;
 }
 

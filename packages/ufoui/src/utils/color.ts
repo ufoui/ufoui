@@ -27,8 +27,30 @@ export type {
     TextColor,
 } from '../types';
 
-export function getOnColorName(colorName: ThemeColor): ThemeColor | undefined {
-    return getColorRegistry()[colorName]?.onColor as ThemeColor | undefined;
+/**
+ * Returns the paired contrast color name for a theme color.
+ *
+ * @remarks
+ * With `variant`, returns the lower-emphasis `*Variant` contrast color when the scheme
+ * defines one (e.g. `onSurfaceVariant`, `onPrimaryFixedVariant`) and falls back to the
+ * regular contrast color otherwise.
+ *
+ * @param colorName - Theme color key (e.g. `'primary'`, `'surfaceContainer'`).
+ * @param variant - Returns the `*Variant` contrast color when available.
+ * @returns Contrast color name, or `undefined` if the color has none.
+ *
+ * @example
+ * ```ts
+ * getOnColorName('surfaceContainer');       // → 'onSurface'
+ * getOnColorName('surfaceContainer', true); // → 'onSurfaceVariant'
+ * getOnColorName('primaryContainer', true); // → 'onPrimaryContainer'
+ * ```
+ * @category Color
+ */
+export function getOnColorName(colorName: ThemeColor, variant?: boolean): ThemeColor | undefined {
+    const registry = getColorRegistry();
+    const onColor = registry[colorName]?.onColor;
+    return (variant && registry[`${onColor}Variant`] ? `${onColor}Variant` : onColor) as ThemeColor | undefined;
 }
 
 /**
