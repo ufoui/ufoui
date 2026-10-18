@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { MdInbox, MdSettings, MdStar } from 'react-icons/md';
 
-import { Article, Aside, Content, H1, H2, List, ListItem, P, Section, SurfaceColor } from '@ufoui/core';
+import { Article, Aside, Content, H1, H2, List, Option, P, Section, SurfaceColor } from '@ufoui/core';
 
 import { Modifiers } from '../components/modifiers/modifiers';
 
@@ -26,17 +26,17 @@ export const ListBoxPage = () => {
                         type="listbox"
                         value={selected}
                         width={288}>
-                        <ListItem description="12 unread" label="Inbox" leading={<MdInbox />} value="inbox" />
-                        <ListItem description="Favorites" label="Starred" leading={<MdStar />} value="starred" />
-                        <ListItem
+                        <Option description="12 unread" label="Inbox" leading={<MdInbox />} value="inbox" />
+                        <Option description="Favorites" label="Starred" leading={<MdStar />} value="starred" />
+                        <Option
                             description="System settings"
                             label="Settings"
                             leading={<MdSettings />}
                             value="settings"
                         />
-                        <ListItem description="Archived items" label="Archive" value="archive" />
-                        <ListItem description="Disabled example" disabled label="Billing" value="billing" />
-                        <ListItem description="User profile" label="Profile" value="profile" />
+                        <Option description="Archived items" label="Archive" value="archive" />
+                        <Option description="Disabled example" disabled label="Billing" value="billing" />
+                        <Option description="User profile" label="Profile" value="profile" />
                     </List>
                 </Section>
 
@@ -49,10 +49,10 @@ export const ListBoxPage = () => {
                         selection="multiple"
                         type="listbox"
                         width={288}>
-                        <ListItem label="Apple" value="apple" />
-                        <ListItem label="Banana" value="banana" />
-                        <ListItem label="Cherry" value="cherry" />
-                        <ListItem disabled label="Date" value="date" />
+                        <Option label="Apple" value="apple" />
+                        <Option label="Banana" value="banana" />
+                        <Option label="Cherry" value="cherry" />
+                        <Option disabled label="Date" value="date" />
                     </List>
                 </Section>
             </Content>

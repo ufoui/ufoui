@@ -5,6 +5,7 @@ import { useSelectionState } from '../../hooks';
 import { useFocusNavigation } from '../../hooks/useFocusNavigation';
 import { cn, ControlStyle, ElementDensity, getOnColorName } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base';
+import type { ItemVariant } from '../item/item';
 
 /** @category List */
 export type ListType = 'list' | 'listbox' | 'tree';
@@ -13,7 +14,7 @@ export type ListType = 'list' | 'listbox' | 'tree';
 export type ListSelection = 'none' | 'single' | 'multiple';
 
 /** @category List */
-export type ListSelectionMarker = 'auto' | 'checkbox' | 'radio' | 'icon';
+export type ListSelectionMarker = 'auto' | 'checkbox' | 'radio' | 'icon' | 'switch';
 
 /** @category List */
 export type ListSelectionScroll = 'none' | 'nearest' | 'center';
@@ -48,6 +49,9 @@ export interface ListConfig {
     /** Slot holding the selection marker, shared with the child items. */
     selectionSlot?: ListSelectionSlot;
     type: ListType;
+
+    /** Visual variant, shared with the child items. */
+    variant?: ItemVariant;
 }
 
 /**
@@ -84,7 +88,8 @@ export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange' | 'dra
 
     /**
      * Selection marker kind, shared by all child items. `auto` renders a radio for single
-     * and a checkbox for multiple selection; `icon` renders a check mark on selected items only.
+     * and a checkbox for multiple selection; `icon` renders a check mark on selected items only;
+     * `switch` renders a switch, meant for multiple selection in the trailing slot.
      */
     selectionMarker?: ListSelectionMarker;
 
@@ -102,6 +107,9 @@ export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange' | 'dra
 
     /** Controlled selected value(s). */
     value?: string | string[];
+
+    /** Visual variant shared by all child items. Default: `'baseline'`. */
+    variant?: ItemVariant;
 }
 
 /**
@@ -138,6 +146,7 @@ export const List = ({
     disabled,
     draggable,
     fixedLeading,
+    variant,
     ...props
 }: ListProps) => {
     const ss = useSelectionState({
@@ -162,6 +171,7 @@ export const List = ({
         selectionMarker,
         selectionSlot,
         type,
+        variant,
     };
 
     useEffect(() => {
@@ -176,7 +186,7 @@ export const List = ({
             <BoxBase
                 {...props}
                 aria-orientation="vertical"
-                className={cn('uui-list', className)}
+                className={cn('uui-list', variant === 'expressive' && 'uui-expressive', className)}
                 color={color}
                 ref={rootRef}
                 role={type}

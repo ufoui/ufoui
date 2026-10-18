@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { MdArrowRight, MdFolder, MdImage, MdInbox, MdPerson, MdSettings, MdStar, MdStarBorder } from 'react-icons/md';
+import { MdArrowRight, MdFolder, MdInbox, MdPerson, MdSettings, MdStar, MdStarBorder } from 'react-icons/md';
 
 import {
     Article,
@@ -13,6 +13,7 @@ import {
     ElementDensity,
     ElementElevation,
     ElementShape,
+    Flex,
     H1,
     H2,
     List,
@@ -25,7 +26,6 @@ import {
     Span,
     Status,
     SurfaceColor,
-    Switch,
 } from '@ufoui/core';
 
 import cat from '../assets/cat.mp4';
@@ -85,7 +85,21 @@ export const ListPage = () => {
             maxHeight: 500,
             overflow: 'auto' as const,
         }),
-        [color, shape, elevation, border, borderColor, density, disabled, selection, selectionMarker, selectionScroll, selectionSlot, draggable, fixedLeading]
+        [
+            color,
+            shape,
+            elevation,
+            border,
+            borderColor,
+            density,
+            disabled,
+            selection,
+            selectionMarker,
+            selectionScroll,
+            selectionSlot,
+            draggable,
+            fixedLeading,
+        ]
     );
 
     const items = order.map(i => {
@@ -146,8 +160,6 @@ export const ListPage = () => {
 
     const imageThumbnail = <img alt="" height={56} src={tree} width={56} />;
 
-    const staticSwitch = <Switch aria-label="Enabled" readOnly tabIndex={-1} />;
-
     const variousItems = variousOrder.flatMap((value, index) => {
         const item =
             value === 'figma-media-switch' ? (
@@ -157,7 +169,6 @@ export const ListPage = () => {
                     label="List item"
                     leading={videoThumbnail}
                     media="video"
-                    trailing={staticSwitch}
                     value={value}
                 />
             ) : value === 'figma-supporting' ? (
@@ -188,7 +199,12 @@ export const ListPage = () => {
             ) : value === 'figma-icon' ? (
                 <ListItem key={value} label="List item" leading={<MdPerson />} value={value} />
             ) : value === 'figma-avatar' ? (
-                <ListItem key={value} label="List item" leading={<Avatar name="Anna" />} trailing={staticSwitch} value={value} />
+                <ListItem
+                    key={value}
+                    label="List item"
+                    leading={<Avatar name="Anna" />}
+                    value={value}
+                />
             ) : value === 'figma-checkbox' ? (
                 <ListItem key={value} label="List item" value={value} />
             ) : value === 'figma-radio' ? (
@@ -198,11 +214,23 @@ export const ListPage = () => {
             ) : value === 'figma-wide-image' ? (
                 <ListItem key={value} label="Video item" leading={videoThumbnail} media="video" value={value} />
             ) : value === 'figma-wide-image-2' ? (
-                <ListItem key={value} label="Large Video item" leading={largeVideoThumbnail} media="video" value={value} />
+                <ListItem
+                    key={value}
+                    label="Large Video item"
+                    leading={largeVideoThumbnail}
+                    media="video"
+                    value={value}
+                />
             ) : value === 'figma-text' ? (
                 <ListItem key={value} label="List item" value={value} />
             ) : value === 'figma-text-divider-1' ? (
-                <ListItem description="Supporting line text" key={value} label="List item" overline="Overline" value={value} />
+                <ListItem
+                    description="Supporting line text"
+                    key={value}
+                    label="List item"
+                    overline="Overline"
+                    value={value}
+                />
             ) : (
                 <ListItem key={value} label="List item" overline="Overline" value={value} />
             );
@@ -219,90 +247,70 @@ export const ListPage = () => {
 
     return (
         <Article direction="row" fullWidth>
-            <Content direction="row" gap={24} grow p={16}>
+            <Content direction="col" gap={24} grow p={16}>
                 <H1>List</H1>
-                <Section alignItems="start" gap={12}>
-                    <H2>Simple List</H2>
-                    <List
-                        key={selectionScroll ?? ''}
-                        onChange={setSelected}
-                        value={selected}
-                        {...shared}
-                        onOrderChange={({ from, to }) => {
-                            setOrder(prev => {
-                                const next = [...prev];
-                                const [item] = next.splice(from, 1);
-                                next.splice(to, 0, item);
-                                return next;
-                            });
-                        }}>
-                        {items}
-                    </List>
-                </Section>
-                <Section alignItems="start" gap={12}>
-                    <H2>Various items</H2>
-                    <List
-                        color="surface"
-                        density={density ?? undefined}
-                        disabled={disabled ?? undefined}
-                        draggable={draggable ?? undefined}
-                        fixedLeading={fixedLeading ?? undefined}
-                        maxWidth={520}
-                        overflow="visible"
-                        selection={selection ?? undefined}
-                        selectionMarker={selectionMarker ?? undefined}
-                        selectionScroll={selectionScroll ?? undefined}
-                        selectionSlot={selectionSlot ?? undefined}
-                        onOrderChange={({ from, to }) => {
-                            setVariousOrder(prev => {
-                                const next = [...prev];
-                                const [item] = next.splice(from, 1);
-                                next.splice(to, 0, item);
-                                return next;
-                            });
-                        }}>
-                        {variousItems}
-                        <Div height={8} />
-                    </List>
-                </Section>
-                <Section alignItems="start" gap={12}>
-                    <H2>Nested groups</H2>
-                    <List
-                        color="surface"
-                        density={density ?? undefined}
-                        disabled={disabled ?? undefined}
-                        draggable={draggable ?? undefined}
-                        fixedLeading={fixedLeading ?? undefined}
-                        maxWidth={520}
-                        selection={selection ?? undefined}
-                        selectionMarker={selectionMarker ?? undefined}
-                        selectionScroll={selectionScroll ?? undefined}
-                        selectionSlot={selectionSlot ?? undefined}>
-                        <ListItem label="Inbox" leading={<MdInbox />} value="nested-inbox" />
-                        <ListItem label="Starred" leading={<MdStar />} value="nested-starred" />
-                        <ListItem label="Settings" leading={<MdSettings />} value="nested-settings" />
-                        <Divider />
-                        <ListItem defaultOpen description="Single level" label="Projects" leading={<MdFolder />}>
-                            <ListItem label="Alpha" value="nested-alpha" />
-                            <ListItem label="Beta" value="nested-beta" />
-                            <ListItem label="Gamma" value="nested-gamma" />
-                        </ListItem>
-                        <ListItem description="Two levels" label="Workspace" leading={<MdFolder />}>
-                            <ListItem label="Overview" value="nested-ws-overview" />
-                            <ListItem label="Team" leading={<MdPerson />}>
-                                <ListItem label="Anna" value="nested-ws-anna" />
-                                <ListItem label="Marek" value="nested-ws-marek" />
-                            </ListItem>
-                        </ListItem>
-                        <ListItem description="Two levels" label="Media" leading={<MdFolder />}>
-                            <ListItem label="Images" leading={<MdImage />}>
-                                <ListItem label="Cover.png" value="nested-media-cover" />
-                                <ListItem label="Hero.jpg" value="nested-media-hero" />
-                            </ListItem>
-                            <ListItem label="Archive" value="nested-media-archive" />
-                        </ListItem>
-                    </List>
-                </Section>
+                <Flex gap={24}>
+                    <Section alignItems="start" gap={12}>
+                        <H2>Baseline</H2>
+                        <List {...shared}>
+                            {Array.from({ length: 50 }, (_, i) => (
+                                <ListItem key={i} label={`Item ${i + 1}`} leading={<MdInbox />} value={`baseline-${i}`} />
+                            ))}
+                        </List>
+                    </Section>
+                    <Section alignItems="start" gap={12}>
+                        <H2>Expressive</H2>
+                        <List {...shared} variant="expressive">
+                            {Array.from({ length: 50 }, (_, i) => (
+                                <ListItem key={i} label={`Item ${i + 1}`} leading={<MdInbox />} value={`expressive-${i}`} />
+                            ))}
+                        </List>
+                    </Section>
+                    <Section alignItems="start" gap={12}>
+                        <H2>Baseline various items</H2>
+                        <List
+                            color="surface"
+                            density={density ?? undefined}
+                            disabled={disabled ?? undefined}
+                            draggable={draggable ?? undefined}
+                            fixedLeading={fixedLeading ?? undefined}
+                            maxWidth={520}
+                            onOrderChange={({ from, to }) => {
+                                setVariousOrder(prev => {
+                                    const next = [...prev];
+                                    const [item] = next.splice(from, 1);
+                                    next.splice(to, 0, item);
+                                    return next;
+                                });
+                            }}
+                            overflow="visible"
+                            selection={selection ?? undefined}
+                            selectionMarker={selectionMarker ?? undefined}
+                            selectionScroll={selectionScroll ?? undefined}
+                            selectionSlot={selectionSlot ?? undefined}>
+                            {variousItems}
+                            <Div height={8} />
+                        </List>
+                    </Section>
+                    <Section alignItems="start" gap={12}>
+                        <H2>Custom selection</H2>
+                        <List
+                            key={selectionScroll ?? ''}
+                            onChange={setSelected}
+                            value={selected}
+                            {...shared}
+                            onOrderChange={({ from, to }) => {
+                                setOrder(prev => {
+                                    const next = [...prev];
+                                    const [item] = next.splice(from, 1);
+                                    next.splice(to, 0, item);
+                                    return next;
+                                });
+                            }}>
+                            {items}
+                        </List>
+                    </Section>
+                </Flex>
             </Content>
 
             <Aside>

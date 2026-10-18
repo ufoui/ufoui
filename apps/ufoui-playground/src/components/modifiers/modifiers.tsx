@@ -944,6 +944,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                         <option value="checkbox">Checkbox</option>
                         <option value="radio">Radio</option>
                         <option value="icon">Icon</option>
+                        <option value="switch">Switch</option>
                     </select>
                 </>
             )}

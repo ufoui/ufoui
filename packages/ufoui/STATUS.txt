@@ -74,6 +74,8 @@ EmailField
 PasswordField
 NumberField
 Option
+Tree
+TreeItem
 
 @experimental
 Chip
@@ -111,7 +113,6 @@ WeekField
 ListBox
 
 @todo
-Tree
 AlertDialog
 Stepper
 TopAppBar

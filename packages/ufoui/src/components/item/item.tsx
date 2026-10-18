@@ -21,6 +21,7 @@ import { IS_ITEM } from './item.guards';
 import { ListSelection, ListSelectionMarker, ListSelectionSlot } from '../list/list';
 import { Radio } from '../radio/radio';
 import { Checkbox } from '../checkbox/checkbox';
+import { Switch } from '../switch/switch';
 import { Collapse } from '../collapse/collapse';
 
 interface ItemCtxConfig {
@@ -33,6 +34,7 @@ interface ItemCtxConfig {
     selection?: ListSelection;
     selectionMarker?: ListSelectionMarker;
     selectionSlot?: ListSelectionSlot;
+    variant?: ItemVariant;
 }
 
 export type ItemVariant = 'baseline' | 'expressive';
@@ -40,7 +42,7 @@ export type ItemVariant = 'baseline' | 'expressive';
 export type ItemMedia = 'image' | 'video';
 
 /**
- * Props for the {@link ListItem} and {@link Option} components.
+ * Props for the {@link ListItem}, {@link Option} and {@link TreeItem} components.
  *
  * @category Item
  */
@@ -93,7 +95,7 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
     /** Short text rendered above the primary label. */
     overline?: string;
 
-    /** Visual variant */
+    /** Visual variant. Overrides the value provided by the parent `List`. Default: `'baseline'`. */
     variant?: ItemVariant;
 
     expandIcon?: ReactElement;
@@ -107,7 +109,7 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
  *
  * @remarks
  * Not exported from the package. Use the aliases instead: {@link ListItem} inside
- * {@link List}, {@link Option} inside {@link Select}.
+ * {@link List}, {@link Option} inside {@link Select}, {@link TreeItem} inside {@link Tree}.
  *
  * Items given `children` turn into expandable groups - the nested entries render inside a
  * {@link Collapse} and stay ordinary items, so they keep the focus controller and the selection
@@ -149,6 +151,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             onClick,
             onKeyDown,
             expandIcon,
+            variant,
             ...props
         },
         ref
@@ -161,6 +164,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
 
         const finalDisabled = disabled ?? config?.disabled;
         const finalFixedLeading = fixedLeading ?? config?.fixedLeading ?? true;
+        const finalVariant = variant ?? config?.variant;
         const selected = value ? (ctx?.values.includes(value) ?? false) : false;
         const expanded = open ?? internalOpen;
         const itemRole = config?.itemRole ?? 'listitem';
@@ -177,6 +181,8 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                 ) : (
                     selected && CheckIcon
                 )
+            ) : marker === 'switch' ? (
+                <Switch aria-hidden="true" checked={selected} readOnly tabIndex={-1} />
             ) : marker === 'radio' || (marker === 'auto' && selection === 'single') ? (
                 <Radio aria-hidden="true" checked={selected} readOnly tabIndex={-1} />
             ) : (
@@ -253,6 +259,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                     className={cn(
                         'uui-item',
                         getDensityClass(config?.density),
+                        finalVariant === 'expressive' && 'uui-expressive',
                         media && `uui-media-${media}`,
                         selected && 'uui-selected',
                         finalDisabled && 'uui-disabled',

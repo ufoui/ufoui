@@ -62,6 +62,7 @@ import SpinnerPage from './pages/spinnerPage';
 import AnimationPage from './pages/animationPage';
 import { ListPage } from './pages/listPage';
 import { ListBoxPage } from './pages/listBoxPage';
+import { TreePage } from './pages/treePage';
 import { SelectPage } from './pages/selectPage';
 import { CollapsePage } from './pages/collapsePage';
 import { AccordionPage } from './pages/accordionPage';
@@ -94,6 +95,7 @@ export const appRoutes: AppRoute[] = [
     { label: 'Tabs', path: paths.tabs, component: TabsPage, icon: LuAppWindow, showInNav: true },
     { label: 'List', path: paths.list, component: ListPage, icon: LuList, showInNav: true },
     { label: 'ListBox', path: paths.listbox, component: ListBoxPage, icon: LuList, showInNav: true },
+    { label: 'Tree', path: paths.tree, component: TreePage, icon: LuList, showInNav: true },
     { label: 'Select', path: paths.select, component: SelectPage, icon: LuChevronDown, showInNav: true },
     { label: 'Card', path: paths.card, component: CardPage, icon: LuLayoutGrid, showInNav: true },
     { label: 'Slider', path: paths.slider, component: SliderPage, icon: LuSlidersHorizontal, showInNav: true },
