@@ -229,7 +229,9 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             onKeyDown?.(e);
         };
 
-        const expander = children ? (expandIcon ?? KeyboardArrowDownIcon) : null;
+        const expander = children
+            ? cloneElement(expandIcon ?? KeyboardArrowDownIcon, { className: 'uui-item-expander' })
+            : null;
         const trailingEnd =
             markerSlot === 'trailing' ? (
                 <>

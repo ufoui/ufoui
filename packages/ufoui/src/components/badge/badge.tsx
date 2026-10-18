@@ -16,7 +16,7 @@ import {
     getShapeClass,
     getSizeClass,
 } from '../../utils';
-import { BorderColor, getBorderColor, SemanticColor } from '../../utils/color';
+import { BorderColor, SemanticColor } from '../../utils/color';
 
 /**
  * Props for the Badge component.
@@ -121,7 +121,7 @@ export const Badge = (props: BadgeProps) => {
 
     if (border !== undefined) {
         controlClasses.push(getBorderClass(border));
-        controlStyle.border(getBorderColor(borderColor));
+        controlStyle.border(borderColor ?? 'outlineVariant');
     }
 
     const controlClass = controlClasses.filter(Boolean).join(' ');

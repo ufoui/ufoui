@@ -1,7 +1,3 @@
-.uui-control {
-  @apply relative;
-}
-
 .uui-input:focus {
   outline: none;
 }

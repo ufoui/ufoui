@@ -14,7 +14,6 @@ import {
     ElementShape,
     ElementSize,
     getBorderClass,
-    getBorderColor,
     getDensityClass,
     getEffects,
     getElevationClass,
@@ -321,7 +320,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
 
     const controlStyle = ControlStyle(style);
     if (resolvedBorder !== undefined) {
-        controlStyle.border(getBorderColor(borderColor));
+        controlStyle.border(borderColor ?? 'outlineVariant');
     }
 
     const stateClasses = cn('uui-state', shapeClass);

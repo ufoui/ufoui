@@ -9,7 +9,6 @@ import {
     ElementInset,
     ElementShape,
     getBorderClass,
-    getBorderColor,
     getElevationClass,
     getShapeClass,
 } from '../../utils';
@@ -116,7 +115,7 @@ export const Divider = (props: DividerProps) => {
         shape && getShapeClass(shape)
     );
     const controlStyle = ControlStyle(style);
-    const lineColor = getBorderColor(borderColor ?? color ?? 'outlineVariant');
+    const lineColor = borderColor ?? color ?? 'outlineVariant';
     controlStyle.border(lineColor);
     controlStyle.bg(lineColor);
 

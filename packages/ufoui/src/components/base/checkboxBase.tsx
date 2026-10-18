@@ -22,7 +22,6 @@ import {
     getFontClass,
     getShapeClass,
     getSizeClass,
-    getSurfaceColorVar,
     mergeRefs,
     SemanticColor,
     useUniqueId,
@@ -338,7 +337,7 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
     const controlStyle = ControlStyle();
 
     if (focusColor && focusVisible && isFocused) {
-        controlStyle.set('--uui-focus-color', getSurfaceColorVar(focusColor).color);
+        controlStyle.token('--uui-focus-color', focusColor);
     }
 
     const inputClasses = cn(

@@ -28,7 +28,6 @@ import {
     ElementPlacement,
     ElementShape,
     getBorderClass,
-    getBorderColor,
     getDensityClass,
     getElevationClass,
     getOnColorName,
@@ -944,7 +943,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
         ctrlStyle.text.on(containerColor);
 
         if (border && +border > 0) {
-            ctrlStyle.border(getBorderColor(borderColor));
+            ctrlStyle.border(borderColor ?? 'outlineVariant');
         }
 
         const classes = cn(

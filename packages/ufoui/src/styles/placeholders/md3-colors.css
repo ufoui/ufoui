@@ -1,3 +1,8 @@
+/*
+ * IDE placeholder only - NOT imported anywhere and NOT part of the build.
+ * The real --uui-color-* variables are generated at runtime by ThemeProvider;
+ * this file exists solely so IntelliJ can resolve their names. Do not import or remove it.
+ */
 :root {
   --uui-color-primary: rgb(103, 80, 164);
   --uui-color-secondary: rgb(98, 91, 113);

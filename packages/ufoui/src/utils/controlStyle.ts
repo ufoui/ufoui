@@ -42,7 +42,7 @@
  */
 import React, { CSSProperties } from 'react';
 
-import { BaseColor, capitalize, getOnColorName, SemanticColor, ThemeColor } from './color';
+import { BaseColor, getOnColorName, SemanticColor, ThemeColor } from './color';
 
 /**
  * Creates a strictly typed style builder for MD3 color tokens.
@@ -89,7 +89,10 @@ export function ControlStyle(initial?: React.CSSProperties) {
                 },
                 onContainer(color?: SemanticColor) {
                     if (color) {
-                        apply(toVar(`on${capitalize(color)}Container`));
+                        const mapped = getOnColorName(`${color}Container`);
+                        if (mapped !== undefined) {
+                            apply(toVar(mapped));
+                        }
                     }
                 },
                 fixed(color?: SemanticColor) {

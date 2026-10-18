@@ -20,7 +20,6 @@ import {
     getElevationClass,
     getShapeClass,
     getSizeClass,
-    getSurfaceColorVar,
     getWrapperStyle,
     mergeRefs,
     SemanticColor,
@@ -288,7 +287,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
 
     const controlStyle = ControlStyle();
     if (focusColor && focusVisible && isFocused) {
-        controlStyle.set('--uui-focus-color', getSurfaceColorVar(focusColor).color);
+        controlStyle.token('--uui-focus-color', focusColor);
     }
     controlStyle.set('--uui-switch-duration', `${duration}ms`);
 
@@ -329,7 +328,6 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
         trackStyle.bg(error ? 'errorContainer' : color);
 
         glyphStyle.bg.on(color);
-
         iconStyle.text.onContainer(color);
     } else {
         if (uncheckedBorderColor) {
