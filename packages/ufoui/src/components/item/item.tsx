@@ -16,7 +16,16 @@ import { CheckIcon, KeyboardArrowDownIcon } from '../../assets';
 import { SelectionContext } from '../../context';
 import { useFocusNavigation } from '../../hooks/useFocusNavigation';
 import { Leading, Trailing } from '../../internal';
-import { cn, createRipple, ElementDensity, getDensityClass, getFontClass, mergeRefs } from '../../utils';
+import {
+    cn,
+    createRipple,
+    ElementDensity,
+    ElementShape,
+    getDensityClass,
+    getFontClass,
+    getShapeClass,
+    mergeRefs,
+} from '../../utils';
 import { IS_ITEM } from './item.guards';
 import { ListSelection, ListSelectionMarker, ListSelectionSlot } from '../list/list';
 import { Radio } from '../radio/radio';
@@ -34,6 +43,7 @@ interface ItemCtxConfig {
     selection?: ListSelection;
     selectionMarker?: ListSelectionMarker;
     selectionSlot?: ListSelectionSlot;
+    shape?: ElementShape;
     variant?: ItemVariant;
 }
 
@@ -85,6 +95,9 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
 
     /** Slot holding the selection marker. Overrides the value provided by the parent `List`. */
     selectionSlot?: ListSelectionSlot;
+
+    /** Corner shape of the item. Overrides the value provided by the parent `List`. */
+    shape?: ElementShape;
 
     /** Trailing slot content. */
     trailing?: ReactNode;
@@ -143,6 +156,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             fixedLeading,
             selectionMarker,
             selectionSlot,
+            shape,
             className,
             children,
             defaultOpen,
@@ -165,6 +179,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
         const finalDisabled = disabled ?? config?.disabled;
         const finalFixedLeading = fixedLeading ?? config?.fixedLeading ?? true;
         const finalVariant = variant ?? config?.variant;
+        const finalShape = shape ?? config?.shape ?? (finalVariant === 'expressive' ? 'rounded' : 'square');
         const selected = value ? (ctx?.values.includes(value) ?? false) : false;
         const expanded = open ?? internalOpen;
         const itemRole = config?.itemRole ?? 'listitem';
@@ -260,6 +275,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                         'uui-item',
                         getDensityClass(config?.density),
                         finalVariant === 'expressive' && 'uui-expressive',
+                        getShapeClass(finalShape),
                         media && `uui-media-${media}`,
                         selected && 'uui-selected',
                         finalDisabled && 'uui-disabled',

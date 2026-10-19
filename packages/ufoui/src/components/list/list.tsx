@@ -3,7 +3,7 @@ import React, { ReactNode, useEffect, useRef } from 'react';
 import { SelectionContext } from '../../context';
 import { useSelectionState } from '../../hooks';
 import { useFocusNavigation } from '../../hooks/useFocusNavigation';
-import { cn, ControlStyle, ElementDensity, getOnColorName } from '../../utils';
+import { cn, ControlStyle, ElementDensity, ElementShape, getOnColorName } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base';
 import type { ItemVariant } from '../item/item';
 
@@ -48,6 +48,9 @@ export interface ListConfig {
 
     /** Slot holding the selection marker, shared with the child items. */
     selectionSlot?: ListSelectionSlot;
+
+    /** Corner shape, shared with the child items. */
+    shape?: ElementShape;
     type: ListType;
 
     /** Visual variant, shared with the child items. */
@@ -146,6 +149,7 @@ export const List = ({
     disabled,
     draggable,
     fixedLeading,
+    shape,
     variant,
     ...props
 }: ListProps) => {
@@ -159,6 +163,7 @@ export const List = ({
     const rootRef = useRef<HTMLElement>(null);
     const controlStyle = ControlStyle(style);
     controlStyle.token('--uui-variant-color', color && getOnColorName(color, true));
+    const finalShape = shape ?? (variant === 'expressive' ? 'rounded' : 'square');
 
     const config: ListConfig = {
         itemRole: type === 'listbox' ? 'option' : type === 'tree' ? 'treeitem' : 'listitem',
@@ -170,6 +175,7 @@ export const List = ({
         selection,
         selectionMarker,
         selectionSlot,
+        shape,
         type,
         variant,
     };
@@ -190,6 +196,7 @@ export const List = ({
                 color={color}
                 ref={rootRef}
                 role={type}
+                shape={finalShape}
                 style={controlStyle.get()}>
                 <div className="uui-list-scroll uui-flex uui-flex-col" role="none">
                     {children}

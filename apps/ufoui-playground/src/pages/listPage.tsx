@@ -269,10 +269,13 @@ export const ListPage = () => {
                     <Section alignItems="start" gap={12}>
                         <H2>Baseline various items</H2>
                         <List
-                            color="surface"
+                            border={border ?? undefined}
+                            borderColor={borderColor ?? undefined}
+                            color={color ?? 'surface'}
                             density={density ?? undefined}
                             disabled={disabled ?? undefined}
                             draggable={draggable ?? undefined}
+                            elevation={elevation ?? undefined}
                             fixedLeading={fixedLeading ?? undefined}
                             maxWidth={520}
                             onOrderChange={({ from, to }) => {
@@ -287,7 +290,8 @@ export const ListPage = () => {
                             selection={selection ?? undefined}
                             selectionMarker={selectionMarker ?? undefined}
                             selectionScroll={selectionScroll ?? undefined}
-                            selectionSlot={selectionSlot ?? undefined}>
+                            selectionSlot={selectionSlot ?? undefined}
+                            shape={shape ?? undefined}>
                             {variousItems}
                             <Div height={8} />
                         </List>

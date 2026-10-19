@@ -1,5 +1,28 @@
 .uui-list {
     overflow: hidden;
+    --uui-corner-round: var(--uui-corner-large);
+    --uui-corner-rounded: var(--uui-corner-small);
+    --uui-corner-smooth:  var(--uui-corner-extra-small);
+    --uui-list-scroll-margin: 0px;
+}
+
+.uui-list.uui-expressive {
+    --uui-corner-round: var(--uui-corner-extra-large);
+    --uui-corner-rounded: var(--uui-corner-large);
+    --uui-corner-smooth: var(--uui-corner-small);
+}
+
+
+.uui-list.uui-smooth {
+    --uui-list-scroll-margin: var(--uui-corner-smooth);
+}
+
+.uui-list.uui-rounded {
+    --uui-list-scroll-margin: var(--uui-corner-rounded);
+}
+
+.uui-list.uui-round {
+    --uui-list-scroll-margin: var(--uui-corner-round);
 }
 
 .uui-list-scroll {
@@ -7,4 +30,8 @@
     overflow-x: hidden;
     position: relative;
     width: 100%;
+}
+
+.uui-list-scroll::-webkit-scrollbar-track {
+    margin-block: var(--uui-list-scroll-margin);
 }
