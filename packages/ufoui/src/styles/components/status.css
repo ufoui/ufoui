@@ -5,6 +5,7 @@
   --uui-slot-size: 16px;
   --uui-icon-size: 16px;
   --uui-slot-gap: var(--uui-status-gap);
+  --uui-corner-round: var(--uui-corner-full);
   display: inline-flex;
   align-items: center;
   white-space: nowrap;

@@ -50,6 +50,11 @@
     padding-block: 12px;
 }
 
+.uui-item.uui-expressive.uui-media-image .uui-leading > *,
+.uui-item.uui-expressive.uui-media-video .uui-leading > * {
+    border-radius: var(--uui-corner-small);
+}
+
 .uui-item::after {
     content: '';
     position: absolute;

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { MdArrowRight, MdFolder, MdInbox, MdPerson, MdSettings, MdStar, MdStarBorder } from 'react-icons/md';
+import { MdFolder, MdInbox, MdPerson, MdSettings, MdStar, MdStarBorder } from 'react-icons/md';
 
 import {
     Article,
@@ -22,6 +22,7 @@ import {
     ListSelectionMarker,
     ListSelectionScroll,
     ListSelectionSlot,
+    Rating,
     Section,
     Span,
     Status,
@@ -56,6 +57,7 @@ export const ListPage = () => {
         'figma-supporting',
         'figma-icon-supporting',
         'figma-icon',
+        'figma-rating',
         'figma-avatar',
         'figma-checkbox',
         'figma-radio',
@@ -198,17 +200,14 @@ export const ListPage = () => {
                 />
             ) : value === 'figma-icon' ? (
                 <ListItem key={value} label="List item" leading={<MdPerson />} value={value} />
+            ) : value === 'figma-rating' ? (
+                <ListItem key={value} label="List item" trailing={<Rating defaultValue={4} readOnly size="extraSmall" />} value={value} />
             ) : value === 'figma-avatar' ? (
-                <ListItem
-                    key={value}
-                    label="List item"
-                    leading={<Avatar name="Anna" />}
-                    value={value}
-                />
+                <ListItem key={value} label="List item" leading={<Avatar name="Anna" />} value={value} />
             ) : value === 'figma-checkbox' ? (
                 <ListItem key={value} label="List item" value={value} />
             ) : value === 'figma-radio' ? (
-                <ListItem key={value} label="List item" trailing={<MdArrowRight />} value={value} />
+                <ListItem key={value} label="List item" trailing={<MdSettings />} value={value} />
             ) : value === 'figma-image' ? (
                 <ListItem key={value} label="Image item" leading={imageThumbnail} media="image" value={value} />
             ) : value === 'figma-wide-image' ? (
@@ -254,7 +253,12 @@ export const ListPage = () => {
                         <H2>Baseline</H2>
                         <List {...shared}>
                             {Array.from({ length: 50 }, (_, i) => (
-                                <ListItem key={i} label={`Item ${i + 1}`} leading={<MdInbox />} value={`baseline-${i}`} />
+                                <ListItem
+                                    key={i}
+                                    label={`Item ${i + 1}`}
+                                    leading={<MdInbox />}
+                                    value={`baseline-${i}`}
+                                />
                             ))}
                         </List>
                     </Section>
@@ -262,7 +266,12 @@ export const ListPage = () => {
                         <H2>Expressive</H2>
                         <List {...shared} variant="expressive">
                             {Array.from({ length: 50 }, (_, i) => (
-                                <ListItem key={i} label={`Item ${i + 1}`} leading={<MdInbox />} value={`expressive-${i}`} />
+                                <ListItem
+                                    key={i}
+                                    label={`Item ${i + 1}`}
+                                    leading={<MdInbox />}
+                                    value={`expressive-${i}`}
+                                />
                             ))}
                         </List>
                     </Section>
@@ -292,6 +301,37 @@ export const ListPage = () => {
                             selectionScroll={selectionScroll ?? undefined}
                             selectionSlot={selectionSlot ?? undefined}
                             shape={shape ?? undefined}>
+                            {variousItems}
+                            <Div height={8} />
+                        </List>
+                    </Section>
+                    <Section alignItems="start" gap={12}>
+                        <H2>Expressive various items</H2>
+                        <List
+                            border={border ?? undefined}
+                            borderColor={borderColor ?? undefined}
+                            color={color ?? 'surface'}
+                            density={density ?? undefined}
+                            disabled={disabled ?? undefined}
+                            draggable={draggable ?? undefined}
+                            elevation={elevation ?? undefined}
+                            fixedLeading={fixedLeading ?? undefined}
+                            maxWidth={520}
+                            onOrderChange={({ from, to }) => {
+                                setVariousOrder(prev => {
+                                    const next = [...prev];
+                                    const [item] = next.splice(from, 1);
+                                    next.splice(to, 0, item);
+                                    return next;
+                                });
+                            }}
+                            overflow="visible"
+                            selection={selection ?? undefined}
+                            selectionMarker={selectionMarker ?? undefined}
+                            selectionScroll={selectionScroll ?? undefined}
+                            selectionSlot={selectionSlot ?? undefined}
+                            shape={shape ?? undefined}
+                            variant="expressive">
                             {variousItems}
                             <Div height={8} />
                         </List>

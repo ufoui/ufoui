@@ -79,7 +79,7 @@ export interface RatingProps
     /** Called when the rating value changes. */
     onChange?: (value: number) => void;
 
-    /** Prevents value changes while keeping the control focusable. */
+    /** Prevents value changes and removes the control from focus. */
     readOnly?: boolean;
 
     /** Marks the control as required. */
@@ -304,7 +304,7 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
                 onMouseMove={handleMouseMove}
                 ref={trackRef}
                 role="slider"
-                tabIndex={readOnly || disabled ? -1 : 0}>
+                tabIndex={readOnly || disabled ? undefined : 0}>
                 <input disabled={disabled} ref={ref} type="hidden" value={current} {...otherProps} />
                 {stars}
                 {inlineTooltip && (
