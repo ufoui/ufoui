@@ -9,6 +9,7 @@
     cursor: pointer;
     touch-action: manipulation;
     transition: background-color 180ms cubic-bezier(0.2, 0, 0, 1);
+    --uui-focus-ring-inset: 3px;
     --uui-corner-round: var(--uui-corner-large);
     --uui-corner-rounded: var(--uui-corner-small);
     --uui-corner-smooth: var(--uui-corner-extra-small);
@@ -63,12 +64,16 @@
     transition: opacity 180ms cubic-bezier(0.2, 0, 0, 1);
 }
 
-.uui-item:hover::after {
-    opacity: var(--uui-hover-opacity, 0.08);
+.uui-item.uui-hover-overlay:hover::after {
+    opacity: var(--uui-hover-opacity);
 }
 
-.uui-item:focus-visible::after {
-    opacity: var(--uui-focus-opacity, 0.12);
+.uui-item.uui-focus-overlay:focus-visible::after {
+    opacity: var(--uui-focus-opacity);
+}
+
+.uui-item.uui-pressed-overlay:active::after {
+    opacity: var(--uui-pressed-opacity);
 }
 
 /*.uui-item.uui-selected::after {*/
@@ -93,10 +98,6 @@
     white-space: nowrap;
 }
 
-.uui-item-label {
-    /*color: var(--uui-color-on-surface);*/
-}
-
 .uui-item .uui-leading,
 .uui-item .uui-trailing,
 .uui-item-description,
@@ -108,7 +109,6 @@
 .uui-item-description {
     overflow-wrap: break-word;
 }
-
 
 .uui-item-expander {
     transition: transform var(--uui-duration) var(--uui-ease);
@@ -185,15 +185,11 @@
 }
 
 .uui-item.uui-disabled {
-    /*opacity: var(--uui-disabled-opacity, 0.38);*/
     pointer-events: none;
 }
 
 .uui-item.uui-disabled .uui-leading,
 .uui-item.uui-disabled .uui-trailing,
 .uui-item.uui-disabled .uui-item-text{
-    /*--uui-variant-color: var(--uui-color-on-surface);*/
-    opacity: var(--uui-disabled-opacity, 0.38);
-    /*pointer-events: none;*/
-    /*color: var(--uui-color-on-surface);*/
+    opacity: var(--uui-disabled-opacity);
 }

@@ -20,8 +20,10 @@ import {
     cn,
     createRipple,
     ElementDensity,
+    ElementEffects,
     ElementShape,
     getDensityClass,
+    getEffects,
     getShapeClass,
     mergeRefs,
 } from '../../utils';
@@ -37,6 +39,7 @@ interface ItemCtxConfig {
     density?: ElementDensity;
     disabled?: boolean;
     draggable?: boolean;
+    effects?: ElementEffects;
     fixedLeading?: boolean;
     nav?: ReturnType<typeof useFocusNavigation>;
     selection?: ListSelection;
@@ -187,6 +190,12 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
         const markerSlot = selectionSlot ?? config?.selectionSlot ?? 'leading';
         const canSelect = ctx && selection !== 'none' && !finalDisabled && value;
         const canDrag = (draggable ?? config?.draggable) && !finalDisabled;
+        const finalEffects = getEffects(config?.effects, {
+            hover: ['overlay'],
+            touch: ['ripple'],
+            focus: ['ring', 'overlay'],
+            pressed: ['overlay'],
+        });
 
         const markerControl =
             selection === 'none' ? null : marker === 'icon' ? (
@@ -230,7 +239,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                 toggleOpen();
             }
             onClick?.(e);
-            if (itemRef.current) {
+            if (finalEffects.touch?.includes('ripple') && itemRef.current) {
                 createRipple(itemRef.current, e);
             }
         };
@@ -275,6 +284,10 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                         getDensityClass(config?.density),
                         finalVariant === 'expressive' && 'uui-expressive',
                         getShapeClass(finalShape),
+                        finalEffects.focus?.includes('ring') && 'uui-focus-ring',
+                        finalEffects.focus?.includes('overlay') && 'uui-focus-overlay',
+                        finalEffects.hover?.includes('overlay') && 'uui-hover-overlay',
+                        finalEffects.pressed?.includes('overlay') && 'uui-pressed-overlay',
                         media && `uui-media-${media}`,
                         selected && 'uui-selected',
                         finalDisabled && 'uui-disabled',
@@ -288,13 +301,9 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                     tabIndex={finalDisabled ? -1 : 0}>
                     <Leading content={leading} start={markerSlot === 'leading' ? markerControl : undefined} />
                     <div className="uui-item-text">
-                        {overline && (
-                            <div className="uui-item-overline">{overline}</div>
-                        )}
+                        {overline && <div className="uui-item-overline">{overline}</div>}
                         {label && <div className="uui-item-label">{label}</div>}
-                        {description && (
-                            <div className="uui-item-description">{description}</div>
-                        )}
+                        {description && <div className="uui-item-description">{description}</div>}
                     </div>
                     <Trailing content={trailing} end={trailingEnd} />
                 </div>

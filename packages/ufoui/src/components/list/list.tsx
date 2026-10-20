@@ -3,7 +3,7 @@ import React, { ReactNode, useEffect, useRef } from 'react';
 import { SelectionContext } from '../../context';
 import { useSelectionState } from '../../hooks';
 import { useFocusNavigation } from '../../hooks/useFocusNavigation';
-import { cn, ControlStyle, ElementDensity, ElementShape, getOnColorName } from '../../utils';
+import { cn, ControlStyle, ElementDensity, ElementEffects, ElementShape, getOnColorName } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base';
 import type { ItemVariant } from '../item/item';
 
@@ -31,6 +31,9 @@ export interface ListConfig {
 
     /** Marks the child items as drag sources. */
     draggable?: boolean;
+
+    /** Interaction visual effects, shared with the child items. */
+    effects?: ElementEffects;
 
     /** Reserves the leading selection marker space of unselected child items. */
     fixedLeading?: boolean;
@@ -76,6 +79,9 @@ export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange' | 'dra
 
     /** Makes all child items draggable. */
     draggable?: boolean;
+
+    /** Interaction visual effects of all child items, or `'none'` to disable them all. */
+    effects?: ElementEffects;
 
     /**
      * Reserves the selection marker space of unselected child items, so their text does not shift.
@@ -148,6 +154,7 @@ export const List = ({
     density,
     disabled,
     draggable,
+    effects,
     fixedLeading,
     shape,
     variant,
@@ -170,6 +177,7 @@ export const List = ({
         density,
         disabled,
         draggable,
+        effects,
         fixedLeading,
         nav,
         selection,
