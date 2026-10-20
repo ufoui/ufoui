@@ -8,9 +8,6 @@
     min-height: 56px;
     cursor: pointer;
     touch-action: manipulation;
-    /*background-color: var(--uui-color-surface);*/
-    /*color: var(--uui-color-on-surface);*/
-    /*border-radius: var(--uui-corner-smooth, 0px);*/
     transition: background-color 180ms cubic-bezier(0.2, 0, 0, 1);
     --uui-corner-round: var(--uui-corner-large);
     --uui-corner-rounded: var(--uui-corner-small);
@@ -78,10 +75,6 @@
 /*    opacity: var(--uui-hover-opacity, 0.08);*/
 /*}*/
 
-.uui-item.uui-disabled {
-    opacity: var(--uui-disabled-opacity, 0.38);
-    pointer-events: none;
-}
 
 .uui-item-text {
     flex: 1 1 auto;
@@ -131,4 +124,76 @@
 
 .uui-item-group {
     padding-inline-start: 40px;
+}
+
+.uui-item-overline {
+    font-size: var(--uui-font-label-medium-size);
+    line-height: var(--uui-font-label-medium-line);
+    font-weight: var(--uui-font-label-medium-weight);
+    letter-spacing: var(--uui-font-label-medium-track);
+}
+
+.uui-item-label {
+    font-size: var(--uui-font-body-large-size);
+    line-height: var(--uui-font-body-large-line);
+    font-weight: var(--uui-font-body-large-weight);
+    letter-spacing: var(--uui-font-body-large-track);
+}
+
+.uui-item-description {
+    font-size: var(--uui-font-body-medium-size);
+    line-height: var(--uui-font-body-medium-line);
+    font-weight: var(--uui-font-body-medium-weight);
+    letter-spacing: var(--uui-font-body-medium-track);
+}
+
+.uui-item .uui-leading,
+.uui-item .uui-trailing {
+    font-size: var(--uui-font-label-small-size);
+    line-height: var(--uui-font-label-small-line);
+    font-weight: var(--uui-font-label-small-weight);
+    letter-spacing: var(--uui-font-label-small-track);
+}
+
+.uui-item.uui-expressive .uui-item-overline {
+    font-size: var(--uui-font-label-medium-size);
+    line-height: var(--uui-font-label-medium-line);
+    font-weight: var(--uui-font-label-medium-weight);
+    letter-spacing: var(--uui-font-label-medium-track);
+}
+
+.uui-item.uui-expressive .uui-item-label {
+    font-size: var(--uui-font-body-large-size);
+    line-height: var(--uui-font-body-large-line);
+    font-weight: var(--uui-font-body-large-weight);
+    letter-spacing: var(--uui-font-body-large-track);
+}
+
+.uui-item.uui-expressive .uui-item-description {
+    font-size: var(--uui-font-body-medium-size);
+    line-height: var(--uui-font-body-medium-line);
+    font-weight: var(--uui-font-body-medium-weight);
+    letter-spacing: var(--uui-font-body-medium-track);
+}
+
+.uui-item.uui-expressive .uui-leading,
+.uui-item.uui-expressive .uui-trailing {
+    font-size: var(--uui-font-label-large-size);
+    line-height: var(--uui-font-label-large-line);
+    font-weight: var(--uui-font-label-large-weight);
+    letter-spacing: var(--uui-font-label-large-track);
+}
+
+.uui-item.uui-disabled {
+    /*opacity: var(--uui-disabled-opacity, 0.38);*/
+    pointer-events: none;
+}
+
+.uui-item.uui-disabled .uui-leading,
+.uui-item.uui-disabled .uui-trailing,
+.uui-item.uui-disabled .uui-item-text{
+    /*--uui-variant-color: var(--uui-color-on-surface);*/
+    opacity: var(--uui-disabled-opacity, 0.38);
+    /*pointer-events: none;*/
+    /*color: var(--uui-color-on-surface);*/
 }

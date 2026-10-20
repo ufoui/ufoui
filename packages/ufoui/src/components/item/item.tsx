@@ -22,7 +22,6 @@ import {
     ElementDensity,
     ElementShape,
     getDensityClass,
-    getFontClass,
     getShapeClass,
     mergeRefs,
 } from '../../utils';
@@ -290,11 +289,11 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                     <Leading content={leading} start={markerSlot === 'leading' ? markerControl : undefined} />
                     <div className="uui-item-text">
                         {overline && (
-                            <div className={cn('uui-item-overline', getFontClass('labelMedium'))}>{overline}</div>
+                            <div className="uui-item-overline">{overline}</div>
                         )}
-                        {label && <div className={cn('uui-item-label', getFontClass('bodyLarge'))}>{label}</div>}
+                        {label && <div className="uui-item-label">{label}</div>}
                         {description && (
-                            <div className={cn('uui-item-description', getFontClass('bodyMedium'))}>{description}</div>
+                            <div className="uui-item-description">{description}</div>
                         )}
                     </div>
                     <Trailing content={trailing} end={trailingEnd} />

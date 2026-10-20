@@ -17,7 +17,7 @@
 
   /* Headline */
   --uui-font-headline-large-size: 2rem;
-  --uui-font-headline-large-line: 2.625rem;
+  --uui-font-headline-large-line: 2.5rem;
   --uui-font-headline-large-weight: 400;
   --uui-font-headline-large-track: 0;
 
@@ -54,12 +54,12 @@
   --uui-font-label-large-track: 0.00625rem;
 
   --uui-font-label-medium-size: 0.75rem;
-  --uui-font-label-medium-line: 1.25rem;
+  --uui-font-label-medium-line: 1rem;
   --uui-font-label-medium-weight: 500;
   --uui-font-label-medium-track: 0.03125rem;
 
   --uui-font-label-small-size: 0.6875rem;
-  --uui-font-label-small-line: 1.25rem;
+  --uui-font-label-small-line: 1rem;
   --uui-font-label-small-weight: 500;
   --uui-font-label-small-track: 0.03125rem;
 

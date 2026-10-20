@@ -179,7 +179,7 @@ export const ListPage = () => {
                     key={value}
                     label="List item"
                     trailing={
-                        <Span color="onSurfaceVariant" font="labelLarge">
+                        <Span>
                             100+
                         </Span>
                     }
@@ -192,7 +192,7 @@ export const ListPage = () => {
                     label="List item"
                     leading={<MdPerson />}
                     trailing={
-                        <Span color="onSurfaceVariant" font="labelLarge">
+                        <Span>
                             100+
                         </Span>
                     }
