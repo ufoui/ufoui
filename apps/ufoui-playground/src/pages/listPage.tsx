@@ -34,6 +34,15 @@ import dog from '../assets/dog.mp4';
 import tree from '../assets/tree.jpg';
 import { Modifiers } from '../components/modifiers/modifiers';
 
+const ScrollingText = ({ text }: { text: string }) => (
+    <Div className="overflow-hidden">
+        <Flex className="animate-marquee w-max" style={{ animationDuration: '12s' }}>
+            <Div className="whitespace-nowrap pr-4">{text}</Div>
+            <Div className="whitespace-nowrap pr-4">{text}</Div>
+        </Flex>
+    </Div>
+);
+
 export const ListPage = () => {
     const [color, setColor] = useState<SurfaceColor | null>(null);
     const [shape, setShape] = useState<ElementShape | null>(null);
@@ -69,6 +78,7 @@ export const ListPage = () => {
         'figma-text',
         'figma-text-divider-1',
         'figma-text-divider-2',
+        'figma-content',
     ]);
 
     const shared = useMemo(
@@ -233,17 +243,37 @@ export const ListPage = () => {
                     description="Supporting line text"
                     key={value}
                     label="List item"
+                    leading={<MdFolder />}
                     overline="Overline"
+                    trailing={<MdStarBorder />}
+                    value={value}
+                />
+            ) : value === 'figma-content' ? (
+                <ListItem
+                    content={
+                        <ScrollingText text="Custom content slot demo - any React node rendered between the leading and trailing slots, replacing overline, label and description" />
+                    }
+                    key={value}
+                    label="Custom content slot demo"
+                    leading={<MdPerson />}
+                    trailing={<MdSettings />}
                     value={value}
                 />
             ) : (
-                <ListItem key={value} label="List item" overline="Overline" value={value} />
+                <ListItem
+                    key={value}
+                    label="List item"
+                    leading={<MdInbox />}
+                    overline="Overline"
+                    trailing={<MdStar />}
+                    value={value}
+                />
             );
 
         if (index === 1) {
             return [item, <Divider key="various-divider-top" />];
         }
-        if (index === variousOrder.length - 3) {
+        if (index === variousOrder.length - 4) {
             return [item, <Divider key="various-divider-bottom" />];
         }
 

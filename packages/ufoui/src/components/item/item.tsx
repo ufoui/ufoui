@@ -47,6 +47,9 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
     /** Nested items revealed while the item is expanded. */
     children?: React.ReactNode;
 
+    /** Text block content, rendered between the leading and trailing slots. Replaces `overline`, `label` and `description`. */
+    content?: ReactNode;
+
     /** Initial expanded state for uncontrolled usage. */
     defaultOpen?: boolean;
 
@@ -142,6 +145,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             overline,
             label,
             description,
+            content,
             leading,
             trailing,
             media,
@@ -162,6 +166,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             expandIcon,
             variant,
             style,
+            'aria-label': ariaLabel,
             ...props
         },
         ref
@@ -269,6 +274,18 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                 expander
             );
 
+        const finalContent = (
+            <div className="uui-item-content">
+                {content ?? (
+                    <>
+                        {overline && <div className="uui-item-overline">{overline}</div>}
+                        {label && <div className="uui-item-label">{label}</div>}
+                        {description && <div className="uui-item-description">{description}</div>}
+                    </>
+                )}
+            </div>
+        );
+
         const controlStyle = ControlStyle(style);
         if (finalEffects.selected?.includes('color') && selected) {
             controlStyle.bg(finalSelectedColor);
@@ -282,6 +299,8 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                     aria-controls={children ? groupId : undefined}
                     aria-disabled={finalDisabled || undefined}
                     aria-expanded={children ? expanded : undefined}
+                    // eslint-disable-next-line eqeqeq
+                    aria-label={ariaLabel ?? (content != null ? label : undefined)}
                     aria-selected={selected}
                     className={cn(
                         'uui-item',
@@ -305,11 +324,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                     style={controlStyle.get()}
                     tabIndex={finalDisabled ? -1 : 0}>
                     <Leading content={leading} start={markerSlot === 'leading' ? markerControl : undefined} />
-                    <div className="uui-item-text">
-                        {overline && <div className="uui-item-overline">{overline}</div>}
-                        {label && <div className="uui-item-label">{label}</div>}
-                        {description && <div className="uui-item-description">{description}</div>}
-                    </div>
+                    {finalContent}
                     <Trailing content={trailing} end={trailingEnd} />
                 </div>
                 {children && (

@@ -82,7 +82,7 @@
 /*}*/
 
 
-.uui-item-text {
+.uui-item-content {
     flex: 1 1 auto;
     min-width: 0;
     display: flex;
@@ -190,7 +190,7 @@
 
 .uui-item.uui-disabled .uui-leading,
 .uui-item.uui-disabled .uui-trailing,
-.uui-item.uui-disabled .uui-item-text {
+.uui-item.uui-disabled .uui-item-content {
     opacity: var(--uui-disabled-opacity);
 }
 
