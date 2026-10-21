@@ -41,13 +41,15 @@ export const ListPage = () => {
     const [border, setBorder] = useState<ElementBorder | null>(null);
     const [borderColor, setBorderColor] = useState<BorderColor | null>(null);
     const [density, setDensity] = useState<ElementDensity | null>(null);
+    const [selectedColor, setSelectedColor] = useState<SurfaceColor | null>(null);
+    const [selectedShape, setSelectedShape] = useState<ElementShape | null>(null);
     const [selection, setSelection] = useState<ListSelection | null>(null);
     const [selectionMarker, setSelectionMarker] = useState<ListSelectionMarker | null>(null);
     const [selectionScroll, setSelectionScroll] = useState<ListSelectionScroll | null>(null);
     const [selectionSlot, setSelectionSlot] = useState<ListSelectionSlot | null>(null);
     const [draggable, setDraggable] = useState<boolean | null>(null);
     const [disabled, setDisabled] = useState<boolean | null>(null);
-    const [fixedLeading, setFixedLeading] = useState<boolean | null>(null);
+    const [fluidMarker, setFluidMarker] = useState<boolean | null>(null);
 
     const [checked, setChecked] = useState<Record<string, boolean>>({});
     const [selected, setSelected] = useState<string[]>(['item-20']);
@@ -78,12 +80,14 @@ export const ListPage = () => {
             borderColor: borderColor ?? undefined,
             density: density ?? undefined,
             disabled: disabled ?? undefined,
+            selectedColor: selectedColor ?? undefined,
+            selectedShape: selectedShape ?? undefined,
             selection: selection ?? undefined,
             selectionMarker: selectionMarker ?? undefined,
             selectionScroll: selectionScroll ?? undefined,
             selectionSlot: selectionSlot ?? undefined,
             draggable: draggable ?? undefined,
-            fixedLeading: fixedLeading ?? undefined,
+            fluidMarker: fluidMarker ?? undefined,
             maxHeight: 500,
             overflow: 'auto' as const,
         }),
@@ -95,12 +99,14 @@ export const ListPage = () => {
             borderColor,
             density,
             disabled,
+            selectedColor,
+            selectedShape,
             selection,
             selectionMarker,
             selectionScroll,
             selectionSlot,
             draggable,
-            fixedLeading,
+            fluidMarker,
         ]
     );
 
@@ -285,7 +291,7 @@ export const ListPage = () => {
                             disabled={disabled ?? undefined}
                             draggable={draggable ?? undefined}
                             elevation={elevation ?? undefined}
-                            fixedLeading={fixedLeading ?? undefined}
+                            fluidMarker={fluidMarker ?? undefined}
                             maxWidth={520}
                             onOrderChange={({ from, to }) => {
                                 setVariousOrder(prev => {
@@ -296,6 +302,8 @@ export const ListPage = () => {
                                 });
                             }}
                             overflow="visible"
+                            selectedColor={selectedColor ?? undefined}
+                            selectedShape={selectedShape ?? undefined}
                             selection={selection ?? undefined}
                             selectionMarker={selectionMarker ?? undefined}
                             selectionScroll={selectionScroll ?? undefined}
@@ -315,7 +323,7 @@ export const ListPage = () => {
                             disabled={disabled ?? undefined}
                             draggable={draggable ?? undefined}
                             elevation={elevation ?? undefined}
-                            fixedLeading={fixedLeading ?? undefined}
+                            fluidMarker={fluidMarker ?? undefined}
                             maxWidth={520}
                             onOrderChange={({ from, to }) => {
                                 setVariousOrder(prev => {
@@ -326,6 +334,8 @@ export const ListPage = () => {
                                 });
                             }}
                             overflow="visible"
+                            selectedColor={selectedColor ?? undefined}
+                            selectedShape={selectedShape ?? undefined}
                             selection={selection ?? undefined}
                             selectionMarker={selectionMarker ?? undefined}
                             selectionScroll={selectionScroll ?? undefined}
@@ -365,7 +375,7 @@ export const ListPage = () => {
                     disabled={disabled}
                     draggable={draggable}
                     elevation={elevation}
-                    fixedLeading={fixedLeading}
+                    fluidMarker={fluidMarker}
                     onChange={({
                         surfaceColor: sc,
                         elevation: el,
@@ -374,12 +384,14 @@ export const ListPage = () => {
                         borderColor: bc,
                         density: dn,
                         disabled: dis,
+                        selectedShape: selShape,
+                        selectedSurfaceColor: selColor,
                         selection: sel,
                         selectionMarker: marker,
                         selectionScroll: scroll,
                         selectionSlot: slot,
                         draggable: drag,
-                        fixedLeading: fixed,
+                        fluidMarker: fluid,
                     }) => {
                         setColor(sc ?? null);
                         setShape(sp ?? null);
@@ -388,13 +400,17 @@ export const ListPage = () => {
                         setBorderColor(bc ?? null);
                         setDensity(dn ?? null);
                         setDisabled(dis ?? null);
+                        setSelectedColor(selColor ?? null);
+                        setSelectedShape(selShape ?? null);
                         setSelection(sel ?? null);
                         setSelectionMarker(marker ?? null);
                         setSelectionScroll(scroll ?? null);
                         setSelectionSlot(slot ?? null);
                         setDraggable(drag ?? null);
-                        setFixedLeading(fixed ?? null);
+                        setFluidMarker(fluid ?? null);
                     }}
+                    selectedShape={selectedShape}
+                    selectedSurfaceColor={selectedColor}
                     selection={selection}
                     selectionMarker={selectionMarker}
                     selectionScroll={selectionScroll}

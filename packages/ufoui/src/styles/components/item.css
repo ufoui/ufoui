@@ -21,9 +21,9 @@
     --uui-corner-smooth: var(--uui-corner-small);
 }
 
-.uui-item.uui-expressive:hover {
-    --uui-corner-rounded: 12px;
-}
+/*.uui-item.uui-expressive:hover {*/
+/*    --uui-corner-rounded: 12px;*/
+/*}*/
 
 .uui-item.uui-compact {
     min-height: 48px;
@@ -90,8 +90,7 @@
     padding-block: 4px;
 }
 
-.uui-item-label
- {
+.uui-item-label {
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -190,6 +189,10 @@
 
 .uui-item.uui-disabled .uui-leading,
 .uui-item.uui-disabled .uui-trailing,
-.uui-item.uui-disabled .uui-item-text{
+.uui-item.uui-disabled .uui-item-text {
     opacity: var(--uui-disabled-opacity);
+}
+
+.uui-item.uui-focus-ring::before {
+    border-radius: max(0px, calc(var(--uui-control-shape, 0px) - var(--uui-focus-ring-inset)));
 }

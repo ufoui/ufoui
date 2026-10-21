@@ -28,7 +28,7 @@ export const TreePage = () => {
     const [selectionSlot, setSelectionSlot] = useState<ListSelectionSlot | null>(null);
     const [draggable, setDraggable] = useState<boolean | null>(null);
     const [disabled, setDisabled] = useState<boolean | null>(null);
-    const [fixedLeading, setFixedLeading] = useState<boolean | null>(null);
+    const [fluidMarker, setFluidMarker] = useState<boolean | null>(null);
 
     return (
         <Article direction="row" fullWidth>
@@ -41,7 +41,7 @@ export const TreePage = () => {
                         density={density ?? undefined}
                         disabled={disabled ?? undefined}
                         draggable={draggable ?? undefined}
-                        fixedLeading={fixedLeading ?? undefined}
+                        fluidMarker={fluidMarker ?? undefined}
                         maxWidth={520}
                         selection={selection ?? undefined}
                         selectionMarker={selectionMarker ?? undefined}
@@ -79,7 +79,7 @@ export const TreePage = () => {
                     density={density}
                     disabled={disabled}
                     draggable={draggable}
-                    fixedLeading={fixedLeading}
+                    fluidMarker={fluidMarker}
                     onChange={({
                         density: dn,
                         disabled: dis,
@@ -88,7 +88,7 @@ export const TreePage = () => {
                         selectionScroll: scroll,
                         selectionSlot: slot,
                         draggable: drag,
-                        fixedLeading: fixed,
+                        fluidMarker: fluid,
                     }) => {
                         setDensity(dn ?? null);
                         setDisabled(dis ?? null);
@@ -97,7 +97,7 @@ export const TreePage = () => {
                         setSelectionScroll(scroll ?? null);
                         setSelectionSlot(slot ?? null);
                         setDraggable(drag ?? null);
-                        setFixedLeading(fixed ?? null);
+                        setFluidMarker(fluid ?? null);
                     }}
                     selection={selection}
                     selectionMarker={selectionMarker}

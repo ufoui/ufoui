@@ -14,40 +14,25 @@ import React, {
 
 import { CheckIcon, KeyboardArrowDownIcon } from '../../assets';
 import { SelectionContext } from '../../context';
-import { useFocusNavigation } from '../../hooks/useFocusNavigation';
 import { Leading, Trailing } from '../../internal';
 import {
     cn,
+    ControlStyle,
     createRipple,
-    ElementDensity,
-    ElementEffects,
     ElementShape,
     getDensityClass,
     getEffects,
+    getOnColorName,
     getShapeClass,
     mergeRefs,
+    SurfaceColor,
 } from '../../utils';
 import { IS_ITEM } from './item.guards';
-import { ListSelection, ListSelectionMarker, ListSelectionSlot } from '../list/list';
+import { ListConfig, ListSelectionMarker, ListSelectionSlot } from '../list/list';
 import { Radio } from '../radio/radio';
 import { Checkbox } from '../checkbox/checkbox';
 import { Switch } from '../switch/switch';
 import { Collapse } from '../collapse/collapse';
-
-interface ItemCtxConfig {
-    itemRole?: string;
-    density?: ElementDensity;
-    disabled?: boolean;
-    draggable?: boolean;
-    effects?: ElementEffects;
-    fixedLeading?: boolean;
-    nav?: ReturnType<typeof useFocusNavigation>;
-    selection?: ListSelection;
-    selectionMarker?: ListSelectionMarker;
-    selectionSlot?: ListSelectionSlot;
-    shape?: ElementShape;
-    variant?: ItemVariant;
-}
 
 export type ItemVariant = 'baseline' | 'expressive';
 
@@ -74,8 +59,8 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
     /** Makes the item a drag source. Overrides the value provided by the parent `List`. */
     draggable?: boolean;
 
-    /** Reserves the leading selection marker space while unselected. Overrides the value provided by the parent `List`. */
-    fixedLeading?: boolean;
+    /** Releases the `icon` marker space while unselected. Overrides the value provided by the parent `List`. */
+    fluidMarker?: boolean;
 
     /** Leading slot content. */
     leading?: ReactNode;
@@ -91,6 +76,12 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
 
     /** Controlled expanded state. */
     open?: boolean;
+
+    /** Background color used when selected. Overrides the value provided by the parent `List`. */
+    selectedColor?: SurfaceColor;
+
+    /** Shape override when selected. Overrides the value provided by the parent `List`. */
+    selectedShape?: ElementShape;
 
     /** Selection marker kind. Overrides the value provided by the parent `List`. */
     selectionMarker?: ListSelectionMarker;
@@ -146,6 +137,8 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
 export const Item = forwardRef<HTMLDivElement, ItemProps>(
     (
         {
+            selectedColor,
+            selectedShape,
             overline,
             label,
             description,
@@ -155,7 +148,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             value,
             disabled,
             draggable,
-            fixedLeading,
+            fluidMarker,
             selectionMarker,
             selectionSlot,
             shape,
@@ -168,26 +161,27 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             onKeyDown,
             expandIcon,
             variant,
+            style,
             ...props
         },
         ref
     ) => {
         const ctx = useContext(SelectionContext);
-        const config = ctx?.config as ItemCtxConfig | undefined;
+        const config = ctx?.config as ListConfig | undefined;
         const itemRef = useRef<HTMLDivElement>(null);
         const groupId = useId();
         const [internalOpen, setInternalOpen] = useState(!!defaultOpen);
 
         const finalDisabled = disabled ?? config?.disabled;
-        const finalFixedLeading = fixedLeading ?? config?.fixedLeading ?? true;
-        const finalVariant = variant ?? config?.variant;
+        const finalFluidMarker = fluidMarker ?? config?.fluidMarker;
+        const finalVariant = variant ?? config?.variant ?? 'baseline';
         const finalShape = shape ?? config?.shape ?? (finalVariant === 'expressive' ? 'rounded' : 'square');
         const selected = value ? (ctx?.values.includes(value) ?? false) : false;
         const expanded = open ?? internalOpen;
         const itemRole = config?.itemRole ?? 'listitem';
         const selection = config?.selection ?? 'none';
         const marker = selectionMarker ?? config?.selectionMarker ?? 'auto';
-        const markerSlot = selectionSlot ?? config?.selectionSlot ?? 'leading';
+        const markerSlot = selectionSlot ?? config?.selectionSlot ?? (finalVariant === 'baseline' ? 'leading' : 'none');
         const canSelect = ctx && selection !== 'none' && !finalDisabled && value;
         const canDrag = (draggable ?? config?.draggable) && !finalDisabled;
         const finalEffects = getEffects(config?.effects, {
@@ -195,14 +189,18 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             touch: ['ripple'],
             focus: ['ring', 'overlay'],
             pressed: ['overlay'],
+            selected: finalVariant === 'expressive' ? ['color', 'morph'] : [],
         });
+
+        const finalSelectedShape = selectedShape ?? config?.selectedShape ?? finalShape;
+        const finalSelectedColor = selectedColor ?? config?.selectedColor ?? 'secondaryContainer';
 
         const markerControl =
             selection === 'none' ? null : marker === 'icon' ? (
-                finalFixedLeading && markerSlot === 'leading' ? (
-                    cloneElement(CheckIcon, { className: 'uui-item-check' })
-                ) : (
+                finalFluidMarker ? (
                     selected && CheckIcon
+                ) : (
+                    cloneElement(CheckIcon, { className: 'uui-item-check' })
                 )
             ) : marker === 'switch' ? (
                 <Switch aria-hidden="true" checked={selected} readOnly tabIndex={-1} />
@@ -271,6 +269,12 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                 expander
             );
 
+        const controlStyle = ControlStyle(style);
+        if (finalEffects.selected?.includes('color') && selected) {
+            controlStyle.bg(finalSelectedColor);
+            controlStyle.text.on(finalSelectedColor);
+            controlStyle.token('--uui-variant-color', getOnColorName(finalSelectedColor, true));
+        }
         return (
             <>
                 <div
@@ -283,7 +287,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                         'uui-item',
                         getDensityClass(config?.density),
                         finalVariant === 'expressive' && 'uui-expressive',
-                        getShapeClass(finalShape),
+                        getShapeClass(selected ? finalSelectedShape : finalShape),
                         finalEffects.focus?.includes('ring') && 'uui-focus-ring',
                         finalEffects.focus?.includes('overlay') && 'uui-focus-overlay',
                         finalEffects.hover?.includes('overlay') && 'uui-hover-overlay',
@@ -298,6 +302,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                     onKeyDown={handleKeyDown}
                     ref={mergeRefs(itemRef, ref)}
                     role={itemRole}
+                    style={controlStyle.get()}
                     tabIndex={finalDisabled ? -1 : 0}>
                     <Leading content={leading} start={markerSlot === 'leading' ? markerControl : undefined} />
                     <div className="uui-item-text">

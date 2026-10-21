@@ -3,7 +3,15 @@ import React, { ReactNode, useEffect, useRef } from 'react';
 import { SelectionContext } from '../../context';
 import { useSelectionState } from '../../hooks';
 import { useFocusNavigation } from '../../hooks/useFocusNavigation';
-import { cn, ControlStyle, ElementDensity, ElementEffects, ElementShape, getOnColorName } from '../../utils';
+import {
+    cn,
+    ControlStyle,
+    ElementDensity,
+    ElementEffects,
+    ElementShape,
+    getOnColorName,
+    SurfaceColor,
+} from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base';
 import type { ItemVariant } from '../item/item';
 
@@ -35,13 +43,19 @@ export interface ListConfig {
     /** Interaction visual effects, shared with the child items. */
     effects?: ElementEffects;
 
-    /** Reserves the leading selection marker space of unselected child items. */
-    fixedLeading?: boolean;
+    /** Releases the `icon` marker space of unselected child items. */
+    fluidMarker?: boolean;
 
     itemRole: 'listitem' | 'option' | 'treeitem';
 
     /** Keyboard focus controller shared with the child items. */
     nav?: ReturnType<typeof useFocusNavigation>;
+
+    /** Background color of selected items, shared with the child items. */
+    selectedColor?: SurfaceColor;
+
+    /** Shape override of selected items, shared with the child items. */
+    selectedShape?: ElementShape;
 
     /** Selection mode enabled for the list. */
     selection: ListSelection;
@@ -54,6 +68,7 @@ export interface ListConfig {
 
     /** Corner shape, shared with the child items. */
     shape?: ElementShape;
+
     type: ListType;
 
     /** Visual variant, shared with the child items. */
@@ -84,13 +99,19 @@ export interface ListProps extends Omit<BoxBaseProps, 'type' | 'onChange' | 'dra
     effects?: ElementEffects;
 
     /**
-     * Reserves the selection marker space of unselected child items, so their text does not shift.
-     * Applies to the `icon` marker in the leading slot. Default: `true`.
+     * Releases the selection marker space of unselected child items, so the marker appears only on selection.
+     * Applies to the `icon` marker; control markers always keep their space. Default: `false`.
      */
-    fixedLeading?: boolean;
+    fluidMarker?: boolean;
 
     /** Change handler called with the new selected values array. */
     onChange?: (values: string[]) => void;
+
+    /** Background color of selected child items. Default: `'secondaryContainer'`. */
+    selectedColor?: SurfaceColor;
+
+    /** Shape override of selected child items. */
+    selectedShape?: ElementShape;
 
     /** Selection mode enabled for the list. */
     selection?: ListSelection;
@@ -146,6 +167,8 @@ export const List = ({
     type = 'list',
     value,
     defaultValue,
+    selectedColor,
+    selectedShape,
     selection = 'none',
     selectionMarker,
     selectionScroll = 'none',
@@ -155,7 +178,7 @@ export const List = ({
     disabled,
     draggable,
     effects,
-    fixedLeading,
+    fluidMarker,
     shape,
     variant,
     ...props
@@ -178,8 +201,10 @@ export const List = ({
         disabled,
         draggable,
         effects,
-        fixedLeading,
+        fluidMarker,
         nav,
+        selectedColor,
+        selectedShape,
         selection,
         selectionMarker,
         selectionSlot,

@@ -32,7 +32,7 @@ type ButtonModifiersProps = {
     detached?: boolean | null;
     docked?: boolean | null;
     draggable?: boolean | null;
-    fixedLeading?: boolean | null;
+    fluidMarker?: boolean | null;
     anchored?: boolean | null;
     dockedElevation?: ElementElevation | null;
     elevation?: ElementElevation | null;
@@ -60,7 +60,7 @@ type ButtonModifiersProps = {
         disabled?: boolean | null;
         docked?: boolean | null;
         draggable?: boolean | null;
-        fixedLeading?: boolean | null;
+        fluidMarker?: boolean | null;
         anchored?: boolean | null;
         dockedElevation?: ElementElevation | null;
         detached?: boolean | null;
@@ -82,6 +82,7 @@ type ButtonModifiersProps = {
         readOnly?: boolean | null;
         selectedColor?: SemanticColor | null;
         selectedShape?: ElementShape | null;
+        selectedSurfaceColor?: SurfaceColor | null;
         selection?: ListSelection | null;
         selectionMarker?: ListSelectionMarker | null;
         selectionScroll?: ListSelectionScroll | null;
@@ -100,6 +101,7 @@ type ButtonModifiersProps = {
     readOnly?: boolean | null;
     selectedColor?: SemanticColor | null;
     selectedShape?: ElementShape | null;
+    selectedSurfaceColor?: SurfaceColor | null;
     selection?: ListSelection | null;
     selectionMarker?: ListSelectionMarker | null;
     selectionScroll?: ListSelectionScroll | null;
@@ -129,12 +131,13 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         uncheckedColor,
         selectedColor,
         selectedShape,
+        selectedSurfaceColor,
         selection,
         selectionMarker,
         selectionScroll,
         selectionSlot,
         draggable,
-        fixedLeading,
+        fluidMarker,
         borderColor,
         textColor,
         inkColor,
@@ -324,6 +327,27 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             });
                         }}
                         value={surfaceColor ?? ''}>
+                        <option value="">Default</option>
+                        {getColorNames('surface').map(c => (
+                            <option key={c} value={c}>
+                                {c}
+                            </option>
+                        ))}
+                    </select>
+                </>
+            )}
+            {selectedSurfaceColor !== undefined && (
+                <>
+                    <span>Selected color:</span>
+                    <select
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                selectedSurfaceColor:
+                                    e.target.value === '' ? undefined : (e.target.value as SurfaceColor),
+                            });
+                        }}
+                        value={selectedSurfaceColor ?? ''}>
                         <option value="">Default</option>
                         {getColorNames('surface').map(c => (
                             <option key={c} value={c}>
@@ -1002,17 +1026,17 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                     />
                 </>
             )}
-            {fixedLeading !== undefined && (
+            {fluidMarker !== undefined && (
                 <>
-                    <label htmlFor="mod_fixed_leading">Fixed leading:</label>
+                    <label htmlFor="mod_fluid_marker">Fluid marker:</label>
                     <Checkbox
-                        checked={!!fixedLeading}
+                        checked={!!fluidMarker}
                         density="dense"
-                        id="mod_fixed_leading"
+                        id="mod_fluid_marker"
                         onChange={e => {
                             onChange({
                                 ...props,
-                                fixedLeading: e.target.checked,
+                                fluidMarker: e.target.checked,
                             });
                         }}
                     />
