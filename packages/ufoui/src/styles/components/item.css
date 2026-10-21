@@ -9,6 +9,7 @@
     cursor: pointer;
     touch-action: manipulation;
     transition: background-color 180ms cubic-bezier(0.2, 0, 0, 1);
+    /*transition: border-radius var(--uui-duration, 220ms) ease;*/
     --uui-focus-ring-inset: 3px;
     --uui-corner-round: var(--uui-corner-large);
     --uui-corner-rounded: var(--uui-corner-small);

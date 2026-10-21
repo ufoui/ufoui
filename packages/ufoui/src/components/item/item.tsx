@@ -189,7 +189,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             touch: ['ripple'],
             focus: ['ring', 'overlay'],
             pressed: ['overlay'],
-            selected: finalVariant === 'expressive' ? ['color', 'morph'] : [],
+            selected: finalVariant === 'expressive' ? ['color'] : [],
         });
 
         const finalSelectedShape = selectedShape ?? config?.selectedShape ?? finalShape;
