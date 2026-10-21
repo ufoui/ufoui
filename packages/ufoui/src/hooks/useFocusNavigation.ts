@@ -109,7 +109,7 @@ export function useFocusNavigation(orientation: FocusOrientation = 'vertical', l
 
             const nextIndex = loop ? (index + delta + enabled.length) % enabled.length : index + delta;
 
-            const target = enabled.at(nextIndex);
+            const target = enabled[nextIndex];
             if (target) {
                 target.focus({ preventScroll: true });
                 target.scrollIntoView({ block: 'nearest', inline: 'nearest' });
