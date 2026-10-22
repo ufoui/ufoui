@@ -1,6 +1,7 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 
 import { BoxBase, BoxBaseProps } from '../base';
+import { useUpdateEffect } from '../../hooks';
 import { cn } from '../../utils';
 import { addMonths } from './calendarUtils';
 import { CalendarDays } from './calendarDays';
@@ -33,6 +34,19 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
     ({ value, onChange, type, className, ...rest }, ref) => {
         const [viewDate, setViewDate] = useState(value || new Date());
         const [view, setView] = useState<CalendarView>('day');
+        const viewRef = useRef<HTMLDivElement>(null);
+        const openerRef = useRef<HTMLElement | null>(null);
+
+        useUpdateEffect(() => {
+            if (view === 'day') {
+                openerRef.current?.focus();
+                return;
+            }
+            openerRef.current = document.activeElement as HTMLElement | null;
+            viewRef.current
+                ?.querySelector<HTMLElement>('[aria-selected="true"], [aria-current="true"]')
+                ?.focus();
+        }, [view]);
 
         const handlePrevMonth = (e: React.MouseEvent<HTMLButtonElement>) => {
             e.preventDefault();
@@ -53,7 +67,15 @@ export const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
                     view={view}
                     viewDate={viewDate}
                 />
-                <div className="uui-calendar-view">
+                <div
+                    className={cn('uui-calendar-view', view !== 'day' && 'uui-calendar-list-view')}
+                    onKeyDown={e => {
+                        if (e.key === 'Escape' && view !== 'day') {
+                            e.stopPropagation();
+                            setView('day');
+                        }
+                    }}
+                    ref={viewRef}>
                     {view === 'month' ? (
                         <CalendarMonths
                             onViewDateChange={date => {

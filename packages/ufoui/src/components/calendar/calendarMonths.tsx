@@ -32,11 +32,10 @@ export interface CalendarMonthsProps {
 export const CalendarMonths = ({ viewDate, locale, onViewDateChange }: CalendarMonthsProps) => (
     <List
         className="uui-calendar-months"
+        density="compact"
         height="100%"
-        onChange={([month]) => {
-            if (month) {
-                onViewDateChange(new Date(viewDate.getFullYear(), +month, 1));
-            }
+        onChange={([month = String(viewDate.getMonth())]) => {
+            onViewDateChange(new Date(viewDate.getFullYear(), +month, 1));
         }}
         selection="single"
         selectionMarker="icon"

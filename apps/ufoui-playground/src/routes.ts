@@ -6,6 +6,7 @@ import {
     LuBell,
     LuBox,
     LuBringToFront,
+    LuCalendarDays,
     LuChevronDown,
     LuCircleDot,
     LuGroup,
@@ -96,6 +97,7 @@ export const appRoutes: AppRoute[] = [
     { label: 'List', path: paths.list, component: ListPage, icon: LuList, showInNav: true },
     { label: 'ListBox', path: paths.listbox, component: ListBoxPage, icon: LuList, showInNav: true },
     { label: 'Tree', path: paths.tree, component: TreePage, icon: LuList, showInNav: true },
+    { label: 'Calendar', path: paths.calendar, component: CalendarPage, icon: LuCalendarDays, showInNav: true },
     { label: 'Select', path: paths.select, component: SelectPage, icon: LuChevronDown, showInNav: true },
     { label: 'Card', path: paths.card, component: CardPage, icon: LuLayoutGrid, showInNav: true },
     { label: 'Slider', path: paths.slider, component: SliderPage, icon: LuSlidersHorizontal, showInNav: true },
@@ -133,7 +135,6 @@ export const appRoutes: AppRoute[] = [
 
     { label: 'Avatar', path: paths.avatar, component: AvatarPage, icon: LuUser, showInNav: true },
     { label: 'Rating', path: paths.rating, component: RatingPage, icon: LuStar, showInNav: true },
-    { label: 'Calendar', path: paths.calendar, component: CalendarPage, icon: LuSquareCode, showInNav: true },
 
     { label: 'Color', path: paths.color, component: ColorPage, icon: LuPalette, showInNav: true },
     { label: 'Icons', path: paths.icons, component: IconsPage, icon: LuImage, showInNav: true },

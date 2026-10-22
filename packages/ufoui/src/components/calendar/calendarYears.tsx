@@ -40,6 +40,7 @@ export const CalendarYears = ({ type = 'docked', viewDate, onViewDateChange }: C
         <div className="uui-calendar-years">
             {years.map(year => (
                 <Button
+                    aria-current={year === viewDate.getFullYear() || undefined}
                     border={year === new Date().getFullYear() ? 1 : undefined}
                     filled={year === viewDate.getFullYear()}
                     key={year}
@@ -53,11 +54,10 @@ export const CalendarYears = ({ type = 'docked', viewDate, onViewDateChange }: C
     ) : (
         <List
             className="uui-calendar-years"
+            density="compact"
             height="100%"
-            onChange={([year]) => {
-                if (year) {
-                    select(+year);
-                }
+            onChange={([year = String(viewDate.getFullYear())]) => {
+                select(+year);
             }}
             selection="single"
             selectionMarker="icon"

@@ -214,9 +214,19 @@ export const List = ({
     };
 
     useEffect(() => {
-        if (selectionScroll !== 'none') {
-            rootRef.current?.querySelector('.uui-selected')?.scrollIntoView({ block: selectionScroll });
+        const root = rootRef.current;
+        const inner = root?.querySelector<HTMLElement>('.uui-list-scroll');
+        const item = root?.querySelector<HTMLElement>('.uui-selected');
+        if (selectionScroll === 'none' || !root || !inner || !item) {
+            return;
         }
+        const scroll = inner.scrollHeight > inner.clientHeight ? inner : root;
+        const top =
+            item.getBoundingClientRect().top - scroll.getBoundingClientRect().top - scroll.clientTop + scroll.scrollTop;
+        scroll.scrollTop =
+            selectionScroll === 'center'
+                ? top - (scroll.clientHeight - item.offsetHeight) / 2
+                : Math.min(Math.max(scroll.scrollTop, top + item.offsetHeight - scroll.clientHeight), top);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

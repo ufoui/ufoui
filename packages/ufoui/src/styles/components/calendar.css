@@ -12,9 +12,13 @@
 }
 
 .uui-calendar-view {
-    height: 336px;
+    height: 364px;
     width: 360px;
     overflow-y: hidden;
+}
+
+.uui-docked-calendar .uui-calendar-list-view {
+    padding-block: 8px 20px;
 }
 
 /*.uui-calendar-months .uui-item:not(.uui-selected) {*/

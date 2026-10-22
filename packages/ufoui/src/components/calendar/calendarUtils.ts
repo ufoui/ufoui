@@ -55,14 +55,12 @@ export const addDays = (date: Date, days: number): Date => {
 
 export const getMonthDays = (viewDate: Date, selectedDate?: Date): CalendarDay[] => {
     const monthStart = startOfMonth(viewDate);
-    const monthEnd = endOfMonth(monthStart);
     const startDate = startOfWeek(monthStart, 1);
-    const endDate = endOfWeek(monthEnd, 1);
 
     const days: CalendarDay[] = [];
     const current = new Date(startDate);
 
-    while (current <= endDate) {
+    while (days.length < 42) {
         days.push({
             date: new Date(current),
             isCurrentMonth: isSameMonth(current, monthStart),

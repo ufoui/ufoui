@@ -20,7 +20,6 @@ export interface UseFocusNavigationOptions {
     roving?: boolean;
 }
 
-// Registered items in real DOM order (reorder-safe), without disabled and collapsed (`inert`) ones
 const getEnabled = (items: HTMLElement[]) =>
     [...items]
         .sort((a, b) => {
