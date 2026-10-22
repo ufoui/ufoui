@@ -189,7 +189,7 @@ export const List = ({
         defaultValue,
         onChange,
     });
-    const nav = useFocusNavigation('vertical', false);
+    const nav = useFocusNavigation('vertical', { loop: false, roving: true });
     const rootRef = useRef<HTMLElement>(null);
     const controlStyle = ControlStyle(style);
     controlStyle.token('--uui-variant-color', color && getOnColorName(color, true));

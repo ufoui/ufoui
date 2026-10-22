@@ -43,7 +43,7 @@ export type ItemMedia = 'image' | 'video';
  *
  * @category Item
  */
-export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'draggable'> {
+export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'draggable' | 'content'> {
     /** Nested items revealed while the item is expanded. */
     children?: React.ReactNode;
 
@@ -162,6 +162,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             open,
             onChange,
             onClick,
+            onFocus,
             onKeyDown,
             expandIcon,
             variant,
@@ -181,10 +182,10 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
         const finalFluidMarker = fluidMarker ?? config?.fluidMarker;
         const finalVariant = variant ?? config?.variant ?? 'baseline';
         const finalShape = shape ?? config?.shape ?? (finalVariant === 'expressive' ? 'rounded' : 'square');
-        const selected = value ? (ctx?.values.includes(value) ?? false) : false;
         const expanded = open ?? internalOpen;
         const itemRole = config?.itemRole ?? 'listitem';
         const selection = config?.selection ?? 'none';
+        const selected = selection !== 'none' && !!value && (ctx?.values.includes(value) ?? false);
         const marker = selectionMarker ?? config?.selectionMarker ?? 'auto';
         const markerSlot = selectionSlot ?? config?.selectionSlot ?? (finalVariant === 'baseline' ? 'leading' : 'none');
         const canSelect = ctx && selection !== 'none' && !finalDisabled && value;
@@ -261,6 +262,11 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
             onKeyDown?.(e);
         };
 
+        const handleFocus = (e: React.FocusEvent<HTMLDivElement>) => {
+            config?.nav?.onFocus(e);
+            onFocus?.(e);
+        };
+
         const expander = children
             ? cloneElement(expandIcon ?? KeyboardArrowDownIcon, { className: 'uui-item-expander' })
             : null;
@@ -301,7 +307,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                     aria-expanded={children ? expanded : undefined}
                     // eslint-disable-next-line eqeqeq
                     aria-label={ariaLabel ?? (content != null ? label : undefined)}
-                    aria-selected={selected}
+                    aria-selected={selection === 'none' ? undefined : selected}
                     className={cn(
                         'uui-item',
                         getDensityClass(config?.density),
@@ -318,11 +324,12 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                         className
                     )}
                     onClick={handleClick}
+                    onFocus={handleFocus}
                     onKeyDown={handleKeyDown}
                     ref={mergeRefs(itemRef, ref)}
                     role={itemRole}
                     style={controlStyle.get()}
-                    tabIndex={finalDisabled ? -1 : 0}>
+                    tabIndex={config?.nav || finalDisabled ? -1 : 0}>
                     <Leading content={leading} start={markerSlot === 'leading' ? markerControl : undefined} />
                     {finalContent}
                     <Trailing content={trailing} end={trailingEnd} />

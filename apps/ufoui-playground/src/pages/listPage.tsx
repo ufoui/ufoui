@@ -383,6 +383,7 @@ export const ListPage = () => {
                             onChange={setSelected}
                             value={selected}
                             {...shared}
+                            variant="expressive"
                             onOrderChange={({ from, to }) => {
                                 setOrder(prev => {
                                     const next = [...prev];
