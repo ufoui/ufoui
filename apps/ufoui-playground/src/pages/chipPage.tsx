@@ -5,12 +5,14 @@ import {
     Article,
     Aside,
     BorderColor,
+    ButtonBaseProps,
     Chip,
     ChipType,
     Content,
     ElementBorder,
     ElementDensity,
     ElementElevation,
+    ElementFont,
     ElementShape,
     ElementSize,
     Flex,
@@ -32,6 +34,8 @@ export const ChipPage = () => {
     const [borderColor, setBorderColor] = useState<BorderColor | null>(null);
     const [elevation, setElevation] = useState<ElementElevation | null>(null);
     const [density, setDensity] = useState<ElementDensity | null>(null);
+    const [font, setFont] = useState<ElementFont | null>(null);
+    const [spread, setSpread] = useState<ButtonBaseProps['spread'] | null>(null);
 
     const shared = useMemo(
         () => ({
@@ -42,8 +46,10 @@ export const ChipPage = () => {
             borderColor: borderColor ?? undefined,
             elevation: elevation ?? undefined,
             density: density ?? undefined,
+            font: font ?? undefined,
+            spread: spread ?? undefined,
         }),
-        [color, size, shape, border, borderColor, elevation, density]
+        [color, size, shape, border, borderColor, elevation, density, font, spread]
     );
 
     return (
@@ -117,6 +123,7 @@ export const ChipPage = () => {
                     color={color}
                     density={density}
                     elevation={elevation}
+                    font={font}
                     onChange={({
                         color: cl,
                         size: sz,
@@ -125,6 +132,8 @@ export const ChipPage = () => {
                         borderColor: bc,
                         elevation: el,
                         density: ds,
+                        font: ft,
+                        spread: spr,
                     }) => {
                         setColor(cl ?? null);
                         setSize(sz ?? null);
@@ -133,9 +142,12 @@ export const ChipPage = () => {
                         setBorderColor(bc ?? null);
                         setElevation(el ?? null);
                         setDensity(ds ?? null);
+                        setFont(ft ?? null);
+                        setSpread(spr ?? null);
                     }}
                     shape={shape}
                     size={size}
+                    spread={spread}
                 />
             </Aside>
         </Article>

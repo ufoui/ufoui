@@ -38,7 +38,6 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             size = 'small',
             shape = 'round',
             label,
-            title,
             children,
             ...props
         }: IconButtonProps & { endIcon?: ReactNode; trailing?: ReactNode },
@@ -53,8 +52,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
                 elementClass="uui-icon-button"
                 loading={loading}
                 shape={shape}
-                size={size}
-                title={title}>
+                size={size}>
                 {loading ? undefined : children}
             </ButtonBase>
         );

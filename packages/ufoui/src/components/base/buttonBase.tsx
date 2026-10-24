@@ -235,7 +235,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         content,
         onClick,
         elementClass,
-        font = 'labelLarge',
+        font,
         upload,
         uploadAccept,
         uploadMultiple,
@@ -298,7 +298,6 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
 
     const controlClasses = cn(
         'uui-btn-control',
-        getFontClass(font),
         toggle && finalEffects.selected?.includes('color') && 'uui-toggle',
         `uui-${finalVariant}`,
         finalEffects.focus?.includes('ring') && 'uui-focus-ring',
@@ -333,7 +332,12 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     const finalLabel = finalContent && <span className="uui-label">{finalContent}</span>;
 
     const contentSlot = (
-        <div className={cn('uui-btn-content', children && ['uui-overflow-hidden', shapeClass])}>
+        <div
+            className={cn(
+                'uui-btn-content',
+                font && getFontClass(font),
+                children && ['uui-overflow-hidden', shapeClass]
+            )}>
             {children ?? (
                 <>
                     {leadingContent}

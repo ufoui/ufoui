@@ -1,6 +1,5 @@
 import { forwardRef } from 'react';
 
-import { ElementFont, ElementSize } from '../../utils';
 import { ButtonBase, ButtonBaseProps } from '../base';
 import { IS_ACTION } from '../actions/actions.guards';
 
@@ -27,18 +26,9 @@ export type ButtonProps = Omit<ButtonBaseProps, 'elementClass'>;
  * @example
  * <Button label="Cancel" />
  */
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ font, size = 'small', ...props }: ButtonProps, ref) => {
-        const fontMap: Record<ElementSize, ElementFont> = {
-            extraSmall: 'labelLarge',
-            small: 'labelLarge',
-            medium: 'titleMedium',
-            large: 'headlineSmall',
-            extraLarge: 'headlineLarge',
-        };
-        return <ButtonBase font={font ?? fontMap[size]} ref={ref} size={size} {...props} elementClass="uui-button" />;
-    }
-);
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ size = 'small', ...props }: ButtonProps, ref) => {
+    return <ButtonBase ref={ref} size={size} {...props} elementClass="uui-button" />;
+});
 
 Button.displayName = 'Button';
 Object.assign(Button, { [IS_ACTION]: true });

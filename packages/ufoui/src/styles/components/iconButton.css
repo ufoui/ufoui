@@ -4,6 +4,18 @@
   --uui-icon-size: 2.5rem;
   --uui-corner-rounded: 28px;
   --uui-corner-smooth: 16px;
+  font-size: var(--uui-font-headline-large-size);
+  line-height: var(--uui-font-headline-large-line);
+  font-weight: var(--uui-font-headline-large-weight);
+  letter-spacing: var(--uui-font-headline-large-track);
+}
+
+.uui-icon-button .uui-spread-narrow.uui-extra-large {
+  --uui-button-width: 6.5rem;
+}
+
+.uui-icon-button .uui-spread-wide.uui-extra-large {
+  --uui-button-width: 11.5rem;
 }
 
 .uui-icon-button .uui-large {
@@ -12,6 +24,18 @@
   --uui-icon-size: 2rem;
   --uui-corner-rounded: 28px;
   --uui-corner-smooth: 16px;
+  font-size: var(--uui-font-headline-small-size);
+  line-height: var(--uui-font-headline-small-line);
+  font-weight: var(--uui-font-headline-small-weight);
+  letter-spacing: var(--uui-font-headline-small-track);
+}
+
+.uui-icon-button .uui-spread-narrow.uui-large {
+  --uui-button-width: 4rem;
+}
+
+.uui-icon-button .uui-spread-wide.uui-large {
+  --uui-button-width: 8rem;
 }
 
 .uui-icon-button .uui-medium {
@@ -20,6 +44,18 @@
   --uui-icon-size: 1.5rem;
   --uui-corner-rounded: 16px;
   --uui-corner-smooth: 12px;
+  font-size: var(--uui-font-title-medium-size);
+  line-height: var(--uui-font-title-medium-line);
+  font-weight: var(--uui-font-title-medium-weight);
+  letter-spacing: var(--uui-font-title-medium-track);
+}
+
+.uui-icon-button .uui-spread-narrow.uui-medium {
+  --uui-button-width: 3rem;
+}
+
+.uui-icon-button .uui-spread-wide.uui-medium {
+  --uui-button-width: 4.5rem;
 }
 
 .uui-icon-button .uui-small {
@@ -28,6 +64,18 @@
   --uui-icon-size: 1.5rem;
   --uui-corner-rounded: 12px;
   --uui-corner-smooth: 8px;
+  font-size: var(--uui-font-label-large-size);
+  line-height: var(--uui-font-label-large-line);
+  font-weight: var(--uui-font-label-large-weight);
+  letter-spacing: var(--uui-font-label-large-track);
+}
+
+.uui-icon-button .uui-spread-narrow.uui-small {
+  --uui-button-width: 2rem;
+}
+
+.uui-icon-button .uui-spread-wide.uui-small {
+  --uui-button-width: 3.25rem;
 }
 
 .uui-icon-button .uui-extra-small {
@@ -36,4 +84,16 @@
   --uui-icon-size: 1.25rem;
   --uui-corner-rounded: 12px;
   --uui-corner-smooth: 8px;
+  font-size: var(--uui-font-label-large-size);
+  line-height: var(--uui-font-label-large-line);
+  font-weight: var(--uui-font-label-large-weight);
+  letter-spacing: var(--uui-font-label-large-track);
+}
+
+.uui-icon-button .uui-spread-narrow.uui-extra-small {
+  --uui-button-width: 1.75rem;
+}
+
+.uui-icon-button .uui-spread-wide.uui-extra-small {
+  --uui-button-width: 2.5rem;
 }

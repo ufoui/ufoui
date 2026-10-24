@@ -1,6 +1,5 @@
 import { forwardRef, ReactElement } from 'react';
 
-import { ElementFont, ElementSize } from '../../utils';
 import { ButtonBase, ButtonBaseProps } from '../base';
 
 export type ChipType = 'assist' | 'filter' | 'input' | 'suggestion';
@@ -15,7 +14,6 @@ export interface ChipProps extends Omit<ButtonBaseProps, 'elementClass' | 'iconC
 export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
     (
         {
-            font,
             size = 'small',
             shape = 'smooth',
             selectedShape = 'smooth',
@@ -25,17 +23,9 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
         }: ChipProps,
         ref
     ) => {
-        const fontMap: Record<ElementSize, ElementFont> = {
-            extraSmall: 'labelLarge',
-            small: 'labelLarge',
-            medium: 'titleMedium',
-            large: 'headlineSmall',
-            extraLarge: 'headlineLarge',
-        };
         return (
             <ButtonBase
                 borderColor={borderColor}
-                font={font ?? fontMap[size]}
                 ref={ref}
                 selectedShape={selectedShape}
                 {...props}

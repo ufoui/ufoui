@@ -5,6 +5,18 @@
   --uui-col-space: 0.75rem;
   --uui-corner-rounded: 28px;
   --uui-corner-smooth: 16px;
+  font-size: var(--uui-font-headline-large-size);
+  line-height: var(--uui-font-headline-large-line);
+  font-weight: var(--uui-font-headline-large-weight);
+  letter-spacing: var(--uui-font-headline-large-track);
+}
+
+.uui-chip .uui-spread-narrow.uui-extra-large {
+  --uui-button-padding: 1.75rem;
+}
+
+.uui-chip .uui-spread-wide.uui-extra-large {
+  --uui-button-padding: 5.25rem;
 }
 
 .uui-chip .uui-large {
@@ -14,6 +26,18 @@
   --uui-col-space: 0.5rem;
   --uui-corner-rounded: 16px;
   --uui-corner-smooth: 12px;
+  font-size: var(--uui-font-headline-small-size);
+  line-height: var(--uui-font-headline-small-line);
+  font-weight: var(--uui-font-headline-small-weight);
+  letter-spacing: var(--uui-font-headline-small-track);
+}
+
+.uui-chip .uui-spread-narrow.uui-large {
+  --uui-button-padding: 1rem;
+}
+
+.uui-chip .uui-spread-wide.uui-large {
+  --uui-button-padding: 3rem;
 }
 
 .uui-chip .uui-medium {
@@ -23,6 +47,18 @@
   --uui-col-space: 0.5rem;
   --uui-corner-rounded: 12px;
   --uui-corner-smooth: 8px;
+  font-size: var(--uui-font-title-medium-size);
+  line-height: var(--uui-font-title-medium-line);
+  font-weight: var(--uui-font-title-medium-weight);
+  letter-spacing: var(--uui-font-title-medium-track);
+}
+
+.uui-chip .uui-spread-narrow.uui-medium {
+  --uui-button-padding: 0.625rem;
+}
+
+.uui-chip .uui-spread-wide.uui-medium {
+  --uui-button-padding: 1.875rem;
 }
 
 .uui-chip .uui-small {
@@ -32,6 +68,18 @@
   --uui-col-space: 0.5rem;
   --uui-corner-rounded: 12px;
   --uui-corner-smooth: 8px;
+  font-size: var(--uui-font-label-large-size);
+  line-height: var(--uui-font-label-large-line);
+  font-weight: var(--uui-font-label-large-weight);
+  letter-spacing: var(--uui-font-label-large-track);
+}
+
+.uui-chip .uui-spread-narrow.uui-small {
+  --uui-button-padding: 0.5rem;
+}
+
+.uui-chip .uui-spread-wide.uui-small {
+  --uui-button-padding: 1.5rem;
 }
 
 .uui-chip .uui-extra-small {
@@ -41,4 +89,16 @@
   --uui-col-space: 0.5rem;
   --uui-corner-rounded: 12px;
   --uui-corner-smooth: 8px;
+  font-size: var(--uui-font-label-large-size);
+  line-height: var(--uui-font-label-large-line);
+  font-weight: var(--uui-font-label-large-weight);
+  letter-spacing: var(--uui-font-label-large-track);
+}
+
+.uui-chip .uui-spread-narrow.uui-extra-small {
+  --uui-button-padding: 0.4375rem;
+}
+
+.uui-chip .uui-spread-wide.uui-extra-small {
+  --uui-button-padding: 1.3125rem;
 }

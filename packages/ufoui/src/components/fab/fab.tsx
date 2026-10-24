@@ -1,6 +1,5 @@
 import { forwardRef, ReactElement } from 'react';
 
-import { ElementFont, ElementSize } from '../../utils';
 import { ButtonBase, ButtonBaseProps } from '../base/buttonBase';
 
 /**
@@ -31,22 +30,14 @@ export interface FabButtonProps extends Omit<ButtonBaseProps, 'elementClass'> {
  * <Fab icon={<AddIcon />} label="Create" />
  */
 export const Fab = forwardRef<HTMLButtonElement, FabButtonProps>(
-    ({ elevation = 3, font, size = 'medium', shape = 'rounded', label, ...props }: FabButtonProps, ref) => {
+    ({ elevation = 3, size = 'medium', shape = 'rounded', label, ...props }: FabButtonProps, ref) => {
         const elementClass = label ? 'uui-fab uui-fab-extended' : 'uui-fab';
-        const fontMap: Record<ElementSize, ElementFont> = {
-            extraSmall: 'labelLarge',
-            small: 'titleMedium',
-            medium: 'titleMedium',
-            large: 'headlineSmall',
-            extraLarge: 'headlineLarge',
-        };
         return (
             <ButtonBase
                 ref={ref}
                 {...props}
                 elementClass={elementClass}
                 elevation={elevation}
-                font={font ?? fontMap[size]}
                 label={label}
                 shape={shape}
                 size={size}
