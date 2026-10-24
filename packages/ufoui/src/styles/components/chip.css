@@ -64,7 +64,7 @@
 .uui-chip .uui-small {
   --uui-button-padding: 1rem;
   --uui-button-height: 2rem;
-  --uui-icon-size: 1.25rem;
+  --uui-icon-size: 1.125rem;
   --uui-col-space: 0.5rem;
   --uui-corner-rounded: 12px;
   --uui-corner-smooth: 8px;
@@ -85,7 +85,7 @@
 .uui-chip .uui-extra-small {
   --uui-button-padding: 0.875rem;
   --uui-button-height: 1.75rem;
-  --uui-icon-size: 1.25rem;
+  --uui-icon-size: 1.125rem;
   --uui-col-space: 0.5rem;
   --uui-corner-rounded: 12px;
   --uui-corner-smooth: 8px;

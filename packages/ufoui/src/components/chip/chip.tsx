@@ -1,6 +1,7 @@
 import { forwardRef, ReactElement } from 'react';
 
 import { ButtonBase, ButtonBaseProps } from '../base';
+import { cn } from '../../utils';
 
 export type ChipType = 'assist' | 'filter' | 'input' | 'suggestion';
 
@@ -33,13 +34,14 @@ export interface ChipProps extends Omit<ButtonBaseProps, 'elementClass' | 'type'
  * @example
  * <Chip label="Person" icon={<PersonIcon />} trailing={<CloseIcon />} />
  */
-export const Chip =forwardRef<HTMLButtonElement, ChipProps>(
+export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
     (
         {
             shape = 'smooth',
             selectedShape = 'smooth',
             borderColor = 'outlineVariant',
-            type,
+            outlined = true,
+            type = 'assist',
             ...props
         }: ChipProps,
         ref
@@ -47,10 +49,11 @@ export const Chip =forwardRef<HTMLButtonElement, ChipProps>(
         return (
             <ButtonBase
                 borderColor={borderColor}
+                outlined={outlined}
                 ref={ref}
                 selectedShape={selectedShape}
                 {...props}
-                elementClass="uui-chip"
+                elementClass={cn('uui-chip', `uui-chip-${type}`)}
                 shape={shape}
             />
         );

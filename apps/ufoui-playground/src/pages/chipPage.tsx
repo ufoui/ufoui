@@ -61,7 +61,7 @@ export const ChipPage = () => {
                     <H2>Types</H2>
                     <Flex gap={8} wrap>
                         {chipTypes.map(t => (
-                            <Chip key={t} {...shared} chipType={t} label={t.charAt(0).toUpperCase() + t.slice(1)} />
+                            <Chip key={t} {...shared} label={t.charAt(0).toUpperCase() + t.slice(1)} type={t} />
                         ))}
                     </Flex>
                 </Section>
@@ -70,6 +70,7 @@ export const ChipPage = () => {
                     <H2>Variants</H2>
                     <Flex gap={8} wrap>
                         <Chip {...shared} label="Default" />
+                        <Chip {...shared} label="Text" variant="text" />
                         <Chip {...shared} label="Outlined" outlined />
                         <Chip {...shared} label="Tonal" tonal />
                         <Chip {...shared} filled label="Filled" />
@@ -79,10 +80,10 @@ export const ChipPage = () => {
                 <Section gap={12}>
                     <H2>Leading icon</H2>
                     <Flex gap={8} wrap>
-                        <Chip {...shared} chipType="assist" icon={<MdStar />} label="Assist" />
-                        <Chip {...shared} chipType="filter" icon={<MdFilterList />} label="Filter" />
-                        <Chip {...shared} chipType="input" icon={<MdPerson />} label="Person" trailing={<MdClose />} />
-                        <Chip {...shared} chipType="suggestion" icon={<MdFavorite />} label="Suggestion" />
+                        <Chip {...shared} icon={<MdStar />} label="Assist" type="assist" />
+                        <Chip {...shared} icon={<MdFilterList />} label="Filter" type="filter" />
+                        <Chip {...shared} icon={<MdPerson />} label="Person" trailing={<MdClose />} type="input" />
+                        <Chip {...shared} icon={<MdFavorite />} label="Suggestion" type="suggestion" />
                     </Flex>
                 </Section>
 
@@ -90,7 +91,7 @@ export const ChipPage = () => {
                     <H2>Selectable (filter)</H2>
                     <Flex gap={8} wrap>
                         {['Recent', 'Favorites', 'Shared', 'Archived'].map(l => (
-                            <Chip key={l} {...shared} chipType="filter" label={l} selectedIcon={<MdCheck />} toggle />
+                            <Chip key={l} {...shared} label={l} selectedIcon={<MdCheck />} toggle type="filter" />
                         ))}
                     </Flex>
                 </Section>
