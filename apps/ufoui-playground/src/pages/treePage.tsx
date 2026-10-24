@@ -86,6 +86,13 @@ export const TreePage = () => {
             </TreeItem>
             <TreeItem label="Archive" value="nested-media-archive" />
         </TreeItem>,
+        <TreeItem description="No icons" key="documents" label="Documents">
+            <TreeItem label="Drafts">
+                <TreeItem label="Notes.txt" value="nested-docs-notes" />
+                <TreeItem label="Plan.md" value="nested-docs-plan" />
+            </TreeItem>
+            <TreeItem label="Report.pdf" value="nested-docs-report" />
+        </TreeItem>,
     ];
 
     return (

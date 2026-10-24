@@ -202,7 +202,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
         const finalSelectedColor = selectedColor ?? config?.selectedColor ?? 'secondaryContainer';
 
         const markerControl =
-            selection === 'none' ? null : marker === 'icon' ? (
+            selection === 'none' || !value ? null : marker === 'icon' ? (
                 finalFluidMarker ? (
                     selected && CheckIcon
                 ) : (
@@ -307,7 +307,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
                     aria-expanded={children ? expanded : undefined}
                     // eslint-disable-next-line eqeqeq
                     aria-label={ariaLabel ?? (content != null ? label : undefined)}
-                    aria-selected={selection === 'none' ? undefined : selected}
+                    aria-selected={selection === 'none' || !value ? undefined : selected}
                     className={cn(
                         'uui-item',
                         getDensityClass(config?.density),
