@@ -26,8 +26,8 @@ export type ButtonProps = Omit<ButtonBaseProps, 'elementClass'>;
  * @example
  * <Button label="Cancel" />
  */
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ size = 'small', ...props }: ButtonProps, ref) => {
-    return <ButtonBase ref={ref} size={size} {...props} elementClass="uui-button" />;
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props: ButtonProps, ref) => {
+    return <ButtonBase ref={ref} {...props} elementClass="uui-button" />;
 });
 
 Button.displayName = 'Button';

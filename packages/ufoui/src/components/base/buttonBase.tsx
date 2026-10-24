@@ -46,7 +46,7 @@ export interface ButtonBaseProps
     /** Border color when outlined. */
     borderColor?: BorderColor;
 
-    /** Custom content. Overrides label, icons, and layout. */
+    /** Custom content. Overrides label, icons, layout, and size. */
     children?: ReactNode;
 
     /** Semantic color theme. Default: primary */
@@ -85,7 +85,7 @@ export interface ButtonBaseProps
     /** Disables elevation and elevation effects. */
     flat?: boolean;
 
-    /** Font token for label and content. */
+    /** Font token for label and content. Overrides the font derived from `size`. */
     font?: ElementFont;
 
     /** Expands button to full width. */
@@ -136,13 +136,13 @@ export interface ButtonBaseProps
     /** Icon displayed when selected. */
     selectedIcon?: React.ReactElement;
 
-    /** Shape override when selected. */
+    /** Shape override when selected. Default: rounded */
     selectedShape?: ElementShape;
 
-    /** Shape of the button. */
+    /** Shape of the button. Default: round */
     shape?: ElementShape;
 
-    /** Predefined button size. Default: medium */
+    /** Predefined button size. Also sets the default font. Default: small */
     size?: ElementSize;
 
     /** Horizontal spacing around the leading and trailing slots. Default: default */

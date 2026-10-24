@@ -20,6 +20,14 @@
   --uui-ext-padding: 3.75rem;
 }
 
+.uui-fab:not(.uui-fab-extended) .uui-spread-narrow.uui-extra-large {
+  --uui-button-width: 5.5rem;
+}
+
+.uui-fab:not(.uui-fab-extended) .uui-spread-wide.uui-extra-large {
+  --uui-button-width: 11.5rem;
+}
+
 .uui-fab .uui-large {
   --uui-button-width: 6rem;
   --uui-button-height: 6rem;
@@ -40,6 +48,14 @@
 
 .uui-fab .uui-spread-wide.uui-large {
   --uui-ext-padding: 2.625rem;
+}
+
+.uui-fab:not(.uui-fab-extended) .uui-spread-narrow.uui-large {
+  --uui-button-width: 4.125rem;
+}
+
+.uui-fab:not(.uui-fab-extended) .uui-spread-wide.uui-large {
+  --uui-button-width: 7.875rem;
 }
 
 .uui-fab .uui-medium {
@@ -64,6 +80,14 @@
   --uui-ext-padding: 2.4375rem;
 }
 
+.uui-fab:not(.uui-fab-extended) .uui-spread-narrow.uui-medium {
+  --uui-button-width: 3.375rem;
+}
+
+.uui-fab:not(.uui-fab-extended) .uui-spread-wide.uui-medium {
+  --uui-button-width: 6.625rem;
+}
+
 .uui-fab .uui-small {
   --uui-button-width: 3.5rem;
   --uui-button-height: 3.5rem;
@@ -84,6 +108,14 @@
 
 .uui-fab .uui-spread-wide.uui-small {
   --uui-ext-padding: 1.5rem;
+}
+
+.uui-fab:not(.uui-fab-extended) .uui-spread-narrow.uui-small {
+  --uui-button-width: 2.5rem;
+}
+
+.uui-fab:not(.uui-fab-extended) .uui-spread-wide.uui-small {
+  --uui-button-width: 4.5rem;
 }
 
 .uui-fab .uui-extra-small {
@@ -108,7 +140,16 @@
   --uui-ext-padding: 1.5rem;
 }
 
+.uui-fab:not(.uui-fab-extended) .uui-spread-narrow.uui-extra-small {
+  --uui-button-width: 1.875rem;
+}
+
+.uui-fab:not(.uui-fab-extended) .uui-spread-wide.uui-extra-small {
+  --uui-button-width: 3.125rem;
+}
+
 .uui-fab.uui-fab-extended button {
   --uui-button-width: auto;
   --uui-button-padding: var(--uui-ext-padding);
 }
+

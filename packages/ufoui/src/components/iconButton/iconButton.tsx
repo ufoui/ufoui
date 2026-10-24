@@ -35,8 +35,6 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             endIcon: _,
             trailing: __,
             loading,
-            size = 'small',
-            shape = 'round',
             label,
             children,
             ...props
@@ -50,9 +48,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
                 {...props}
                 aria-label={altLabel}
                 elementClass="uui-icon-button"
-                loading={loading}
-                shape={shape}
-                size={size}>
+                loading={loading}>
                 {loading ? undefined : children}
             </ButtonBase>
         );

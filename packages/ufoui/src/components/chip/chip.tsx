@@ -4,17 +4,38 @@ import { ButtonBase, ButtonBaseProps } from '../base';
 
 export type ChipType = 'assist' | 'filter' | 'input' | 'suggestion';
 
-export interface ChipProps extends Omit<ButtonBaseProps, 'elementClass' | 'iconClass' | 'labelClass' | 'type'> {
+/**
+ * Props for {@link Chip}.
+ * Extends {@link ButtonBaseProps}.
+ *
+ * @category Chip
+ */
+export interface ChipProps extends Omit<ButtonBaseProps, 'elementClass' | 'type'> {
     /** Avatar placed in the leading slot. */
     avatar?: ReactElement;
     /** Defines the visual style and behavior of the chip. @default 'assist' */
     type?: ChipType;
 }
 
-export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
+/**
+ * Compact element for filters, choices, suggestions, or short actions.
+ *
+ * Use to represent tags, input tokens, or selectable filter options.
+ * Supports toggle selection, leading icon, and trailing content.
+ *
+ * @category Chip
+ * @function
+ * @param props - All chip props inherited from {@link ButtonBase}.
+ *
+ * @example
+ * <Chip label="Recent" toggle />
+ *
+ * @example
+ * <Chip label="Person" icon={<PersonIcon />} trailing={<CloseIcon />} />
+ */
+export const Chip =forwardRef<HTMLButtonElement, ChipProps>(
     (
         {
-            size = 'small',
             shape = 'smooth',
             selectedShape = 'smooth',
             borderColor = 'outlineVariant',
@@ -31,7 +52,6 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
                 {...props}
                 elementClass="uui-chip"
                 shape={shape}
-                size={size}
             />
         );
     }
