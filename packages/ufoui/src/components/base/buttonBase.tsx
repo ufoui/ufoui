@@ -40,7 +40,7 @@ export type ButtonVariant = 'text' | 'outlined' | 'elevated' | 'tonal' | 'filled
 export interface ButtonBaseProps
     extends WrapperProps,
         Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'size' | 'content'> {
-    /** Avatar rendered at the start of the button. Takes precedence over `icon`. */
+    /** Avatar rendered at the start of the button, before `icon`. */
     avatar?: React.ReactElement;
 
     /** Outline thickness when outlined. Default: 1 */
@@ -94,7 +94,7 @@ export interface ButtonBaseProps
     /** Expands button to full width. */
     fullWidth?: boolean;
 
-    /** Icon rendered at the start of the button. */
+    /** Icon rendered at the start of the button, after `avatar`. */
     icon?: React.ReactElement;
 
     /** DOM id. Auto-generated if not provided. */
@@ -333,7 +333,20 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     const stateStyle = ControlStyle();
 
     const finalLeading = loading ? <Spinner fluid /> : leading;
-    const leadingContent = <Leading content={finalLeading} start={!loading && (avatar ?? icon)} />;
+    const leadingContent = (
+        <Leading
+            content={finalLeading}
+            start={
+                !loading &&
+                (avatar || icon) && (
+                    <>
+                        {avatar}
+                        {icon}
+                    </>
+                )
+            }
+        />
+    );
     const trailingContent = <Trailing content={trailing} end={endIcon} />;
     const finalContent = content ?? label;
     const finalLabel = finalContent && <span className="uui-label">{finalContent}</span>;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import {
     ColumnDef,
@@ -8,13 +8,13 @@ import {
     SortingState,
     useReactTable,
 } from '@tanstack/react-table';
+import { MdBlock, MdCheckCircle, MdSchedule } from 'react-icons/md';
 
 import {
     Article,
     Aside,
     BorderColor,
     Checkbox,
-    Chip,
     ElementBorder,
     ElementElevation,
     ElementShape,
@@ -23,6 +23,7 @@ import {
     P,
     Section,
     Span,
+    Status,
 } from '@ufoui/core';
 import { DataTable, DataTableBody, DataTableHeader, DataTablePagination } from '@ufoui/extra';
 
@@ -49,10 +50,16 @@ const data: User[] = Array.from({ length: 87 }, () => ({
     joined: faker.date.past({ years: 3 }).toLocaleDateString('pl-PL'),
 }));
 
-const statusColor: Record<User['status'], 'success' | 'error' | 'warning'> = {
-    active: 'success',
-    inactive: 'error',
-    pending: 'warning',
+const statusColor: Record<User['status'], 'successContainer' | 'errorContainer' | 'warningContainer'> = {
+    active: 'successContainer',
+    inactive: 'errorContainer',
+    pending: 'warningContainer',
+};
+
+const statusIcon: Record<User['status'], ReactElement> = {
+    active: <MdCheckCircle />,
+    inactive: <MdBlock />,
+    pending: <MdSchedule />,
 };
 
 const columns: ColumnDef<User>[] = [
@@ -63,7 +70,7 @@ const columns: ColumnDef<User>[] = [
         accessorKey: 'status',
         cell: ({ getValue }) => {
             const s = getValue<User['status']>();
-            return <Chip chipType="suggestion" color={statusColor[s]} label={s} size="extraSmall" />;
+            return <Status color={statusColor[s]} label={s} leading={statusIcon[s]} />;
         },
         header: 'Status',
     },

@@ -103,10 +103,38 @@
   --uui-button-padding: 1.3125rem;
 }
 
+.uui-chip-input .uui-btn-control {
+  padding-left: calc(var(--uui-button-padding) * 0.75);
+  padding-right: calc(var(--uui-button-padding) * 0.75);
+}
+
 .uui-chip .uui-has-leading {
   padding-left: calc(var(--uui-button-padding) / 2);
 }
 
 .uui-chip .uui-has-trailing {
   padding-right: calc(var(--uui-button-padding) / 2);
+}
+
+.uui-chip .uui-has-avatar {
+  padding-left: calc(var(--uui-button-padding) / 4);
+}
+
+.uui-chip .uui-btn-control.uui-elevated:not(.uui-selected) {
+  --uui-btn-text-color: var(--uui-color-on-surface-variant);
+  --uui-btn-state-color: var(--uui-color-on-surface-variant);
+}
+
+.uui-chip.uui-chip-assist .uui-btn-control.uui-outlined:not(.uui-selected),
+.uui-chip.uui-chip-assist .uui-btn-control.uui-elevated:not(.uui-selected) {
+  --uui-btn-text-color: var(--uui-color-on-surface);
+  --uui-btn-state-color: var(--uui-color-on-surface);
+}
+
+.uui-chip .uui-btn-control.uui-text.uui-toggle.uui-selected,
+.uui-chip .uui-btn-control.uui-outlined.uui-toggle.uui-selected,
+.uui-chip .uui-btn-control.uui-elevated.uui-toggle.uui-selected {
+  --uui-btn-text-color: var(--uui-color-on-secondary-container);
+  --uui-btn-bg-color: var(--uui-color-secondary-container);
+  --uui-btn-state-color: var(--uui-color-on-secondary-container);
 }

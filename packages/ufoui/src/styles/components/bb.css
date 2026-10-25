@@ -29,7 +29,6 @@
   height: var(--uui-button-height, inherit);
   padding-left: var(--uui-button-padding, inherit);
   padding-right: var(--uui-button-padding, inherit);
-
 }
 
 .uui-btn-control.uui-btn-custom {
@@ -190,7 +189,3 @@
   max-width: 100%;
   user-select: none;
 }
-
-/*.uui-bb .uui-icon {*/
-/*  display: flex;*/
-/*}*/
