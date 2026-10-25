@@ -102,3 +102,11 @@
 .uui-chip .uui-spread-wide.uui-extra-small {
   --uui-button-padding: 1.3125rem;
 }
+
+.uui-chip .uui-has-leading {
+  padding-left: calc(var(--uui-button-padding) / 2);
+}
+
+.uui-chip .uui-has-trailing {
+  padding-right: calc(var(--uui-button-padding) / 2);
+}

@@ -1,4 +1,4 @@
-import { forwardRef, ReactElement } from 'react';
+import { forwardRef } from 'react';
 
 import { ButtonBase, ButtonBaseProps } from '../base';
 import { cn } from '../../utils';
@@ -12,8 +12,6 @@ export type ChipType = 'assist' | 'filter' | 'input' | 'suggestion';
  * @category Chip
  */
 export interface ChipProps extends Omit<ButtonBaseProps, 'elementClass' | 'type'> {
-    /** Avatar placed in the leading slot. */
-    avatar?: ReactElement;
     /** Defines the visual style and behavior of the chip. @default 'assist' */
     type?: ChipType;
 }

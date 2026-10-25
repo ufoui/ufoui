@@ -8,7 +8,7 @@ import { ButtonBase, ButtonBaseProps } from '../base';
  *
  * @category IconButton
  */
-export type IconButtonProps = Omit<ButtonBaseProps, 'elementClass' | 'endIcon' | 'trailing'>;
+export type IconButtonProps = Omit<ButtonBaseProps, 'avatar' | 'elementClass' | 'endIcon' | 'trailing'>;
 
 /**
  * Icon-only button used for compact or secondary actions.

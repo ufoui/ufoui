@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react';
-import { MdCheck, MdClose, MdFavorite, MdFilterList, MdPerson, MdStar } from 'react-icons/md';
+import { MdCheck, MdClose, MdFavorite, MdFilterList, MdOutlineCircle, MdPerson, MdStar } from 'react-icons/md';
 
 import {
     Article,
     Aside,
+    Avatar,
     BorderColor,
     ButtonBaseProps,
     Chip,
@@ -84,6 +85,52 @@ export const ChipPage = () => {
                         <Chip {...shared} icon={<MdFilterList />} label="Filter" type="filter" />
                         <Chip {...shared} icon={<MdPerson />} label="Person" trailing={<MdClose />} type="input" />
                         <Chip {...shared} icon={<MdFavorite />} label="Suggestion" type="suggestion" />
+                    </Flex>
+                </Section>
+
+                <Section gap={12}>
+                    <H2>Both icons</H2>
+                    <Flex gap={8} wrap>
+                        <Chip {...shared} icon={<MdStar />} label="Assist" trailing={<MdOutlineCircle />} type="assist" />
+                        <Chip {...shared} icon={<MdFilterList />} label="Filter" trailing={<MdOutlineCircle />} type="filter" />
+                        <Chip {...shared} icon={<MdPerson />} label="Person" trailing={<MdOutlineCircle />} type="input" />
+                        <Chip
+                            {...shared}
+                            icon={<MdFavorite />}
+                            label="Suggestion"
+                            trailing={<MdOutlineCircle />}
+                            type="suggestion"
+                        />
+                    </Flex>
+                </Section>
+
+                <Section gap={12}>
+                    <H2>Avatar</H2>
+                    <Flex gap={8} wrap>
+                        <Chip
+                            {...shared}
+                            avatar={<Avatar name="Anna Nowak" size="extraSmall" />}
+                            label="Assist"
+                            type="assist"
+                        />
+                        <Chip
+                            {...shared}
+                            avatar={<Avatar name="Jan Kowalski" size="extraSmall" />}
+                            label="Filter"
+                            type="filter"
+                        />
+                        <Chip
+                            {...shared}
+                            avatar={<Avatar name="Ewa Nowak" size="extraSmall" />}
+                            label="Input"
+                            type="input"
+                        />
+                        <Chip
+                            {...shared}
+                            avatar={<Avatar name="Piotr Lis" size="extraSmall" />}
+                            label="Suggestion"
+                            type="suggestion"
+                        />
                     </Flex>
                 </Section>
 

@@ -40,6 +40,9 @@ export type ButtonVariant = 'text' | 'outlined' | 'elevated' | 'tonal' | 'filled
 export interface ButtonBaseProps
     extends WrapperProps,
         Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'size' | 'content'> {
+    /** Avatar rendered at the start of the button. Takes precedence over `icon`. */
+    avatar?: React.ReactElement;
+
     /** Outline thickness when outlined. Default: 1 */
     border?: ElementOutline;
 
@@ -227,6 +230,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         disabled,
         shape = 'round',
         selectedShape = 'rounded',
+        avatar,
         icon,
         selectedIcon,
         leading,
@@ -308,6 +312,9 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
         loading && 'uui-loading',
         fullWidth && 'uui-w-full',
         !children && getSizeClass(size),
+        !children && (avatar || icon || leading || loading) && 'uui-has-leading',
+        !children && avatar && 'uui-has-avatar',
+        !children && (trailing || endIcon) && 'uui-has-trailing',
         isSelected && 'uui-selected',
         getBorderClass(resolvedBorder),
         shapeClass,
@@ -326,7 +333,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>((props:
     const stateStyle = ControlStyle();
 
     const finalLeading = loading ? <Spinner fluid /> : leading;
-    const leadingContent = <Leading content={finalLeading} start={!loading && icon} />;
+    const leadingContent = <Leading content={finalLeading} start={!loading && (avatar ?? icon)} />;
     const trailingContent = <Trailing content={trailing} end={endIcon} />;
     const finalContent = content ?? label;
     const finalLabel = finalContent && <span className="uui-label">{finalContent}</span>;

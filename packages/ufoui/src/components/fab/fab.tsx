@@ -8,7 +8,7 @@ import { ButtonBase, ButtonBaseProps } from '../base/buttonBase';
  *
  * @category Fab
  */
-export interface FabButtonProps extends Omit<ButtonBaseProps, 'elementClass'> {
+export interface FabButtonProps extends Omit<ButtonBaseProps, 'avatar' | 'elementClass'> {
     /** Icon rendered inside the FAB. */
     icon: ReactElement;
 }
