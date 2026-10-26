@@ -71,7 +71,7 @@ export default [
             '@typescript-eslint/require-await': 'warn',
             '@typescript-eslint/no-floating-promises': 'warn',
             '@typescript-eslint/naming-convention': 'off',
-            '@typescript-eslint/prefer-nullish-coalescing': 'warn',
+            '@typescript-eslint/prefer-nullish-coalescing': ['warn', { ignorePrimitives: { string: true, boolean: true }, ignoreMixedLogicalExpressions: true }],
             '@typescript-eslint/no-use-before-define': 'warn',
             '@typescript-eslint/unbound-method': 'off',
             '@typescript-eslint/prefer-optional-chain': 'warn',

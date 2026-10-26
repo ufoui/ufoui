@@ -1,7 +1,10 @@
 import { forwardRef } from 'react';
 
-import { ButtonBase, ButtonBaseProps } from '../base';
+import { ButtonBase, ButtonBaseOwnProps, ButtonElement } from '../base';
 import { IS_ACTION } from '../actions/actions.guards';
+import { PolymorphicComponent, PolymorphicProps } from '../../utils';
+
+type ButtonOwnProps = Omit<ButtonBaseOwnProps, 'elementClass'>;
 
 /**
  * Props for {@link Button}.
@@ -9,7 +12,7 @@ import { IS_ACTION } from '../actions/actions.guards';
  *
  * @category Button
  */
-export type ButtonProps = Omit<ButtonBaseProps, 'elementClass'>;
+export type ButtonProps<T extends ButtonElement = 'button'> = PolymorphicProps<T, ButtonOwnProps>;
 
 /**
  * Primary action button used to trigger user actions.
@@ -28,7 +31,7 @@ export type ButtonProps = Omit<ButtonBaseProps, 'elementClass'>;
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props: ButtonProps, ref) => {
     return <ButtonBase ref={ref} {...props} elementClass="uui-button" />;
-});
+}) as PolymorphicComponent<ButtonOwnProps, 'button', ButtonElement>;
 
 Button.displayName = 'Button';
 Object.assign(Button, { [IS_ACTION]: true });

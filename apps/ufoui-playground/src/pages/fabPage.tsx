@@ -244,14 +244,18 @@ export const FabPage = () => {
                             filled
                             icon={<BsWikipedia />}
                             label="Wikipedia"
-                            link={<a href="https://www.wikipedia.org" rel="noreferrer" target="_blank" />}
+                            as="a"
+                            href="https://www.wikipedia.org"
+                            rel="noreferrer"
+                            target="_blank"
                             {...shared}
                         />
                         <Fab
                             filled
                             icon={<BiColor />}
                             label="Color page"
-                            link={<Link to={paths.color} />}
+                            as={Link}
+                            to={paths.color}
                             {...shared}
                         />
                     </Flex>

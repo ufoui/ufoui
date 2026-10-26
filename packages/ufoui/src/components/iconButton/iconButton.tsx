@@ -1,6 +1,9 @@
 import { forwardRef, ReactNode } from 'react';
 
-import { ButtonBase, ButtonBaseProps } from '../base';
+import { ButtonBase, ButtonBaseOwnProps, ButtonElement } from '../base';
+import { PolymorphicComponent, PolymorphicProps } from '../../utils';
+
+type IconButtonOwnProps = Omit<ButtonBaseOwnProps, 'avatar' | 'elementClass' | 'endIcon' | 'trailing'>;
 
 /**
  * Props for {@link IconButton}.
@@ -8,7 +11,7 @@ import { ButtonBase, ButtonBaseProps } from '../base';
  *
  * @category IconButton
  */
-export type IconButtonProps = Omit<ButtonBaseProps, 'avatar' | 'elementClass' | 'endIcon' | 'trailing'>;
+export type IconButtonProps<T extends ButtonElement = 'button'> = PolymorphicProps<T, IconButtonOwnProps>;
 
 /**
  * Icon-only button used for compact or secondary actions.
@@ -53,6 +56,6 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             </ButtonBase>
         );
     }
-);
+) as PolymorphicComponent<IconButtonOwnProps, 'button', ButtonElement>;
 
 IconButton.displayName = 'IconButton';

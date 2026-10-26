@@ -15,9 +15,9 @@ import {
     Avatar,
     BorderColor,
     Button,
+    ButtonBaseProps,
     Div,
     Divider,
-    ButtonBaseProps,
     ElementBorder,
     ElementDensity,
     ElementElevation,
@@ -189,13 +189,7 @@ export const ButtonPage = () => {
                     <Divider className="col-span-2" />
                     <Div>Upload</Div>
                     <Flex>
-                        <Button
-                            color="primary"
-                            filled
-                            icon={<FaUpload />}
-                            label="Upload"
-                            shape="round"
-                            upload></Button>
+                        <Button color="primary" filled icon={<FaUpload />} label="Upload" shape="round" upload></Button>
                     </Flex>
                     <Divider className="col-span-2" />
                     <Div>Custom icons & colors</Div>
@@ -233,38 +227,18 @@ export const ButtonPage = () => {
                     <Div>Full & limited width</Div>
                     <Flex gap={16}>
                         <div className="w-[400px] bg-black">
-                            <Button
-                                color="primary"
-                                filled
-                                fullWidth
-                                icon={<FaHome />}
-                                label="Full width"></Button>
+                            <Button color="primary" filled fullWidth icon={<FaHome />} label="Full width"></Button>
                         </div>
                         <div className="w-[100px] bg-black">
-                            <Button
-                                color="primary"
-                                filled
-                                fullWidth
-                                icon={<FaHome />}
-                                label="Full width"></Button>
+                            <Button color="primary" filled fullWidth icon={<FaHome />} label="Full width"></Button>
                         </div>
                     </Flex>
 
                     <Divider className="col-span-2" />
                     <Div>End icon</Div>
                     <Flex gap={16}>
-                        <Button
-                            endIcon={<FaHome />}
-                            filled
-                            label="End icon"
-                            title="End icon only"
-                            {...shared}></Button>
-                        <Button
-                            endIcon={<BsHouse />}
-                            filled
-                            icon={<FaHome />}
-                            label="2 icons"
-                            {...shared}></Button>
+                        <Button endIcon={<FaHome />} filled label="End icon" title="End icon only" {...shared}></Button>
+                        <Button endIcon={<BsHouse />} filled icon={<FaHome />} label="2 icons" {...shared}></Button>
                         <Button
                             endIcon={
                                 <>
@@ -282,19 +256,16 @@ export const ButtonPage = () => {
                     <Div>Links</Div>
                     <Flex gap={16}>
                         <Button
+                            as="a"
                             filled
+                            href="https://www.wikipedia.org"
                             icon={<BsWikipedia />}
                             label="Wikipedia"
-                            link={<a href="https://www.wikipedia.org" rel="noreferrer" target="_blank" />}
+                            rel="noreferrer"
+                            target="_blank"
                             {...shared}
                         />
-                        <Button
-                            filled
-                            icon={<BiColor />}
-                            label="Color page"
-                            link={<Link to={paths.color} />}
-                            {...shared}
-                        />
+                        <Button as={Link} filled icon={<BiColor />} label="Color page" to={paths.color} {...shared} />
                     </Flex>
                     <Divider className="col-span-2" />
                     <Div>Content</Div>

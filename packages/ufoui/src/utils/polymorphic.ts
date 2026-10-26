@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react';
+import { ComponentPropsWithoutRef, ElementType, ReactNode, Ref } from 'react';
 
 /**
  * Props of a polymorphic component.
@@ -28,13 +28,14 @@ export type PolymorphicProps<T extends ElementType, P> = {
  *
  * @typeParam P - Own props of the component.
  * @typeParam D - Element type rendered when `as` is omitted.
+ * @typeParam C - Element types accepted by `as`. Default: any element type.
  *
  * @category Utils
  *
  * @example
  * export const Link = forwardRef(LinkInner) as PolymorphicComponent<LinkOwnProps, 'a'>;
  */
-export interface PolymorphicComponent<P, D extends ElementType> {
-    <T extends ElementType = D>(props: PolymorphicProps<T, P>): ReactNode;
+export interface PolymorphicComponent<P, D extends C, C extends ElementType = ElementType> {
+    <T extends C = D>(props: PolymorphicProps<T, P> & { ref?: Ref<Element> }): ReactNode;
     displayName?: string;
 }

@@ -13,9 +13,9 @@ import { PiHouse } from 'react-icons/pi';
 import {
     Aside,
     BorderColor,
+    ButtonBaseProps,
     Div,
     Divider,
-    ButtonBaseProps,
     ElementBorder,
     ElementDensity,
     ElementElevation,
@@ -208,48 +208,26 @@ export const IconButtonPage = () => {
                     </Flex>
 
                     <Divider className="col-span-2" />
-                    <Div>End icon</Div>
-                    <Flex gap={16}>
-                        <IconButton
-                            endIcon={<FaHome />}
-                            filled
-                            label="End icon"
-                            title="End icon only"
-                            {...shared}></IconButton>
-                        <IconButton
-                            endIcon={<BsHouse />}
-                            filled
-                            icon={<FaHome />}
-                            label="2 icons"
-                            {...shared}></IconButton>
-                        <IconButton
-                            endIcon={
-                                <>
-                                    <BsHouse />
-                                    <BsHouse />
-                                </>
-                            }
-                            filled
-                            icon={<FaHome />}
-                            label="3 icons"
-                            {...shared}></IconButton>
-                    </Flex>
 
                     <Divider className="col-span-2" />
                     <Div>Links</Div>
                     <Flex gap={16}>
                         <IconButton
+                            as="a"
                             filled
+                            href="https://www.wikipedia.org"
                             icon={<BsWikipedia />}
                             label="Wikipedia"
-                            link={<a href="https://www.wikipedia.org" rel="noreferrer" target="_blank" />}
+                            rel="noreferrer"
+                            target="_blank"
                             {...shared}
                         />
                         <IconButton
+                            as={Link}
                             filled
                             icon={<BiColor />}
                             label="Color page"
-                            link={<Link to={paths.color} />}
+                            to={paths.color}
                             {...shared}
                         />
                     </Flex>
@@ -262,13 +240,13 @@ export const IconButtonPage = () => {
                             filled
                             label="Custom Slot Demo"
                         />
+
                         <IconButton
                             {...shared}
                             content={<ScrollingText text="Custom Slot Demo" />}
                             icon={<MdAdd />}
                             label="Slots"
                             tonal
-                            trailing={<MdRemove />}
                         />
                         <IconButton {...shared} content="" icon={<MdAdd />} label="Add" />
                     </Flex>

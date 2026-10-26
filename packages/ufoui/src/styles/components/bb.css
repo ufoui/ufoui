@@ -23,6 +23,10 @@
 
 .uui-btn-control {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   outline: none;
   box-sizing: border-box;
   width: var(--uui-button-width, inherit);
@@ -31,16 +35,18 @@
   padding-right: var(--uui-button-padding, inherit);
 }
 
-.uui-btn-control.uui-btn-custom {
-  min-width: 24px;
-  min-height: 24px;
-}
+/*.uui-btn-control.uui-btn-custom {*/
+/*  min-width: 24px;*/
+/*  min-height: 24px;*/
+/*}*/
 
 .uui-btn-content {
   display: flex;
   align-items: center;
   justify-content: center;
   column-gap: var(--uui-col-space, 8px);
+  /*overflow: hidden;*/
+  /*max-height: 100%;*/
 }
 
 .uui-bb .uui-state {

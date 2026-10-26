@@ -1,6 +1,12 @@
 import { forwardRef, ReactElement } from 'react';
 
-import { ButtonBase, ButtonBaseProps } from '../base/buttonBase';
+import { ButtonBase, ButtonBaseOwnProps, ButtonElement } from '../base';
+import { PolymorphicComponent, PolymorphicProps } from '../../utils';
+
+interface FabButtonOwnProps extends Omit<ButtonBaseOwnProps, 'avatar' | 'elementClass'> {
+    /** Icon rendered inside the FAB. */
+    icon: ReactElement;
+}
 
 /**
  * Props for {@link Fab}.
@@ -8,10 +14,7 @@ import { ButtonBase, ButtonBaseProps } from '../base/buttonBase';
  *
  * @category Fab
  */
-export interface FabButtonProps extends Omit<ButtonBaseProps, 'avatar' | 'elementClass'> {
-    /** Icon rendered inside the FAB. */
-    icon: ReactElement;
-}
+export type FabButtonProps<T extends ButtonElement = 'button'> = PolymorphicProps<T, FabButtonOwnProps>;
 
 /**
  * Floating action button used for primary contextual actions.
@@ -44,6 +47,6 @@ export const Fab = forwardRef<HTMLButtonElement, FabButtonProps>(
             />
         );
     }
-);
+) as PolymorphicComponent<FabButtonOwnProps, 'button', ButtonElement>;
 
 Fab.displayName = 'Fab';

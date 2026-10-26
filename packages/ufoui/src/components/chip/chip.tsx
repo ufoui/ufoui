@@ -1,9 +1,14 @@
 import { forwardRef } from 'react';
 
-import { ButtonBase, ButtonBaseProps } from '../base';
-import { cn } from '../../utils';
+import { ButtonBase, ButtonBaseOwnProps, ButtonElement } from '../base';
+import { cn, PolymorphicComponent, PolymorphicProps } from '../../utils';
 
 export type ChipType = 'assist' | 'filter' | 'input' | 'suggestion';
+
+interface ChipOwnProps extends Omit<ButtonBaseOwnProps, 'elementClass' | 'type'> {
+    /** Defines the visual style and behavior of the chip. @default 'assist' */
+    type?: ChipType;
+}
 
 /**
  * Props for {@link Chip}.
@@ -11,10 +16,7 @@ export type ChipType = 'assist' | 'filter' | 'input' | 'suggestion';
  *
  * @category Chip
  */
-export interface ChipProps extends Omit<ButtonBaseProps, 'elementClass' | 'type'> {
-    /** Defines the visual style and behavior of the chip. @default 'assist' */
-    type?: ChipType;
-}
+export type ChipProps<T extends ButtonElement = 'button'> = PolymorphicProps<T, ChipOwnProps>;
 
 /**
  * Compact element for filters, choices, suggestions, or short actions.
@@ -56,6 +58,6 @@ export const Chip = forwardRef<HTMLButtonElement, ChipProps>(
             />
         );
     }
-);
+) as PolymorphicComponent<ChipOwnProps, 'button', ButtonElement>;
 
 Chip.displayName = 'Chip';
