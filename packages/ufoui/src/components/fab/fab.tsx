@@ -1,12 +1,9 @@
-import { forwardRef, ReactElement } from 'react';
+import { forwardRef } from 'react';
 
 import { ButtonBase, ButtonBaseOwnProps, ButtonElement } from '../base';
 import { PolymorphicComponent, PolymorphicProps } from '../../utils';
 
-interface FabButtonOwnProps extends Omit<ButtonBaseOwnProps, 'avatar' | 'elementClass'> {
-    /** Icon rendered inside the FAB. */
-    icon: ReactElement;
-}
+type FabButtonOwnProps = Omit<ButtonBaseOwnProps, 'avatar' | 'elementClass'>;
 
 /**
  * Props for {@link Fab}.

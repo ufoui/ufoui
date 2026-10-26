@@ -1,9 +1,11 @@
-import { CSSProperties, isValidElement, useState } from 'react';
+import { CSSProperties, isValidElement, ReactElement, useState } from 'react';
 
 import * as ufoui from '@ufoui/core';
 import { Article, Aside, Checkbox, Content, Div, Flex, H1, Stack } from '@ufoui/core';
 
-const icons = Object.entries(ufoui).filter(([name, icon]) => name.endsWith('Icon') && isValidElement(icon));
+const icons = Object.entries(ufoui).filter(
+    (entry): entry is [string, ReactElement] => entry[0].endsWith('Icon') && isValidElement(entry[1])
+);
 
 export const IconsPage = () => {
     const [large, setLarge] = useState(false);
