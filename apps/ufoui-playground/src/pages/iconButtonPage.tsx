@@ -63,6 +63,7 @@ export const IconButtonPage = () => {
     const [selectedColor, setSelectedColor] = useState<SemanticColor | null>(null);
     const [elevation, setElevation] = useState<ElementElevation | null>(null);
     const [flat, setFlat] = useState<boolean | null>(false);
+    const [shrink, setShrink] = useState<boolean | null>(false);
     const [toggle, setToggle] = useState<boolean | null>(false);
     const [disabled, setDisabled] = useState<boolean | null>(false);
     const [density, setDensity] = useState<ElementDensity | null>(null);
@@ -82,6 +83,7 @@ export const IconButtonPage = () => {
             density: density ?? undefined,
             font: font ?? undefined,
             flat: !!flat,
+            shrink: !!shrink,
             toggle: !!toggle,
             ...(disabled ? { disabled: true } : {}),
         }),
@@ -98,6 +100,7 @@ export const IconButtonPage = () => {
             density,
             font,
             flat,
+            shrink,
             toggle,
             disabled,
         ]
@@ -252,14 +255,14 @@ export const IconButtonPage = () => {
                     </Flex>
                     <Divider className="col-span-2" />
                     <Div>Custom</Div>
-                    <Flex alignItems="center" direction="row" gap={16}>
+                    <Flex alignItems="center" direction="row" gap={16} wrap>
                         <IconButton {...shared} filled label="Image 1">
                             <img alt="" height={64} src={tree} width={64} />
                         </IconButton>
                         <IconButton {...shared} disabled filled label="Image 1 disabled">
                             <img alt="" height={64} src={tree} width={64} />
                         </IconButton>
-                        <IconButton {...shared} filled label="Image 2">
+                        <IconButton {...shared} filled label="Image 2" shrink>
                             <img alt="" height={80} src={tree} width={80} />
                         </IconButton>
                         <IconButton {...shared} label="Image 2">
@@ -307,6 +310,7 @@ export const IconButtonPage = () => {
                             density: ds,
                             disabled: db,
                             flat: fl,
+                            shrink: sh,
                             toggle: tg,
                             font: lf,
                             selectedShape: ss,
@@ -320,6 +324,7 @@ export const IconButtonPage = () => {
                             setBorderColor(bc ?? null);
                             setElevation(el ?? null);
                             setFlat(fl ?? null);
+                            setShrink(sh ?? null);
                             setDensity(ds ?? null);
                             setDisabled(db ?? null);
                             setFont(lf ?? null);
@@ -330,6 +335,7 @@ export const IconButtonPage = () => {
                         selectedColor={selectedColor}
                         selectedShape={selectedShape}
                         shape={shape}
+                        shrink={shrink}
                         size={size}
                         spread={spread}
                         toggle={toggle}

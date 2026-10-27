@@ -88,6 +88,7 @@ type ButtonModifiersProps = {
         selectionScroll?: ListSelectionScroll | null;
         selectionSlot?: ListSelectionSlot | null;
         shape?: ElementShape | null;
+        shrink?: boolean | null;
         size?: ElementSize | null;
         spread?: ButtonBaseProps['spread'] | null;
         surfaceColor?: SurfaceColor | null;
@@ -107,6 +108,7 @@ type ButtonModifiersProps = {
     selectionScroll?: ListSelectionScroll | null;
     selectionSlot?: ListSelectionSlot | null;
     shape?: ElementShape | null;
+    shrink?: boolean | null;
     size?: ElementSize | null;
     spread?: ButtonBaseProps['spread'] | null;
     surfaceColor?: SurfaceColor | null;
@@ -144,6 +146,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         elevation,
         filled,
         flat,
+        shrink,
         toggle,
         surfaceColor,
         decorative,
@@ -671,6 +674,22 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             onChange({
                                 ...props,
                                 flat: e.target.checked,
+                            });
+                        }}
+                    />
+                </>
+            )}
+            {shrink !== undefined && (
+                <>
+                    <label htmlFor="mod_shrink">Shrink:</label>
+                    <Checkbox
+                        checked={!!shrink}
+                        density="dense"
+                        id="mod_shrink"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                shrink: e.target.checked,
                             });
                         }}
                     />

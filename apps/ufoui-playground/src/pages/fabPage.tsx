@@ -63,6 +63,7 @@ export const FabPage = () => {
     const [selectedColor, setSelectedColor] = useState<SemanticColor | null>(null);
     const [elevation, setElevation] = useState<ElementElevation | null>(null);
     const [flat, setFlat] = useState<boolean | null>(false);
+    const [shrink, setShrink] = useState<boolean | null>(false);
     const [toggle, setToggle] = useState<boolean | null>(false);
     const [disabled, setDisabled] = useState<boolean | null>(false);
     const [density, setDensity] = useState<ElementDensity | null>(null);
@@ -82,6 +83,7 @@ export const FabPage = () => {
             density: density ?? undefined,
             font: font ?? undefined,
             flat: !!flat,
+            shrink: !!shrink,
             toggle: !!toggle,
             ...(disabled ? { disabled: true } : {}),
         }),
@@ -98,6 +100,7 @@ export const FabPage = () => {
             density,
             font,
             flat,
+            shrink,
             toggle,
             disabled,
         ]
@@ -258,6 +261,17 @@ export const FabPage = () => {
                             to={paths.color}
                             {...shared}
                         />
+                        <Fab
+                            aria-label="Wikipedia"
+                            as="a"
+                            filled
+                            href="https://www.wikipedia.org"
+                            icon={<BsWikipedia />}
+                            rel="noreferrer"
+                            target="_blank"
+                            {...shared}
+                        />
+                        <Fab aria-label="Color page" as={Link} filled icon={<BiColor />} to={paths.color} {...shared} />
                     </Flex>
                     <Divider className="col-span-2" />
                     <Div>Content</Div>
@@ -280,14 +294,20 @@ export const FabPage = () => {
                     </Flex>
                     <Divider className="col-span-2" />
                     <Div>Custom</Div>
-                    <Flex alignItems="center" direction="row" gap={16}>
+                    <Flex alignItems="center" direction="row" gap={16} wrap>
                         <Fab {...shared} filled label="Image 1">
+                            <img alt="" height={64} src={tree} width={64} />
+                        </Fab>
+                        <Fab {...shared} filled label="Image 1" leading={<MdAdd />} trailing={<MdRemove />}>
                             <img alt="" height={64} src={tree} width={64} />
                         </Fab>
                         <Fab {...shared} disabled filled label="Image 1 disabled">
                             <img alt="" height={64} src={tree} width={64} />
                         </Fab>
-                        <Fab {...shared} filled label="Image 2">
+                        <Fab {...shared} filled label="Image 2" shrink>
+                            <img alt="" height={80} src={tree} width={80} />
+                        </Fab>
+                        <Fab {...shared} filled label="Image 2" leading={<MdAdd />} shrink trailing={<MdRemove />}>
                             <img alt="" height={80} src={tree} width={80} />
                         </Fab>
                         <Fab {...shared} label="Image 2">
@@ -335,6 +355,7 @@ export const FabPage = () => {
                             density: ds,
                             disabled: db,
                             flat: fl,
+                            shrink: sh,
                             toggle: tg,
                             font: lf,
                             selectedShape: ss,
@@ -348,6 +369,7 @@ export const FabPage = () => {
                             setBorderColor(bc ?? null);
                             setElevation(el ?? null);
                             setFlat(fl ?? null);
+                            setShrink(sh ?? null);
                             setDensity(ds ?? null);
                             setDisabled(db ?? null);
                             setFont(lf ?? null);
@@ -358,6 +380,7 @@ export const FabPage = () => {
                         selectedColor={selectedColor}
                         selectedShape={selectedShape}
                         shape={shape}
+                        shrink={shrink}
                         size={size}
                         spread={spread}
                         toggle={toggle}

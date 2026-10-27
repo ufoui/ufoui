@@ -1,5 +1,18 @@
 import { useMemo, useState } from 'react';
-import { MdCheck, MdClose, MdFavorite, MdFilterList, MdOutlineCircle, MdPerson, MdStar } from 'react-icons/md';
+import { Link } from 'react-router-dom';
+import { BiColor } from 'react-icons/bi';
+import { BsWikipedia } from 'react-icons/bs';
+import {
+    MdAdd,
+    MdCheck,
+    MdClose,
+    MdFavorite,
+    MdFilterList,
+    MdOutlineCircle,
+    MdPerson,
+    MdRemove,
+    MdStar,
+} from 'react-icons/md';
 
 import {
     Article,
@@ -25,7 +38,9 @@ import {
     Stack,
 } from '@ufoui/core';
 
+import tree from '../assets/tree.jpg';
 import { Modifiers } from '../components/modifiers/modifiers';
+import { paths } from '../paths';
 
 const chipTypes: ChipType[] = ['assist', 'filter', 'input', 'suggestion'];
 
@@ -37,6 +52,15 @@ const chipVariants: { label: string; variant?: ButtonBaseProps['variant'] }[] = 
     { label: 'Tonal', variant: 'tonal' },
     { label: 'Filled', variant: 'filled' },
 ];
+
+const ScrollingText = ({ text }: { text: string }) => (
+    <Div className="w-20 overflow-hidden">
+        <Flex className="animate-marquee w-max">
+            <Div className="whitespace-nowrap pr-4">{text}</Div>
+            <Div className="whitespace-nowrap pr-4">{text}</Div>
+        </Flex>
+    </Div>
+);
 
 export const ChipPage = () => {
     const [color, setColor] = useState<SemanticColor | null>(null);
@@ -50,6 +74,7 @@ export const ChipPage = () => {
     const [density, setDensity] = useState<ElementDensity | null>(null);
     const [font, setFont] = useState<ElementFont | null>(null);
     const [spread, setSpread] = useState<ButtonBaseProps['spread'] | null>(null);
+    const [shrink, setShrink] = useState<boolean | null>(false);
     const [toggle, setToggle] = useState<boolean | null>(false);
 
     const shared = useMemo(
@@ -65,9 +90,24 @@ export const ChipPage = () => {
             density: density ?? undefined,
             font: font ?? undefined,
             spread: spread ?? undefined,
+            shrink: !!shrink,
             toggle: !!toggle,
         }),
-        [color, selectedColor, size, shape, selectedShape, border, borderColor, elevation, density, font, spread, toggle]
+        [
+            color,
+            selectedColor,
+            size,
+            shape,
+            selectedShape,
+            border,
+            borderColor,
+            elevation,
+            density,
+            font,
+            spread,
+            shrink,
+            toggle,
+        ]
     );
 
     return (
@@ -112,9 +152,27 @@ export const ChipPage = () => {
                 <Section gap={12}>
                     <H2>Both icons</H2>
                     <Flex gap={8} wrap>
-                        <Chip {...shared} icon={<MdStar />} label="Assist" trailing={<MdOutlineCircle />} type="assist" />
-                        <Chip {...shared} icon={<MdFilterList />} label="Filter" trailing={<MdOutlineCircle />} type="filter" />
-                        <Chip {...shared} icon={<MdPerson />} label="Person" trailing={<MdOutlineCircle />} type="input" />
+                        <Chip
+                            {...shared}
+                            icon={<MdStar />}
+                            label="Assist"
+                            trailing={<MdOutlineCircle />}
+                            type="assist"
+                        />
+                        <Chip
+                            {...shared}
+                            icon={<MdFilterList />}
+                            label="Filter"
+                            trailing={<MdOutlineCircle />}
+                            type="filter"
+                        />
+                        <Chip
+                            {...shared}
+                            icon={<MdPerson />}
+                            label="Person"
+                            trailing={<MdOutlineCircle />}
+                            type="input"
+                        />
                         <Chip
                             {...shared}
                             icon={<MdFavorite />}
@@ -183,6 +241,71 @@ export const ChipPage = () => {
                         <Chip {...shared} disabled icon={<MdStar />} label="With icon" />
                     </Flex>
                 </Section>
+
+                <Section gap={12}>
+                    <H2>Links</H2>
+                    <Flex gap={8} wrap>
+                        <Chip
+                            {...shared}
+                            as="a"
+                            filled
+                            href="https://www.wikipedia.org"
+                            icon={<BsWikipedia />}
+                            label="Wikipedia"
+                            rel="noreferrer"
+                            target="_blank"
+                        />
+                        <Chip {...shared} as={Link} filled icon={<BiColor />} label="Color page" to={paths.color} />
+                    </Flex>
+                </Section>
+
+                <Section gap={12}>
+                    <H2>Content</H2>
+                    <Flex alignItems="center" gap={8} wrap>
+                        <Chip
+                            {...shared}
+                            content={<ScrollingText text="Custom Slot Demo" />}
+                            filled
+                            label="Custom Slot Demo"
+                        />
+                        <Chip
+                            {...shared}
+                            content={<ScrollingText text="Custom Slot Demo" />}
+                            icon={<MdAdd />}
+                            label="Slots"
+                            tonal
+                            trailing={<MdRemove />}
+                        />
+                        <Chip {...shared} content="😊" icon={<MdAdd />} label="Add" />
+                    </Flex>
+                </Section>
+
+                <Section gap={12}>
+                    <H2>Custom</H2>
+                    <Flex alignItems="center" gap={8} wrap>
+                        <Chip {...shared} filled label="Image 1">
+                            <img alt="" height={64} src={tree} width={64} />
+                        </Chip>
+                        <Chip {...shared} filled label="Image 1" leading={<MdAdd />} trailing={<MdRemove />}>
+                            <img alt="" height={64} src={tree} width={64} />
+                        </Chip>
+                        <Chip {...shared} disabled filled label="Image 1 disabled">
+                            <img alt="" height={64} src={tree} width={64} />
+                        </Chip>
+                        <Chip {...shared} filled label="Image 2" shrink>
+                            <img alt="" height={80} src={tree} width={80} />
+                        </Chip>
+                        <Chip {...shared} filled label="Image 2" leading={<MdAdd />} shrink trailing={<MdRemove />}>
+                            <img alt="" height={80} src={tree} width={80} />
+                        </Chip>
+                        <Chip {...shared} label="Image 2">
+                            <span className="px-1"> SPAN </span>
+                        </Chip>
+                        <Chip {...shared} filled label="Image 2">
+                            <span className="px-1">FILLED SPAN</span>
+                        </Chip>
+                    </Flex>
+                </Section>
             </Content>
 
             <Aside>
@@ -205,6 +328,7 @@ export const ChipPage = () => {
                         density: ds,
                         font: ft,
                         spread: spr,
+                        shrink: sh,
                         toggle: tg,
                     }) => {
                         setColor(cl ?? null);
@@ -218,11 +342,13 @@ export const ChipPage = () => {
                         setDensity(ds ?? null);
                         setFont(ft ?? null);
                         setSpread(spr ?? null);
+                        setShrink(sh ?? null);
                         setToggle(tg ?? null);
                     }}
                     selectedColor={selectedColor}
                     selectedShape={selectedShape}
                     shape={shape}
+                    shrink={shrink}
                     size={size}
                     spread={spread}
                     toggle={toggle}

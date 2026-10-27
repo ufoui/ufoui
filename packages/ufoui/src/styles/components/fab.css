@@ -148,7 +148,7 @@
   --uui-button-width: 3.125rem;
 }
 
-.uui-fab.uui-fab-extended button {
+.uui-fab.uui-fab-extended .uui-btn-control {
   --uui-button-width: auto;
   --uui-button-padding: var(--uui-ext-padding);
 }

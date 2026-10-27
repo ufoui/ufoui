@@ -97,3 +97,7 @@
 .uui-icon-button .uui-spread-wide.uui-extra-small {
   --uui-button-width: 2.5rem;
 }
+
+.uui-icon-button .uui-btn-label {
+  border-radius: inherit;
+}

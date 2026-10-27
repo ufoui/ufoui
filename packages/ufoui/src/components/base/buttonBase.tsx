@@ -149,6 +149,9 @@ export interface ButtonBaseOwnProps extends WrapperProps {
     /** Shape of the button. Default: round */
     shape?: ElementShape;
 
+    /** Wraps the content tightly, ignoring `size` tokens. May end up larger than the token size. */
+    shrink?: boolean;
+
     /** Predefined button size. Also sets the default font. Default: small */
     size?: ElementSize;
 
@@ -270,6 +273,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
             name = '',
             loading,
             fullWidth = false,
+            shrink = false,
             selected,
             defaultSelected,
             toggle = false,
@@ -339,6 +343,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
             finalEffects.selected?.includes('overlay') && 'uui-selected-overlay',
             loading && 'uui-loading',
             fullWidth && 'uui-w-full',
+            shrink && 'uui-shrink',
             getSizeClass(size),
             (avatar || icon || leading || loading) && 'uui-has-leading',
             avatar && 'uui-has-avatar',
@@ -377,7 +382,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
         );
         const trailingContent = <Trailing content={trailing} end={endIcon} />;
         const finalContent = content ?? children ?? label;
-        const finalLabel = finalContent && <span className="uui-label">{finalContent}</span>;
+        const finalLabel = finalContent && <span className="uui-btn-label">{finalContent}</span>;
 
         const contentSlot = (
             <div className={cn('uui-btn-content', font && getFontClass(font))}>

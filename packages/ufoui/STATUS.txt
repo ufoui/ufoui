@@ -76,9 +76,11 @@ NumberField
 Option
 Tree
 TreeItem
+Chip
 
 @experimental
-Chip
+ListBox
+List
 AvatarGroup
 ListItem
 TextField
@@ -99,7 +101,6 @@ DateTimeField
 Drawer
 FieldBase
 InlineTooltipManager
-List
 MonthField
 Select
 Slider
@@ -110,7 +111,6 @@ TimeInput
 Toolbar
 Tooltip
 WeekField
-ListBox
 
 @todo
 AlertDialog

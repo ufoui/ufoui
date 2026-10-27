@@ -35,18 +35,29 @@
   padding-right: var(--uui-button-padding, inherit);
 }
 
-/*.uui-btn-control.uui-btn-custom {*/
-/*  min-width: 24px;*/
-/*  min-height: 24px;*/
-/*}*/
-
 .uui-btn-content {
   display: flex;
   align-items: center;
   justify-content: center;
   column-gap: var(--uui-col-space, 8px);
-  /*overflow: hidden;*/
-  /*max-height: 100%;*/
+  height: 100%;
+  max-width: 100%;
+  border-radius: inherit;
+}
+
+.uui-bb .uui-btn-control.uui-shrink {
+  width: auto;
+  height: auto;
+  padding: 0;
+}
+
+.uui-btn-control.uui-shrink .uui-btn-content {
+  overflow: hidden;
+
+}
+
+.uui-btn-control.uui-shrink .uui-btn-label {
+  /*display: flex;*/
 }
 
 .uui-bb .uui-state {
@@ -188,10 +199,12 @@
   opacity: 0.1 !important;
 }
 
-.uui-bb .uui-label {
+.uui-btn-label {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  max-height: 100%;
+  /*border-radius: inherit;*/
   user-select: none;
 }
