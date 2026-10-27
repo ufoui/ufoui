@@ -119,11 +119,8 @@ export interface ButtonBaseOwnProps extends WrapperProps {
     /** DOM name attribute. */
     name?: string;
 
-    /** Blur event handler. */
-    onBlur?: React.FocusEventHandler<HTMLButtonElement>;
-
-    /** Change event handler (toggle buttons). */
-    onChange?: React.ChangeEventHandler<HTMLButtonElement>;
+    /** Called with the new selected state of a toggle button. */
+    onChange?: (selected: boolean) => void;
 
     /** Click event handler. */
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -140,7 +137,7 @@ export interface ButtonBaseOwnProps extends WrapperProps {
     /** Semantic color override when selected. */
     selectedColor?: SemanticColor;
 
-    /** Icon displayed when selected. */
+    /** Replaces `icon` while a toggle button is selected. */
     selectedIcon?: React.ReactElement;
 
     /** Shape override when selected. Default: rounded */
@@ -262,6 +259,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
             endIcon,
             trailing,
             content,
+            onChange,
             onClick,
             elementClass,
             font,
@@ -269,8 +267,8 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
             uploadAccept,
             uploadMultiple,
             onUploadChange,
-            id = '',
-            name = '',
+            id,
+            name,
             loading,
             fullWidth = false,
             shrink = false,
@@ -296,6 +294,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
         const isControlled = selected !== undefined;
         const [internalSelected, setInternalSelected] = useState(defaultSelected ?? false);
         const isSelected = isControlled ? selected : internalSelected;
+        const finalIcon = toggle && isSelected && selectedIcon ? selectedIcon : icon;
 
         const uploadInputRef = useRef<HTMLInputElement>(null);
         const buttonRef = useRef<HTMLButtonElement>(null);
@@ -303,7 +302,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
 
         const isButton = Component === 'button';
         const generatedId = useUniqueId('button');
-        const elemId = id || name || generatedId;
+        const elemId = id ?? generatedId;
         const finalVariant =
             variant ?? (filled ? 'filled' : tonal ? 'tonal' : elevated ? 'elevated' : outlined ? 'outlined' : 'text');
 
@@ -345,7 +344,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
             fullWidth && 'uui-w-full',
             shrink && 'uui-shrink',
             getSizeClass(size),
-            (avatar || icon || leading || loading) && 'uui-has-leading',
+            (avatar || finalIcon || leading || loading) && 'uui-has-leading',
             avatar && 'uui-has-avatar',
             (trailing || endIcon) && 'uui-has-trailing',
             isSelected && 'uui-selected',
@@ -371,10 +370,10 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
                 content={finalLeading}
                 start={
                     !loading &&
-                    (avatar || icon) && (
+                    (avatar || finalIcon) && (
                         <>
                             {avatar}
-                            {icon}
+                            {finalIcon}
                         </>
                     )
                 }
@@ -444,19 +443,11 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
                 if (!isControlled) {
                     setInternalSelected(newValue);
                 }
-                props.onChange?.({
-                    ...event,
-                    target: {
-                        ...event.target,
-                        name,
-                        value: newValue,
-                    },
-                } as unknown as React.ChangeEvent<HTMLButtonElement>);
+                onChange?.(newValue);
             }
 
             if (upload && uploadInputRef.current) {
                 uploadInputRef.current.click();
-                return;
             }
             if (onClick) {
                 onClick(event);
@@ -493,7 +484,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
                     className={controlClasses}
                     disabled={isButton ? disabled : undefined}
                     id={elemId}
-                    name={name || undefined}
+                    name={name}
                     onClick={handleClick}
                     ref={mergeRefs(ref, buttonRef)}
                     style={controlStyle.get()}

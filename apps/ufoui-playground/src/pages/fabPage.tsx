@@ -189,6 +189,10 @@ export const FabPage = () => {
                     <Flex gap={16}>
                         <Fab {...shared} filled icon={<FaHome />} label="Spinner" loading />
                         <Fab {...shared} disabled label="Spinner" leading={<MdHome />} loading></Fab>
+                        <Fab {...shared} content="Content" filled label="Spinner" loading />
+                        <Fab {...shared} filled label="Spinner" loading>
+                            Children
+                        </Fab>
                     </Flex>
 
                     <Divider className="col-span-2" />

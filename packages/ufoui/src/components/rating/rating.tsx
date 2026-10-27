@@ -158,7 +158,7 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
         const finalEffects = getEffects(effects, { focus: ['ring'] });
 
         const generatedId = useUniqueId('rating');
-        const elemId = id ?? name ?? generatedId;
+        const elemId = id ?? generatedId;
         const labelId = label ? `${elemId}_label` : undefined;
         const { isFocused, focusHandlers, focusVisible } = useFocusVisible(onFocus, onBlur);
 
@@ -305,7 +305,7 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
                 ref={trackRef}
                 role="slider"
                 tabIndex={readOnly || disabled ? undefined : 0}>
-                <input disabled={disabled} ref={ref} type="hidden" value={current} {...otherProps} />
+                <input disabled={disabled} name={name} ref={ref} type="hidden" value={current} {...otherProps} />
                 {stars}
                 {inlineTooltip && (
                     <InlineTooltipManager align={tooltipAlign} tooltip={inlineTooltip} triggerRef={wrapperRef} />

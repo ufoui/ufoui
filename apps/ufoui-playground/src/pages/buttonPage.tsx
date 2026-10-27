@@ -224,6 +224,10 @@ export const ButtonPage = () => {
                     <Flex gap={16}>
                         <Button {...shared} filled icon={<FaHome />} label="Spinner" loading />
                         <Button {...shared} disabled label="Spinner" leading={<MdHome />} loading></Button>
+                        <Button {...shared} content="Content" filled label="Spinner" loading />
+                        <Button {...shared} filled label="Spinner" loading>
+                            Children
+                        </Button>
                     </Flex>
 
                     <Divider className="col-span-2" />

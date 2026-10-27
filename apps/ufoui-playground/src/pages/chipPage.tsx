@@ -243,6 +243,18 @@ export const ChipPage = () => {
                 </Section>
 
                 <Section gap={12}>
+                    <H2>Loading</H2>
+                    <Flex alignItems="center" gap={8} wrap>
+                        <Chip {...shared} icon={<MdStar />} label="Spinner" loading />
+                        <Chip {...shared} disabled label="Spinner" leading={<MdStar />} loading />
+                        <Chip {...shared} content="Content" label="Spinner" loading />
+                        <Chip {...shared} label="Spinner" loading>
+                            Children
+                        </Chip>
+                    </Flex>
+                </Section>
+
+                <Section gap={12}>
                     <H2>Links</H2>
                     <Flex gap={8} wrap>
                         <Chip

@@ -187,6 +187,10 @@ export const IconButtonPage = () => {
                     <Flex gap={16}>
                         <IconButton {...shared} filled icon={<FaHome />} label="Spinner" loading />
                         <IconButton {...shared} disabled label="Spinner" leading={<MdHome />} loading></IconButton>
+                        <IconButton {...shared} content="Content" filled label="Spinner" loading />
+                        <IconButton {...shared} filled label="Spinner" loading>
+                            Children
+                        </IconButton>
                     </Flex>
 
                     <Divider className="col-span-2" />

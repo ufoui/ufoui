@@ -40,6 +40,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             loading,
             label,
             children,
+            content,
             ...props
         }: IconButtonProps & { endIcon?: ReactNode; trailing?: ReactNode },
         ref
@@ -50,6 +51,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
                 ref={ref}
                 {...props}
                 aria-label={altLabel}
+                content={loading ? undefined : content}
                 elementClass="uui-icon-button"
                 loading={loading}>
                 {loading ? undefined : children}
