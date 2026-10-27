@@ -273,6 +273,26 @@ export const ButtonPage = () => {
                             {...shared}
                         />
                         <Button as={Link} filled icon={<BiColor />} label="Color page" to={paths.color} {...shared} />
+                        <Button
+                            as="a"
+                            disabled
+                            filled
+                            href="https://www.wikipedia.org"
+                            icon={<BsWikipedia />}
+                            label="Wikipedia disabled"
+                            rel="noreferrer"
+                            target="_blank"
+                            {...shared}
+                        />
+                        <Button
+                            as={Link}
+                            disabled
+                            filled
+                            icon={<BiColor />}
+                            label="Color page disabled"
+                            to={paths.color}
+                            {...shared}
+                        />
                     </Flex>
                     <Divider className="col-span-2" />
                     <Div>Content</Div>

@@ -50,10 +50,10 @@ export interface ButtonBaseOwnProps extends WrapperProps {
     /** Avatar rendered at the start of the button, before `icon`. */
     avatar?: React.ReactElement;
 
-    /** Outline thickness when outlined. Default: 1 */
+    /** Border width of the control. Default: 1 for outlined */
     border?: ElementOutline;
 
-    /** Border color when outlined. */
+    /** Border color override. Default: outlineVariant */
     borderColor?: BorderColor;
 
     /** Text block content, used when `content` is not set. */
@@ -92,7 +92,7 @@ export interface ButtonBaseOwnProps extends WrapperProps {
     /** Enables filled style. */
     filled?: boolean;
 
-    /** Disables elevation and elevation effects. */
+    /** Disables elevation changes on hover and press. */
     flat?: boolean;
 
     /** Font token for label and content. Overrides the font derived from `size`. */
@@ -107,7 +107,7 @@ export interface ButtonBaseOwnProps extends WrapperProps {
     /** DOM id. Auto-generated if not provided. */
     id?: string;
 
-    /** Text label for the button. */
+    /** Text label for the button. Used as `aria-label` when `content` or `children` is set. */
     label?: string;
 
     /** Leading slot content, rendered after `icon`. Replaced by the spinner while loading. */
@@ -202,9 +202,9 @@ export type ButtonBaseProps<T extends ButtonElement = 'button'> = PolymorphicPro
  * file upload trigger, icons, and semantic colors.
  *
  * @remarks
- * `as` renders the button as an anchor or a router component. Without the native
- * `button`, `disabled` maps to `aria-disabled` with `tabIndex={-1}` and blocks navigation,
- * and `type` is not applied.
+ * `as` renders the button as an anchor or a router component, and `type` is then not applied.
+ * When `disabled`, a native `button` is rendered instead of the `as` element, without `href`;
+ * other props of the `as` element are still passed to it.
  *
  * Supported effects:
  * - `hover`, `pressed` - `'overlay'`, `'elevate'`
@@ -216,13 +216,13 @@ export type ButtonBaseProps<T extends ButtonElement = 'button'> = PolymorphicPro
  * @function
  *
  * @example
- * <ButtonBase label="Save" filled icon={<SaveIcon />} />
+ * <ButtonBase elementClass="uui-button" label="Save" filled icon={<SaveIcon />} />
  *
  * @example
- * <ButtonBase upload label="Upload" onUploadChange={handleUpload} />
+ * <ButtonBase elementClass="uui-button" upload label="Upload" onUploadChange={handleUpload} />
  *
  * @example
- * <ButtonBase as={RouterLink} to="/settings" label="Settings" />
+ * <ButtonBase elementClass="uui-button" as={RouterLink} to="/settings" label="Settings" />
  *
  * @category Base components
  */
@@ -298,7 +298,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
 
         const uploadInputRef = useRef<HTMLInputElement>(null);
         const buttonRef = useRef<HTMLButtonElement>(null);
-        const Component = as ?? 'button';
+        const Component = disabled ? 'button' : (as ?? 'button');
 
         const isButton = Component === 'button';
         const generatedId = useUniqueId('button');
@@ -322,11 +322,11 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
 
         let resolvedElevation = elevation;
         if (elevation === undefined) {
-            if (tonal || filled) {
+            if (finalVariant === 'filled' || finalVariant === 'tonal') {
                 if (!flat) {
                     resolvedElevation = elevated ? 1 : 0;
                 }
-            } else if (elevated) {
+            } else if (finalVariant === 'elevated') {
                 resolvedElevation = 1;
             }
         }
@@ -384,11 +384,11 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
         const finalLabel = finalContent && <span className="uui-btn-label">{finalContent}</span>;
 
         const contentSlot = (
-            <div className={cn('uui-btn-content', font && getFontClass(font))}>
+            <span className={cn('uui-btn-content', font && getFontClass(font))}>
                 {leadingContent}
                 {finalLabel}
                 {trailingContent}
-            </div>
+            </span>
         );
 
         // Base appearance (non-toggle OR toggle without color effect)
@@ -434,10 +434,6 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
         }
 
         const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-            if (disabled) {
-                event.preventDefault();
-                return;
-            }
             if (toggle) {
                 const newValue = !isSelected;
                 if (!isControlled) {
@@ -477,7 +473,6 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
                 <Component
                     aria-busy={loading}
                     aria-describedby={title ? `${elemId}-tip` : undefined}
-                    aria-disabled={!isButton && disabled ? true : undefined}
                     aria-haspopup={upload ? 'dialog' : undefined}
                     aria-label={finalAriaLabel}
                     aria-pressed={toggle ? isSelected : undefined}
@@ -488,10 +483,10 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
                     onClick={handleClick}
                     ref={mergeRefs(ref, buttonRef)}
                     style={controlStyle.get()}
-                    tabIndex={!isButton && disabled ? -1 : undefined}
                     type={isButton ? type : undefined}
-                    {...otherProps}>
-                    <div className={stateClasses} style={stateStyle.get()} />
+                    {...otherProps}
+                    {...(disabled && { href: undefined })}>
+                    <span className={stateClasses} style={stateStyle.get()} />
                     {contentSlot}
                 </Component>
                 {inlineTooltip && (

@@ -37,7 +37,7 @@ export const createRipple = (el: HTMLElement, event: React.MouseEvent<HTMLElemen
     const diameter = Math.sqrt(elRect.width * elRect.width + elRect.height * elRect.height);
     const radius = diameter / 2;
 
-    const container = document.createElement('div');
+    const container = document.createElement('span');
     container.className = 'ripple-container';
     container.style.position = 'absolute';
     container.style.pointerEvents = 'none';
