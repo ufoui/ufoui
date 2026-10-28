@@ -20,7 +20,7 @@ export interface CollapseProps
     className?: string;
     /** Inline styles applied to the root container. */
     style?: CSSProperties;
-    /** Controls whether the container is expanded. */
+    /** Controls whether the container is expanded. @default true */
     open?: boolean;
 }
 
@@ -33,6 +33,16 @@ export interface CollapseProps
  *
  * @function
  * @param props Component properties.
+ *
+ * @example
+ * <Collapse open={expanded}>
+ *     <P>Details</P>
+ * </Collapse>
+ *
+ * @example
+ * <Collapse open={expanded} animation={{ animation: 'slideDown', duration: 300 }}>
+ *     <P>Details</P>
+ * </Collapse>
  *
  * @category Collapse
  */

@@ -39,6 +39,11 @@ SliderHandle
 LabelText
 
 @alpha
+Button
+Fab
+IconButton
+ButtonBase
+Chip
 Avatar
 Icon ?
 Badge
@@ -51,12 +56,8 @@ Progress
 Menu
 MenuItem
 Divider
-ButtonBase
-Button
-Fab
 Fieldset
 RadioGroup
-IconButton
 Checkbox
 Radio
 Switch
@@ -76,7 +77,6 @@ NumberField
 Option
 Tree
 TreeItem
-Chip
 
 @experimental
 ListBox

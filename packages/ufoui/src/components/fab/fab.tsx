@@ -7,7 +7,7 @@ type FabButtonOwnProps = Omit<ButtonBaseOwnProps, 'avatar' | 'elementClass'>;
 
 /**
  * Props for {@link Fab}.
- * Extends {@link ButtonBaseProps}.
+ * Extends {@link ButtonBaseProps} except for `avatar`.
  *
  * @category Fab
  */
@@ -30,15 +30,14 @@ export type FabButtonProps<T extends ButtonElement = 'button'> = PolymorphicProp
  * <Fab icon={<AddIcon />} label="Create" />
  */
 export const Fab = forwardRef<HTMLButtonElement, FabButtonProps>(
-    ({ elevation = 3, size = 'medium', shape = 'rounded', label, ...props }: FabButtonProps, ref) => {
-        const elementClass = label ? 'uui-fab uui-fab-extended' : 'uui-fab';
+    ({ elevation = 3, size = 'medium', shape = 'rounded', ...props }: FabButtonProps, ref) => {
+        const elementClass = (props.content ?? props.children ?? props.label) ? 'uui-fab uui-fab-extended' : 'uui-fab';
         return (
             <ButtonBase
                 ref={ref}
                 {...props}
                 elementClass={elementClass}
                 elevation={elevation}
-                label={label}
                 shape={shape}
                 size={size}
             />

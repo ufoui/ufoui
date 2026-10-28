@@ -7,7 +7,7 @@ type IconButtonOwnProps = Omit<ButtonBaseOwnProps, 'avatar' | 'elementClass' | '
 
 /**
  * Props for {@link IconButton}.
- * Extends {@link ButtonBaseProps} except for text and trailing content.
+ * Extends {@link ButtonBaseProps} except for `avatar`, `endIcon` and `trailing`.
  *
  * @category IconButton
  */

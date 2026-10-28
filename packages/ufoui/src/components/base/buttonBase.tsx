@@ -31,7 +31,11 @@ import {
 import { InlineTooltipManager, Leading, Trailing } from '../../internal';
 import { Spinner } from '../spinner/spinner';
 
-/** Visual variant of the button. */
+/**
+ * Visual variant of the button.
+ *
+ * @category Base components
+ */
 export type ButtonVariant = 'text' | 'outlined' | 'elevated' | 'tonal' | 'filled';
 
 /**

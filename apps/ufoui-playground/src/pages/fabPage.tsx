@@ -13,9 +13,9 @@ import { PiHouse } from 'react-icons/pi';
 import {
     Aside,
     BorderColor,
+    ButtonBaseProps,
     Div,
     Divider,
-    ButtonBaseProps,
     ElementBorder,
     ElementDensity,
     ElementElevation,
@@ -63,8 +63,7 @@ export const FabPage = () => {
     const [selectedColor, setSelectedColor] = useState<SemanticColor | null>(null);
     const [elevation, setElevation] = useState<ElementElevation | null>(null);
     const [flat, setFlat] = useState<boolean | null>(false);
-    const [shrink, setShrink] = useState<boolean | null>(false);
-    const [toggle, setToggle] = useState<boolean | null>(false);
+    const [shrink, setShrink] = useState<boolean | null>(false);    const [toggle, setToggle] = useState<boolean | null>(false);
     const [disabled, setDisabled] = useState<boolean | null>(false);
     const [density, setDensity] = useState<ElementDensity | null>(null);
     const [font, setFont] = useState<ElementFont | null>(null);
@@ -151,13 +150,7 @@ export const FabPage = () => {
                     <Divider className="col-span-2" />
                     <Div>Upload</Div>
                     <Flex>
-                        <Fab
-                            color="primary"
-                            filled
-                            icon={<FaUpload />}
-                            label="Upload"
-                            shape="round"
-                            upload></Fab>
+                        <Fab color="primary" filled icon={<FaUpload />} label="Upload" shape="round" upload></Fab>
                     </Flex>
                     <Divider className="col-span-2" />
                     <Div>Custom icons & colors</Div>
@@ -199,38 +192,18 @@ export const FabPage = () => {
                     <Div>Full & limited width</Div>
                     <Flex gap={16}>
                         <div className="w-[400px] bg-black">
-                            <Fab
-                                color="primary"
-                                filled
-                                fullWidth
-                                icon={<FaHome />}
-                                label="Full width"></Fab>
+                            <Fab color="primary" filled fullWidth icon={<FaHome />} label="Full width"></Fab>
                         </div>
                         <div className="w-[100px] bg-black">
-                            <Fab
-                                color="primary"
-                                filled
-                                fullWidth
-                                icon={<FaHome />}
-                                label="Full width"></Fab>
+                            <Fab color="primary" filled fullWidth icon={<FaHome />} label="Full width"></Fab>
                         </div>
                     </Flex>
 
                     <Divider className="col-span-2" />
                     <Div>End icon</Div>
                     <Flex gap={16}>
-                        <Fab
-                            endIcon={<FaHome />}
-                            filled
-                            label="End icon"
-                            title="End icon only"
-                            {...shared}></Fab>
-                        <Fab
-                            endIcon={<BsHouse />}
-                            filled
-                            icon={<FaHome />}
-                            label="2 icons"
-                            {...shared}></Fab>
+                        <Fab endIcon={<FaHome />} filled label="End icon" title="End icon only" {...shared}></Fab>
+                        <Fab endIcon={<BsHouse />} filled icon={<FaHome />} label="2 icons" {...shared}></Fab>
                         <Fab
                             endIcon={
                                 <>
@@ -248,23 +221,16 @@ export const FabPage = () => {
                     <Div>Links</Div>
                     <Flex gap={16}>
                         <Fab
+                            as="a"
                             filled
+                            href="https://www.wikipedia.org"
                             icon={<BsWikipedia />}
                             label="Wikipedia"
-                            as="a"
-                            href="https://www.wikipedia.org"
                             rel="noreferrer"
                             target="_blank"
                             {...shared}
                         />
-                        <Fab
-                            filled
-                            icon={<BiColor />}
-                            label="Color page"
-                            as={Link}
-                            to={paths.color}
-                            {...shared}
-                        />
+                        <Fab as={Link} filled icon={<BiColor />} label="Color page" to={paths.color} {...shared} />
                         <Fab
                             aria-label="Wikipedia"
                             as="a"
@@ -295,6 +261,10 @@ export const FabPage = () => {
                             trailing={<MdRemove />}
                         />
                         <Fab {...shared} content="" icon={<MdAdd />} label="Add" />
+                        <Fab {...shared} content="Create" icon={<MdAdd />} />
+                        <Fab {...shared} icon={<MdAdd />}>
+                            Create
+                        </Fab>
                     </Flex>
                     <Divider className="col-span-2" />
                     <Div>Custom</Div>
@@ -358,8 +328,7 @@ export const FabPage = () => {
                             elevation: el,
                             density: ds,
                             disabled: db,
-                            flat: fl,
-                            shrink: sh,
+                            flat: fl,                            shrink: sh,
                             toggle: tg,
                             font: lf,
                             selectedShape: ss,
@@ -373,8 +342,7 @@ export const FabPage = () => {
                             setBorderColor(bc ?? null);
                             setElevation(el ?? null);
                             setFlat(fl ?? null);
-                            setShrink(sh ?? null);
-                            setDensity(ds ?? null);
+                            setShrink(sh ?? null);                            setDensity(ds ?? null);
                             setDisabled(db ?? null);
                             setFont(lf ?? null);
                             setToggle(tg ?? null);
