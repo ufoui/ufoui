@@ -7,7 +7,7 @@ import { LabelText } from '../../internal';
 
 /**
  * Props for {@link Fieldset}.
- * Extends {@link BoxBaseProps} except for `elementClass` and `component`.
+ * Extends {@link BoxBaseProps} except for `as` and `elementClass`.
  *
  * @category Fieldset
  */

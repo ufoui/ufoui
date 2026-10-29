@@ -4,11 +4,11 @@ import { TextBase, TextBaseProps } from '../base/textBase';
 
 /**
  * Props for Span.
- * Extends TextBaseProps except component.
+ * Extends TextBaseProps except for `as` and `elementClass`.
  *
  * @category Typography
  */
-export type SpanProps = Omit<TextBaseProps, 'as'>;
+export type SpanProps = Omit<TextBaseProps, 'as' | 'elementClass'>;
 
 /**
  * Span semantic inline text wrapper.

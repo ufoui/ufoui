@@ -24,10 +24,7 @@ export interface StatusProps extends WrapperProps, Omit<HTMLAttributes<HTMLSpanE
     /** Text label describing the entity state. */
     label: string;
 
-    /**
-     * Background color role. The text color is resolved to its `on*` counterpart.
-     * When omitted renders in the `surfaceVariant` / `onSurfaceVariant` surface roles.
-     */
+    /** Background color role; text uses its `on*` pair. @default 'surfaceVariant' */
     color?: BaseColor;
 
     /** Visual size of the pill. @default 'small' */

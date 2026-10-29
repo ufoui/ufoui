@@ -12,6 +12,7 @@ import { BoxBase, BoxBaseProps } from '../base/boxBase';
  */
 export type DivProps = Omit<
     BoxBaseProps,
+    | 'elementClass'
     | 'type'
     | 'direction'
     | 'flow'

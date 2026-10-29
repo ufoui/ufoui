@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { BoxBase, BoxBaseProps } from '../base/boxBase';
+import { BoxBase, BoxBaseProps } from '../base';
 
 /**
  * Props for the {@link Flex} component.

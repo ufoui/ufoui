@@ -4,11 +4,11 @@ import { TextBase, TextBaseProps } from '../base/textBase';
 
 /**
  * Props for P.
- * Extends TextBaseProps except component.
+ * Extends TextBaseProps except for `as` and `elementClass`.
  *
  * @category Typography
  */
-export type PProps = Omit<TextBaseProps, 'as'>;
+export type PProps = Omit<TextBaseProps, 'as' | 'elementClass'>;
 
 /**
  * P semantic paragraph.

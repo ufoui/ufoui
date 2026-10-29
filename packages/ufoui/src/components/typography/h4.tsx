@@ -4,11 +4,11 @@ import { TextBase, TextBaseProps } from '../base/textBase';
 
 /**
  * Props for H4.
- * Extends TextBaseProps except component.
+ * Extends TextBaseProps except for `as` and `elementClass`.
  *
  * @category Typography
  */
-export type H4Props = Omit<TextBaseProps, 'as'>;
+export type H4Props = Omit<TextBaseProps, 'as' | 'elementClass'>;
 
 /**
  * H4 semantic heading.

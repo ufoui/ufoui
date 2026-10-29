@@ -27,6 +27,8 @@ Label
 Status
 Link
 Collapse
+IconButton
+Button
 
 @internal
 Description
@@ -39,9 +41,7 @@ SliderHandle
 LabelText
 
 @alpha
-Button
 Fab
-IconButton
 ButtonBase
 Chip
 Avatar

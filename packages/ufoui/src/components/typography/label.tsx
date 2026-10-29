@@ -1,14 +1,15 @@
-import { forwardRef } from 'react';
+import { forwardRef, LabelHTMLAttributes } from 'react';
 
-import { TextBase, TextBaseProps } from '../base/textBase';
+import { TextBase, TextBaseProps } from '../base';
 
 /**
  * Props for Label.
- * Extends TextBaseProps except component.
+ * Extends TextBaseProps except for `as` and `elementClass`, plus native `htmlFor`.
  *
  * @category Typography
  */
-export type LabelProps = Omit<TextBaseProps, 'as'>;
+export type LabelProps = Omit<TextBaseProps, 'as' | 'elementClass'> &
+    Pick<LabelHTMLAttributes<HTMLLabelElement>, 'htmlFor'>;
 
 /**
  * Label semantic text.
@@ -19,7 +20,7 @@ export type LabelProps = Omit<TextBaseProps, 'as'>;
  *
  * @category Typography
  */
-export const Label = forwardRef<HTMLElement, LabelProps>(({ font = 'labelLarge', ...props }, ref) => (
+export const Label = forwardRef<HTMLLabelElement, LabelProps>(({ font = 'labelLarge', ...props }, ref) => (
     <TextBase ref={ref} {...props} as="label" elementClass="uui-label" font={font} />
 ));
 

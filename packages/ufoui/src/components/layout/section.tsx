@@ -4,7 +4,7 @@ import { BoxBase, BoxBaseProps } from '../base/boxBase';
 
 /**
  * Props for {@link Section}.
- * Extends {@link BoxBaseProps} except for `elementClass` and `component`.
+ * Extends {@link BoxBaseProps} except for `as` and `elementClass`.
  *
  * @category Box
  */

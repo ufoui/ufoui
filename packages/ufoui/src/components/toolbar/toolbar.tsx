@@ -15,7 +15,7 @@ import { BoxBase, BoxBaseProps } from '../base';
 
 /**
  * Props for {@link Toolbar}.
- * Extends {@link BoxBaseProps} except for `component` and `elementClass`.
+ * Extends {@link BoxBaseProps} except for `as` and `elementClass`.
  *
  * @category Toolbar
  */
