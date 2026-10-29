@@ -1,4 +1,45 @@
 .uui-divider {
-  /*pointer-events: none;*/
-  flex-shrink: 0;
+  display: block;
+  flex: 1 1 0;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  width: stretch;
+  height: 0;
+  max-height: 0;
+  border-top: var(--uui-divider-width, 1px) solid var(--uui-color-outline-variant);
+}
+
+.uui-divider[aria-orientation='vertical'] {
+  display: inline-block;
+  vertical-align: middle;
+  align-self: stretch;
+  width: 0;
+  max-width: 0;
+  height: auto;
+  max-height: none;
+  min-height: 1em;
+  border-top: 0;
+  border-inline-start: var(--uui-divider-width, 1px) solid var(--uui-color-outline-variant);
+}
+
+.uui-divider-start,
+.uui-divider-both {
+  margin-inline-start: var(--uui-divider-offset, 16px);
+}
+
+.uui-divider-end,
+.uui-divider-both {
+  margin-inline-end: var(--uui-divider-offset, 16px);
+}
+
+.uui-divider[aria-orientation='vertical'].uui-divider-start,
+.uui-divider[aria-orientation='vertical'].uui-divider-both {
+  margin-inline-start: 0;
+  margin-block-start: var(--uui-divider-offset, 16px);
+}
+
+.uui-divider[aria-orientation='vertical'].uui-divider-end,
+.uui-divider[aria-orientation='vertical'].uui-divider-both {
+  margin-inline-end: 0;
+  margin-block-end: var(--uui-divider-offset, 16px);
 }

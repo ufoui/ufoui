@@ -67,7 +67,7 @@ export const ToolbarPage = () => {
                     <H2>Floating</H2>
                     <Toolbar {...shared} elevation={elevation ?? 3} variant="floating">
                         <IconButton icon={<MdSearch />} />
-                        <Divider inset="middle" insetSize={8} vertical />
+                        <Divider inset="both" offset={8} orientation="vertical" />
                         <TextField />
                         <IconButton icon={<MdDelete />} />
                         <IconButton icon={<MdMoreVert />} />
@@ -106,7 +106,7 @@ export const ToolbarPage = () => {
                         <H2>Vertical Floating</H2>
                         <Toolbar {...shared} elevation={elevation ?? 3} orientation="vertical" variant="floating">
                             <IconButton icon={<MdSearch />} />
-                            <Divider vertical={false} />
+                            <Divider />
                             <IconButton icon={<MdDelete />} />
                             <IconButton icon={<MdMoreVert />} />
                         </Toolbar>

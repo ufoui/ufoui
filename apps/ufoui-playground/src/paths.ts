@@ -21,6 +21,7 @@ export const paths = {
     accordion: '/components/accordion',
     tabs: '/components/tabs',
     toolbar: '/components/toolbar',
+    divider: '/components/divider',
     dialog: '/components/dialog',
     box: '/components/box',
     spinner: '/components/spinner',

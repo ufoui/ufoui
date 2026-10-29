@@ -7,6 +7,8 @@ import {
     ElementDensity,
     ElementElevation,
     ElementFont,
+    ElementInset,
+    ElementOrientation,
     ElementShape,
     ElementSize,
     ElementTextPlacement,
@@ -49,6 +51,9 @@ type ButtonModifiersProps = {
     fullColor?: boolean | null;
     fullWidth?: boolean | null;
     inkColor?: TextColor | null;
+    inset?: ElementInset | null;
+    lineColor?: BorderColor | null;
+    orientation?: ElementOrientation | null;
     labelFont?: ElementFont | null;
     onChange: (mod: {
         baseColor?: BaseColor | null;
@@ -78,6 +83,9 @@ type ButtonModifiersProps = {
         fullColor?: boolean | null;
         fullWidth?: boolean | null;
         inkColor?: TextColor | null;
+        inset?: ElementInset | null;
+        lineColor?: BorderColor | null;
+        orientation?: ElementOrientation | null;
         labelFont?: ElementFont | null;
         readOnly?: boolean | null;
         selectedColor?: SemanticColor | null;
@@ -145,6 +153,9 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         borderColor,
         textColor,
         inkColor,
+        inset,
+        lineColor,
+        orientation,
         elevation,
         filled,
         flat,
@@ -318,6 +329,64 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                                 {c}
                             </option>
                         ))}
+                    </select>
+                </>
+            )}
+
+            {lineColor !== undefined && (
+                <>
+                    <span>Color (border):</span>
+                    <select
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                lineColor: e.target.value === '' ? undefined : (e.target.value as BorderColor),
+                            });
+                        }}
+                        value={lineColor ?? ''}>
+                        <option value="">Default</option>
+                        {getColorNames('border').map(c => (
+                            <option key={c} value={c}>
+                                {c}
+                            </option>
+                        ))}
+                    </select>
+                </>
+            )}
+
+            {orientation !== undefined && (
+                <>
+                    <span>Orientation:</span>
+                    <select
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                orientation: e.target.value === '' ? undefined : (e.target.value as ElementOrientation),
+                            });
+                        }}
+                        value={orientation ?? ''}>
+                        <option value="">Default</option>
+                        <option value="horizontal">Horizontal</option>
+                        <option value="vertical">Vertical</option>
+                    </select>
+                </>
+            )}
+
+            {inset !== undefined && (
+                <>
+                    <span>Inset:</span>
+                    <select
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                inset: e.target.value === '' ? undefined : (e.target.value as ElementInset),
+                            });
+                        }}
+                        value={inset ?? ''}>
+                        <option value="">Default</option>
+                        <option value="start">Start</option>
+                        <option value="end">End</option>
+                        <option value="both">Both</option>
                     </select>
                 </>
             )}

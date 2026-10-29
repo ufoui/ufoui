@@ -25,6 +25,7 @@ import {
     ElementElevation,
     ElementFloatingMode,
     ElementFont,
+    ElementOrientation,
     ElementPlacement,
     ElementShape,
     getBorderClass,
@@ -125,8 +126,8 @@ export interface MenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'>
     /** Alias for labelFont */
     font?: ElementFont;
 
-    /** Enables horizontal menu layout. */
-    horizontal?: boolean;
+    /** Menu orientation. @default 'vertical' */
+    orientation?: ElementOrientation;
 
     /** Interaction visual effects applied to menu items, or `'none'` to disable them all. */
     itemEffects?: ElementEffects;
@@ -285,7 +286,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
         {
             anchorRef,
             open = false,
-            horizontal = false,
+            orientation = 'vertical',
             placement = 'auto',
             floatingMode,
             offset = 4,
@@ -335,6 +336,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
         ref
         // eslint-disable-next-line sonarjs/cognitive-complexity
     ) => {
+        const horizontal = orientation === 'horizontal';
         const stateRef = useRef<MenuState>('closed');
         const [submenuIndex, setSubmenuIndex] = useState<number>(-1);
         const [activeIndex, setActiveIndex] = useState<number>(-1);
@@ -803,12 +805,14 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                     getOnColorName(containerColor) === 'onSurface'
                         ? 'outlineVariant'
                         : (getOnColorName(containerColor) as BorderColor);
+                const dividerGap = variant === 'modern' ? 5 : 8;
                 const overriddenProps: DividerProps = {
-                    borderColor: child.props.borderColor ?? child.props.color ?? dividerColor ?? 'outlineVariant',
-                    vertical: horizontal,
-                    insetSize: child.props.insetSize ?? 8,
-                    spacing: child.props.spacing ?? (variant === 'modern' ? 5 : 8),
-                    inset: child.props.inset ?? (variant === 'modern' ? 'middle' : undefined),
+                    color: child.props.color ?? dividerColor ?? 'outlineVariant',
+                    orientation: horizontal ? 'vertical' : 'horizontal',
+                    offset: child.props.offset ?? 8,
+                    mx: child.props.mx ?? (horizontal ? dividerGap : undefined),
+                    my: child.props.my ?? (horizontal ? undefined : dividerGap),
+                    inset: child.props.inset ?? (variant === 'modern' ? 'both' : undefined),
                 };
                 return cloneElement(child, { ...child.props, ...overriddenProps });
             }

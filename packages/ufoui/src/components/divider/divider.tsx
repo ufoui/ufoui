@@ -1,4 +1,4 @@
-import { HTMLProps, useLayoutEffect, useRef, useState } from 'react';
+import { HTMLAttributes } from 'react';
 
 import {
     BorderColor,
@@ -7,42 +7,39 @@ import {
     ElementBorder,
     ElementElevation,
     ElementInset,
+    ElementOrientation,
     ElementShape,
-    getBorderClass,
     getElevationClass,
     getShapeClass,
+    getWrapperStyle,
+    WrapperProps,
 } from '../../utils';
 import { IS_DIVIDER } from './divider.guards';
 
 /**
  * Props for the {@link Divider} component.
  *
+ * @remarks
+ * Supports wrapper-level spacing and positioning props from {@link WrapperProps}
+ * such as `m`, `mx`, `my`, `top`, `left`, `position`, and `zIndex`.
+ *
  * @category Divider
  */
-export interface DividerProps extends Omit<HTMLProps<HTMLDivElement>, 'ref'> {
-    /** Line color token used for the divider. */
-    borderColor?: BorderColor;
-
-    /** Alias for `borderColor`. */
+export interface DividerProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'>, WrapperProps {
+    /** Line color token used for the divider. @default 'outlineVariant' */
     color?: BorderColor;
 
-    /** Divider thickness (0–4). Default: 1 */
+    /** Divider thickness (0–4). @default 1 */
     border?: ElementBorder;
 
-    /** If true, renders divider vertically. */
-    vertical?: boolean;
+    /** Line orientation. @default 'horizontal' */
+    orientation?: ElementOrientation;
 
-    /** Inset alignment mode (`left`, `right`, `top`, `bottom`, `middle`). */
+    /** Shortens the line at its start, end or both ends by `offset`. */
     inset?: ElementInset;
 
-    /** Offset applied for inset margins. */
-    insetSize?: number;
-
-    /** Spacing around the divider in px. Default: 8. */
-    spacing?: number;
-
-    /** Opacity preset applied to the divider. */
-    variant?: 'subtle' | 'medium' | 'strong';
+    /** Inset length in px, used with `inset`. @default 16 */
+    offset?: number;
 
     /** Elevation level applied to the divider. */
     elevation?: ElementElevation;
@@ -50,139 +47,68 @@ export interface DividerProps extends Omit<HTMLProps<HTMLDivElement>, 'ref'> {
     /** Corner shape applied to the divider. */
     shape?: ElementShape;
 
-    /** Height of a vertical divider in inline and flex-column layouts. */
-    height?: string;
+    /** Explicit height of a vertical divider. */
+    height?: number | string;
 }
 
 /**
  * **Divider** - thin line used to separate content.
  *
- * Supports horizontal and vertical orientation, thickness, spacing,
- * inset offsets, color tokens, opacity presets, elevation and corner shapes
+ * Supports horizontal and vertical orientation, thickness,
+ * inset offsets, color tokens, elevation and corner shapes.
  *
- * @param props
+ * @remarks
+ * Renders `role="separator"`; pass `aria-hidden` for a purely decorative line.
+ *
+ * @param props Component properties.
  * @function
  * @example
  * ```tsx
- * <Divider spacing={12} variant="subtle" />
+ * <Divider my={12} />
  * ```
  *
  * @example
  * ```tsx
- * <Divider vertical inset="middle" insetWidth={24} />
+ * <Divider inset="both" offset={12} orientation="vertical" />
  * ```
  *
  * @category Divider
  */
-// eslint-disable-next-line sonarjs/cognitive-complexity
 export const Divider = (props: DividerProps) => {
-    const {
-        className,
-        borderColor,
-        color,
-        border = 1,
-        inset = 'none',
-        insetSize = 16,
-        spacing = 8,
-        vertical,
-        variant = 'strong',
-        elevation,
-        shape,
-        style,
-        height,
-        ...rawProps
-    } = props;
-    const ref = useRef<HTMLDivElement>(null);
-    const [isFlexParent, setIsFlexParent] = useState(false);
-
-    useLayoutEffect(() => {
-        const el = ref.current;
-        if (!el?.parentElement) {
-            return;
-        }
-
-        const parentDisplay = getComputedStyle(el.parentElement).display;
-        setIsFlexParent(parentDisplay.includes('flex'));
-    }, []);
-
-    const borderWidth = Math.min(4, Math.max(0, border)) as ElementBorder;
-
+    const { className, color, border, inset, offset, orientation, elevation, shape, style, height, ...rawProps } =
+        props;
+    const vertical = orientation === 'vertical';
     const dividerClass = cn(
         'uui-divider',
-        getBorderClass(borderWidth === 0 ? 0 : 1),
+        inset && `uui-divider-${inset}`,
         className,
         getElevationClass(elevation),
         shape && getShapeClass(shape)
     );
-    const controlStyle = ControlStyle(style);
-    const lineColor = borderColor ?? color ?? 'outlineVariant';
-    controlStyle.border(lineColor);
-    controlStyle.bg(lineColor);
+    const { wrapperStyle, otherProps } = getWrapperStyle(rawProps);
+    const controlStyle = ControlStyle(wrapperStyle);
+    controlStyle.merge(style);
+    controlStyle.border(color);
 
-    if (variant !== 'strong') {
-        if (variant === 'subtle') {
-            controlStyle.set('opacity', 'var(--uui-subtle-opacity)');
-        } else {
-            controlStyle.set('opacity', 'var(--uui-medium-opacity)');
-        }
+    if (border !== undefined) {
+        controlStyle.set('--uui-divider-width', `${border}px`);
     }
 
-    if (isFlexParent) {
-        if (vertical) {
-            controlStyle.merge({
-                height: height,
-                alignSelf: 'stretch',
-                width: `${borderWidth}px`,
-                marginInline: `${spacing}px`,
-            });
-        } else {
-            controlStyle.merge({
-                flex: '1 1 auto',
-                height: `${borderWidth}px`,
-                marginBlock: `${spacing}px`,
-            });
-        }
-    } else if (vertical) {
-        controlStyle.merge({
-            height: height,
-            display: 'inline-block',
-            verticalAlign: 'middle',
-            width: `${borderWidth}px`,
-            marginInline: `${spacing}px`,
-        });
-    } else {
-        controlStyle.merge({
-            height: `${borderWidth}px`,
-            marginBlock: `${spacing}px`,
-        });
+    if (offset !== undefined) {
+        controlStyle.set('--uui-divider-offset', `${offset}px`);
     }
 
-    if (inset !== 'none') {
-        const insetStart = inset === 'left' || inset === 'top' || inset === 'middle';
-        const insetEnd = inset === 'right' || inset === 'bottom' || inset === 'middle';
-        if (insetStart) {
-            if (vertical) {
-                controlStyle.set('marginBlockStart', `${insetSize}px`);
-            } else {
-                controlStyle.set('marginInlineStart', `${insetSize}px`);
-            }
-        }
-        if (insetEnd) {
-            if (vertical) {
-                controlStyle.set('marginBlockEnd', `${insetSize}px`);
-            } else {
-                controlStyle.set('marginInlineEnd', `${insetSize}px`);
-            }
-        }
+    if (vertical && height) {
+        controlStyle.merge({ height, alignSelf: 'auto' });
     }
+
     return (
-        <div
-            aria-hidden="true"
+        <span
+            aria-orientation={vertical ? 'vertical' : undefined}
             className={dividerClass}
-            ref={ref}
             role="separator"
             style={controlStyle.get()}
-            {...rawProps}
+            {...otherProps}
         />
     );
 };

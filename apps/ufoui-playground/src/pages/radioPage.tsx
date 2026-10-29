@@ -100,7 +100,7 @@ export const RadioPage = () => {
                         <Radio defaultChecked {...shared} label="Checked" value="checked" />
                         <Radio {...shared} label="Unchecked" value="unchecked" />
                         <Radio disabled {...shared} label="Disabled" value="disabled1" />
-                        <Divider variant="strong" vertical />
+                        <Divider orientation="vertical" />
                         <Radio disabled {...shared} checked label="Disabled checked" value="disabled2" />
                     </RadioGroup>
                 </Section>

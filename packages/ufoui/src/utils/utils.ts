@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type ElementSize = 'extraSmall' | 'small' | 'medium' | 'large' | 'extraLarge';
-export type ElementInset = 'none' | 'left' | 'right' | 'top' | 'bottom' | 'middle';
+export type ElementInset = 'start' | 'end' | 'both';
 export type ElementShape = 'square' | 'smooth' | 'rounded' | 'round';
 /**
  * Border width levels used across UUI components (0–4).

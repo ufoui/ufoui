@@ -71,11 +71,11 @@ export function MenuPage() {
                     </Button>
                 </Flex>
                 <TestMenu anchorRef={anchorRef} menuType={menuType} open={open} setOpen={setOpen} {...shared} />
-                <TestMenu docked horizontal menuType="modern" open {...shared} />
-                <TestMenu docked horizontal menuType="classic" open {...shared} />
+                <TestMenu docked menuType="modern" orientation="horizontal" open {...shared} />
+                <TestMenu docked menuType="classic" orientation="horizontal" open {...shared} />
                 <Flex alignItems="start" gap={20}>
-                    <TestMenu docked horizontal={false} menuType="modern" open {...shared} />
-                    <TestMenu docked horizontal={false} menuType="classic" open {...shared} />
+                    <TestMenu docked menuType="modern" orientation="vertical" open {...shared} />
+                    <TestMenu docked menuType="classic" orientation="vertical" open {...shared} />
                 </Flex>
             </Section>
             <Aside p={20}>

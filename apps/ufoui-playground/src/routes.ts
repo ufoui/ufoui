@@ -24,6 +24,7 @@ import {
     LuPalette,
     LuRectangleHorizontal,
     LuRepeat,
+    LuSeparatorHorizontal,
     LuSlidersHorizontal,
     LuSparkles,
     LuSquareCheck,
@@ -69,6 +70,7 @@ import { CollapsePage } from './pages/collapsePage';
 import { AccordionPage } from './pages/accordionPage';
 import { TabsPage } from './pages/tabsPage';
 import { ToolbarPage } from './pages/toolbarPage';
+import { DividerPage } from './pages/dividerPage';
 import { ProgressPage } from './pages/progressPage';
 import { SliderPage } from './pages/sliderPage';
 import { ToastPage } from './pages/toastPage';
@@ -120,6 +122,7 @@ export const appRoutes: AppRoute[] = [
 
     { label: 'Menu', path: paths.menu, component: MenuPage, icon: LuMenu, showInNav: true },
     { label: 'Toolbar', path: paths.toolbar, component: ToolbarPage, icon: LuWrench, showInNav: true },
+    { label: 'Divider', path: paths.divider, component: DividerPage, icon: LuSeparatorHorizontal, showInNav: true },
 
     { label: 'Badge', path: paths.badge, component: BadgePage, icon: LuBadgeCheck, showInNav: true },
     { label: 'Status', path: paths.status, component: StatusPage, icon: LuTag, showInNav: true },

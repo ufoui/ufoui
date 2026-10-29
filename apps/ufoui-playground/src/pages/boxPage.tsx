@@ -123,12 +123,12 @@ export const BoxPage = () => {
                 <H2 mt={24}>Dividers</H2>
                 <Div fullWidth>
                     <Div>Horizontal in block</Div>
-                    <Divider border={4} inset="middle" />
+                    <Divider border={4} inset="both" />
                     <Div>Line 2</Div>
                 </Div>
                 <Div fullWidth>
                     <Span>Vertical in block</Span>
-                    <Divider border={4} height="24px" inset="middle" vertical />
+                    <Divider border={4} height="24px" inset="both" orientation="vertical" />
                     <Span>Text after</Span>
                     <Span>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus
@@ -139,28 +139,28 @@ export const BoxPage = () => {
                 <Divider />
                 <Flex fullWidth wrap>
                     <Div>Horizontal in flex row wrap</Div>
-                    <Divider border={4} inset="middle" />
+                    <Divider border={4} inset="both" />
                     <Div>Line 2</Div>
                 </Flex>
                 <Flex fullWidth>
                     <Div>Horizontal in in flex row</Div>
-                    <Divider border={4} inset="middle" />
+                    <Divider border={4} inset="both" />
                     <Div>Line 2</Div>
                 </Flex>
                 <Flex alignItems="center" fullWidth>
                     <Div>Vertical in in flex row</Div>
-                    <Divider border={4} inset="middle" insetSize={2} vertical />
+                    <Divider border={4} inset="both" offset={2} orientation="vertical" />
                     <Div>Line 2</Div>
                 </Flex>
                 <Divider />
                 <Flex direction="col" fullWidth>
                     <Div>Horizontal in flex col</Div>
-                    <Divider border={4} inset="middle" />
+                    <Divider border={4} inset="both" />
                     <Div>Line 2</Div>
                 </Flex>
                 <Flex direction="col" fullWidth>
                     <Div>Vertical in in flex col</Div>
-                    <Divider border={4} height="20px" inset="middle" vertical />
+                    <Divider border={4} height="20px" inset="both" orientation="vertical" />
                     <Div>Line 2</Div>
                 </Flex>
             </Section>
