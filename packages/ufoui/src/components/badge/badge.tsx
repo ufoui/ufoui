@@ -29,9 +29,6 @@ export interface BadgeProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'ref' 
     /** Position relative to the parent element. */
     align?: ElementPlacement;
 
-    /** Accessible label for screen readers when badge conveys information. */
-    ariaLabel?: string;
-
     /** Border width when outlined. */
     border?: ElementBorder;
 
@@ -90,7 +87,7 @@ export const Badge = (props: BadgeProps) => {
         shape = 'round',
         size = 'medium',
         elevation,
-        ariaLabel,
+        'aria-label': ariaLabel,
         value,
         font,
         offset,

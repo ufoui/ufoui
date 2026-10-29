@@ -91,6 +91,7 @@ type ButtonModifiersProps = {
         shrink?: boolean | null;
         size?: ElementSize | null;
         spread?: ButtonBaseProps['spread'] | null;
+        stretch?: boolean | null;
         surfaceColor?: SurfaceColor | null;
         textColor?: SurfaceColor | null;
         textPlacement?: ElementTextPlacement | null;
@@ -111,6 +112,7 @@ type ButtonModifiersProps = {
     shrink?: boolean | null;
     size?: ElementSize | null;
     spread?: ButtonBaseProps['spread'] | null;
+    stretch?: boolean | null;
     surfaceColor?: SurfaceColor | null;
     textColor?: SurfaceColor | null;
     textPlacement?: ElementTextPlacement | null;
@@ -147,6 +149,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         filled,
         flat,
         shrink,
+        stretch,
         toggle,
         surfaceColor,
         decorative,
@@ -690,6 +693,22 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             onChange({
                                 ...props,
                                 shrink: e.target.checked,
+                            });
+                        }}
+                    />
+                </>
+            )}
+            {stretch !== undefined && (
+                <>
+                    <label htmlFor="mod_stretch">Stretch:</label>
+                    <Checkbox
+                        checked={!!stretch}
+                        density="dense"
+                        id="mod_stretch"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                stretch: e.target.checked,
                             });
                         }}
                     />

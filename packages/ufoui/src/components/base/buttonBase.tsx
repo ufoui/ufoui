@@ -368,7 +368,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
         const stateClasses = cn('uui-state', shapeClass);
         const stateStyle = ControlStyle();
 
-        const finalLeading = loading ? <Spinner fluid /> : leading;
+        const finalLeading = loading ? <Spinner stretch /> : leading;
         const leadingContent = (
             <Leading
                 content={finalLeading}

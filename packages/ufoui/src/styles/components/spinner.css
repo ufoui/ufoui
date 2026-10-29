@@ -1,33 +1,30 @@
 /* base */
 .uui-spinner {
   display: inline-block;
+  vertical-align: middle;
   width: var(--uui-spinner-size, 100%);
   height: var(--uui-spinner-size, 100%);
   color: currentColor;
 }
 
 .uui-spinner.uui-extra-small {
-  --uui-spinner-size: 16px;
+  --uui-spinner-size: 20px;
 }
 
 .uui-spinner.uui-small {
-  --uui-spinner-size: 24px;
-}
-
-.uui-spinner.uui-medium {
   --uui-spinner-size: 32px;
 }
 
-.uui-spinner.uui-large {
+.uui-spinner.uui-medium {
   --uui-spinner-size: 40px;
 }
 
-.uui-spinner.uui-extra-large {
-  --uui-spinner-size: 48px;
+.uui-spinner.uui-large {
+  --uui-spinner-size: 56px;
 }
 
-.uui-spinner-inline {
-  vertical-align: middle;
+.uui-spinner.uui-extra-large {
+  --uui-spinner-size: 72px;
 }
 
 
@@ -79,18 +76,9 @@
   transform-box: fill-box;
   transform-origin: center;
   opacity: 0.3;
-  animation: uui-spinner-dots 1.5s infinite ease-in-out;
+  animation: uui-spinner-dots 1.5s calc(var(--i) * 0.5s) infinite ease-in-out;
 }
 
-.uui-spinner-dots circle:nth-child(1) {
-  animation-delay: 0s;
-}
-.uui-spinner-dots circle:nth-child(2) {
-  animation-delay: 0.5s;
-}
-.uui-spinner-dots circle:nth-child(3) {
-  animation-delay: 1s;
-}
 
 @keyframes uui-spinner-dots {
   0% {
@@ -114,59 +102,29 @@
 
 /* ---------------- blade ---------------- */
 
-.uui-spinner-blade {
-}
-
 .uui-spinner-blade rect {
   fill: currentColor;
   opacity: 0.1;
-  animation: uui-spinner-blade 1s infinite linear;
+  animation: uui-spinner-blade 1s calc(var(--i) * 0.125s) infinite linear;
 }
 
-.uui-spinner-blade rect:nth-child(1) {
-  animation-delay: 0s;
-}
-.uui-spinner-blade rect:nth-child(2) {
-  animation-delay: 0.125s;
-}
-.uui-spinner-blade rect:nth-child(3) {
-  animation-delay: 0.25s;
-}
-.uui-spinner-blade rect:nth-child(4) {
-  animation-delay: 0.375s;
-}
-.uui-spinner-blade rect:nth-child(5) {
-  animation-delay: 0.5s;
-}
-.uui-spinner-blade rect:nth-child(6) {
-  animation-delay: 0.625s;
-}
-.uui-spinner-blade rect:nth-child(7) {
-  animation-delay: 0.75s;
-}
-.uui-spinner-blade rect:nth-child(8) {
-  animation-delay: 0.875s;
-}
 
 @keyframes uui-spinner-blade {
   0% {
     opacity: 1;
-  } /* jeden aktywny */
+  }
   15% {
     opacity: 0.6;
   }
   25% {
     opacity: 0.3;
-  } /* długi fade-out */
+  }
   100% {
     opacity: 0.1;
   }
 }
 
 /* ---------------- bars ---------------- */
-.uui-spinner-bars {
-}
-
 .uui-spinner-bars rect {
   fill: currentColor;
   transform-box: fill-box;
@@ -200,40 +158,13 @@
 }
 
 /* ---------------- orbit ---------------- */
-.uui-spinner-orbit {
-}
-
 .uui-spinner-orbit circle {
   fill: currentColor;
   opacity: 0.15;
-  animation: uui-orbit 1s infinite linear;
+  animation: uui-orbit 1s calc(var(--i) * 0.125s) infinite linear;
   scale: 1;
 }
 
-.uui-spinner-orbit circle:nth-child(1) {
-  animation-delay: 0s;
-}
-.uui-spinner-orbit circle:nth-child(2) {
-  animation-delay: 0.125s;
-}
-.uui-spinner-orbit circle:nth-child(3) {
-  animation-delay: 0.25s;
-}
-.uui-spinner-orbit circle:nth-child(4) {
-  animation-delay: 0.375s;
-}
-.uui-spinner-orbit circle:nth-child(5) {
-  animation-delay: 0.5s;
-}
-.uui-spinner-orbit circle:nth-child(6) {
-  animation-delay: 0.625s;
-}
-.uui-spinner-orbit circle:nth-child(7) {
-  animation-delay: 0.75s;
-}
-.uui-spinner-orbit circle:nth-child(8) {
-  animation-delay: 0.875s;
-}
 
 @keyframes uui-orbit {
   0% {
@@ -266,24 +197,11 @@
 
 /* ---------------- step bar ---------------- */
 
-.uui-spinner-step-bar {
-}
-
 .uui-spinner-step-bar rect {
   fill: currentColor;
-  animation: uui-spinner-step-bar 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: uui-spinner-step-bar 1.6s calc(var(--i) * 0.2s) cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-/* przesunięcia w czasie */
-.uui-spinner-step-bar rect:nth-child(1) {
-  animation-delay: 0s;
-}
-.uui-spinner-step-bar rect:nth-child(2) {
-  animation-delay: 0.2s;
-}
-.uui-spinner-step-bar rect:nth-child(3) {
-  animation-delay: 0.4s;
-}
 
 @keyframes uui-spinner-step-bar {
   0%,

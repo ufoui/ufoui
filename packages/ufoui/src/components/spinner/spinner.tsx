@@ -11,16 +11,21 @@ import {
     SpinnerStepBarSvg,
 } from '../../assets';
 import {
-    BaseColor,
     cn,
     ControlStyle,
     ElementSize,
     getSizeClass,
     getWrapperStyle,
+    TextColor,
     toKebabCase,
     WrapperProps,
 } from '../../utils';
 
+/**
+ * Visual variant of the spinner.
+ *
+ * @category Spinner
+ */
 export type SpinnerVariant = 'ring' | 'dots' | 'blade' | 'bars' | 'orbit' | 'arc' | 'stepBar' | 'dualRing';
 
 /**
@@ -33,20 +38,14 @@ export type SpinnerVariant = 'ring' | 'dots' | 'blade' | 'bars' | 'orbit' | 'arc
  * @category Spinner
  */
 export interface SpinnerProps extends Omit<React.ComponentPropsWithoutRef<'svg'>, 'color' | 'children'>, WrapperProps {
-    /** Visual spinner variant. */
+    /** Visual spinner variant. @default 'ring' */
     variant?: SpinnerVariant;
     /** Semantic color token applied to the spinner. */
-    color?: BaseColor;
-    /** Size token controlling spinner dimensions. */
+    color?: TextColor;
+    /** Size token controlling spinner dimensions. @default 'medium' */
     size?: ElementSize;
-    /** Additional class names for the root svg element. */
-    className?: string;
-    /** Applies inline alignment (`vertical-align: middle`) for text-flow usage. */
-    inline?: boolean;
-    /** Accessible label. When provided, spinner is announced as a status. */
-    ariaLabel?: string;
-    /** When true, spinner ignores token-based sizing and fills its container (`width/height: 100%`). */
-    fluid?: boolean;
+    /** Ignores token-based sizing and fills the container (`width/height: 100%`). @default false */
+    stretch?: boolean;
 }
 
 const spinnerVariantMap = {
@@ -63,7 +62,7 @@ const spinnerVariantMap = {
 /**
  * Renders a loading spinner in one of the supported variants.
  *
- * By default spinner is decorative. Provide `ariaLabel` to expose it as an accessible status.
+ * By default spinner is decorative. Provide `aria-label` to expose it as an accessible status.
  *
  * @function Spinner
  * @param props Component properties.
@@ -81,12 +80,11 @@ const spinnerVariantMap = {
  */
 export const Spinner = ({
     variant = 'ring',
-    fluid = false,
+    stretch = false,
     color,
     size = 'medium',
-    inline,
     className,
-    ariaLabel,
+    'aria-label': ariaLabel,
     style,
     ...rest
 }: SpinnerProps) => {
@@ -94,8 +92,7 @@ export const Spinner = ({
         className,
         'uui-spinner',
         `uui-spinner-${toKebabCase(variant)}`,
-        !fluid && getSizeClass(size),
-        inline && 'uui-spinner-inline'
+        !stretch && getSizeClass(size)
     );
     const { wrapperStyle, otherProps } = getWrapperStyle(rest);
     const controlStyle = ControlStyle(wrapperStyle);

@@ -5,6 +5,9 @@ type SvgProps = React.ComponentPropsWithoutRef<'svg'>;
 /** Circle-specific SVG props for spinner ring parts. */
 type CircleProps = React.ComponentPropsWithoutRef<'circle'>;
 
+const steps = (count: number) => [...Array(count).keys()];
+const step = (i: number) => ({ '--i': i }) as React.CSSProperties;
+
 /**
  * Props for {@link SpinnerRingSvg}.
  *
@@ -33,14 +36,7 @@ interface SpinnerRingSvgProps extends SvgProps {
 export const SpinnerRingSvg = ({ trackProps, indicatorProps, ...props }: SpinnerRingSvgProps) => (
     <svg fill="none" viewBox="0 0 40 40" {...props}>
         <circle className="uui-spinner-ring-track" cx="20" cy="20" r="18" strokeWidth="4" {...trackProps} />
-        <circle
-            className="uui-spinner-ring-indicator"
-            cx="20"
-            cy="20"
-            r="18"
-            strokeWidth="4"
-            {...indicatorProps}
-        />
+        <circle className="uui-spinner-ring-indicator" cx="20" cy="20" r="18" strokeWidth="4" {...indicatorProps} />
     </svg>
 );
 
@@ -53,9 +49,9 @@ export const SpinnerRingSvg = ({ trackProps, indicatorProps, ...props }: Spinner
  */
 export const SpinnerDotsSvg = (props: SvgProps) => (
     <svg viewBox="0 0 48 48" {...props}>
-        <circle cx="10" cy="24" r="4" />
-        <circle cx="24" cy="24" r="4" />
-        <circle cx="38" cy="24" r="4" />
+        {steps(3).map(i => (
+            <circle cx={10 + i * 14} cy="24" key={i} r="4" style={step(i)} />
+        ))}
     </svg>
 );
 
@@ -68,14 +64,9 @@ export const SpinnerDotsSvg = (props: SvgProps) => (
  */
 export const SpinnerBladeSvg = (props: SvgProps) => (
     <svg viewBox="0 0 48 48" {...props}>
-        <rect height="12" rx="2" width="4" x="22" />
-        <rect height="12" rx="2" transform="rotate(-135 33.9 16.9)" width="4" x="33.9" y="16.9" />
-        <rect height="12" rx="2" transform="rotate(-90 36 26)" width="4" x="36" y="26" />
-        <rect height="12" rx="2" transform="rotate(-45 31.1 33.9)" width="4" x="31.1" y="33.9" />
-        <rect height="12" rx="2" width="4" x="22" y="36" />
-        <rect height="12" rx="2" transform="rotate(-135 8.4 42.4)" width="4" x="8.4" y="42.4" />
-        <rect height="12" rx="2" transform="rotate(-90 0 26)" width="4" y="26" />
-        <rect height="12" rx="2" transform="rotate(-45 5.6 8.4)" width="4" x="5.6" y="8.4" />
+        {steps(8).map(i => (
+            <rect height="12" key={i} rx="2" style={step(i)} transform={`rotate(${i * 45} 24 24)`} width="4" x="22" />
+        ))}
     </svg>
 );
 
@@ -104,14 +95,9 @@ export const SpinnerBarsSvg = (props: SvgProps) => (
  */
 export const SpinnerOrbitSvg = (props: SvgProps) => (
     <svg viewBox="0 0 48 48" {...props}>
-        <circle cx="24" cy="4" r="4" />
-        <circle cx="38.1421" cy="9.8579" r="4" />
-        <circle cx="44" cy="24" r="4" />
-        <circle cx="38.1421" cy="38.1421" r="4" />
-        <circle cx="24" cy="44" r="4" />
-        <circle cx="9.8579" cy="38.1421" r="4" />
-        <circle cx="4" cy="24" r="4" />
-        <circle cx="9.8579" cy="9.8579" r="4" />
+        {steps(8).map(i => (
+            <circle cx="24" cy="4" key={i} r="4" style={step(i)} transform={`rotate(${i * 45} 24 24)`} />
+        ))}
     </svg>
 );
 
@@ -125,14 +111,7 @@ export const SpinnerOrbitSvg = (props: SvgProps) => (
 export const SpinnerArcSvg = (props: SvgProps) => (
     <svg fill="none" viewBox="0 0 56 56" {...props}>
         <circle cx="28" cy="28" opacity="0.25" r="22" stroke="currentColor" strokeWidth="6" />
-        <circle
-            cx="28"
-            cy="28"
-            r="22"
-            stroke="currentColor"
-            strokeDasharray="69 69"
-            strokeWidth="6"
-        />
+        <circle cx="28" cy="28" r="22" stroke="currentColor" strokeDasharray="69 69" strokeWidth="6" />
     </svg>
 );
 
@@ -145,9 +124,9 @@ export const SpinnerArcSvg = (props: SvgProps) => (
  */
 export const SpinnerStepBarSvg = (props: SvgProps) => (
     <svg viewBox="0 0 48 48" {...props}>
-        <rect height="8" rx="4" width="8" x="6" y="20" />
-        <rect height="8" rx="4" width="8" x="20" y="20" />
-        <rect height="8" rx="4" width="8" x="34" y="20" />
+        {steps(3).map(i => (
+            <rect height="8" key={i} rx="4" style={step(i)} width="8" x={6 + i * 14} y="20" />
+        ))}
     </svg>
 );
 
