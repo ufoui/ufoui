@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, ElementType, ReactNode, Ref } from 'react';
+import { ComponentPropsWithoutRef, ComponentPropsWithRef, ElementType, ReactNode } from 'react';
 
 /**
  * Props of a polymorphic component.
@@ -23,8 +23,8 @@ export type PolymorphicProps<T extends ElementType, P> = {
 /**
  * Call signature of a polymorphic component.
  *
- * Used as a cast target for `forwardRef`, which erases the type parameter. The forwarded ref
- * stays typed as `Element` and is not narrowed by `T`.
+ * Used as a cast target for `forwardRef`, which erases the type parameter. The `ref` is typed
+ * from the element rendered by `as`.
  *
  * @typeParam P - Own props of the component.
  * @typeParam D - Element type rendered when `as` is omitted.
@@ -36,6 +36,6 @@ export type PolymorphicProps<T extends ElementType, P> = {
  * export const Link = forwardRef(LinkInner) as PolymorphicComponent<LinkOwnProps, 'a'>;
  */
 export interface PolymorphicComponent<P, D extends C, C extends ElementType = ElementType> {
-    <T extends C = D>(props: PolymorphicProps<T, P> & { ref?: Ref<Element> }): ReactNode;
+    <T extends C = D>(props: PolymorphicProps<T, P> & { ref?: ComponentPropsWithRef<T>['ref'] }): ReactNode;
     displayName?: string;
 }

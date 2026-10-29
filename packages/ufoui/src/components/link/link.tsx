@@ -55,12 +55,6 @@ interface LinkOwnProps extends WrapperProps {
     /** Opens link in new tab with security attributes. */
     external?: boolean;
 
-    /** Accessibility label override. */
-    'aria-label'?: string;
-
-    /** Additional class applied to the root element. */
-    className?: string;
-
     /** Disables interaction and focus. */
     disabled?: boolean;
 
