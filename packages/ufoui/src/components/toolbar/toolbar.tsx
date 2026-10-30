@@ -12,6 +12,7 @@ import {
     SurfaceColor,
 } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base';
+import { useSelection } from '../../hooks';
 
 /**
  * Props for {@link Toolbar}.
@@ -92,6 +93,7 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
         },
         ref
     ) => {
+        const finalDisabled = useSelection()?.disabled || disabled;
         const isFloating = variant === 'floating';
         const finalElevation = elevation ?? (isFloating ? 3 : 0);
         const finalShape = shape ?? (isFloating ? 'round' : undefined);
@@ -100,7 +102,7 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
         const classes = cn(
             'uui-toolbar',
             `uui-toolbar-${variant}`,
-            disabled && 'uui-disabled',
+            finalDisabled && 'uui-disabled',
             className,
             fullWidth && 'uui-toolbar-full',
             fixed && 'uui-toolbar-fixed',
@@ -120,7 +122,7 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
                 color={finalColor}
                 data-position={placement}
                 direction={orientation === 'horizontal' ? 'row' : 'col'}
-                disabled={disabled}>
+                disabled={finalDisabled}>
                 {children}
             </BoxBase>
         );

@@ -20,7 +20,7 @@ import {
 } from '../../utils';
 import { StarFilledIcon, StarIcon } from '../../assets';
 import { ControlGrid, ControlLabel, Description, InlineTooltipManager } from '../../internal';
-import { useFocusVisible, useSliderKeys } from '../../hooks';
+import { useFocusVisible, useSelection, useSliderKeys } from '../../hooks';
 
 /**
  * Props for the Rating component.
@@ -152,6 +152,7 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
 
         const finalEffects = getEffects(effects, { focus: ['ring'] });
 
+        const finalDisabled = useSelection()?.disabled || disabled;
         const generatedId = useUniqueId('rating');
         const elemId = id ?? generatedId;
         const labelId = label ? `${elemId}-label` : undefined;
@@ -208,20 +209,20 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
         }
 
         function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
-            if (readOnly || disabled) {
+            if (readOnly || finalDisabled) {
                 return;
             }
             setHover(computeValue(e.clientX));
         }
 
         function handleMouseLeave() {
-            if (!readOnly && !disabled) {
+            if (!readOnly && !finalDisabled) {
                 setHover(null);
             }
         }
 
         function handleClick(e: MouseEvent<HTMLDivElement>) {
-            if (readOnly || disabled) {
+            if (readOnly || finalDisabled) {
                 return;
             }
 
@@ -235,7 +236,7 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
             min: 0,
             max,
             step,
-            disabled,
+            disabled: finalDisabled,
             readOnly,
             onChange: setValue,
         });
@@ -250,7 +251,7 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
             filled && 'uui-filled',
             readOnly && 'uui-read-only',
             error && 'uui-error',
-            disabled && 'uui-disabled'
+            finalDisabled && 'uui-disabled'
         );
 
         const controlClasses = cn(
@@ -283,7 +284,7 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
             <div
                 {...focusHandlers}
                 {...getAriaLabels(elemId, { label, ariaLabel, title, description, error })}
-                aria-disabled={disabled || undefined}
+                aria-disabled={finalDisabled || undefined}
                 aria-readonly={readOnly || undefined}
                 aria-valuemax={max}
                 aria-valuemin={0}
@@ -296,8 +297,8 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
                 onMouseMove={handleMouseMove}
                 ref={trackRef}
                 role="slider"
-                tabIndex={readOnly || disabled ? undefined : 0}>
-                <input disabled={disabled} name={name} ref={ref} type="hidden" value={current} {...otherProps} />
+                tabIndex={readOnly || finalDisabled ? undefined : 0}>
+                <input disabled={finalDisabled} name={name} ref={ref} type="hidden" value={current} {...otherProps} />
                 {stars}
                 {inlineTooltip && (
                     <InlineTooltipManager align={tooltipAlign} tooltip={inlineTooltip} triggerRef={wrapperRef} />

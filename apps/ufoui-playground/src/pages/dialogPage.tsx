@@ -465,7 +465,7 @@ export const DialogPage = () => {
                         <RadioGroup
                             name="dialogType"
                             onChange={v => {
-                                setDialogType(v === '' ? undefined : (v as DialogType));
+                                setDialogType(v[0] === '' ? undefined : (v[0] as DialogType));
                             }}
                             value={dialogType ?? ''}>
                             <Radio label="Default" value="" />

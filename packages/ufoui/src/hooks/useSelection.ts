@@ -8,19 +8,13 @@ import { SelectionContext, SelectionContextValue } from '../context';
  *
  * @typeParam T Optional configuration object type provided by the parent.
  *
- * @returns The current selection context value.
+ * @returns The current selection context value, or `null` outside a provider.
  *
  * @example
- * const { values, toggle, config } = useSelection<MyConfig>();
+ * const selection = useSelection<MyConfig>();
  *
  * @category Hooks
  */
 export function useSelection<T = unknown>() {
-    const ctx = useContext(SelectionContext);
-
-    if (!ctx) {
-        throw new Error('useSelection must be used within SelectionContext provider');
-    }
-
-    return ctx as SelectionContextValue<T>;
+    return useContext(SelectionContext) as SelectionContextValue<T> | null;
 }

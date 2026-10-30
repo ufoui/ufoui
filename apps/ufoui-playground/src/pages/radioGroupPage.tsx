@@ -111,7 +111,9 @@ export const RadioGroupPage = () => {
                         {...shared}
                         legend="Contact method"
                         name="controlled"
-                        onChange={setValue}
+                        onChange={v => {
+                            setValue(v[0]);
+                        }}
                         value={value}>
                         <Radio {...control} label="Email" value="email" />
                         <Radio {...control} label="Phone" value="phone" />

@@ -1,4 +1,4 @@
-import React, { forwardRef, ReactNode, useContext, useRef, useState } from 'react';
+import React, { forwardRef, ReactNode, useRef, useState } from 'react';
 
 import {
     BorderColor,
@@ -27,8 +27,8 @@ import {
     useUniqueId,
     WrapperProps,
 } from '../../utils';
-import { FieldsetContext } from '../../context';
-import { useFocusVisible } from '../../hooks';
+import { useFocusVisible, useSelection } from '../../hooks';
+import type { FieldsetConfig } from '../fieldset/fieldset';
 import { ControlGrid, ControlLabel, Description, InlineTooltipManager } from '../../internal';
 
 /**
@@ -210,8 +210,9 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
 
     const rippleTimerRef = useRef<number | null>(null);
 
-    const fieldset = useContext(FieldsetContext);
-    const resolvedDisabled = disabled ?? fieldset?.disabled;
+    const selection = useSelection<FieldsetConfig>();
+    const group = value !== undefined && selection?.config?.group;
+    const resolvedDisabled = selection?.disabled || disabled;
 
     const { focusVisible, isFocused, focusHandlers } = useFocusVisible(onFocus, onBlur);
 
@@ -223,7 +224,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
 
     const isControlled = checked !== undefined;
     const [internalChecked, setInternalChecked] = useState(defaultChecked ?? false);
-    const isChecked = isControlled ? !!checked : internalChecked;
+    const isChecked = isControlled ? !!checked : group ? !!selection?.values.includes(value) : internalChecked;
 
     const finalColor = error ? 'error' : color;
     const inlineTooltip = title ? <div id={`${elemId}-tip`}>{title}</div> : null;
@@ -235,6 +236,9 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
         }
         const input = e.currentTarget;
         if (!isControlled) {
+            if (group) {
+                selection?.toggle(input.value);
+            }
             setInternalChecked(input.checked);
         }
         onChange?.(e);
@@ -393,7 +397,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
                     className={inputClasses}
                     disabled={resolvedDisabled}
                     id={elemId}
-                    name={name}
+                    name={name ?? selection?.config?.name}
                     onChange={handleChange}
                     onClick={handleClick}
                     readOnly={readOnly}

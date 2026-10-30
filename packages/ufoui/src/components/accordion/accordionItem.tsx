@@ -92,15 +92,18 @@ export const AccordionItem = ({
     });
 
     const headerRef = useRef<HTMLDivElement>(null);
-    const { values, toggle, config } = useSelection<AccordionConfig>();
-    const isOpen = values.includes(value);
+    const selection = useSelection<AccordionConfig>();
+    const config = selection?.config;
+    const isOpen = !!selection?.values.includes(value);
     const { focusVisible, focusHandlers } = useFocusVisible(onFocus, onBlur);
     const id = `accordion-${value}`;
     const finalShowIcon = showIcon ?? config?.showIcon ?? true;
     const finalVariant = variant ?? config?.variant ?? 'segmented';
-    const finalDisabled = disabled ?? config?.disabled;
+    const finalDisabled = selection?.disabled || disabled;
     const finalColor = color ?? config?.color;
-    const expandIcon = finalShowIcon && <div className="uui-accordion-icon uui-icon">{icon ?? KeyboardArrowDownIcon}</div>;
+    const expandIcon = finalShowIcon && (
+        <div className="uui-accordion-icon uui-icon">{icon ?? KeyboardArrowDownIcon}</div>
+    );
 
     const leadingContent = leading && <Leading content={leading} />;
     const trailingContent = (trailing ?? finalShowIcon) && <Trailing content={trailing} end={expandIcon} />;
@@ -115,7 +118,7 @@ export const AccordionItem = ({
     );
 
     function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-        toggle(value);
+        selection?.toggle(value);
         if (finalEffects.touch?.includes('ripple') && headerRef.current) {
             createRipple(headerRef.current, e);
         }

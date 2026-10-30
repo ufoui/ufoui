@@ -178,7 +178,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(
         const groupId = useId();
         const [internalOpen, setInternalOpen] = useState(!!defaultOpen);
 
-        const finalDisabled = disabled ?? config?.disabled;
+        const finalDisabled = ctx?.disabled || disabled;
         const finalFluidMarker = fluidMarker ?? config?.fluidMarker;
         const finalVariant = variant ?? config?.variant ?? 'baseline';
         const finalShape = shape ?? config?.shape ?? (finalVariant === 'expressive' ? 'rounded' : 'square');

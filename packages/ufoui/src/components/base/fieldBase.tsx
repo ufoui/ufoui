@@ -19,7 +19,7 @@ import {
     useUniqueId,
 } from '../../utils';
 import { CancelIcon, ErrorFilledIcon } from '../../assets';
-import { useFocusVisible } from '../../hooks';
+import { useFocusVisible, useSelection } from '../../hooks';
 import { IconButton } from '../iconButton/iconButton';
 import { Description, LabelText, Leading, Trailing } from '../../internal';
 import { useDisableFocusWithin } from '../../hooks/useDisableFocusWithin';
@@ -240,7 +240,9 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
 
     const [labelUpX, setLabelUpX] = useState(0);
 
-    useDisableFocusWithin(controlRef, disabled);
+    const finalDisabled = useSelection()?.disabled || disabled;
+
+    useDisableFocusWithin(controlRef, finalDisabled);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!isControlled) {
@@ -337,7 +339,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         error &&
         cloneElement(finalErrorIcon, { className: cn(finalErrorIcon.props.className, 'uui-field-error-icon') });
 
-    const clearButton = showClear && !isEmpty && !disabled && !readOnly && (
+    const clearButton = showClear && !isEmpty && !finalDisabled && !readOnly && (
         <IconButton aria-label={clearLabel} icon={clearIcon ?? CancelIcon} onClick={clearValue} />
     );
     const trailingEnd =
@@ -359,7 +361,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         className,
         'uui-field',
         `uui-${fieldVariant}`,
-        disabled && 'uui-disabled',
+        finalDisabled && 'uui-disabled',
         getDensityClass(density),
         fullWidth && 'uui-w-full',
         error && 'uui-error'
@@ -448,11 +450,11 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         <div className={wrapperClasses} title={title}>
             {externalLabelContent}
             <div
-                aria-disabled={disabled ? 'true' : undefined}
+                aria-disabled={finalDisabled ? 'true' : undefined}
                 className={cn(controlClasses)}
                 onPointerDown={focusInput}
                 ref={controlRef}
-                {...(disabled ? { inert: 'true' } : {})}
+                {...(finalDisabled ? { inert: 'true' } : {})}
                 style={controlStyle.get()}>
                 {leadingContent}
                 <div className={inputWrapperClasses}>
@@ -465,7 +467,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
                         {...(isControlled ? { value } : { defaultValue })}
                         {...getAriaLabels(elemId, { label, ariaLabel, description, error, required })}
                         className={inputClasses}
-                        disabled={disabled}
+                        disabled={finalDisabled}
                         id={elemId}
                         name={name}
                         onAnimationStart={handleAnimationStart}

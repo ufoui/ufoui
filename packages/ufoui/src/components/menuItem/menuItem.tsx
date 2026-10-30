@@ -26,6 +26,7 @@ import {
 import { IS_MENU_ITEM } from './menuItem.guards';
 import { isMenu } from '../menu/menu.guards';
 import { Badge } from '../badge/badge';
+import { useSelection } from '../../hooks';
 import { MenuVariant } from '../menu/menu';
 import { ArrowRightIcon, CheckIcon, RadioCheckedIcon, RadioUncheckedIcon } from '../../assets';
 
@@ -390,8 +391,10 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
             </div>
         );
 
+        const finalDisabled = useSelection()?.disabled || disabled;
+
         const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-            if (__interactionsDisabled || disabled) {
+            if (__interactionsDisabled || finalDisabled) {
                 e?.preventDefault();
                 return;
             }
@@ -423,7 +426,7 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
             'uui-menu-item',
             className,
             getDensityClass(density),
-            disabled && 'uui-disabled',
+            finalDisabled && 'uui-disabled',
             variant === 'modern' ? 'uui-menu-item-modern' : 'uui-menu-item-classic'
         );
 
@@ -461,7 +464,7 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
             <div
                 {...props}
                 aria-checked={type === 'radio' || type === 'checkbox' ? (checked ?? false) : undefined}
-                aria-disabled={disabled ? 'true' : undefined}
+                aria-disabled={finalDisabled ? 'true' : undefined}
                 aria-expanded={hasSubmenu ? expanded : undefined}
                 aria-haspopup={hasSubmenu ? 'menu' : undefined}
                 className={itemClasses}

@@ -16,7 +16,7 @@ import {
     getDensityClass,
 } from '../../utils';
 import { ElementAnimation } from '../../types';
-import { useSelectionState } from '../../hooks';
+import { useSelection, useSelectionState } from '../../hooks';
 import { useFocusNavigation } from '../../hooks/useFocusNavigation';
 
 export type AccordionVariant = 'text' | 'pills' | 'grouped' | 'segmented';
@@ -34,7 +34,6 @@ export type AccordionConfig = {
     shape?: ElementShape;
     animation?: ElementAnimation;
     color?: BaseColor;
-    disabled?: boolean;
 };
 
 /**
@@ -97,6 +96,7 @@ export const Accordion = ({
     disabled,
 }: AccordionProps) => {
     const ss = useSelectionState({ type, value, defaultValue, onChange });
+    const finalDisabled = useSelection()?.disabled || disabled;
     const nav = useFocusNavigation('vertical');
     const { values } = ss;
     const accordionItems: ReactElement<AccordionItemProps>[] = React.Children.toArray(children).filter(isAccordionItem);
@@ -119,7 +119,6 @@ export const Accordion = ({
         font: font,
         animation: animation,
         color: color,
-        disabled: disabled,
         ...accordionProps,
     };
 
@@ -127,8 +126,9 @@ export const Accordion = ({
         () => ({
             ...ss,
             config,
+            disabled: finalDisabled,
         }),
-        [config, ss]
+        [config, finalDisabled, ss]
     );
 
     const groups: ReactElement<AccordionItemProps>[][] = [];

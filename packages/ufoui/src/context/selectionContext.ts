@@ -18,6 +18,9 @@ export interface SelectionContextValue<T = unknown> {
     /** Optional configuration object passed from the parent component. */
     config?: T;
 
+    /** Disables all child controls; a child cannot re-enable itself. */
+    disabled?: boolean;
+
     /** Selection type: single or multiple. */
     type: 'single' | 'multiple';
 

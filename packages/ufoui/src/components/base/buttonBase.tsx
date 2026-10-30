@@ -29,6 +29,7 @@ import {
     WrapperProps,
 } from '../../utils';
 import { InlineTooltipManager, Leading, Trailing } from '../../internal';
+import { useSelection } from '../../hooks';
 import { Spinner } from '../spinner/spinner';
 
 /**
@@ -302,7 +303,8 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
 
         const uploadInputRef = useRef<HTMLInputElement>(null);
         const buttonRef = useRef<HTMLButtonElement>(null);
-        const Component = disabled ? 'button' : (as ?? 'button');
+        const finalDisabled = useSelection()?.disabled || disabled;
+        const Component = finalDisabled ? 'button' : (as ?? 'button');
 
         const isButton = Component === 'button';
         const generatedId = useUniqueId('button');
@@ -481,7 +483,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
                     aria-label={finalAriaLabel}
                     aria-pressed={toggle ? isSelected : undefined}
                     className={controlClasses}
-                    disabled={isButton ? disabled : undefined}
+                    disabled={isButton ? finalDisabled : undefined}
                     id={elemId}
                     name={name}
                     onClick={handleClick}
@@ -489,7 +491,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
                     style={controlStyle.get()}
                     type={isButton ? type : undefined}
                     {...otherProps}
-                    {...(disabled && { href: undefined })}>
+                    {...(finalDisabled && { href: undefined })}>
                     <span className={stateClasses} style={stateStyle.get()} />
                     {contentSlot}
                 </Component>

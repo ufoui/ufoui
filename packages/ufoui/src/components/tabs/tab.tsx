@@ -29,8 +29,7 @@ export interface TabProps {
  * @category Tabs
  */
 export const Tab = ({ value, label, children }: TabProps) => {
-  const { values } = useSelection();
-  const isSelected = values.includes(value);
+  const isSelected = !!useSelection()?.values.includes(value);
   return (
     <div
       aria-labelledby={`uui-tab-${value}-trigger`}

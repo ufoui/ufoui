@@ -1,5 +1,5 @@
 /* eslint-disable sonarjs/cognitive-complexity */
-import React, { forwardRef, useCallback, useContext, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
 
 import {
     cn,
@@ -18,8 +18,7 @@ import {
     SurfaceColor,
     useUniqueId,
 } from '../../utils';
-import { FieldsetContext } from '../../context';
-import { useFocusVisible, useSliderKeys } from '../../hooks';
+import { useFocusVisible, useSelection, useSliderKeys } from '../../hooks';
 import { ControlGrid, ControlLabel, Description } from '../../internal';
 import { SliderHandle } from './sliderHandle';
 
@@ -164,8 +163,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>((props, ref) => {
 
     const rangeMode = type === 'range';
     const centeredMode = type === 'centered';
-    const fieldset = useContext(FieldsetContext);
-    const off = disabled ?? fieldset?.disabled;
+    const off = useSelection()?.disabled || disabled;
 
     const initSingle = useRef<number>(typeof defaultValue === 'number' ? defaultValue : min);
     const initRange = useRef<[number, number]>(isRange(defaultValue) ? defaultValue : [min, max]);

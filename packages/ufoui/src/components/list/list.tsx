@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useRef } from 'react';
 
 import { SelectionContext } from '../../context';
-import { useSelectionState } from '../../hooks';
+import { useSelection, useSelectionState } from '../../hooks';
 import { useFocusNavigation } from '../../hooks/useFocusNavigation';
 import {
     cn,
@@ -33,9 +33,6 @@ export type ListSelectionSlot = 'none' | 'leading' | 'trailing';
 /** @category List */
 export interface ListConfig {
     density?: ElementDensity;
-
-    /** Disables all child items. */
-    disabled?: boolean;
 
     /** Marks the child items as drag sources. */
     draggable?: boolean;
@@ -189,6 +186,7 @@ export const List = ({
         defaultValue,
         onChange,
     });
+    const finalDisabled = useSelection()?.disabled || disabled;
     const nav = useFocusNavigation('vertical', { loop: false, roving: true });
     const rootRef = useRef<HTMLElement>(null);
     const controlStyle = ControlStyle(style);
@@ -198,7 +196,6 @@ export const List = ({
     const config: ListConfig = {
         itemRole: type === 'listbox' ? 'option' : type === 'tree' ? 'treeitem' : 'listitem',
         density,
-        disabled,
         draggable,
         effects,
         fluidMarker,
@@ -231,7 +228,7 @@ export const List = ({
     }, []);
 
     return (
-        <SelectionContext.Provider value={{ ...ss, config }}>
+        <SelectionContext.Provider value={{ ...ss, config, disabled: finalDisabled }}>
             <BoxBase
                 {...props}
                 aria-orientation="vertical"

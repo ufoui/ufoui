@@ -270,7 +270,7 @@ export const RadioPage = () => {
                         legend="Controlled by RadioGroup"
                         name="rgControl"
                         onChange={v => {
-                            setValue2(v);
+                            setValue2(v[0]);
                         }}
                         required
                         value={value2}>

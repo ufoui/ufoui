@@ -1,4 +1,4 @@
-import React, { forwardRef, ReactNode, useContext, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
 
 import {
     BorderColor,
@@ -28,8 +28,8 @@ import {
     useUniqueId,
 } from '../../utils';
 import { ElementAnimation } from '../../types';
-import { FieldsetContext, RadioGroupContext } from '../../context';
-import { useFocusVisible, useMotion } from '../../hooks';
+import { useFocusVisible, useMotion, useSelection } from '../../hooks';
+import type { FieldsetConfig } from '../fieldset/fieldset';
 import { Description, InlineTooltipManager, LabelText } from '../../internal';
 
 /**
@@ -240,10 +240,10 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         { oneShot: true }
     );
 
-    const group = useContext(RadioGroupContext);
-    const resolvedName = type === 'radio' ? (name ?? group?.name) : name;
-    const fieldset = useContext(FieldsetContext);
-    const resolvedDisabled = disabled ?? fieldset?.disabled;
+    const selection = useSelection<FieldsetConfig>();
+    const group = value !== undefined && selection?.config?.group;
+    const resolvedName = name ?? selection?.config?.name;
+    const resolvedDisabled = selection?.disabled || disabled;
 
     const { focusVisible, isFocused, focusHandlers } = useFocusVisible(onFocus, onBlur);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -258,8 +258,8 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
     let isChecked;
     if (isControlled) {
         isChecked = !!checked;
-    } else if (group?.value !== undefined) {
-        isChecked = group.value === value;
+    } else if (group) {
+        isChecked = !!selection?.values.includes(value);
     } else {
         isChecked = internalChecked;
     }
@@ -277,8 +277,12 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         }
         const input = e.currentTarget;
         if (!isControlled) {
-            if (type === 'radio' && group?.setValue) {
-                group.setValue(input.value);
+            if (group) {
+                if (type === 'radio') {
+                    selection?.set(input.value);
+                } else {
+                    selection?.toggle(input.value);
+                }
             }
             setInternalChecked(input.checked);
         }

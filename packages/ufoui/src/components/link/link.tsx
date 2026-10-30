@@ -14,6 +14,7 @@ import {
     WrapperProps,
 } from '../../utils';
 import { Leading, Trailing } from '../../internal';
+import { useSelection } from '../../hooks';
 
 /**
  * Underline visibility behavior.
@@ -129,6 +130,7 @@ const LinkInner = <T extends ElementType = 'a'>(rawProps: LinkProps<T>, ref: Rea
 
     // eslint-disable-next-line eqeqeq
     const finalAriaLabel = ariaLabel ?? (children != null ? label : undefined);
+    const finalDisabled = useSelection()?.disabled || disabled;
 
     const content = (
         <span className="uui-link-content">
@@ -140,11 +142,11 @@ const LinkInner = <T extends ElementType = 'a'>(rawProps: LinkProps<T>, ref: Rea
 
     return (
         <Component
-            aria-disabled={disabled || undefined}
+            aria-disabled={finalDisabled || undefined}
             aria-label={finalAriaLabel}
             className={classes}
             onClick={e => {
-                if (disabled) {
+                if (finalDisabled) {
                     e.preventDefault();
                     e.stopPropagation();
                     return;
@@ -153,8 +155,8 @@ const LinkInner = <T extends ElementType = 'a'>(rawProps: LinkProps<T>, ref: Rea
             }}
             ref={ref as React.Ref<never>}
             style={cs.get()}
-            tabIndex={disabled ? -1 : undefined}
-            {...(external && !disabled
+            tabIndex={finalDisabled ? -1 : undefined}
+            {...(external && !finalDisabled
                 ? {
                       target: '_blank',
                       rel: 'noopener noreferrer',
