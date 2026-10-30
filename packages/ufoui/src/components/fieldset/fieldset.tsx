@@ -21,7 +21,7 @@ export interface FieldsetConfig {
 
 /**
  * Props for {@link Fieldset}.
- * Extends {@link BoxBaseProps} except for `as` and `elementClass`.
+ * Extends {@link BoxBaseProps} except for `as`, `elementClass`, `color`, `onChange` and `defaultValue`.
  *
  * @category Fieldset
  */
@@ -29,30 +29,40 @@ export interface FieldsetProps
     extends Omit<BoxBaseProps, 'as' | 'elementClass' | 'color' | 'onChange' | 'defaultValue'> {
     /** Surface background token. */
     color?: SurfaceColor;
+
     /** Initial selected value(s) for uncontrolled usage. */
     defaultValue?: string | string[];
+
     /** Supporting text displayed below the fieldset content. */
     description?: string;
-    /** Font token applied to the description text. */
+
+    /** Font token applied to the description text. @default 'bodySmall' */
     descriptionFont?: ElementFont;
-    /** Disables all form controls inside the fieldset. */
+
+    /** Disables all controls inside; a child cannot re-enable itself. */
     disabled?: boolean;
+
     /** Error message displayed below the fieldset content. Overrides `description`. */
     error?: string;
-    /** Font token applied to the legend text. */
+
+    /** Font token applied to the legend text. @default 'labelLarge' */
     font?: ElementFont;
-    /** Alias for `legend`. Used as fallback when `legend` is not provided. */
-    label?: string;
+
     /** Text rendered inside the native `<legend>` element. */
-    legend?: string;
+    label?: string;
+
     /** Shared `name` attribute applied to the grouped inputs. */
     name?: string;
+
     /** Called with the selected values when the selection changes. */
     onChange?: (values: string[]) => void;
-    /** Marks the fieldset as required. Adds a required indicator to the legend. */
+
+    /** Adds a required indicator to the legend; with `role="radiogroup"` also sets `aria-required`. */
     required?: boolean;
+
     /** Lets the fieldset manage the selected value(s) of its controls. @default 'none' */
     selection?: 'none' | 'single' | 'multiple';
+
     /** Controlled selected value(s). */
     value?: string | string[];
 }
@@ -60,16 +70,29 @@ export interface FieldsetProps
 /**
  * Semantic wrapper for grouping related form controls.
  *
- * Renders a native fieldset with an optional legend.
- * Used to group checkboxes or radio buttons.
+ * Renders a native fieldset with an optional legend, description and error message.
+ * With `selection`, it also manages the selected value(s) of the controls inside.
+ *
+ * @remarks
+ * Lays out its content as a column: `direction` defaults to `'col'` and `alignItems` to `'start'`.
  *
  * @function
+ * @param props Component properties.
  * @example
- * <Fieldset legend="Fieldset">
- *   <Checkbox>
- *   <Checkbox>
- *   <Checkbox>
+ * ```tsx
+ * <Fieldset label="Notifications">
+ *     <Checkbox label="Email" />
+ *     <Checkbox label="SMS" />
  * </Fieldset>
+ * ```
+ *
+ * @example
+ * ```tsx
+ * <Fieldset defaultValue={['email']} label="Notifications" name="notify" selection="multiple">
+ *     <Checkbox label="Email" value="email" />
+ *     <Checkbox label="SMS" value="sms" />
+ * </Fieldset>
+ * ```
  *
  * @category Fieldset
  */
@@ -81,7 +104,6 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
             font,
             label,
             disabled,
-            legend,
             children,
             direction = 'col',
             required,
@@ -102,7 +124,6 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
         const generatedId = useUniqueId('fieldset');
         const elemId = id ?? generatedId;
         const finalDisabled = useSelection()?.disabled || disabled;
-        const legendText = legend ?? label;
         const ss = useSelectionState({
             type: selection === 'multiple' ? 'multiple' : 'single',
             value,
@@ -141,7 +162,7 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
                         ref={ref}
                         {...props}
                         {...getAriaLabels(elemId, {
-                            label: legendText,
+                            label,
                             ariaLabel,
                             description,
                             error,
@@ -154,9 +175,9 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
                         elementClass="uui-fieldset"
                         id={elemId}
                         role={role}>
-                        {legendText && (
+                        {label && (
                             <legend className={legendClasses} id={`${elemId}-label`}>
-                                <LabelText label={legendText} required={required} />
+                                <LabelText label={label} required={required} />
                             </legend>
                         )}
                         {children}

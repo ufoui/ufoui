@@ -76,7 +76,7 @@ export const FieldPage = () => {
         <Article direction="row" gap={20}>
             <Content color="surfaceContainerHigh" gap={20} grow minWidth={0}>
                 <H1>TextField</H1>
-                <Fieldset direction="row" gap={16} legend="Default" wrap>
+                <Fieldset direction="row" gap={16} label="Default" wrap>
                     <TextField {...shared} description="Label only" label="Label only" name="email" />
                     <TextField
                         {...shared}
@@ -106,7 +106,7 @@ export const FieldPage = () => {
                     />
                 </Fieldset>
 
-                <Fieldset alignItems="end" direction="row" gap={16} legend="Slots" wrap>
+                <Fieldset alignItems="end" direction="row" gap={16} label="Slots" wrap>
                     <TextField
                         {...shared}
                         description="Leading: one icon"
@@ -171,7 +171,7 @@ export const FieldPage = () => {
                     />
                 </Fieldset>
 
-                <Fieldset direction="row" gap={16} legend="Filled" wrap>
+                <Fieldset direction="row" gap={16} label="Filled" wrap>
                     <TextField {...shared} description="Label only" filled label="Label only" name="email" />
                     <TextField
                         {...shared}
@@ -204,7 +204,7 @@ export const FieldPage = () => {
                     />
                 </Fieldset>
 
-                <Fieldset direction="row" gap={16} legend="Outlined" wrap>
+                <Fieldset direction="row" gap={16} label="Outlined" wrap>
                     <TextField {...shared} description="Label only" label="Label only" name="email" outlined />
                     <TextField
                         {...shared}
@@ -243,7 +243,7 @@ export const FieldPage = () => {
                     />
                 </Fieldset>
 
-                <Fieldset alignItems="end" direction="row" gap={16} legend="Classic" wrap>
+                <Fieldset alignItems="end" direction="row" gap={16} label="Classic" wrap>
                     <TextField {...shared} classic description="Label only" label="Label only" name="email" />
                     <TextField
                         {...shared}
@@ -282,7 +282,7 @@ export const FieldPage = () => {
                     />
                 </Fieldset>
 
-                <Fieldset direction="col" gap={16} legend="Multiline">
+                <Fieldset direction="col" gap={16} label="Multiline">
                     <Flex alignItems="end" gap={16} wrap>
                         <TextField
                             {...shared}

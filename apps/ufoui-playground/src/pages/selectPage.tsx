@@ -62,7 +62,7 @@ export const SelectPage = () => {
                     Value: {fruit ?? '-'} | Values: {fruits.length ? fruits.join(', ') : '-'}
                 </P>
 
-                <Fieldset direction="row" gap={16} legend="Default" wrap>
+                <Fieldset direction="row" gap={16} label="Default" wrap>
                     <Select
                         {...shared}
                         description="Single selection"
@@ -112,7 +112,7 @@ export const SelectPage = () => {
                     </Select>
                 </Fieldset>
 
-                <Fieldset alignItems="end" direction="row" gap={16} legend="Slots" wrap>
+                <Fieldset alignItems="end" direction="row" gap={16} label="Slots" wrap>
                     <Select
                         {...shared}
                         description="Leading: one icon"
@@ -153,7 +153,7 @@ export const SelectPage = () => {
                     </Select>
                 </Fieldset>
 
-                <Fieldset direction="row" gap={16} legend="Filled" wrap>
+                <Fieldset direction="row" gap={16} label="Filled" wrap>
                     <Select {...shared} description="Label only" filled label="Label only" name="country">
                         <Option label="Poland" value="pl" />
                         <Option label="Germany" value="de" />
@@ -183,7 +183,7 @@ export const SelectPage = () => {
                     </Select>
                 </Fieldset>
 
-                <Fieldset direction="row" gap={16} legend="Outlined" wrap>
+                <Fieldset direction="row" gap={16} label="Outlined" wrap>
                     <Select {...shared} description="Label only" label="Label only" name="country" outlined>
                         <Option label="Poland" value="pl" />
                         <Option label="Germany" value="de" />
@@ -213,7 +213,7 @@ export const SelectPage = () => {
                     </Select>
                 </Fieldset>
 
-                <Fieldset alignItems="end" direction="row" gap={16} legend="Classic" wrap>
+                <Fieldset alignItems="end" direction="row" gap={16} label="Classic" wrap>
                     <Select {...shared} classic description="Label only" label="Label only" name="country">
                         <Option label="Poland" value="pl" />
                         <Option label="Germany" value="de" />

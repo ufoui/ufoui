@@ -22,7 +22,10 @@ export interface SelectionStateOptions {
     deselectable?: boolean;
 }
 
-const toValues = (value?: string | string[]) => (value === undefined ? [] : Array.isArray(value) ? value : [value]);
+const toValues = (type: 'single' | 'multiple', value?: string | string[]) => {
+    const values = value === undefined ? [] : Array.isArray(value) ? value : [value];
+    return type === 'single' ? values.slice(0, 1) : values;
+};
 
 /**
  * Hook that provides shared selection state for components
@@ -53,8 +56,8 @@ export function useSelectionState({
     onChange,
     deselectable = true,
 }: SelectionStateOptions = {}) {
-    const [internal, setInternal] = useState(() => toValues(defaultValue));
-    const values = useMemo(() => (value === undefined ? internal : toValues(value)), [internal, value]);
+    const [internal, setInternal] = useState(() => toValues(type, defaultValue));
+    const values = useMemo(() => (value === undefined ? internal : toValues(type, value)), [internal, type, value]);
 
     const commit = useCallback(
         (next: string[]) => {

@@ -81,7 +81,7 @@ export const BadgePage = () => {
     return (
         <Article direction="row" gap={20} grow>
             <Section gap={20}>
-                <Fieldset legend="Standalone">
+                <Fieldset label="Standalone">
                     <Flex gap={8}>
                         <Badge {...shared} value={5} />
                         <Flex direction="col" grow>
@@ -89,14 +89,14 @@ export const BadgePage = () => {
                         </Flex>
                     </Flex>
                 </Fieldset>
-                <Fieldset direction="row" gap={8} legend="Badge & Button">
+                <Fieldset direction="row" gap={8} label="Badge & Button">
                     {badgeVariations.map(s => (
                         <Badge {...shared} key={s.label} {...s}>
                             <Button filled icon={<MdAdd />} label={s.label} />
                         </Badge>
                     ))}
                 </Fieldset>
-                <Fieldset legend="Badge position">
+                <Fieldset label="Badge position">
                     <Grid cols={3} gap={8}>
                         {badgePosition.map(s => (
                             <Badge {...shared} align={s.align} key={s.align} value={s.value}>
@@ -106,7 +106,7 @@ export const BadgePage = () => {
                     </Grid>
                 </Fieldset>
 
-                <Fieldset cols={3} gap={16} legend="Badge Size" type="grid">
+                <Fieldset cols={3} gap={16} label="Badge Size" type="grid">
                     {badgeSizeConst.map(s => (
                         <>
                             {s.label}
@@ -120,7 +120,7 @@ export const BadgePage = () => {
                     ))}
                 </Fieldset>
 
-                <Fieldset cols={3} gap={16} legend="Badge color" type="grid">
+                <Fieldset cols={3} gap={16} label="Badge color" type="grid">
                     {badgeColorConst.map(s => (
                         <>
                             {s.label}
@@ -133,7 +133,7 @@ export const BadgePage = () => {
                         </>
                     ))}
                 </Fieldset>
-                <Fieldset cols={4} gap={8} legend="Badge variations" type="grid">
+                <Fieldset cols={4} gap={8} label="Badge variations" type="grid">
                     {badgeVariations.map(s => (
                         <Badge key={`${s.size}2`} {...s}>
                             <Button filled icon={<MdAdd />} label={s.label} />

@@ -63,14 +63,14 @@ export const SliderPage = () => {
                 {/* ── States ──────────────────────────────────────────── */}
                 <Section shape="rounded">
                     <Grid cols={2} fullWidth gap={20}>
-                        <Fieldset disabled={disabled ?? undefined} gap={24} legend="Horizontal">
+                        <Fieldset disabled={disabled ?? undefined} gap={24} label="Horizontal">
                             <Slider {...shared} defaultValue={60} description="Slider description" label="Default" />
                             <Slider {...shared} defaultValue={0} label="At minimum" />
                             <Slider {...shared} defaultValue={100} label="At maximum" />
                             <Slider {...shared} defaultValue={40} disabled label="Disabled" />
                             <Slider {...shared} defaultValue={40} label="Read-only" readOnly />
                         </Fieldset>
-                        <Fieldset direction="row" disabled={disabled ?? undefined} gap={VG} legend="Vertical">
+                        <Fieldset direction="row" disabled={disabled ?? undefined} gap={VG} label="Vertical">
                             <Slider
                                 {...shared}
                                 defaultValue={60}
@@ -116,12 +116,12 @@ export const SliderPage = () => {
                 <Section>
                     <H2>Value label</H2>
                     <Grid cols={2} fullWidth gap={20}>
-                        <Fieldset disabled={disabled ?? undefined} gap={24} legend="Horizontal">
+                        <Fieldset disabled={disabled ?? undefined} gap={24} label="Horizontal">
                             <Slider {...shared} defaultValue={55} label="Hover / focus" showValue />
                             <Slider {...shared} defaultValue={30} label="Always" showValue="always" />
                             <Slider {...shared} defaultValue={70} label="Hidden" />
                         </Fieldset>
-                        <Fieldset direction="row" disabled={disabled ?? undefined} gap={VG} legend="Vertical">
+                        <Fieldset direction="row" disabled={disabled ?? undefined} gap={VG} label="Vertical">
                             <Slider
                                 {...shared}
                                 defaultValue={55}
@@ -153,7 +153,7 @@ export const SliderPage = () => {
                 <Section>
                     <H2>Types</H2>
                     <Grid cols={2} fullWidth gap={20}>
-                        <Fieldset disabled={disabled ?? undefined} gap={24} legend="Horizontal">
+                        <Fieldset disabled={disabled ?? undefined} gap={24} label="Horizontal">
                             <Slider {...shared} defaultValue={60} label="Standard" showValue="always" />
                             <Slider
                                 {...shared}
@@ -173,7 +173,7 @@ export const SliderPage = () => {
                                 type="range"
                             />
                         </Fieldset>
-                        <Fieldset direction="row" disabled={disabled ?? undefined} gap={VG} legend="Vertical">
+                        <Fieldset direction="row" disabled={disabled ?? undefined} gap={VG} label="Vertical">
                             <Slider
                                 {...shared}
                                 defaultValue={60}
@@ -210,7 +210,7 @@ export const SliderPage = () => {
                 <Section>
                     <H2>Discrete</H2>
                     <Grid cols={2} fullWidth gap={20}>
-                        <Fieldset disabled={disabled ?? undefined} gap={24} legend="Horizontal">
+                        <Fieldset disabled={disabled ?? undefined} gap={24} label="Horizontal">
                             <Slider {...shared} defaultValue={40} label="Step 10" showValue step={10} stops />
                             <Slider
                                 {...shared}
@@ -233,7 +233,7 @@ export const SliderPage = () => {
                                 type="range"
                             />
                         </Fieldset>
-                        <Fieldset direction="row" disabled={disabled ?? undefined} gap={VG} legend="Vertical">
+                        <Fieldset direction="row" disabled={disabled ?? undefined} gap={VG} label="Vertical">
                             <Slider
                                 {...shared}
                                 defaultValue={40}
@@ -276,7 +276,7 @@ export const SliderPage = () => {
                 <Section>
                     <H2>Sizes</H2>
                     <Grid cols={2} fullWidth gap={20}>
-                        <Fieldset disabled={disabled ?? undefined} gap={24} legend="Horizontal">
+                        <Fieldset disabled={disabled ?? undefined} gap={24} label="Horizontal">
                             <Slider
                                 {...shared}
                                 defaultValue={60}
@@ -295,7 +295,7 @@ export const SliderPage = () => {
                                 size="extraLarge"
                             />
                         </Fieldset>
-                        <Fieldset direction="row" disabled={disabled ?? undefined} gap={VG} legend="Vertical">
+                        <Fieldset direction="row" disabled={disabled ?? undefined} gap={VG} label="Vertical">
                             <Slider
                                 {...shared}
                                 defaultValue={60}
@@ -349,7 +349,7 @@ export const SliderPage = () => {
                 <Section>
                     <H2>Colors</H2>
                     <Grid cols={2} fullWidth gap={20}>
-                        <Fieldset disabled={disabled ?? undefined} gap={24} legend="Horizontal">
+                        <Fieldset disabled={disabled ?? undefined} gap={24} label="Horizontal">
                             <Slider {...shared} color="primary" defaultValue={60} label="Primary" showValue="always" />
                             <Slider
                                 {...shared}
@@ -369,7 +369,7 @@ export const SliderPage = () => {
                             <Slider {...shared} color="warning" defaultValue={50} label="Warning" showValue="always" />
                             <Slider {...shared} color="error" defaultValue={35} label="Error" showValue="always" />
                         </Fieldset>
-                        <Fieldset direction="row" disabled={disabled ?? undefined} gap={VG} legend="Vertical">
+                        <Fieldset direction="row" disabled={disabled ?? undefined} gap={VG} label="Vertical">
                             <Slider
                                 {...shared}
                                 color="primary"
@@ -432,7 +432,7 @@ export const SliderPage = () => {
                 <Section>
                     <H2>Controlled</H2>
                     <Grid cols={2} fullWidth gap={20}>
-                        <Fieldset disabled={disabled ?? undefined} gap={24} legend="Single">
+                        <Fieldset disabled={disabled ?? undefined} gap={24} label="Single">
                             <Slider
                                 {...shared}
                                 label="Controlled slider"
@@ -448,7 +448,7 @@ export const SliderPage = () => {
                                 Value: {controlled}
                             </P>
                         </Fieldset>
-                        <Fieldset disabled={disabled ?? undefined} gap={24} legend="Range">
+                        <Fieldset disabled={disabled ?? undefined} gap={24} label="Range">
                             <Slider
                                 {...shared}
                                 formatValue={v => `$${v}`}
@@ -473,13 +473,13 @@ export const SliderPage = () => {
                 <Section>
                     <H2>Label placement</H2>
                     <Grid cols={2} fullWidth gap={20}>
-                        <Fieldset gap={24} legend="textPlacement">
+                        <Fieldset gap={24} label="textPlacement">
                             <Slider {...shared} defaultValue={40} label="Top (default)" showValue textPlacement="top" />
                             <Slider {...shared} defaultValue={40} label="Bottom" showValue textPlacement="bottom" />
                             <Slider {...shared} defaultValue={40} label="Start" showValue textPlacement="start" />
                             <Slider {...shared} defaultValue={40} label="End" showValue textPlacement="end" />
                         </Fieldset>
-                        <Fieldset gap={24} legend="Error / Description">
+                        <Fieldset gap={24} label="Error / Description">
                             <Slider
                                 {...shared}
                                 defaultValue={40}

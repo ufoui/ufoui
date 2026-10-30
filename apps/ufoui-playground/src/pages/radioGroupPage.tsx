@@ -52,7 +52,7 @@ export const RadioGroupPage = () => {
 
                 <Section alignItems="start" gap={12}>
                     <H2>Basic (uncontrolled)</H2>
-                    <RadioGroup {...shared} defaultValue="email" legend="Notifications" name="basic">
+                    <RadioGroup {...shared} defaultValue="email" label="Notifications" name="basic">
                         <Radio {...control} label="Email" value="email" />
                         <Radio {...control} label="SMS" value="sms" />
                         <Radio {...control} label="Push" value="push" />
@@ -65,7 +65,7 @@ export const RadioGroupPage = () => {
                         {...shared}
                         defaultValue="standard"
                         description="Pick the shipping speed."
-                        legend="Delivery"
+                        label="Delivery"
                         name="delivery">
                         <Radio {...control} label="Standard" value="standard" />
                         <Radio {...control} label="Express" value="express" />
@@ -79,7 +79,7 @@ export const RadioGroupPage = () => {
                         {...shared}
                         description="This text is hidden by the error."
                         error="Select a plan to continue."
-                        legend="Plan"
+                        label="Plan"
                         name="plan">
                         <Radio {...control} label="Free" value="free" />
                         <Radio {...control} label="Pro" value="pro" />
@@ -89,7 +89,7 @@ export const RadioGroupPage = () => {
 
                 <Section alignItems="start" gap={12}>
                     <H2>Required</H2>
-                    <RadioGroup {...shared} legend="Agreement" name="agreement" required>
+                    <RadioGroup {...shared} label="Agreement" name="agreement" required>
                         <Radio {...control} label="Accept" value="accept" />
                         <Radio {...control} label="Decline" value="decline" />
                     </RadioGroup>
@@ -98,7 +98,7 @@ export const RadioGroupPage = () => {
                 <Section alignItems="start" gap={12}>
                     <H2>Disabled group</H2>
                     <P>Disabling the group disables every radio inside it.</P>
-                    <RadioGroup {...shared} defaultValue="a" disabled legend="Unavailable" name="disabledGroup">
+                    <RadioGroup {...shared} defaultValue="a" disabled label="Unavailable" name="disabledGroup">
                         <Radio {...control} label="Option A" value="a" />
                         <Radio {...control} label="Option B" value="b" />
                     </RadioGroup>
@@ -109,7 +109,7 @@ export const RadioGroupPage = () => {
                     <P>Selected: {value}</P>
                     <RadioGroup
                         {...shared}
-                        legend="Contact method"
+                        label="Contact method"
                         name="controlled"
                         onChange={v => {
                             setValue(v[0]);
@@ -122,16 +122,8 @@ export const RadioGroupPage = () => {
                 </Section>
 
                 <Section alignItems="start" gap={12}>
-                    <H2>Legend via `label` alias</H2>
-                    <RadioGroup {...shared} defaultValue="opt" label="From label prop" name="alias">
-                        <Radio {...control} label="Option" value="opt" />
-                        <Radio {...control} label="Other" value="other" />
-                    </RadioGroup>
-                </Section>
-
-                <Section alignItems="start" gap={12}>
                     <H2>Horizontal</H2>
-                    <RadioGroup {...shared} defaultValue="1" direction="row" gap={16} legend="Inline" name="inline">
+                    <RadioGroup {...shared} defaultValue="1" direction="row" gap={16} label="Inline" name="inline">
                         <Radio {...control} label="One" value="1" />
                         <Radio {...control} label="Two" value="2" />
                         <Radio {...control} label="Three" value="3" />

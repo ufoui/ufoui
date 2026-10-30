@@ -82,7 +82,7 @@ export const FieldsPage = () => {
             <Content gap={20} grow minWidth={0}>
                 <H1>Fields</H1>
                 {fields.map(({ name, Field, placeholder, extra }) => (
-                    <Fieldset alignItems="end" direction="row" gap={16} key={name} legend={name} wrap>
+                    <Fieldset alignItems="end" direction="row" gap={16} key={name} label={name} wrap>
                         <Field
                             {...shared}
                             {...extra}

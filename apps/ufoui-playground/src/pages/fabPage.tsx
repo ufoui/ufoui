@@ -293,7 +293,7 @@ export const FabPage = () => {
                     </Flex>
                     <Divider className="col-span-2" />
                     <div>Disabled fieldset</div>
-                    <Fieldset alignItems="center" direction="row" disabled gap={8} legend="Fieldset">
+                    <Fieldset alignItems="center" direction="row" disabled gap={8} label="Fieldset">
                         <Fab filled icon={<MdAdd />} label="F1" {...shared} />
                         <Fab filled icon={<MdAdd />} label="F2" {...shared} />
                         <Fab

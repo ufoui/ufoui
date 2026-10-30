@@ -52,7 +52,7 @@ export const FieldsetPage = () => {
 
                 <Section alignItems="start" gap={12}>
                     <H2>Basic</H2>
-                    <Fieldset {...shared} legend="Notifications">
+                    <Fieldset {...shared} label="Notifications">
                         <Checkbox {...control} defaultChecked label="Email" value="email" />
                         <Checkbox {...control} label="SMS" value="sms" />
                         <Checkbox {...control} label="Push" value="push" />
@@ -61,7 +61,7 @@ export const FieldsetPage = () => {
 
                 <Section alignItems="start" gap={12}>
                     <H2>With description</H2>
-                    <Fieldset {...shared} description="Toggle the features you want enabled." legend="Preferences">
+                    <Fieldset {...shared} description="Toggle the features you want enabled." label="Preferences">
                         <Switch {...control} defaultChecked label="Dark mode" />
                         <Switch {...control} label="Auto-save" />
                         <Switch {...control} label="Beta features" />
@@ -75,7 +75,7 @@ export const FieldsetPage = () => {
                         {...shared}
                         description="This text is hidden by the error."
                         error="Select at least one option."
-                        legend="Consents">
+                        label="Consents">
                         <Checkbox {...control} label="Terms of service" value="tos" />
                         <Checkbox {...control} label="Privacy policy" value="privacy" />
                     </Fieldset>
@@ -83,7 +83,7 @@ export const FieldsetPage = () => {
 
                 <Section alignItems="start" gap={12}>
                     <H2>Required</H2>
-                    <Fieldset {...shared} legend="Agreements" required>
+                    <Fieldset {...shared} label="Agreements" required>
                         <Checkbox {...control} label="I accept the terms" value="accept" />
                         <Switch {...control} label="Subscribe to the newsletter" />
                     </Fieldset>
@@ -92,7 +92,7 @@ export const FieldsetPage = () => {
                 <Section alignItems="start" gap={12}>
                     <H2>Disabled group</H2>
                     <P>Disabling the fieldset disables every control inside it.</P>
-                    <Fieldset {...shared} disabled legend="Unavailable">
+                    <Fieldset {...shared} disabled label="Unavailable">
                         <Checkbox {...control} defaultChecked label="Option A" value="a" />
                         <Checkbox {...control} label="Option B" value="b" />
                         <Switch {...control} label="Option C" />
@@ -100,16 +100,8 @@ export const FieldsetPage = () => {
                 </Section>
 
                 <Section alignItems="start" gap={12}>
-                    <H2>Legend via `label` alias</H2>
-                    <Fieldset {...shared} label="From label prop">
-                        <Checkbox {...control} label="Checkbox" value="opt" />
-                        <Switch {...control} label="Switch" />
-                    </Fieldset>
-                </Section>
-
-                <Section alignItems="start" gap={12}>
                     <H2>Horizontal - switches</H2>
-                    <Fieldset {...shared} direction="row" gap={16} legend="Inline switches">
+                    <Fieldset {...shared} direction="row" gap={16} label="Inline switches">
                         <Switch {...control} defaultChecked label="One" />
                         <Switch {...control} label="Two" />
                         <Switch {...control} label="Three" />
@@ -118,7 +110,7 @@ export const FieldsetPage = () => {
 
                 <Section alignItems="start" gap={12}>
                     <H2>Horizontal - checkboxes</H2>
-                    <Fieldset {...shared} direction="row" gap={16} legend="Inline checkboxes">
+                    <Fieldset {...shared} direction="row" gap={16} label="Inline checkboxes">
                         <Checkbox {...control} defaultChecked label="One" value="1" />
                         <Checkbox {...control} label="Two" value="2" />
                         <Checkbox {...control} label="Three" value="3" />

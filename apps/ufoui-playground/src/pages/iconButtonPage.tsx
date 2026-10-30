@@ -278,7 +278,7 @@ export const IconButtonPage = () => {
                     </Flex>
                     <Divider className="col-span-2" />
                     <div>Disabled fieldset</div>
-                    <Fieldset alignItems="center" direction="row" disabled gap={8} legend="Fieldset">
+                    <Fieldset alignItems="center" direction="row" disabled gap={8} label="Fieldset">
                         <IconButton filled icon={<MdAdd />} label="F1" {...shared} />
                         <IconButton filled icon={<MdAdd />} label="F2" {...shared} />
                         <IconButton

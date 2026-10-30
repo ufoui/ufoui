@@ -95,7 +95,7 @@ export const RadioPage = () => {
                         direction="row"
                         disabled={disabled ?? undefined}
                         gap={16}
-                        legend="States"
+                        label="States"
                         name="states">
                         <Radio defaultChecked {...shared} label="Checked" value="checked" />
                         <Radio {...shared} label="Unchecked" value="unchecked" />
@@ -122,7 +122,7 @@ export const RadioPage = () => {
                     </RadioGroup>
                 </Section>
                 <Section>
-                    <RadioGroup direction="row" disabled={disabled ?? undefined} gap={16} legend="Shape" name="shape">
+                    <RadioGroup direction="row" disabled={disabled ?? undefined} gap={16} label="Shape" name="shape">
                         <Radio {...shared} defaultChecked label="Square" shape="square" value="square" />
                         <Radio {...shared} label="Smooth" shape="smooth" value="smooth" />
                         <Radio {...shared} label="Rounded" shape="rounded" value="rounded" />
@@ -137,7 +137,7 @@ export const RadioPage = () => {
                         direction="row"
                         disabled={disabled ?? undefined}
                         gap={16}
-                        legend="Size"
+                        label="Size"
                         name="size">
                         <Radio {...shared} defaultChecked label="ExtraSmall" size="extraSmall" value="extraSmall" />
                         <Radio {...shared} defaultChecked label="Small" size="small" value="small" />
@@ -200,7 +200,7 @@ export const RadioPage = () => {
                         direction="row"
                         disabled={disabled ?? undefined}
                         gap={20}
-                        legend="Custom"
+                        label="Custom"
                         name="custom"
                         py={16}>
                         <Radio
@@ -242,7 +242,7 @@ export const RadioPage = () => {
                 </Section>
 
                 <Section>
-                    <Fieldset disabled={disabled ?? undefined} fullWidth legend="Controlled">
+                    <Fieldset disabled={disabled ?? undefined} fullWidth label="Controlled">
                         <Radio
                             {...shared}
                             checked={value === 'option1'}
@@ -267,7 +267,7 @@ export const RadioPage = () => {
                         description="Controlled by RadioGroup component."
                         disabled={disabled ?? undefined}
                         fullWidth
-                        legend="Controlled by RadioGroup"
+                        label="Controlled by RadioGroup"
                         name="rgControl"
                         onChange={v => {
                             setValue2(v[0]);
@@ -280,7 +280,7 @@ export const RadioPage = () => {
                 </Section>
 
                 <Section>
-                    <RadioGroup disabled={disabled ?? undefined} fullWidth legend="Error State" name="errors">
+                    <RadioGroup disabled={disabled ?? undefined} fullWidth label="Error State" name="errors">
                         <Radio {...shared} error="Error message" label="Error" value="error" />
                         <Radio
                             {...shared}

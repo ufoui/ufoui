@@ -25,7 +25,7 @@ export interface RadioGroupProps extends Omit<FieldsetProps, 'selection' | 'role
  *
  * @category RadioGroup
  * @function
- * @param props RadioGroupProps
+ * @param props Component properties.
  *
  * @example
  * // Uncontrolled

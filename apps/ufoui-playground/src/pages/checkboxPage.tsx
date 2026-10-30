@@ -109,7 +109,7 @@ export const CheckboxPage = () => {
         <Article direction="row">
             <Content gap={20} grow px={20}>
                 <Section shape="rounded">
-                    <Fieldset direction="row" disabled={disabled ?? undefined} gap={16} legend="States">
+                    <Fieldset direction="row" disabled={disabled ?? undefined} gap={16} label="States">
                         <Checkbox defaultChecked {...shared} label="Checked" />
                         <Checkbox {...shared} label="Unchecked" />
                         <Checkbox {...shared} indeterminate label="Indeterminate" />
@@ -129,7 +129,7 @@ export const CheckboxPage = () => {
                     </Fieldset>
                 </Section>
                 <Section>
-                    <Fieldset direction="row" disabled={disabled ?? undefined} gap={16} legend="Shape">
+                    <Fieldset direction="row" disabled={disabled ?? undefined} gap={16} label="Shape">
                         <Checkbox {...shared} defaultChecked label="Square" shape="square" />
                         <Checkbox {...shared} label="Smooth" shape="smooth" />
                         <Checkbox {...shared} label="Rounded" shape="rounded" />
@@ -143,7 +143,7 @@ export const CheckboxPage = () => {
                         direction="row"
                         disabled={disabled ?? undefined}
                         gap={16}
-                        legend="Size">
+                        label="Size">
                         <Checkbox {...shared} defaultChecked label="ExtraSmall" size="extraSmall" />
                         <Checkbox {...shared} defaultChecked label="Small" size="small" />
                         <Checkbox {...shared} defaultChecked label="Medium" size="medium" />
@@ -225,7 +225,7 @@ export const CheckboxPage = () => {
                         direction="row"
                         disabled={disabled ?? undefined}
                         gap={20}
-                        legend="Custom"
+                        label="Custom"
                         py={16}>
                         <Checkbox
                             {...shared}
@@ -267,7 +267,7 @@ export const CheckboxPage = () => {
                     <Fieldset
                         error="Global fieldset error message."
                         disabled={disabled ?? undefined}
-                        legend="Controlled">
+                        label="Controlled">
                         <Checkbox
                             {...shared}
                             checked={checked3}
@@ -283,7 +283,7 @@ export const CheckboxPage = () => {
                         cols={3}
                         disabled={disabled ?? undefined}
                         gapX={20}
-                        legend="Error / Description / Required / Density"
+                        label="Error / Description / Required / Density"
                         required
                         type="grid">
                         <Checkbox {...shared} defaultChecked error="Error message" label="Error" required></Checkbox>
