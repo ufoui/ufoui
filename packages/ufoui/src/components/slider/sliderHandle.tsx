@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { cn, EffectConfig } from '../../utils';
+import { cn, EffectConfig, getAriaLabels } from '../../utils';
 import { BoxBase } from '../base';
 
 export interface SliderHandleProps {
-    ariaLabel?: string;
-    ariaLabelledby?: string;
+    aria: ReturnType<typeof getAriaLabels>;
     disabled?: boolean;
     displayValue: string;
     effects: EffectConfig;
@@ -26,8 +25,7 @@ export interface SliderHandleProps {
 }
 
 export const SliderHandle = ({
-    ariaLabel,
-    ariaLabelledby,
+    aria,
     disabled,
     displayValue,
     effects,
@@ -54,9 +52,8 @@ export const SliderHandle = ({
 
     return (
         <span
+            {...aria}
             aria-disabled={disabled ? 'true' : undefined}
-            aria-label={ariaLabel}
-            aria-labelledby={ariaLabelledby}
             aria-readonly={readOnly ?? undefined}
             aria-valuemax={max}
             aria-valuemin={min}

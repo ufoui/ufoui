@@ -15,6 +15,7 @@ import {
     ElementShape,
     ElementSize,
     ElementTextPlacement,
+    getAriaLabels,
     getBorderClass,
     getDensityClass,
     getEffects,
@@ -112,7 +113,7 @@ export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLIn
     /** Marks the control as read-only without disabling focus. */
     readOnly?: boolean;
 
-    /** Marks the control as required. Visual indicator only. */
+    /** Marks the control as required with an indicator; checkboxes also get `aria-required`. */
     required?: boolean;
 
     /** Shape variant of the control. */
@@ -121,7 +122,7 @@ export interface CheckboxBaseProps extends Omit<React.InputHTMLAttributes<HTMLIn
     /** Size of the control. */
     size?: ElementSize;
 
-    /** Placement of text relative to the control. */
+    /** Label placement relative to the control. @default 'end' */
     textPlacement?: ElementTextPlacement;
 
     /** Tooltip alignment relative to the control. */
@@ -266,8 +267,6 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
     const logicalState = indeterminate ? 'indeterminate' : isChecked ? 'checked' : 'unchecked';
     const [visualState, setVisualState] = useState(logicalState);
 
-    const finalAriaLabel = ariaLabel ?? (!label ? title : undefined);
-
     const finalColor = error ? 'error' : !isChecked && !indeterminate && uncheckedColor ? uncheckedColor : color;
     const inlineTooltip = title ? <div id={`${elemId}-tip`}>{title}</div> : null;
 
@@ -403,7 +402,7 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
 
     const LabelTag = decorative ? 'span' : 'label';
     const labelText = label && (
-        <LabelTag className={labelClasses} htmlFor={elemId} style={labelStyle.get()}>
+        <LabelTag className={labelClasses} htmlFor={elemId} id={`${elemId}-label`} style={labelStyle.get()}>
             <LabelText label={label} required={required} />
         </LabelTag>
     );
@@ -429,7 +428,9 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
         descriptionStyle.set('order', 2);
     }
 
-    const descriptionText = <Description description={description} error={error} style={descriptionStyle.get()} />;
+    const descriptionText = (
+        <Description description={description} error={error} id={`${elemId}-desc`} style={descriptionStyle.get()} />
+    );
     const controlText = (labelText ?? descriptionText) && (
         <>
             {labelText}
@@ -445,7 +446,14 @@ export const CheckboxBase = forwardRef<HTMLInputElement, CheckboxBaseProps>((pro
                         <>
                             <input
                                 {...focusHandlers}
-                                aria-label={finalAriaLabel}
+                                {...getAriaLabels(elemId, {
+                                    label,
+                                    ariaLabel,
+                                    title,
+                                    description,
+                                    error,
+                                    required: type === 'checkbox' && required,
+                                })}
                                 aria-readonly={readOnly === true ? true : undefined}
                                 checked={!!isChecked}
                                 className={inputClasses}

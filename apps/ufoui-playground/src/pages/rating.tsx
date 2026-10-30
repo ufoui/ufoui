@@ -15,18 +15,22 @@ import {
     P,
     Rating,
     Section,
-    SurfaceColor,
+    TextColor,
 } from '@ufoui/core';
 
 import { Modifiers } from '../components/modifiers/modifiers';
 
 export const RatingPage = () => {
     const [value, setValue] = useState(3.5);
-    const [color, setColor] = useState<SurfaceColor | null>(null);
+    const [color, setColor] = useState<TextColor | null>(null);
     const [density, setDensity] = useState<ElementDensity | null>(null);
     const [size, setSize] = useState<ElementSize | null>(null);
     const [font, setFont] = useState<ElementFont | null>(null);
     const [textPlacement, setTextPlacement] = useState<ElementTextPlacement | null>(null);
+    const [filled, setFilled] = useState<boolean | null>(null);
+    const [disabled, setDisabled] = useState<boolean | null>(null);
+    const [readOnly, setReadOnly] = useState<boolean | null>(null);
+    const [required, setRequired] = useState<boolean | null>(null);
 
     const shared = useMemo(
         () => ({
@@ -35,8 +39,12 @@ export const RatingPage = () => {
             size: size ?? undefined,
             font: font ?? undefined,
             textPlacement: textPlacement ?? undefined,
+            filled: filled ?? undefined,
+            disabled: disabled ?? undefined,
+            readOnly: readOnly ?? undefined,
+            required: required ?? undefined,
         }),
-        [color, density, size, font, textPlacement]
+        [color, density, size, font, textPlacement, filled, disabled, readOnly, required]
     );
 
     return (
@@ -66,8 +74,10 @@ export const RatingPage = () => {
                         <Rating
                             {...shared}
                             defaultValue={3}
+                            description="Hearts description"
                             emptyIcon={<MdFavoriteBorder size={24} />}
                             icon={<MdFavorite size={24} />}
+                            title="Hearts tooltip"
                         />
                     </Flex>
                 </Section>
@@ -96,21 +106,21 @@ export const RatingPage = () => {
                 <Section gap={20}>
                     <H2>Filled</H2>
                     <Flex alignItems="center" gap={24}>
-                        <Rating defaultValue={2.5} filled {...shared} />
+                        <Rating {...shared} defaultValue={2.5} filled />
                     </Flex>
                 </Section>
 
                 <Section gap={20}>
                     <H2>Error</H2>
                     <Flex alignItems="center" gap={24}>
-                        <Rating defaultValue={2.5} error="Some error" label="Error" {...shared} />
+                        <Rating {...shared} defaultValue={2.5} error="Some error" label="Error" />
                         <Rating
+                            {...shared}
                             defaultValue={2.5}
                             disabled
                             error="Some error"
                             filled
                             label="Disabled Error"
-                            {...shared}
                         />
                     </Flex>
                 </Section>
@@ -119,16 +129,34 @@ export const RatingPage = () => {
             <Aside>
                 <Modifiers
                     density={density}
+                    disabled={disabled}
+                    filled={filled}
                     font={font}
-                    onChange={({ surfaceColor: cl, density: ds, size: sz, font: ft, textPlacement: tp }) => {
+                    inkColor={color}
+                    onChange={({
+                        inkColor: cl,
+                        density: ds,
+                        size: sz,
+                        font: ft,
+                        textPlacement: tp,
+                        filled: fl,
+                        disabled: dl,
+                        readOnly: ro,
+                        required: rq,
+                    }) => {
                         setColor(cl ?? null);
                         setDensity(ds ?? null);
                         setSize(sz ?? null);
                         setFont(ft ?? null);
                         setTextPlacement(tp ?? null);
+                        setFilled(fl ?? null);
+                        setDisabled(dl ?? null);
+                        setReadOnly(ro ?? null);
+                        setRequired(rq ?? null);
                     }}
+                    readOnly={readOnly}
+                    required={required}
                     size={size}
-                    surfaceColor={color}
                     textPlacement={textPlacement}
                 />
             </Aside>

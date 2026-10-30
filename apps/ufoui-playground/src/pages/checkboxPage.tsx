@@ -265,7 +265,7 @@ export const CheckboxPage = () => {
 
                 <Section>
                     <Fieldset
-                        description="Global fieldset error message."
+                        error="Global fieldset error message."
                         disabled={disabled ?? undefined}
                         legend="Controlled">
                         <Checkbox
@@ -287,7 +287,12 @@ export const CheckboxPage = () => {
                         required
                         type="grid">
                         <Checkbox {...shared} defaultChecked error="Error message" label="Error" required></Checkbox>
-                        <Checkbox {...shared} description="Description text." label="Decription" required></Checkbox>
+                        <Checkbox
+                            {...shared}
+                            description="Description text."
+                            label="Decription"
+                            required
+                            title="Description tooltip"></Checkbox>
                         <Checkbox {...shared} description="Deensity test." label="Element" required></Checkbox>
                         <Checkbox {...shared} description="Deensity test." label="Element" required></Checkbox>
                         <Checkbox {...shared} description="Deensity test." label="Element" required></Checkbox>

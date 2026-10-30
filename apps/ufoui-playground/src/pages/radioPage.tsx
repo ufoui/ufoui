@@ -282,7 +282,13 @@ export const RadioPage = () => {
                 <Section>
                     <RadioGroup disabled={disabled ?? undefined} fullWidth legend="Error State" name="errors">
                         <Radio {...shared} error="Error message" label="Error" value="error" />
-                        <Radio {...shared} description="A descrption." label="Description" value="desc" />
+                        <Radio
+                            {...shared}
+                            description="A descrption."
+                            label="Description"
+                            title="Description tooltip"
+                            value="desc"
+                        />
                     </RadioGroup>
                 </Section>
             </Content>

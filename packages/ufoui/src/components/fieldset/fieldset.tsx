@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 
-import { cn, ControlStyle, ElementFont, getFontClass, SurfaceColor } from '../../utils';
+import { cn, ControlStyle, ElementFont, getAriaLabels, getFontClass, SurfaceColor, useUniqueId } from '../../utils';
 import { FieldsetContext } from '../../context';
 import { BoxBase, BoxBaseProps } from '../base';
 import { LabelText } from '../../internal';
@@ -62,10 +62,14 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
             required,
             descriptionFont,
             alignItems = 'start',
+            id,
+            'aria-label': ariaLabel,
             ...props
         },
         ref
     ) => {
+        const generatedId = useUniqueId('fieldset');
+        const elemId = id ?? generatedId;
         const legendText = legend ?? label;
         const legendClasses = cn('uui-fieldset-legend', getFontClass(font ?? 'labelLarge'));
 
@@ -84,7 +88,7 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
         );
 
         const descriptionText = (description ?? error) && (
-            <div className={descriptionClasses} style={descriptionStyle.get()}>
+            <div className={descriptionClasses} id={`${elemId}-desc`} style={descriptionStyle.get()}>
                 {error ?? description}
             </div>
         );
@@ -96,13 +100,15 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
                     <BoxBase
                         ref={ref}
                         {...props}
+                        {...getAriaLabels(elemId, { label: legendText, ariaLabel, description, error })}
                         alignItems={alignItems}
                         as="fieldset"
                         direction={direction}
                         disabled={disabled}
-                        elementClass="uui-fieldset">
+                        elementClass="uui-fieldset"
+                        id={elemId}>
                         {legendText && (
-                            <legend className={legendClasses}>
+                            <legend className={legendClasses} id={`${elemId}-label`}>
                                 <LabelText label={legendText} required={required} />
                             </legend>
                         )}

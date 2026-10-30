@@ -291,7 +291,7 @@ export const SwitchPage = () => {
 
                 <Section>
                     <Fieldset
-                        description="Global fieldset error message."
+                        error="Global fieldset error message."
                         direction="row"
                         disabled={disabled ?? undefined}
                         legend="Controlled">
@@ -308,7 +308,12 @@ export const SwitchPage = () => {
                 <Section>
                     <Fieldset disabled={disabled ?? undefined} legend="Error / Description / Required" required>
                         <Switch {...shared} defaultChecked error="Error message" label="Error" required></Switch>
-                        <Switch {...shared} description="Description text." label="Decription" required></Switch>
+                        <Switch
+                            {...shared}
+                            description="Description text."
+                            label="Decription"
+                            required
+                            title="Description tooltip"></Switch>
                     </Fieldset>
                 </Section>
             </Content>

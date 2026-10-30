@@ -11,6 +11,7 @@ export * from './useUniqueId';
 export * from './controlStyle';
 export * from './getWrapperStyle';
 export * from './getEffects';
+export * from './getAriaLabels';
 export * from './flatChildren';
 export * from './renderPortal';
 export * from './colorRegistry';

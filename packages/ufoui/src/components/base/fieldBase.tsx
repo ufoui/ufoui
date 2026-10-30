@@ -9,6 +9,7 @@ import {
     ElementDensity,
     ElementFont,
     ElementShape,
+    getAriaLabels,
     getBorderClass,
     getDensityClass,
     getFontClass,
@@ -155,7 +156,7 @@ export interface FieldBaseProps
     /** Font style applied to the control and to the resting label. Default: bodyLarge */
     font?: ElementFont;
 
-    /** Marks the control as required (visual indicator only). */
+    /** Marks the control as required with an indicator and `aria-required`; no native validation. */
     required?: boolean;
 }
 
@@ -219,6 +220,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
         fullWidth,
         value,
         defaultValue,
+        'aria-label': ariaLabel,
         ...other
     } = props;
 
@@ -378,12 +380,12 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
 
     const labelClasses = cn('uui-field-label', labelFontClass, fieldVariant !== 'classic' && 'uui-field-float-label');
     const labelContent = labelText && fieldVariant !== 'classic' && (
-        <label className={labelClasses} htmlFor={elemId}>
+        <label className={labelClasses} htmlFor={elemId} id={`${elemId}-label`}>
             {labelText}
         </label>
     );
     const externalLabelContent = labelText && fieldVariant === 'classic' && (
-        <label className={labelClasses} htmlFor={elemId}>
+        <label className={labelClasses} htmlFor={elemId} id={`${elemId}-label`}>
             {labelText}
         </label>
     );
@@ -461,7 +463,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
                         {...other}
                         {...(multiline ? { rows: lines ?? 3 } : {})}
                         {...(isControlled ? { value } : { defaultValue })}
-                        aria-invalid={!!error || undefined}
+                        {...getAriaLabels(elemId, { label, ariaLabel, description, error, required })}
                         className={inputClasses}
                         disabled={disabled}
                         id={elemId}
@@ -480,7 +482,7 @@ export const FieldBase = forwardRef<HTMLInputElement, FieldBaseProps>((props: Fi
                 {fieldsetContent}
                 {indicator}
             </div>
-            <Description description={description} error={error} />
+            <Description description={description} error={error} id={`${elemId}-desc`} />
         </div>
     );
 });

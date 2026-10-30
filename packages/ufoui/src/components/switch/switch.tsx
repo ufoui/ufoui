@@ -14,6 +14,7 @@ import {
     ElementShape,
     ElementSize,
     ElementTextPlacement,
+    getAriaLabels,
     getBorderClass,
     getDensityClass,
     getEffects,
@@ -100,7 +101,7 @@ export interface SwitchProps
     /** Change event handler. */
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
 
-    /** Marks the control as required. Visual only. */
+    /** Marks the control as required with an indicator and `aria-required`; no native validation. */
     required?: boolean;
 
     /** Shape variant of the control. */
@@ -109,7 +110,7 @@ export interface SwitchProps
     /** Size of the control. */
     size?: ElementSize;
 
-    /** Layout of text relative to the control. */
+    /** Label placement relative to the control. @default 'end' */
     textPlacement?: ElementTextPlacement;
 
     /** Tooltip alignment relative to the control. */
@@ -224,7 +225,6 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
     const [internalChecked, setInternalChecked] = useState(defaultChecked ?? false);
     const isChecked = isControlled ? !!checked : internalChecked;
 
-    const finalAriaLabel = ariaLabel ?? (!label ? title : undefined);
     const finalColor = error ? 'error' : color;
     const inlineTooltip = title ? <div id={`${elemId}-tip`}>{title}</div> : null;
 
@@ -377,15 +377,17 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>((props: SwitchPr
         );
     }
 
-    const labelText = label && <ControlLabel font={font} htmlFor={elemId} label={label} required={required} />;
-    const descriptionText = <Description description={description} error={error} />;
+    const labelText = label && (
+        <ControlLabel font={font} htmlFor={elemId} id={`${elemId}-label`} label={label} required={required} />
+    );
+    const descriptionText = <Description description={description} error={error} id={`${elemId}-desc`} />;
 
     const control = (
         <div className="uui-switch-control-wrapper">
             <div className={controlClasses} ref={controlRef} style={controlStyle.get()}>
                 <input
                     {...focusHandlers}
-                    aria-label={finalAriaLabel}
+                    {...getAriaLabels(elemId, { label, ariaLabel, title, description, error, required })}
                     aria-readonly={readOnly === true ? true : undefined}
                     checked={!!isChecked}
                     className={inputClasses}

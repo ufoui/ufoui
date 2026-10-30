@@ -64,7 +64,7 @@ export const SliderPage = () => {
                 <Section shape="rounded">
                     <Grid cols={2} fullWidth gap={20}>
                         <Fieldset disabled={disabled ?? undefined} gap={24} legend="Horizontal">
-                            <Slider {...shared} defaultValue={60} label="Default" />
+                            <Slider {...shared} defaultValue={60} description="Slider description" label="Default" />
                             <Slider {...shared} defaultValue={0} label="At minimum" />
                             <Slider {...shared} defaultValue={100} label="At maximum" />
                             <Slider {...shared} defaultValue={40} disabled label="Disabled" />
@@ -164,7 +164,14 @@ export const SliderPage = () => {
                                 showValue="always"
                                 type="centered"
                             />
-                            <Slider {...shared} defaultValue={[20, 70]} label="Range" showValue="always" type="range" />
+                            <Slider
+                                {...shared}
+                                defaultValue={[20, 70]}
+                                error="Range error"
+                                label="Range"
+                                showValue="always"
+                                type="range"
+                            />
                         </Fieldset>
                         <Fieldset direction="row" disabled={disabled ?? undefined} gap={VG} legend="Vertical">
                             <Slider

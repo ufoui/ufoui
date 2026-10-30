@@ -9,6 +9,7 @@ import {
     ElementOrientation,
     ElementSize,
     ElementTextPlacement,
+    getAriaLabels,
     getDensityClass,
     getEffects,
     getSizeClass,
@@ -82,7 +83,7 @@ export interface SliderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 
     size?: ElementSize;
     /** Step increment for keyboard and stop indicators. */
     step?: number;
-    /** Label placement relative to the slider. */
+    /** Label placement relative to the control. @default 'top' */
     textPlacement?: ElementTextPlacement;
     /**
      * Slider behaviour type.
@@ -335,7 +336,8 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>((props, ref) => {
             ? { bottom: `${activeLeft}%`, height: `${activeSize}%`, top: 'auto', width: '100%' }
             : { left: `${activeLeft}%`, width: `${activeSize}%` };
 
-    const labelledBy = !ariaLabel && label ? `${elemId}-label` : undefined;
+    const aria = getAriaLabels(elemId, { label, ariaLabel, description, error });
+    const handleAria = { ...aria, 'aria-labelledby': aria['aria-labelledby'] ?? ariaLabelledby };
     const hCommon = {
         disabled: off,
         effects: finalEffects,
@@ -397,8 +399,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>((props, ref) => {
                 </div>
                 <SliderHandle
                     {...hCommon}
-                    ariaLabel={rangeMode && ariaLabel ? `${ariaLabel} start` : ariaLabel}
-                    ariaLabelledby={ariaLabel ? ariaLabelledby : (labelledBy ?? ariaLabelledby)}
+                    aria={handleAria}
                     displayValue={fmt(val0)}
                     handleRef={mergeRefs(h0Ref, !rangeMode ? ref : null)}
                     isFocused={f0}
@@ -416,8 +417,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>((props, ref) => {
                 {rangeMode && (
                     <SliderHandle
                         {...hCommon}
-                        ariaLabel={ariaLabel ? `${ariaLabel} end` : undefined}
-                        ariaLabelledby={ariaLabel ? ariaLabelledby : (labelledBy ?? ariaLabelledby)}
+                        aria={handleAria}
                         displayValue={fmt(val1)}
                         handleRef={mergeRefs(h1Ref, ref)}
                         isFocused={f1}
@@ -451,8 +451,8 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>((props, ref) => {
                 centeredMode && 'uui-slider-centered'
             )}
             control={control}
-            description={<Description description={description} error={error} />}
-            label={label ? <ControlLabel font={font} htmlFor={elemId} label={label} required={required} /> : undefined}
+            description={<Description description={description} error={error} id={`${elemId}-desc`} />}
+            label={label ? <ControlLabel font={font} htmlFor={elemId} id={`${elemId}-label`} label={label} required={required} /> : undefined}
             textPlacement={textPlacement}
         />
     );

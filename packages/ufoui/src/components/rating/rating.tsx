@@ -9,11 +9,12 @@ import {
     ElementPlacement,
     ElementSize,
     ElementTextPlacement,
+    getAriaLabels,
     getDensityClass,
     getEffects,
     getSizeClass,
     getWrapperStyle,
-    SurfaceColor,
+    TextColor,
     useUniqueId,
     WrapperProps,
 } from '../../utils';
@@ -31,13 +32,10 @@ import { useFocusVisible, useSliderKeys } from '../../hooks';
 export interface RatingProps
     extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange' | 'value' | 'defaultValue' | 'size'>,
         WrapperProps {
-    /** Additional class applied to the root element. */
-    className?: string;
-
     /** Color applied to the filled icons. */
-    color?: SurfaceColor;
+    color?: TextColor;
 
-    /** Initial rating value for uncontrolled usage. */
+    /** Initial rating value for uncontrolled usage. @default 0 */
     defaultValue?: number;
 
     /** Visual density of the control. */
@@ -45,9 +43,6 @@ export interface RatingProps
 
     /** Supporting text displayed below the control. */
     description?: string;
-
-    /** Disables interaction with the control. */
-    disabled?: boolean;
 
     /** Interaction visual effects, or `'none'` to disable them all. */
     effects?: ElementEffects;
@@ -67,34 +62,25 @@ export interface RatingProps
     /** Icon used for the filled rating state. */
     icon?: ReactNode;
 
-    /** DOM id used for accessibility attributes. */
-    id?: string;
-
     /** Label text displayed next to the control. */
     label?: string;
 
-    /** Maximum rating value. */
+    /** Maximum rating value. @default 5 */
     max?: number;
 
     /** Called when the rating value changes. */
     onChange?: (value: number) => void;
 
-    /** Prevents value changes and removes the control from focus. */
-    readOnly?: boolean;
-
-    /** Marks the control as required. */
-    required?: boolean;
-
-    /** Visual size of the rating icons. */
+    /** Visual size of the rating icons. @default 'small' */
     size?: ElementSize;
 
-    /** Step size used for keyboard and pointer interaction. */
+    /** Step size used for keyboard and pointer interaction. @default 0.5 */
     step?: number;
 
-    /** Placement of label and description relative to the control. */
+    /** Label placement relative to the control. @default 'start' */
     textPlacement?: ElementTextPlacement;
 
-    /** Tooltip alignment relative to the control. */
+    /** Tooltip alignment relative to the control. @default 'auto' */
     tooltipAlign?: ElementPlacement;
 
     /** Current rating value when used as a controlled component. */
@@ -112,6 +98,15 @@ export interface RatingProps
  *
  * @function
  * @param props Component properties.
+ * @example
+ * ```tsx
+ * <Rating defaultValue={3.5} label="Rating" />
+ * ```
+ *
+ * @example
+ * ```tsx
+ * <Rating max={10} readOnly step={1} value={7} />
+ * ```
  *
  * @category Rating
  */
@@ -159,7 +154,7 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
 
         const generatedId = useUniqueId('rating');
         const elemId = id ?? generatedId;
-        const labelId = label ? `${elemId}_label` : undefined;
+        const labelId = label ? `${elemId}-label` : undefined;
         const { isFocused, focusHandlers, focusVisible } = useFocusVisible(onFocus, onBlur);
 
         const trackRef = useRef<HTMLDivElement | null>(null);
@@ -270,17 +265,14 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
         const stars = Array.from({ length: Math.ceil(max) }).map((_, i) => {
             const fill = Math.min(Math.max(clamped - i, 0), 1) * 100;
 
-            const style = ControlStyle();
-            style.text(finalColor);
-            style.set('width', `${fill}%`);
+            const fillStyle = ControlStyle();
+            fillStyle.text(finalColor);
+            fillStyle.set('width', `${fill}%`);
 
             return (
-                <div
-                    className="uui-icon uui-rating-icon"
-                    key={`${elemId}-star-${i}`}
-                    style={{ cursor: readOnly || disabled ? 'default' : 'pointer', lineHeight: 0 }}>
+                <div className="uui-icon uui-rating-icon" key={`${elemId}-star-${i}`}>
                     <div className="uui-rating-empty-icon">{defaultEmptyIcon}</div>
-                    <div className="uui-rating-filled-icon" style={style.get()}>
+                    <div className="uui-rating-filled-icon" style={fillStyle.get()}>
                         {defaultIcon}
                     </div>
                 </div>
@@ -290,9 +282,9 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
         const rating = (
             <div
                 {...focusHandlers}
+                {...getAriaLabels(elemId, { label, ariaLabel, title, description, error })}
                 aria-disabled={disabled || undefined}
-                aria-label={!label ? (ariaLabel ?? title) : undefined}
-                aria-labelledby={labelId}
+                aria-readonly={readOnly || undefined}
                 aria-valuemax={max}
                 aria-valuemin={0}
                 aria-valuenow={displayValue}
@@ -317,7 +309,9 @@ export const Rating = forwardRef<HTMLInputElement, RatingProps>(
             <ControlLabel focusRef={trackRef} font={font} id={labelId} label={label} required={required} tag="span" />
         );
 
-        const controlDescription = (description ?? error) && <Description description={description} error={error} />;
+        const controlDescription = (description ?? error) && (
+            <Description description={description} error={error} id={`${elemId}-desc`} />
+        );
 
         return (
             <ControlGrid

@@ -88,6 +88,7 @@ type ButtonModifiersProps = {
         orientation?: ElementOrientation | null;
         labelFont?: ElementFont | null;
         readOnly?: boolean | null;
+        required?: boolean | null;
         selectedColor?: SemanticColor | null;
         selectedShape?: ElementShape | null;
         selectedSurfaceColor?: SurfaceColor | null;
@@ -109,6 +110,7 @@ type ButtonModifiersProps = {
         uncheckedColor?: SemanticColor | null;
     }) => void;
     readOnly?: boolean | null;
+    required?: boolean | null;
     selectedColor?: SemanticColor | null;
     selectedShape?: ElementShape | null;
     selectedSurfaceColor?: SurfaceColor | null;
@@ -175,6 +177,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         flush,
         labelFont,
         readOnly,
+        required,
         font,
         focusColor,
         textPlacement,
@@ -891,6 +894,22 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             onChange({
                                 ...props,
                                 readOnly: e.target.checked,
+                            });
+                        }}
+                    />
+                </>
+            )}
+            {required !== undefined && (
+                <>
+                    <label htmlFor="mod_required">Required:</label>
+                    <Checkbox
+                        checked={!!required}
+                        density="dense"
+                        id="mod_required"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                required: e.target.checked,
                             });
                         }}
                     />

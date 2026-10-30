@@ -14,8 +14,11 @@
     cursor: pointer;
 }
 
-.uui-rating.uui-disabled .uui-rating-control,
-.uui-rating[aria-disabled="true"] .uui-rating-control {
+.uui-rating.uui-read-only .uui-rating-control {
+    cursor: default;
+}
+
+.uui-rating.uui-disabled .uui-rating-control {
     cursor: default;
     pointer-events: none;
 }
@@ -46,6 +49,7 @@
 
 .uui-rating-icon {
     position: relative;
+    line-height: 0;
 }
 
 .uui-rating-empty-icon {
