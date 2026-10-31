@@ -14,7 +14,6 @@ import {
     createRipple,
     ElementDensity,
     ElementEffects,
-    ElementFont,
     ElementShape,
     getDensityClass,
     getEffects,
@@ -105,9 +104,6 @@ export interface MenuItemProps extends Omit<HTMLProps<HTMLDivElement>, 'ref' | '
     /** Text color of the description. */
     descriptionColor?: SurfaceColor;
 
-    /** Font token applied to the description text. */
-    descriptionFont?: ElementFont;
-
     /** Disables interactions and focus. */
     disabled?: boolean;
 
@@ -126,9 +122,6 @@ export interface MenuItemProps extends Omit<HTMLProps<HTMLDivElement>, 'ref' | '
     /** Forces focus-visible styling. */
     focusVisible?: boolean;
 
-    /** Alias for labelFont. */
-    font?: ElementFont;
-
     /** Enables horizontal layout mode. */
     horizontal?: boolean;
 
@@ -140,9 +133,6 @@ export interface MenuItemProps extends Omit<HTMLProps<HTMLDivElement>, 'ref' | '
 
     /** Text color of the label. */
     labelColor?: SurfaceColor;
-
-    /** Font token applied to the label text. */
-    labelFont?: ElementFont;
 
     /** Custom leading content. */
     leading?: ReactNode;
@@ -170,9 +160,6 @@ export interface MenuItemProps extends Omit<HTMLProps<HTMLDivElement>, 'ref' | '
 
     /** Text color of the shortcut label. */
     shortcutColor?: SurfaceColor;
-
-    /** Font token applied to the shortcut text. */
-    shortcutFont?: ElementFont;
 
     /** Overrides automatic text color. */
     textColor?: SurfaceColor;
@@ -288,10 +275,6 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
             shortcut,
             density,
             horizontal,
-            labelFont,
-            font,
-            descriptionFont,
-            shortcutFont,
             selected,
             __index,
             __interactionsDisabled,
@@ -338,17 +321,13 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
             }
         }
 
-        const defaultFont: ElementFont = variant === 'modern' ? 'labelLarge' : 'bodyLarge';
-        const appliedLabelFont = labelFont ?? font ?? defaultFont;
-        const appliedDescriptionFont: ElementFont =
-            descriptionFont ?? (variant === 'modern' ? 'bodySmall' : 'bodyMedium');
-        const appliedShortcutFont = shortcutFont ?? defaultFont;
+        const fontClass = getFontClass(variant === 'modern' ? 'labelLarge' : 'bodyLarge');
 
         const shortcutStyle = ControlStyle();
         shortcutStyle.text(shortcutColor);
         const trailingIcon = hasSubmenu && !horizontal ? ArrowRightIcon : trailingElement;
         const trailingText = shortcut && (
-            <div className={`uui-menu-item-shortcut ${getFontClass(appliedShortcutFont)}`} style={shortcutStyle.get()}>
+            <div className={`uui-menu-item-shortcut ${fontClass}`} style={shortcutStyle.get()}>
                 {shortcut}
             </div>
         );
@@ -363,7 +342,7 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
         const labelStyle = ControlStyle();
         labelStyle.text(labelColor);
         const labelText = label && (
-            <div className={`uui-menu-item-label ${getFontClass(appliedLabelFont)}`} style={labelStyle.get()}>
+            <div className={`uui-menu-item-label ${fontClass}`} style={labelStyle.get()}>
                 {label}
             </div>
         );
@@ -379,7 +358,7 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
 
         const descriptionText = description && (
             <div
-                className={`uui-menu-item-description ${getFontClass(appliedDescriptionFont)}`}
+                className={`uui-menu-item-description ${getFontClass(variant === 'modern' ? 'bodySmall' : 'bodyMedium')}`}
                 style={descriptionStyle.get()}>
                 {description}
             </div>

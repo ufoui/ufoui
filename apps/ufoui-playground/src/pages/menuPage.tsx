@@ -8,7 +8,6 @@ import {
     ElementBorder,
     ElementDensity,
     ElementElevation,
-    ElementFont,
     ElementShape,
     Flex,
     MenuVariant,
@@ -32,7 +31,6 @@ export function MenuPage() {
     const [border, setBorder] = useState<ElementBorder | null>(null);
     const [borderColor, setBorderColor] = useState<BorderColor | null>(null);
     const [density, setDensity] = useState<ElementDensity | null>(null);
-    const [font, setFont] = useState<ElementFont | null>(null);
 
     const shared = useMemo(
         () => ({
@@ -43,9 +41,8 @@ export function MenuPage() {
             borderColor: borderColor ?? undefined,
             density: density ?? undefined,
             dockedElevation: dockedElevation ?? undefined,
-            font: font ?? undefined,
         }),
-        [color, shape, elevation, border, borderColor, density, dockedElevation, font]
+        [color, shape, elevation, border, borderColor, density, dockedElevation]
     );
     return (
         <Article direction="row">
@@ -85,7 +82,6 @@ export function MenuPage() {
                     density={density}
                     dockedElevation={dockedElevation}
                     elevation={elevation}
-                    font={font}
                     onChange={({
                         surfaceColor: sc,
                         elevation: el,
@@ -94,7 +90,6 @@ export function MenuPage() {
                         borderColor: bc,
                         density: ds,
                         dockedElevation: de,
-                        font: lf,
                     }) => {
                         setColor(sc ?? null);
                         setShape(sp ?? null);
@@ -103,7 +98,6 @@ export function MenuPage() {
                         setBorderColor(bc ?? null);
                         setDensity(ds ?? null);
                         setDockedElevation(de ?? null);
-                        setFont(lf ?? null);
                     }}
                     shape={shape}
                     surfaceColor={color}

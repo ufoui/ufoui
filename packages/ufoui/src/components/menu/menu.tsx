@@ -24,7 +24,6 @@ import {
     ElementEffects,
     ElementElevation,
     ElementFloatingMode,
-    ElementFont,
     ElementOrientation,
     ElementPlacement,
     ElementShape,
@@ -99,12 +98,6 @@ export interface MenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'>
     /** Density preset (`comfortable`, `compact`, `dense`). */
     density?: ElementDensity;
 
-    /** Text color for item descriptions. */
-    descriptionColor?: SurfaceColor;
-
-    /** Font token applied to menu item descriptions. */
-    descriptionFont?: ElementFont;
-
     /** Enables docked positioning mode. */
     docked?: boolean;
 
@@ -123,20 +116,11 @@ export interface MenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'>
     /** Floating behaviour mode (`menu`, `submenu`, `dropdown`, `tooltip`). */
     floatingMode?: ElementFloatingMode;
 
-    /** Alias for labelFont */
-    font?: ElementFont;
-
     /** Menu orientation. @default 'vertical' */
     orientation?: ElementOrientation;
 
     /** Interaction visual effects applied to menu items, or `'none'` to disable them all. */
     itemEffects?: ElementEffects;
-
-    /** Text color for item labels. */
-    labelColor?: SurfaceColor;
-
-    /** Font token applied to menu item primary labels. */
-    labelFont?: ElementFont;
 
     /** Motion style variant (expressive or regular). */
     motionStyle?: MotionStyle;
@@ -167,15 +151,6 @@ export interface MenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'>
 
     /** Shape token controlling menu corner rounding. */
     shape?: ElementShape;
-
-    /** Text color for shortcut labels. */
-    shortcutColor?: SurfaceColor;
-
-    /** Font token applied to menu item shortcut labels. */
-    shortcutFont?: ElementFont;
-
-    /** Overrides automatic text color. */
-    textColor?: SurfaceColor;
 
     /** Icon used for unchecked checkbox items. */
     uncheckedIcon?: ReactNode;
@@ -313,10 +288,6 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
             __navigateHorizontal,
             __horizontalDepth,
             docked,
-            textColor,
-            descriptionColor,
-            labelColor,
-            shortcutColor,
             uncheckedIcon,
             checkedIcon,
             radioUncheckedIcon,
@@ -325,10 +296,6 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
             itemEffects,
             closeOnChange = false,
             openOnHover = true,
-            labelFont,
-            font,
-            descriptionFont,
-            shortcutFont,
             onFocus,
             onBlur,
             ...props
@@ -771,10 +738,6 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                     shape: child.props.shape ?? shape,
                     color: child.props.color ?? color,
                     density: child.props.density ?? density,
-                    shortcutColor: child.props.shortcutColor ?? shortcutColor,
-                    textColor: child.props.textColor ?? textColor,
-                    labelColor: child.props.labelColor ?? labelColor,
-                    descriptionColor: child.props.descriptionColor ?? descriptionColor,
                     checkedIcon:
                         child.props.checkedIcon ?? (child.props.type === 'checkbox' ? checkedIcon : radioCheckedIcon),
                     uncheckedIcon:
@@ -782,10 +745,6 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                         (child.props.type === 'checkbox' ? uncheckedIcon : radioUncheckedIcon),
                     selectedColor: child.props.selectedColor ?? selectedColor,
                     effects: child.props.effects ?? itemEffects,
-                    labelFont: child.props.labelFont ?? labelFont,
-                    font: child.props.font ?? font,
-                    descriptionFont: child.props.descriptionFont ?? descriptionFont,
-                    shortcutFont: child.props.shortcutFont ?? shortcutFont,
                     onClick: (e: React.MouseEvent<HTMLDivElement>) => {
                         handleItemClick(e, index);
                     },
@@ -1022,16 +981,11 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                         closeOnChange={closeOnChange}
                         color={containerColor}
                         density={density}
-                        descriptionColor={descriptionColor}
-                        descriptionFont={descriptionFont}
                         duration={duration}
                         elevation={elevation}
                         fixedLeading={fixedLeading}
                         floatingMode={horizontal ? 'menu' : 'submenu'}
-                        font={font}
                         itemEffects={itemEffects}
-                        labelColor={labelColor}
-                        labelFont={labelFont}
                         motionStyle={motionStyle}
                         offset={0}
                         onClose={_closeSubmenu}
@@ -1043,9 +997,6 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                         role="menu"
                         selectedColor={selectedColor}
                         shape={shape}
-                        shortcutColor={shortcutColor}
-                        shortcutFont={shortcutFont}
-                        textColor={textColor}
                         uncheckedIcon={uncheckedIcon}
                         variant={variant}>
                         {submenuChildren}
