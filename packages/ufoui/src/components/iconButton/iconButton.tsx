@@ -3,7 +3,10 @@ import { forwardRef, ReactNode } from 'react';
 import { ButtonBase, ButtonBaseOwnProps, ButtonElement } from '../base';
 import { PolymorphicComponent, PolymorphicProps } from '../../utils';
 
-type IconButtonOwnProps = Omit<ButtonBaseOwnProps, 'avatar' | 'elementClass' | 'endIcon' | 'trailing'>;
+type IconButtonOwnProps = Omit<
+    ButtonBaseOwnProps,
+    'animation' | 'avatar' | 'elementClass' | 'endIcon' | 'open' | 'trailing'
+>;
 
 /**
  * Props for {@link IconButton}.

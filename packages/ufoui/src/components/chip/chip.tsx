@@ -5,7 +5,7 @@ import { cn, PolymorphicComponent, PolymorphicProps } from '../../utils';
 
 export type ChipType = 'assist' | 'filter' | 'input' | 'suggestion';
 
-interface ChipOwnProps extends Omit<ButtonBaseOwnProps, 'elementClass' | 'type'> {
+interface ChipOwnProps extends Omit<ButtonBaseOwnProps, 'animation' | 'elementClass' | 'open' | 'type'> {
     /** Defines the visual style and behavior of the chip. @default 'assist' */
     type?: ChipType;
 }

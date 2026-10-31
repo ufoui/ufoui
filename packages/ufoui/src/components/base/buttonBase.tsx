@@ -1,4 +1,4 @@
-import React, { ElementType, forwardRef, ReactNode, useRef, useState } from 'react';
+import React, { ElementType, forwardRef, ReactNode, useEffect, useRef, useState } from 'react';
 
 import {
     BorderColor,
@@ -29,7 +29,8 @@ import {
     WrapperProps,
 } from '../../utils';
 import { InlineTooltipManager, Leading, Trailing } from '../../internal';
-import { useSelection } from '../../hooks';
+import { ElementAnimation } from '../../types';
+import { useMotion, useSelection } from '../../hooks';
 import { Spinner } from '../spinner/spinner';
 
 /**
@@ -52,6 +53,9 @@ export type ButtonElement = 'button' | 'a' | Exclude<ElementType, string>;
  * @category Base components
  */
 export interface ButtonBaseOwnProps extends WrapperProps {
+    /** Motion used when `open` changes (`MotionAnimation` or full motion config). @default 'popup' */
+    animation?: ElementAnimation;
+
     /** Avatar rendered at the start of the button, before `icon`. */
     avatar?: React.ReactElement;
 
@@ -129,6 +133,9 @@ export interface ButtonBaseOwnProps extends WrapperProps {
 
     /** Click event handler. */
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
+
+    /** Shows or hides the button with `animation`; when undefined the button is always rendered. */
+    open?: boolean;
 
     /** Change handler for file upload input. */
     onUploadChange?: React.ChangeEventHandler<HTMLInputElement>;
@@ -284,6 +291,8 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
             density,
             spread,
             style,
+            open,
+            animation,
             'aria-label': ariaLabel,
             ...other
         } = props;
@@ -301,6 +310,24 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
         const isSelected = isControlled ? selected : internalSelected;
         const finalIcon = toggle && isSelected && selectedIcon ? selectedIcon : icon;
 
+        const [visible, setVisible] = useState(open === undefined);
+        const { animationVars, animate, active, animationClasses } = useMotion(animation, {
+            animation: 'popup',
+            style: 'expressive',
+            duration: 300,
+        });
+
+        useEffect(() => {
+            if (open) {
+                animate('open');
+                setVisible(true);
+            } else if (open === false && visible) {
+                animate('closed');
+                setVisible(false);
+            }
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [open]);
+
         const uploadInputRef = useRef<HTMLInputElement>(null);
         const buttonRef = useRef<HTMLButtonElement>(null);
         const finalDisabled = useSelection()?.disabled || disabled;
@@ -316,6 +343,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
             elementClass,
             className,
             'uui-bb',
+            animationClasses,
             getDensityClass(density),
             fullWidth && 'uui-w-full'
         );
@@ -463,8 +491,12 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
         // eslint-disable-next-line eqeqeq
         const finalAriaLabel = ariaLabel ?? ((content ?? children) != null ? label : label ? undefined : title);
 
+        if (!(visible || active)) {
+            return null;
+        }
+
         return (
-            <div className={wrapperClasses} style={wrapperStyle}>
+            <div className={wrapperClasses} style={{ ...wrapperStyle, ...animationVars }}>
                 {upload && (
                     <input
                         accept={uploadAccept}

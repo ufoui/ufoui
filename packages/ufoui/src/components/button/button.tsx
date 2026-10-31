@@ -4,7 +4,7 @@ import { ButtonBase, ButtonBaseOwnProps, ButtonElement } from '../base';
 import { IS_ACTION } from '../actions/actions.guards';
 import { PolymorphicComponent, PolymorphicProps } from '../../utils';
 
-type ButtonOwnProps = Omit<ButtonBaseOwnProps, 'elementClass'>;
+type ButtonOwnProps = Omit<ButtonBaseOwnProps, 'animation' | 'elementClass' | 'open'>;
 
 /**
  * Props for {@link Button}.

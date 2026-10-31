@@ -54,6 +54,7 @@ type ButtonModifiersProps = {
     inkColor?: TextColor | null;
     inset?: ElementInset | null;
     lineColor?: BorderColor | null;
+    open?: boolean | null;
     orientation?: ElementOrientation | null;
     labelFont?: ElementFont | null;
     onChange: (mod: {
@@ -87,6 +88,7 @@ type ButtonModifiersProps = {
         inkColor?: TextColor | null;
         inset?: ElementInset | null;
         lineColor?: BorderColor | null;
+        open?: boolean | null;
         orientation?: ElementOrientation | null;
         labelFont?: ElementFont | null;
         readOnly?: boolean | null;
@@ -167,6 +169,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         stretch,
         toggle,
         collapsed,
+        open,
         surfaceColor,
         decorative,
         density,
@@ -817,6 +820,22 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             onChange({
                                 ...props,
                                 collapsed: e.target.checked,
+                            });
+                        }}
+                    />
+                </>
+            )}
+            {open !== undefined && (
+                <>
+                    <label htmlFor="mod_open">Open:</label>
+                    <Checkbox
+                        checked={open ?? true}
+                        density="dense"
+                        id="mod_open"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                open: e.target.checked,
                             });
                         }}
                     />

@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaHome, FaUpload } from 'react-icons/fa';
 import { MdAdd, MdHome, MdRemove } from 'react-icons/md';
@@ -66,6 +66,8 @@ export const FabPage = () => {
     const [shrink, setShrink] = useState<boolean | null>(false);    const [toggle, setToggle] = useState<boolean | null>(false);
     const [disabled, setDisabled] = useState<boolean | null>(false);
     const [collapsed, setCollapsed] = useState<boolean | null>(false);
+    const [open, setOpen] = useState<boolean | null>(null);
+    const [scrolled, setScrolled] = useState(false);
     const [density, setDensity] = useState<ElementDensity | null>(null);
     const [font, setFont] = useState<ElementFont | null>(null);
 
@@ -108,9 +110,35 @@ export const FabPage = () => {
         ]
     );
 
+    useEffect(() => {
+        let timer: ReturnType<typeof setTimeout>;
+        const onScroll = () => {
+            setScrolled(true);
+            clearTimeout(timer);
+            timer = setTimeout(() => setScrolled(false), 300);
+        };
+        document.addEventListener('scroll', onScroll, true);
+        return () => {
+            clearTimeout(timer);
+            document.removeEventListener('scroll', onScroll, true);
+        };
+    }, []);
+
     return (
         <>
             <H1>Fab</H1>
+            <Fab
+                {...shared}
+                bottom={24}
+                collapsed={!!collapsed || scrolled}
+                filled
+                icon={<MdAdd />}
+                label="Create"
+                open={open ?? undefined}
+                position="fixed"
+                right={24}
+                zIndex={10}
+            />
             <Flex grow>
                 <Grid border={1} className="grid-cols-[max-content_1fr] items-center p-2" gapX={20} gapY={16} grow>
                     {buttonStyles.map(s => (
@@ -317,6 +345,7 @@ export const FabPage = () => {
                         borderColor={borderColor}
                         collapsed={collapsed}
                         color={color}
+                        open={open}
                         density={density}
                         disabled={disabled}
                         elevation={elevation}
@@ -329,6 +358,7 @@ export const FabPage = () => {
                             border: bd,
                             borderColor: bc,
                             collapsed: co,
+                            open: op,
                             color: cl,
                             elevation: el,
                             density: ds,
@@ -352,6 +382,7 @@ export const FabPage = () => {
                             setFont(lf ?? null);
                             setToggle(tg ?? null);
                             setCollapsed(co ?? null);
+                            setOpen(op ?? null);
                             setSelectedShape(ss ?? null);
                             setSelectedColor(sc ?? null);
                         }}
