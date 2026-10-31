@@ -1,10 +1,10 @@
 import { forwardRef } from 'react';
 
-import { cn, ControlStyle, ElementFont, getAriaLabels, getFontClass, SurfaceColor, useUniqueId } from '../../utils';
+import { cn, ElementFont, getAriaLabels, getFontClass, SurfaceColor, useUniqueId } from '../../utils';
 import { SelectionContext } from '../../context';
 import { useSelection, useSelectionState } from '../../hooks';
 import { BoxBase, BoxBaseProps } from '../base';
-import { LabelText } from '../../internal';
+import { Description, LabelText } from '../../internal';
 
 /**
  * Configuration shared by {@link Fieldset} with its child controls.
@@ -35,9 +35,6 @@ export interface FieldsetProps
 
     /** Supporting text displayed below the fieldset content. */
     description?: string;
-
-    /** Font token applied to the description text. @default 'bodySmall' */
-    descriptionFont?: ElementFont;
 
     /** Disables all controls inside; a child cannot re-enable itself. */
     disabled?: boolean;
@@ -107,7 +104,6 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
             children,
             direction = 'col',
             required,
-            descriptionFont,
             alignItems = 'start',
             id,
             'aria-label': ariaLabel,
@@ -132,26 +128,6 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
             deselectable: false,
         });
         const legendClasses = cn('uui-fieldset-legend', getFontClass(font ?? 'labelLarge'));
-
-        const descriptionStyle = ControlStyle();
-        if (error) {
-            descriptionStyle.text('error');
-        } else {
-            descriptionStyle.text.on('surfaceVariant');
-        }
-
-        const descriptionClasses = cn(
-            'uui-support-text',
-            getFontClass(descriptionFont ?? 'bodySmall'),
-            error && 'uui-error',
-            description && !error && 'uui-description'
-        );
-
-        const descriptionText = (description ?? error) && (
-            <div className={descriptionClasses} id={`${elemId}-desc`} style={descriptionStyle.get()}>
-                {error ?? description}
-            </div>
-        );
 
         return (
             <>
@@ -183,7 +159,7 @@ export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
                         {children}
                     </BoxBase>
                 </SelectionContext.Provider>
-                {descriptionText}
+                <Description description={description} error={error} id={`${elemId}-desc`} />
             </>
         );
     }
