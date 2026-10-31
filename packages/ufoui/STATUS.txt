@@ -129,22 +129,29 @@ DatePicker
 FABGroup
 Pagination
 SegmentedButton
-Snackbar
 TimePicker
 Skeleton
 ChipSet
+ButtonGroup
+SplitButton
+LoadingIndicator
+NavigationRail
+Search
+SideSheet
 
 @extra
 RichEdit
 
 @deprecated
-ProgressIndicator
-ListItemIcon
-ListItemText
-ListItemButton
-Scrim
-Surface
-AccordionSummary
-AccordionDetails
-ToggleButton
-ItemGroup
+ProgressIndicator (Progress)
+Snackbar (Toast)
+ListItemIcon (ListItem)
+ListItemText (ListItem)
+ListItemButton (ListItem)
+Scrim (Dialog)
+Surface (Div)
+AccordionSummary (AccordionItem)
+AccordionDetails (AccordionItem)
+ToggleButton (Button)
+ItemGroup (ListItem)
+Autocomplete (Select)

@@ -7,13 +7,13 @@
 @tailwind utilities;
 
 body {
-  @apply h-screen;
+  height: 100vh;
   color: var(--uui-color-on-surface);
   background-color: var(--uui-color-surface);
 }
 
 aside {
-  @apply min-w-[280px];
+  min-width: 280px;
 }
 
 

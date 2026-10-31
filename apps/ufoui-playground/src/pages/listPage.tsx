@@ -35,10 +35,10 @@ import tree from '../assets/tree.jpg';
 import { Modifiers } from '../components/modifiers/modifiers';
 
 const ScrollingText = ({ text }: { text: string }) => (
-    <Div className="overflow-hidden">
-        <Flex className="animate-marquee w-max" style={{ animationDuration: '12s' }}>
-            <Div className="whitespace-nowrap pr-4">{text}</Div>
-            <Div className="whitespace-nowrap pr-4">{text}</Div>
+    <Div overflow="hidden">
+        <Flex className="animate-marquee" style={{ animationDuration: '12s' }} width="max-content">
+            <Div className="whitespace-nowrap" pr={16}>{text}</Div>
+            <Div className="whitespace-nowrap" pr={16}>{text}</Div>
         </Flex>
     </Div>
 );

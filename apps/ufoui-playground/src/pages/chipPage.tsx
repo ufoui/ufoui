@@ -35,6 +35,7 @@ import {
     H2,
     Section,
     SemanticColor,
+    Span,
     Stack,
 } from '@ufoui/core';
 
@@ -54,10 +55,10 @@ const chipVariants: { label: string; variant?: ButtonBaseProps['variant'] }[] = 
 ];
 
 const ScrollingText = ({ text }: { text: string }) => (
-    <Div className="w-20 overflow-hidden">
-        <Flex className="animate-marquee w-max">
-            <Div className="whitespace-nowrap pr-4">{text}</Div>
-            <Div className="whitespace-nowrap pr-4">{text}</Div>
+    <Div overflow="hidden" width={80}>
+        <Flex className="animate-marquee" width="max-content">
+            <Div className="whitespace-nowrap" pr={16}>{text}</Div>
+            <Div className="whitespace-nowrap" pr={16}>{text}</Div>
         </Flex>
     </Div>
 );
@@ -311,10 +312,10 @@ export const ChipPage = () => {
                             <img alt="" height={80} src={tree} width={80} />
                         </Chip>
                         <Chip {...shared} label="Image 2">
-                            <span className="px-1"> SPAN </span>
+                            <Span mx={4}> SPAN </Span>
                         </Chip>
                         <Chip {...shared} filled label="Image 2">
-                            <span className="px-1">FILLED SPAN</span>
+                            <Span mx={4}>FILLED SPAN</Span>
                         </Chip>
                     </Flex>
                 </Section>

@@ -28,6 +28,7 @@ import {
     H1,
     IconButton,
     SemanticColor,
+    Span,
 } from '@ufoui/core';
 
 import tree from '../assets/tree.jpg';
@@ -44,10 +45,10 @@ const buttonStyles = [
 ];
 
 const ScrollingText = ({ text }: { text: string }) => (
-    <Div className="w-20 overflow-hidden">
-        <Flex className="animate-marquee w-max">
-            <Div className="whitespace-nowrap pr-4">{text}</Div>
-            <Div className="whitespace-nowrap pr-4">{text}</Div>
+    <Div overflow="hidden" width={80}>
+        <Flex className="animate-marquee" width="max-content">
+            <Div className="whitespace-nowrap" pr={16}>{text}</Div>
+            <Div className="whitespace-nowrap" pr={16}>{text}</Div>
         </Flex>
     </Div>
 );
@@ -110,7 +111,7 @@ export const IconButtonPage = () => {
         <>
             <H1>IconButton</H1>
             <Flex grow>
-                <Grid border={1} className="grid-cols-[max-content_1fr] items-center p-2" gapX={20} gapY={16} grow>
+                <Grid alignItems="center" border={1} cols="max-content 1fr" gapX={20} gapY={16} grow p={8}>
                     {buttonStyles.map(s => (
                         <Fragment key={s.label}>
                             <Div>{s.label}</Div>
@@ -196,22 +197,22 @@ export const IconButtonPage = () => {
                     <Divider className="col-span-2" />
                     <Div>Full & limited width</Div>
                     <Flex gap={16}>
-                        <div className="w-[400px] bg-black">
+                        <Div color="black" width={400}>
                             <IconButton
                                 color="primary"
                                 filled
                                 fullWidth
                                 icon={<FaHome />}
                                 label="Full width"></IconButton>
-                        </div>
-                        <div className="w-[100px] bg-black">
+                        </Div>
+                        <Div color="black" width={100}>
                             <IconButton
                                 color="primary"
                                 filled
                                 fullWidth
                                 icon={<FaHome />}
                                 label="Full width"></IconButton>
-                        </div>
+                        </Div>
                     </Flex>
 
                     <Divider className="col-span-2" />
@@ -270,10 +271,10 @@ export const IconButtonPage = () => {
                             <img alt="" height={80} src={tree} width={80} />
                         </IconButton>
                         <IconButton {...shared} label="Image 2">
-                            <span className="px-1"> SPAN </span>
+                            <Span mx={4}> SPAN </Span>
                         </IconButton>
                         <IconButton {...shared} filled label="Image 2">
-                            <span className="px-1">FILLED SPAN</span>
+                            <Span mx={4}>FILLED SPAN</Span>
                         </IconButton>
                     </Flex>
                     <Divider className="col-span-2" />

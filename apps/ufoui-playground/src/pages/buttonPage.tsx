@@ -29,6 +29,7 @@ import {
     Grid,
     H1,
     SemanticColor,
+    Span,
 } from '@ufoui/core';
 
 import tree from '../assets/tree.jpg';
@@ -45,10 +46,10 @@ const buttonStyles = [
 ];
 
 const ScrollingText = ({ text }: { text: string }) => (
-    <Div className="w-20 overflow-hidden">
-        <Flex className="animate-marquee w-max">
-            <Div className="whitespace-nowrap pr-4">{text}</Div>
-            <Div className="whitespace-nowrap pr-4">{text}</Div>
+    <Div overflow="hidden" width={80}>
+        <Flex className="animate-marquee" width="max-content">
+            <Div className="whitespace-nowrap" pr={16}>{text}</Div>
+            <Div className="whitespace-nowrap" pr={16}>{text}</Div>
         </Flex>
     </Div>
 );
@@ -111,7 +112,7 @@ export const ButtonPage = () => {
         <>
             <H1>Button</H1>
             <Flex grow>
-                <Grid border={1} className="grid-cols-[max-content_1fr] items-center p-2" gapX={20} gapY={16} grow>
+                <Grid alignItems="center" border={1} cols="max-content 1fr" gapX={20} gapY={16} grow p={8}>
                     {buttonStyles.map(s => (
                         <Fragment key={s.label}>
                             <Div>{s.label}</Div>
@@ -233,12 +234,12 @@ export const ButtonPage = () => {
                     <Divider className="col-span-2" />
                     <Div>Full & limited width</Div>
                     <Flex gap={16}>
-                        <div className="w-[400px] bg-black">
+                        <Div color="black" width={400}>
                             <Button color="primary" filled fullWidth icon={<FaHome />} label="Full width"></Button>
-                        </div>
-                        <div className="w-[100px] bg-black">
+                        </Div>
+                        <Div color="black" width={100}>
                             <Button color="primary" filled fullWidth icon={<FaHome />} label="Full width"></Button>
-                        </div>
+                        </Div>
                     </Flex>
 
                     <Divider className="col-span-2" />
@@ -332,10 +333,10 @@ export const ButtonPage = () => {
                             <img alt="" height={80} src={tree} width={80} />
                         </Button>
                         <Button {...shared} label="Image 2">
-                            <span className="px-1"> SPAN </span>
+                            <Span mx={4}> SPAN </Span>
                         </Button>
                         <Button {...shared} filled label="Image 2">
-                            <span className="px-1">FILLED SPAN</span>
+                            <Span mx={4}>FILLED SPAN</Span>
                         </Button>
                     </Flex>
                     <Divider className="col-span-2" />
