@@ -12,13 +12,13 @@
   z-index: var(--uui-z-popup);
 }
 
-.uui-menu-modern {
+.uui-menu-expressive {
   --uui-corner-round: var(--uui-corner-extra-large);
   --uui-corner-rounded: var(--uui-corner-large);
   --uui-corner-smooth: var(--uui-corner-small);
 }
 
-.uui-menu-classic {
+.uui-menu-baseline {
   --uui-corner-round: var(--uui-corner-large);
   --uui-corner-rounded: var(--uui-corner-small);
   --uui-corner-smooth:  var(--uui-corner-extra-small);
@@ -45,16 +45,16 @@
   display: flex;
 }
 
-.uui-menu-modern .uui-menu-scroll {
+.uui-menu-expressive .uui-menu-scroll {
   padding: 0 4px;
   margin: 4px 0;
 }
 
-.uui-menu-modern.uui-menu-horizontal .uui-menu-scroll {
+.uui-menu-expressive.uui-menu-horizontal .uui-menu-scroll {
   padding: 0 2px;
 }
 
-.uui-menu-classic .uui-menu-scroll {
+.uui-menu-baseline .uui-menu-scroll {
   padding: 0 0;
   margin: 8px 0;
 }

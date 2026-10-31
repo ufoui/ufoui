@@ -20,9 +20,9 @@ import { Modifiers } from '../components/modifiers/modifiers';
 
 export function MenuPage() {
     const [open, setOpen] = useState(false);
-    const [menuType, setMenuType] = useState<MenuVariant>('modern');
+    const [menuType, setMenuType] = useState<MenuVariant>('expressive');
     const [anchorRef, setAnchorRef] = useState<RefObject<HTMLButtonElement>>();
-    const classicAnchorRef = useRef<HTMLButtonElement>(null);
+    const baselineAnchorRef = useRef<HTMLButtonElement>(null);
     const standardAnchorRef = useRef<HTMLButtonElement>(null);
     const [color, setColor] = useState<SurfaceColor | null>(null);
     const [shape, setShape] = useState<ElementShape | null>(null);
@@ -50,29 +50,29 @@ export function MenuPage() {
                 <Flex gap={8}>
                     <Button
                         onClick={() => {
-                            setMenuType('modern');
+                            setMenuType('expressive');
                             setAnchorRef(standardAnchorRef);
                             setOpen(o => !o);
                         }}
                         ref={standardAnchorRef}>
-                        Open Modern Menu
+                        Open Expressive Menu
                     </Button>
                     <Button
                         onClick={() => {
-                            setMenuType('classic');
-                            setAnchorRef(classicAnchorRef);
+                            setMenuType('baseline');
+                            setAnchorRef(baselineAnchorRef);
                             setOpen(o => !o);
                         }}
-                        ref={classicAnchorRef}>
-                        Open Classic Menu
+                        ref={baselineAnchorRef}>
+                        Open Baseline Menu
                     </Button>
                 </Flex>
                 <TestMenu anchorRef={anchorRef} menuType={menuType} open={open} setOpen={setOpen} {...shared} />
-                <TestMenu docked menuType="modern" orientation="horizontal" open {...shared} />
-                <TestMenu docked menuType="classic" orientation="horizontal" open {...shared} />
+                <TestMenu docked menuType="expressive" orientation="horizontal" open {...shared} />
+                <TestMenu docked menuType="baseline" orientation="horizontal" open {...shared} />
                 <Flex alignItems="start" gap={20}>
-                    <TestMenu docked menuType="modern" orientation="vertical" open {...shared} />
-                    <TestMenu docked menuType="classic" orientation="vertical" open {...shared} />
+                    <TestMenu docked menuType="expressive" orientation="vertical" open {...shared} />
+                    <TestMenu docked menuType="baseline" orientation="vertical" open {...shared} />
                 </Flex>
             </Section>
             <Aside p={20}>

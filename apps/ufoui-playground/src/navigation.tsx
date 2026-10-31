@@ -24,7 +24,7 @@ export const Navigation = () => {
                 elevation={0}
                 open
                 shape="square"
-                variant="modern">
+                variant="expressive">
                 {appRoutes
                     .filter(route => route.showInNav)
                     .map(route => {

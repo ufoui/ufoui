@@ -47,12 +47,12 @@ import { isDivider } from '../divider/divider.guards';
 /**
  * Visual style preset for the Menu component.
  *
- * - `modern` – MD3 menu (expressive).
- * - `classic` – MD3 menu (baseline).
+ * - `expressive` – MD3 menu (expressive).
+ * - `baseline` – MD3 menu (baseline).
  *
  * @category Menu
  */
-export type MenuVariant = 'modern' | 'classic';
+export type MenuVariant = 'expressive' | 'baseline';
 
 /**
  * Animation setting for the Menu component.
@@ -155,7 +155,7 @@ export interface MenuProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'>
     /** Icon used for unchecked checkbox items. */
     uncheckedIcon?: ReactNode;
 
-    /** Visual preset (`modern` = MD3 expressive, `classic` = MD3 baseline). */
+    /** Visual preset (`expressive` or `baseline`, as in MD3). */
     variant?: MenuVariant;
 }
 
@@ -218,7 +218,7 @@ type MenuState = 'closed' | 'opening' | 'opened' | 'closing';
  *
  * Supports nested submenus, keyboard navigation,
  * motion configuration, density presets, elevation, shape, borders
- * and two MD3 visual variants (`modern`, `classic`).
+ * and two MD3 visual variants (`expressive`, `baseline`).
  *
  *
  * @param props
@@ -276,7 +276,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
             style,
             id,
             onClose,
-            variant = 'classic',
+            variant = 'baseline',
             animation = 'scale',
             duration,
             motionStyle = 'regular',
@@ -323,9 +323,9 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
         const [closingSubmenu, setClosingSubmenu] = useState(false);
         const [pendingSubmenu, setPendingSubmenu] = useState(-1);
         const containerColor: SurfaceColor =
-            color ?? (variant === 'modern' ? 'surfaceContainerLow' : 'surfaceContainer');
+            color ?? (variant === 'expressive' ? 'surfaceContainerLow' : 'surfaceContainer');
         const containerElevation: ElementElevation =
-            (docked ? dockedElevation : undefined) ?? elevation ?? (variant === 'modern' ? 3 : 2);
+            (docked ? dockedElevation : undefined) ?? elevation ?? (variant === 'expressive' ? 3 : 2);
 
         const [interactionsDisabled, setInteractionsDisabled] = useState(false);
         const aniDuration = animation !== 'none' ? (duration ?? 220) : 0;
@@ -764,14 +764,14 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
                     getOnColorName(containerColor) === 'onSurface'
                         ? 'outlineVariant'
                         : (getOnColorName(containerColor) as BorderColor);
-                const dividerGap = variant === 'modern' ? 5 : 8;
+                const dividerGap = variant === 'expressive' ? 5 : 8;
                 const overriddenProps: DividerProps = {
                     color: child.props.color ?? dividerColor ?? 'outlineVariant',
                     orientation: horizontal ? 'vertical' : 'horizontal',
                     offset: child.props.offset ?? 8,
                     mx: child.props.mx ?? (horizontal ? dividerGap : undefined),
                     my: child.props.my ?? (horizontal ? undefined : dividerGap),
-                    inset: child.props.inset ?? (variant === 'modern' ? 'both' : undefined),
+                    inset: child.props.inset ?? (variant === 'expressive' ? 'both' : undefined),
                 };
                 return cloneElement(child, { ...child.props, ...overriddenProps });
             }
@@ -914,11 +914,11 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps & MenuInternalProps>(
             `uui-menu-level-${String(level)}`,
             horizontal && 'uui-menu-horizontal',
             active && 'uui-menu-active',
-            variant === 'modern' ? 'uui-menu-modern' : 'uui-menu-classic',
+            variant === 'expressive' ? 'uui-menu-expressive' : 'uui-menu-baseline',
             animating && animationClass,
             motionStyleClass,
             getDensityClass(density),
-            getShapeClass(shape ?? (variant === 'modern' ? 'rounded' : 'smooth')),
+            getShapeClass(shape ?? (variant === 'expressive' ? 'rounded' : 'smooth')),
             getElevationClass(containerElevation),
             border !== undefined ? getBorderClass(border) : null,
             className

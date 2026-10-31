@@ -279,7 +279,7 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
             __index,
             __interactionsDisabled,
             onChange: _onChange,
-            variant = 'classic',
+            variant = 'baseline',
             ...props
         },
         ref
@@ -321,7 +321,7 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
             }
         }
 
-        const fontClass = getFontClass(variant === 'modern' ? 'labelLarge' : 'bodyLarge');
+        const fontClass = getFontClass(variant === 'expressive' ? 'labelLarge' : 'bodyLarge');
 
         const shortcutStyle = ControlStyle();
         shortcutStyle.text(shortcutColor);
@@ -348,7 +348,7 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
         );
 
         const descriptionStyle = ControlStyle();
-        if (descriptionColor || (!textColor && variant === 'classic' && color?.startsWith('surface'))) {
+        if (descriptionColor || (!textColor && variant === 'baseline' && color?.startsWith('surface'))) {
             if (descriptionColor) {
                 descriptionStyle.text(descriptionColor);
             } else {
@@ -358,7 +358,7 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
 
         const descriptionText = description && (
             <div
-                className={`uui-menu-item-description ${getFontClass(variant === 'modern' ? 'bodySmall' : 'bodyMedium')}`}
+                className={`uui-menu-item-description ${getFontClass(variant === 'expressive' ? 'bodySmall' : 'bodyMedium')}`}
                 style={descriptionStyle.get()}>
                 {description}
             </div>
@@ -385,9 +385,9 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
             }
         };
 
-        let resolvedColor = color ?? (variant === 'modern' ? 'surfaceContainerLow' : 'surfaceContainer');
+        let resolvedColor = color ?? (variant === 'expressive' ? 'surfaceContainerLow' : 'surfaceContainer');
         if (type === 'option' && selected && finalEffects.selected?.includes('color')) {
-            resolvedColor = selectedColor ?? (variant === 'modern' ? 'tertiaryContainer' : 'secondaryContainer');
+            resolvedColor = selectedColor ?? (variant === 'expressive' ? 'tertiaryContainer' : 'secondaryContainer');
         }
 
         const stateStyle = ControlStyle();
@@ -406,10 +406,10 @@ export const MenuItem = forwardRef<HTMLDivElement, MenuItemProps & MenuItemInter
             className,
             getDensityClass(density),
             finalDisabled && 'uui-disabled',
-            variant === 'modern' ? 'uui-menu-item-modern' : 'uui-menu-item-classic'
+            variant === 'expressive' ? 'uui-menu-item-expressive' : 'uui-menu-item-baseline'
         );
 
-        const resolvedShape = getShapeClass(shape ?? (variant === 'modern' ? 'rounded' : 'smooth'));
+        const resolvedShape = getShapeClass(shape ?? (variant === 'expressive' ? 'rounded' : 'smooth'));
         const contentClasses = cn(
             'uui-menu-item-content',
             resolvedShape,

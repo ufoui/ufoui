@@ -17,7 +17,7 @@
   justify-content: center;
 }
 
-.uui-menu-item-modern {
+.uui-menu-item-expressive {
   --uui-icon-size: 20px;
   --uui-col-space: 12px;
   --uui-corner-rounded: 12px;
@@ -25,7 +25,7 @@
   height: 48px;
 }
 
-.uui-menu-item-classic {
+.uui-menu-item-baseline {
   --uui-icon-size: 24px;
   --uui-col-space: 8px;
   --uui-corner-round: 12px;
@@ -34,19 +34,19 @@
   height: 56px;
 }
 
-.uui-menu-item-modern.uui-compact {
+.uui-menu-item-expressive.uui-compact {
   height: 44px;
 }
 
-.uui-menu-item-modern.uui-dense {
+.uui-menu-item-expressive.uui-dense {
   height: 40px;
 }
 
-.uui-menu-item-classic.uui-compact {
+.uui-menu-item-baseline.uui-compact {
   height: 48px;
 }
 
-.uui-menu-item-classic.uui-dense {
+.uui-menu-item-baseline.uui-dense {
   height: 40px;
 }
 
@@ -60,16 +60,16 @@
   cursor: pointer;
 }
 
-.uui-menu-item-modern .uui-menu-item-content {
+.uui-menu-item-expressive .uui-menu-item-content {
   height: 44px;
 }
 
-.uui-menu-item-modern.uui-compact .uui-menu-item-content,
-.uui-menu-item-modern.uui-dense .uui-menu-item-content {
+.uui-menu-item-expressive.uui-compact .uui-menu-item-content,
+.uui-menu-item-expressive.uui-dense .uui-menu-item-content {
   height: 100%;
 }
 
-.uui-menu-item-classic .uui-menu-item-content {
+.uui-menu-item-baseline .uui-menu-item-content {
   height: 100%;
 }
 
