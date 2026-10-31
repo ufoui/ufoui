@@ -153,3 +153,38 @@
   --uui-button-padding: var(--uui-ext-padding);
 }
 
+.uui-fab .uui-btn-control {
+  transition:
+    box-shadow 150ms var(--uui-ease),
+    padding var(--uui-duration) var(--uui-ease);
+}
+
+.uui-fab .uui-btn-content {
+  transition: column-gap var(--uui-duration) var(--uui-ease);
+}
+
+.uui-fab .uui-btn-label {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  transition:
+    grid-template-columns var(--uui-duration) var(--uui-ease),
+    opacity 200ms var(--uui-opacity-ease) 100ms;
+}
+
+.uui-fab.uui-fab-collapsed .uui-btn-control {
+  --uui-button-padding: calc((var(--uui-button-width) - var(--uui-icon-size)) / 2);
+  width: auto;
+}
+
+.uui-fab.uui-fab-collapsed .uui-btn-content {
+  column-gap: 0;
+}
+
+.uui-fab.uui-fab-collapsed .uui-btn-label {
+  grid-template-columns: minmax(0, 0fr);
+  opacity: 0;
+  transition:
+    grid-template-columns var(--uui-duration) var(--uui-ease),
+    opacity 100ms var(--uui-opacity-ease);
+}
+

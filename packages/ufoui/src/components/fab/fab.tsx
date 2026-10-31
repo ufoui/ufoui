@@ -3,7 +3,10 @@ import { forwardRef } from 'react';
 import { ButtonBase, ButtonBaseOwnProps, ButtonElement } from '../base';
 import { PolymorphicComponent, PolymorphicProps } from '../../utils';
 
-type FabButtonOwnProps = Omit<ButtonBaseOwnProps, 'avatar' | 'elementClass'>;
+type FabButtonOwnProps = Omit<ButtonBaseOwnProps, 'avatar' | 'elementClass'> & {
+    /** Collapses an extended FAB to its icons (needs one); the label stays as the accessible name. */
+    collapsed?: boolean;
+};
 
 /**
  * Props for {@link Fab}.
@@ -30,8 +33,12 @@ export type FabButtonProps<T extends ButtonElement = 'button'> = PolymorphicProp
  * <Fab icon={<AddIcon />} label="Create" />
  */
 export const Fab = forwardRef<HTMLButtonElement, FabButtonProps>(
-    ({ elevation = 3, size = 'medium', shape = 'rounded', ...props }: FabButtonProps, ref) => {
-        const elementClass = (props.content ?? props.children ?? props.label) ? 'uui-fab uui-fab-extended' : 'uui-fab';
+    ({ collapsed, elevation = 3, size = 'medium', shape = 'rounded', ...props }: FabButtonProps, ref) => {
+        const elementClass = !(props.content ?? props.children ?? props.label)
+            ? 'uui-fab'
+            : collapsed && (props.icon ?? props.leading ?? props.trailing ?? props.endIcon)
+              ? 'uui-fab uui-fab-collapsed'
+              : 'uui-fab uui-fab-extended';
         return (
             <ButtonBase
                 ref={ref}

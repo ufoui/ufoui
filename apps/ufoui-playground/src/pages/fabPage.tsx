@@ -65,6 +65,7 @@ export const FabPage = () => {
     const [flat, setFlat] = useState<boolean | null>(false);
     const [shrink, setShrink] = useState<boolean | null>(false);    const [toggle, setToggle] = useState<boolean | null>(false);
     const [disabled, setDisabled] = useState<boolean | null>(false);
+    const [collapsed, setCollapsed] = useState<boolean | null>(false);
     const [density, setDensity] = useState<ElementDensity | null>(null);
     const [font, setFont] = useState<ElementFont | null>(null);
 
@@ -84,6 +85,7 @@ export const FabPage = () => {
             flat: !!flat,
             shrink: !!shrink,
             toggle: !!toggle,
+            collapsed: !!collapsed,
             ...(disabled ? { disabled: true } : {}),
         }),
         [
@@ -101,6 +103,7 @@ export const FabPage = () => {
             flat,
             shrink,
             toggle,
+            collapsed,
             disabled,
         ]
     );
@@ -312,6 +315,7 @@ export const FabPage = () => {
                     <Modifiers
                         border={border}
                         borderColor={borderColor}
+                        collapsed={collapsed}
                         color={color}
                         density={density}
                         disabled={disabled}
@@ -324,6 +328,7 @@ export const FabPage = () => {
                             shape: sp,
                             border: bd,
                             borderColor: bc,
+                            collapsed: co,
                             color: cl,
                             elevation: el,
                             density: ds,
@@ -346,6 +351,7 @@ export const FabPage = () => {
                             setDisabled(db ?? null);
                             setFont(lf ?? null);
                             setToggle(tg ?? null);
+                            setCollapsed(co ?? null);
                             setSelectedShape(ss ?? null);
                             setSelectedColor(sc ?? null);
                         }}

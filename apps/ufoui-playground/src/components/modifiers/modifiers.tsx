@@ -27,6 +27,7 @@ type ButtonModifiersProps = {
     baseColor?: BaseColor | null;
     border?: ElementBorder | null;
     borderColor?: BorderColor | null;
+    collapsed?: boolean | null;
     color?: SemanticColor | null;
     decorative?: boolean | null;
     density?: ElementDensity | null;
@@ -59,6 +60,7 @@ type ButtonModifiersProps = {
         baseColor?: BaseColor | null;
         border?: ElementBorder | null;
         borderColor?: BorderColor | null;
+        collapsed?: boolean | null;
         color?: SemanticColor | null;
         decorative?: boolean | null;
         density?: ElementDensity | null;
@@ -164,6 +166,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         shrink,
         stretch,
         toggle,
+        collapsed,
         surfaceColor,
         decorative,
         density,
@@ -798,6 +801,22 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             onChange({
                                 ...props,
                                 toggle: e.target.checked,
+                            });
+                        }}
+                    />
+                </>
+            )}
+            {collapsed !== undefined && (
+                <>
+                    <label htmlFor="mod_collapsed">Collapsed:</label>
+                    <Checkbox
+                        checked={!!collapsed}
+                        density="dense"
+                        id="mod_collapsed"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                collapsed: e.target.checked,
                             });
                         }}
                     />
