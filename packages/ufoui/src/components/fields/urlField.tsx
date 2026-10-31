@@ -25,7 +25,6 @@ export type UrlFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'mult
  * @example
  * <UrlField required />
  */
-
 export const UrlField = forwardRef<HTMLInputElement, UrlFieldProps>((props: UrlFieldProps, ref) => {
     return <FieldBase ref={ref} {...props} elementClass="uui-url-field" type="url" />;
 });

@@ -10,8 +10,8 @@ import { VisibilityIcon, VisibilityOffIcon } from '../../assets';
  *
  * @category PasswordField
  */
-export interface PasswordFieldProps extends Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines'> {
-    /** When true, renders the control that reveals the password. */
+export interface PasswordFieldProps extends Omit<FieldBaseProps, 'elementClass' | 'type' | 'multiline' | 'lines' | 'maxLines'> {
+    /** When true, renders the control that reveals the password. Default: true */
     showReveal?: boolean;
 
     /** Icon of the reveal control while the password is hidden. Default: VisibilityIcon */
@@ -43,7 +43,7 @@ export interface PasswordFieldProps extends Omit<FieldBaseProps, 'elementClass' 
  * <PasswordField required />
  *
  * @example
- * <PasswordField label="Password" showReveal />
+ * <PasswordField label="Password" showReveal={false} />
  */
 export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>((props: PasswordFieldProps, ref) => {
     const {
@@ -80,8 +80,10 @@ export const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>((p
         <FieldBase
             ref={ref}
             {...other}
+            autoCapitalize="off"
             elementClass="uui-password-field"
             endIcon={finalEndIcon}
+            spellCheck={false}
             type={revealed ? 'text' : 'password'}
         />
     );

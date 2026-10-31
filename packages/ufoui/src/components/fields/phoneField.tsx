@@ -25,7 +25,6 @@ export type PhoneFieldProps = Omit<FieldBaseProps, 'elementClass' | 'type' | 'mu
  * @example
  * <PhoneField required />
  */
-
 export const PhoneField = forwardRef<HTMLInputElement, PhoneFieldProps>((props: PhoneFieldProps, ref) => {
     return <FieldBase ref={ref} {...props} elementClass="uui-phone-field" type="tel" />;
 });
