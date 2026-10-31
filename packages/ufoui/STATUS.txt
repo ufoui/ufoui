@@ -33,6 +33,7 @@ ButtonBase
 Spinner
 Divider
 RadioGroup
+ThemeProvider
 
 @internal
 Description
@@ -49,7 +50,6 @@ ControlLabel
 @alpha
 Toolbar
 Rating
-ThemeProvider
 Badge
 Fab
 Chip

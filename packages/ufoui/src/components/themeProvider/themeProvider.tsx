@@ -1,10 +1,17 @@
-import { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 
 import { defaultTheme, ThemeContext, ThemeContextValue } from '../../context';
 import { generateMaterialColors, mergeOverrides, setFontRegistry } from '../../utils';
 import { applyThemeColors } from '../../utils/applyThemeColors';
 import { PartialThemeBreakpoints, PartialThemeFonts, Theme, ThemeColor, ThemeCustomColors } from '../../types';
 
+const useThemeEffect = typeof document === 'undefined' ? useEffect : useLayoutEffect;
+
+/**
+ * Props for the {@link ThemeProvider} component.
+ *
+ * @category Theme
+ */
 export interface ThemeProviderProps {
     /** React children to render within the theme context. */
     children: ReactNode;
@@ -12,7 +19,7 @@ export interface ThemeProviderProps {
     /** Optional color mode: 'light' or 'dark'. If not provided, defaults to 'light'. */
     colorMode?: 'light' | 'dark';
 
-    /** Optional seed color used to generate MD3 theme. Defaults to #6750A4 if omitted.     */
+    /** Seed color used to generate MD3 theme; ignored when `colors.primary` is set. @default '#6750A4' */
     seedColor?: string;
 
     /** Optional semantic seed colors map (core + augmented). */
@@ -40,15 +47,11 @@ export interface ThemeProviderProps {
  *
  * This provider must wrap your application to enable theming and contextual access to color tokens.
  *
- * @param props - Theme provider props.
- * @param props.children - React children rendered within the theme context.
- * @param props.colorMode - Optional color mode: `'light'` or `'dark'`. Defaults to `'light'`.
- * @param props.seedColor - Optional base color used to generate the theme. Defaults to `#6750A4`.
- * @param props.colors - Optional semantic seed colors map (core + augmented via `CustomColors`).
- *
+ * @param props Component properties.
+ * @function
  * @example
  * ```tsx
- * <ThemeProvider colorMode="dark" seedColor="#6200ee" colors={{ info: '#2196f3', primary: '#0f62fe' }}>
+ * <ThemeProvider colorMode="dark" seedColor="#6200ee" colors={{ info: '#2196f3' }}>
  *   <App />
  * </ThemeProvider>
  * ```
@@ -58,24 +61,14 @@ export interface ThemeProviderProps {
  * in the `[colors, seedColor]` effect. This keeps theme token names available on first render,
  * including setups without `ColorRegistry`, at the cost of an extra computation.
  *
- * @category Components
- * @group Theme
+ * @category Theme
  */
-
-export const ThemeProvider = ({
-    children,
-    colorMode,
-    seedColor,
-    colors,
-    breakpoints,
-    fonts,
-}: ThemeProviderProps) => {
+export const ThemeProvider = ({ children, colorMode, seedColor, colors, breakpoints, fonts }: ThemeProviderProps) => {
     const [theme, setTheme] = useState<Theme>(() => {
         const darkMode = colorMode === 'dark';
-        const generatedSchemes = generateMaterialColors(seedColor, colors);
         return {
             darkMode,
-            schemes: generatedSchemes,
+            schemes: generateMaterialColors(seedColor, colors),
             breakpoints: mergeOverrides(defaultTheme.breakpoints, breakpoints).merged,
             fonts: mergeOverrides(defaultTheme.fonts, fonts).merged,
         };
@@ -159,7 +152,7 @@ export const ThemeProvider = ({
         }));
     }, [fonts]);
 
-    useEffect(() => {
+    useThemeEffect(() => {
         applyThemeColors(theme.schemes);
     }, [theme.schemes]);
 
