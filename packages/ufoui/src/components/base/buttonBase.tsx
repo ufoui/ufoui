@@ -510,7 +510,7 @@ export const ButtonBase = forwardRef<HTMLButtonElement, Omit<ButtonBaseProps, 'a
                 )}
                 <Component
                     aria-busy={loading}
-                    aria-describedby={title ? `${elemId}-tip` : undefined}
+                    aria-describedby={title && finalAriaLabel !== title ? `${elemId}-tip` : undefined}
                     aria-haspopup={upload ? 'dialog' : undefined}
                     aria-label={finalAriaLabel}
                     aria-pressed={toggle ? isSelected : undefined}
