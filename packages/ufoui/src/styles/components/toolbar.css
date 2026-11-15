@@ -2,13 +2,38 @@
     position: relative;
     display: flex;
     align-items: center;
-    min-height: 64px;
+    min-height: var(--uui-toolbar-size, 64px);
     gap: var(--uui-spacing, 4px);
     padding-inline: 16px;
 }
 
+.uui-toolbar.uui-extra-small {
+    --uui-toolbar-size: 40px;
+}
+
+.uui-toolbar.uui-small {
+    --uui-toolbar-size: 48px;
+}
+
+.uui-toolbar.uui-large {
+    --uui-toolbar-size: 80px;
+}
+
+.uui-toolbar.uui-extra-large {
+    --uui-toolbar-size: 96px;
+}
+
 .uui-toolbar-docked {
     width: 100%;
+    padding-block: var(--uui-toolbar-padding, 8px);
+}
+
+.uui-toolbar-docked.uui-compact {
+    --uui-toolbar-padding: 4px;
+}
+
+.uui-toolbar-docked.uui-dense {
+    --uui-toolbar-padding: 2px;
 }
 
 .uui-toolbar-floating {
@@ -19,12 +44,13 @@
 .uui-toolbar.uui-vertical {
     padding-inline: 0;
     padding-block: 16px;
-    min-width: 64px;
+    min-width: var(--uui-toolbar-size, 64px);
     text-align: center;
 }
 
 .uui-toolbar-docked.uui-vertical{
   width: min-content;
+  padding-inline: var(--uui-toolbar-padding, 8px);
 }
 
 .uui-toolbar-floating.uui-toolbar.uui-vertical {

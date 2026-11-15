@@ -92,6 +92,7 @@ export interface AppRoute {
 
 export const appRoutes: AppRoute[] = [
     { label: 'Home', path: paths.start, component: StartPage, icon: LuHouse, showInNav: true },
+    { label: 'Toolbar', path: paths.toolbar, component: ToolbarPage, icon: LuWrench, showInNav: true },
 
     { label: 'Accordion', path: paths.accordion, component: AccordionPage, icon: LuListCollapse, showInNav: true },
     { label: 'Link', path: paths.link, component: LinkPage, icon: LuLink, showInNav: true },
@@ -121,7 +122,6 @@ export const appRoutes: AppRoute[] = [
     { label: 'Switch', path: paths.switch, component: SwitchPage, icon: LuToggleLeft, showInNav: true },
 
     { label: 'Menu', path: paths.menu, component: MenuPage, icon: LuMenu, showInNav: true },
-    { label: 'Toolbar', path: paths.toolbar, component: ToolbarPage, icon: LuWrench, showInNav: true },
     { label: 'Divider', path: paths.divider, component: DividerPage, icon: LuSeparatorHorizontal, showInNav: true },
 
     { label: 'Badge', path: paths.badge, component: BadgePage, icon: LuBadgeCheck, showInNav: true },

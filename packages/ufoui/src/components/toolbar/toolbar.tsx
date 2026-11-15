@@ -2,13 +2,17 @@ import React, { forwardRef } from 'react';
 
 import {
     cn,
+    ControlStyle,
     ElementDensity,
     ElementElevation,
     ElementOrientation,
     ElementShape,
+    ElementSize,
     getDensityClass,
     getElevationClass,
+    getOnColorName,
     getShapeClass,
+    getSizeClass,
     SurfaceColor,
 } from '../../utils';
 import { BoxBase, BoxBaseProps } from '../base';
@@ -20,7 +24,7 @@ import { useSelection } from '../../hooks';
  *
  * @category Toolbar
  */
-export interface ToolbarProps extends Omit<BoxBaseProps, 'as' | 'elementClass' | 'direction' | 'row' | 'col'> {
+export interface ToolbarProps extends Omit<BoxBaseProps, 'as' | 'elementClass' | 'direction'> {
     /** Visual variant of the toolbar. */
     variant?: 'docked' | 'floating';
 
@@ -33,8 +37,14 @@ export interface ToolbarProps extends Omit<BoxBaseProps, 'as' | 'elementClass' |
     /** Shape token. */
     shape?: ElementShape;
 
+    /** Size token controlling bar height (width when vertical). @default 'medium' */
+    size?: ElementSize;
+
     /** Density token. */
     density?: ElementDensity;
+
+    /** Keeps default control colors instead of deriving them from the toolbar color. */
+    keepChildColors?: boolean;
 
     /** Makes toolbar full width. */
     fullWidth?: boolean;
@@ -80,13 +90,16 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
             color,
             elevation,
             shape,
+            size = 'medium',
             density,
+            keepChildColors,
             fullWidth,
             placement = 'bottom',
             fixed,
             divider,
             children,
             className,
+            style,
             disabled,
             orientation = 'horizontal',
             ...props
@@ -98,6 +111,8 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
         const finalElevation = elevation ?? (isFloating ? 3 : 0);
         const finalShape = shape ?? (isFloating ? 'round' : undefined);
         const finalColor = color ?? (variant === 'floating' ? 'surfaceContainerHigh' : 'surfaceContainer');
+        const controlStyle = ControlStyle(style);
+        controlStyle.token('--uui-control-color', keepChildColors ? undefined : getOnColorName(finalColor, true));
 
         const classes = cn(
             'uui-toolbar',
@@ -109,6 +124,7 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
             divider && 'uui-toolbar-divider',
             !!finalElevation && getElevationClass(finalElevation),
             finalShape && getShapeClass(finalShape),
+            getSizeClass(size),
             density && getDensityClass(density),
             orientation === 'horizontal' ? 'uui-horizontal' : 'uui-vertical'
         );
@@ -122,7 +138,8 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
                 color={finalColor}
                 data-position={placement}
                 direction={orientation === 'horizontal' ? 'row' : 'col'}
-                disabled={finalDisabled}>
+                disabled={finalDisabled}
+                style={controlStyle.get()}>
                 {children}
             </BoxBase>
         );

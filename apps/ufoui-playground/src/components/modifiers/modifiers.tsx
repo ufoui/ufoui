@@ -53,6 +53,7 @@ type ButtonModifiersProps = {
     fullWidth?: boolean | null;
     inkColor?: TextColor | null;
     inset?: ElementInset | null;
+    keepChildColors?: boolean | null;
     lineColor?: BorderColor | null;
     open?: boolean | null;
     orientation?: ElementOrientation | null;
@@ -87,6 +88,7 @@ type ButtonModifiersProps = {
         fullWidth?: boolean | null;
         inkColor?: TextColor | null;
         inset?: ElementInset | null;
+        keepChildColors?: boolean | null;
         lineColor?: BorderColor | null;
         open?: boolean | null;
         orientation?: ElementOrientation | null;
@@ -160,6 +162,7 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
         textColor,
         inkColor,
         inset,
+        keepChildColors,
         lineColor,
         orientation,
         elevation,
@@ -868,6 +871,22 @@ export const Modifiers = ({ onChange, ...props }: ButtonModifiersProps) => {
                             onChange({
                                 ...props,
                                 fullColor: e.target.checked,
+                            });
+                        }}
+                    />
+                </>
+            )}
+            {keepChildColors !== undefined && (
+                <>
+                    <label htmlFor="mod_keep_child_colors">Keep child colors:</label>
+                    <Checkbox
+                        checked={!!keepChildColors}
+                        density="dense"
+                        id="mod_keep_child_colors"
+                        onChange={e => {
+                            onChange({
+                                ...props,
+                                keepChildColors: e.target.checked,
                             });
                         }}
                     />

@@ -3,6 +3,7 @@ import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-d
 import { ThemeProvider } from '@ufoui/core';
 import '@ufoui/core/index.css';
 
+import { colorSets } from './colorSets';
 import { Layout } from './components/layout/layout';
 import { paths } from './paths';
 import { appRoutes } from './routes';
@@ -15,6 +16,8 @@ declare module '@ufoui/core' {
         brandBlueYellow: true;
         red: true;
         brandRed: true;
+        brand: true;
+        action: true;
     }
     interface CustomBreakpoints {
         ufo: true;
@@ -28,24 +31,7 @@ const App = () => {
     return (
         <ThemeProvider
             breakpoints={{ ufo: '1300px' }}
-            colors={{
-                blue: '#0057FF',
-                red: '#FF5252',
-                brandBlue: {
-                    main: { light: '#0057FF', dark: '#0057FF' },
-                    fixed: { light: '#0057FF', dark: '#0057FF' },
-                },
-                brandBlueYellow: {
-                    main: {
-                        light: { color: '#0057FF', on: '#FFD600' },
-                        dark: { color: '#0057FF', on: '#FFD600' },
-                    },
-                },
-                brandRed: {
-                    main: { light: '#FF5252', dark: '#FF5252' },
-                    fixed: { light: '#FF5252', dark: '#FF5252' },
-                },
-            }}
+            colors={colorSets[0].colors}
             fonts={{ customH2: 'uui-font-headline-medium' }}>
             <Router>
                 <Routes>

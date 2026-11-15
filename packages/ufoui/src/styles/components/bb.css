@@ -146,7 +146,6 @@
 }
 
 /*Toggle selected*/
-.uui-btn-control.uui-text.uui-toggle.uui-selected,
 .uui-btn-control.uui-elevated.uui-toggle.uui-selected,
 .uui-btn-control.uui-filled.uui-toggle.uui-selected
 {
@@ -161,6 +160,7 @@
   --uui-btn-state-color: var(--uui-color-inverse-on-surface);
 }
 
+.uui-btn-control.uui-text.uui-toggle.uui-selected,
 .uui-btn-control.uui-tonal.uui-toggle.uui-selected {
   --uui-btn-text-color: var(--uui-color-on-secondary);
   --uui-btn-bg-color: var(--uui-color-secondary);

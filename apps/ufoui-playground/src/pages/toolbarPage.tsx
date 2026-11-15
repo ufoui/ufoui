@@ -1,5 +1,13 @@
 import { useMemo, useState } from 'react';
-import { MdDelete, MdMoreVert, MdSearch } from 'react-icons/md';
+import {
+    MdContentCopy,
+    MdDelete,
+    MdFormatBold,
+    MdFormatItalic,
+    MdFormatUnderlined,
+    MdMoreVert,
+    MdSearch,
+} from 'react-icons/md';
 
 import {
     Article,
@@ -13,6 +21,7 @@ import {
     ElementElevation,
     ElementFont,
     ElementShape,
+    ElementSize,
     Flex,
     H2,
     IconButton,
@@ -24,35 +33,67 @@ import {
 
 import { Modifiers } from '../components/modifiers/modifiers';
 
+const buttonSizes: ElementSize[] = ['extraSmall', 'small', 'medium', 'large', 'extraLarge'];
+
 export const ToolbarPage = () => {
+    const [size, setSize] = useState<ElementSize | null>(null);
     const [surfaceColor, setSurfaceColor] = useState<SurfaceColor | null>(null);
     const [shape, setShape] = useState<ElementShape | null>(null);
     const [elevation, setElevation] = useState<ElementElevation | null>(null);
     const [border, setBorder] = useState<ElementBorder | null>(null);
     const [borderColor, setBorderColor] = useState<BorderColor | null>(null);
     const [density, setDensity] = useState<ElementDensity | null>(null);
-    const [textColor, setTextColor] = useState<SurfaceColor | null>(null);
     const [font, setFont] = useState<ElementFont | null>(null);
     const [disabled, setDisabled] = useState<boolean | null>(false);
+    const [keepChildColors, setKeepChildColors] = useState<boolean | null>(false);
 
     const shared = useMemo(
         () => ({
-            surfaceColor: surfaceColor ?? undefined,
+            color: surfaceColor ?? undefined,
+            size: size ?? undefined,
             shape: shape ?? undefined,
             elevation: elevation ?? undefined,
             border: border ?? undefined,
             borderColor: borderColor ?? undefined,
             density: density ?? undefined,
-            textColor: textColor ?? undefined,
             font: font ?? undefined,
             disabled: disabled ?? undefined,
+            keepChildColors: keepChildColors ?? undefined,
         }),
-        [surfaceColor, shape, elevation, border, borderColor, density, textColor, font, disabled]
+        [surfaceColor, size, shape, elevation, border, borderColor, density, font, disabled, keepChildColors]
     );
 
     return (
         <Article direction="row" fullWidth>
             <Content gap={24} grow px={24} py={24}>
+                <Section gap={12}>
+                    <H2>Button size</H2>
+                    {buttonSizes.map(s => (
+                        <Toolbar key={s} {...shared}>
+                            <IconButton icon={<MdFormatBold />} size={s} toggle />
+                            <IconButton icon={<MdFormatItalic />} size={s} toggle />
+                            <IconButton icon={<MdFormatUnderlined />} size={s} toggle />
+                            <IconButton icon={<MdContentCopy />} size={s} />
+                            <IconButton icon={<MdDelete />} size={s} />
+                            <IconButton icon={<MdMoreVert />} size={s} />
+                        </Toolbar>
+                    ))}
+                </Section>
+
+                <Section gap={12}>
+                    <H2>Button size (floating)</H2>
+                    {buttonSizes.map(s => (
+                        <Toolbar key={s} {...shared} variant="floating">
+                            <IconButton icon={<MdFormatBold />} size={s} toggle />
+                            <IconButton icon={<MdFormatItalic />} size={s} toggle />
+                            <IconButton icon={<MdFormatUnderlined />} size={s} toggle />
+                            <IconButton icon={<MdContentCopy />} size={s} />
+                            <IconButton icon={<MdDelete />} size={s} />
+                            <IconButton icon={<MdMoreVert />} size={s} />
+                        </Toolbar>
+                    ))}
+                </Section>
+
                 <Section gap={12}>
                     <H2>Docked</H2>
                     <Toolbar {...shared} variant="docked">
@@ -130,30 +171,33 @@ export const ToolbarPage = () => {
                     disabled={disabled}
                     elevation={elevation}
                     font={font}
+                    keepChildColors={keepChildColors}
                     onChange={({
                         surfaceColor: sc,
+                        size: sz,
                         shape: sp,
                         elevation: el,
                         border: bd,
                         borderColor: bc,
                         density: ds,
-                        textColor: tc,
                         font: ft,
                         disabled: db,
+                        keepChildColors: kc,
                     }) => {
                         setSurfaceColor(sc ?? null);
+                        setSize(sz ?? null);
                         setShape(sp ?? null);
                         setElevation(el ?? null);
                         setBorder(bd ?? null);
                         setBorderColor(bc ?? null);
                         setDensity(ds ?? null);
-                        setTextColor(tc ?? null);
                         setFont(ft ?? null);
                         setDisabled(db ?? null);
+                        setKeepChildColors(kc ?? null);
                     }}
                     shape={shape}
+                    size={size}
                     surfaceColor={surfaceColor}
-                    textColor={textColor}
                 />
             </Aside>
         </Article>
