@@ -35,6 +35,7 @@ import {
     LuTextCursorInput,
     LuToggleLeft,
     LuTrendingUp,
+    LuType,
     LuUser,
     LuWrench,
 } from 'react-icons/lu';
@@ -81,6 +82,7 @@ import ColorPage from './pages/colorPage';
 import { DataTablePage } from './pages/dataTablePage';
 import { StatusPage } from './pages/statusPage';
 import { IconsPage } from './pages/iconsPage';
+import { FontsPage } from './pages/fontsPage';
 
 export interface AppRoute {
     label: string;
@@ -141,6 +143,7 @@ export const appRoutes: AppRoute[] = [
 
     { label: 'Color', path: paths.color, component: ColorPage, icon: LuPalette, showInNav: true },
     { label: 'Icons', path: paths.icons, component: IconsPage, icon: LuImage, showInNav: true },
+    { label: 'Fonts', path: paths.fonts, component: FontsPage, icon: LuType, showInNav: true },
 
     { label: 'DataTable', path: paths.dataTable, component: DataTablePage, icon: LuLayoutGrid, showInNav: true },
 ];

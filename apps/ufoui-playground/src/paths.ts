@@ -42,6 +42,7 @@ export const paths = {
     rating: '/components/rating',
     status: '/components/status',
     icons: '/icons',
+    fonts: '/fonts',
     dataTable: '/extra/datatable',
     catchAll: '*',
 };
