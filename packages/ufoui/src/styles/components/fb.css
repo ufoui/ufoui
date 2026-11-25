@@ -2,12 +2,38 @@
     --uui-field-padding-l: 16px;
     --uui-field-padding-r: 16px;
     --uui-field-padding-y: 4px;
+    --uui-field-input-height: 48px;
     --uui-slot-size: 48px;
     --uui-slot-gap: 0px;
     --uui-control-color: var(--uui-color-on-surface);
     display: flex;
     flex-direction: column;
     --uui-focus-ring-inset: 0;
+}
+
+.uui-field.uui-compact {
+    --uui-field-padding-y: 2px;
+    --uui-field-input-height: 44px;
+}
+
+.uui-field.uui-dense {
+    --uui-field-padding-y: 0px;
+    --uui-field-input-height: 40px;
+    --uui-slot-size: 40px;
+}
+
+.uui-field.uui-compact .uui-bb {
+    min-height: 40px;
+}
+
+.uui-field.uui-dense .uui-bb {
+    min-width: 40px;
+    min-height: 32px;
+}
+
+.uui-field.uui-dense .uui-icon-button .uui-btn-control {
+    --uui-button-width: 2rem;
+    --uui-button-height: 2rem;
 }
 
 .uui-field-control {
@@ -29,11 +55,11 @@
     flex-direction: column;
     justify-content: center;
     position: relative;
-    min-height: 48px;
+    min-height: var(--uui-field-input-height);
     flex: 1 1 0;
     margin-inline: 16px;
     min-width: 0;
-    padding-block: 4px;
+    padding-block: var(--uui-field-padding-y);
 }
 
 .uui-field-control.uui-has-leading .uui-field-input-wrapper {
@@ -97,6 +123,14 @@
 .uui-filled .uui-field-label-up .uui-field-float-label {
     top: var(--uui-field-padding-y);
     transform: translateY(0);
+}
+
+.uui-field.uui-dense.uui-filled .uui-field-label-up .uui-field-float-label {
+    top: 1px;
+}
+
+.uui-field.uui-dense.uui-filled .uui-field-label-up .uui-field-float-label ~ .uui-field-input {
+    transform: translateY(-1px);
 }
 
 .uui-field-state {

@@ -74,7 +74,7 @@ export const FieldPage = () => {
 
     return (
         <Article direction="row" gap={20}>
-            <Content color="surfaceContainerHigh" gap={20} grow minWidth={0}>
+            <Content gap={20} grow minWidth={0}>
                 <H1>TextField</H1>
                 <Fieldset direction="row" gap={16} label="Default" wrap>
                     <TextField {...shared} description="Label only" label="Label only" name="email" />
