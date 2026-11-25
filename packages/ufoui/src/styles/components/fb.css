@@ -101,7 +101,7 @@
 }
 
 .uui-multiline .uui-field-float-label {
-    top:  calc(var(--uui-slot-size) / 2);
+    top:  calc(var(--uui-field-input-height) / 2);
 }
 
     /* FILLED */
@@ -335,9 +335,14 @@ div.uui-field.uui-disabled .uui-field-label {
 
 }
 
-.uui-field-control.uui-multiline .uui-leading,
-.uui-field-control.uui-multiline .uui-trailing {
+.uui-field-control.uui-multiline > .uui-leading,
+.uui-field-control.uui-multiline > .uui-trailing {
     align-self: flex-start;
-    height: var(--uui-slot-size);
+    height: var(--uui-field-input-height);
+}
+
+.uui-field.uui-outlined .uui-multiline .uui-field-input-wrapper,
+.uui-field.uui-classic .uui-multiline .uui-field-input-wrapper {
+    padding-block: calc((var(--uui-field-input-height) - 1lh) / 2);
 }
 
