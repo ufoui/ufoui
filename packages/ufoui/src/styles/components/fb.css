@@ -343,6 +343,7 @@ div.uui-field.uui-disabled .uui-field-label {
 
 .uui-field.uui-outlined .uui-multiline .uui-field-input-wrapper,
 .uui-field.uui-classic .uui-multiline .uui-field-input-wrapper {
+    padding-block: calc((var(--uui-field-input-height) - var(--uui-font-body-large-line)) / 2);
     padding-block: calc((var(--uui-field-input-height) - 1lh) / 2);
 }
 
