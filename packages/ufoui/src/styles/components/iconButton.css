@@ -101,3 +101,23 @@
 .uui-icon-button .uui-btn-label {
   border-radius: inherit;
 }
+
+.uui-icon-button .uui-btn-control.uui-text {
+  --uui-btn-text-color: var(--uui-control-color, var(--uui-color-on-surface-variant));
+  --uui-btn-state-color: var(--uui-control-color, var(--uui-color-on-surface-variant));
+}
+
+.uui-icon-button .uui-btn-control.uui-text.uui-toggle.uui-selected {
+  --uui-btn-text-color: var(--uui-accent-color);
+  --uui-btn-bg-color: transparent;
+  --uui-btn-state-color: var(--uui-accent-color);
+}
+
+.uui-icon-button .uui-btn-control.uui-text:disabled .uui-state,
+.uui-icon-button .uui-btn-control.uui-outlined:disabled:not(.uui-selected) .uui-state {
+  opacity: 0 !important;
+}
+
+.uui-icon-button .uui-btn-control.uui-outlined:disabled:not(.uui-selected):after {
+  opacity: 1;
+}
